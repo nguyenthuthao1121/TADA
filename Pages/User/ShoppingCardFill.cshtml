@@ -1,0 +1,134 @@
+﻿@page
+@model ShoppingCardFillModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="shopping-card--fill">
+    <div class="grid">
+        <div class="row">
+            <div class="shopping-card__title col c-10 c-o-1">
+                GIỎ HÀNG
+                <span class="shopping-card__title-quality">
+                        (2 sản phẩm)
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col c-7 c-o-1">
+                <div class="shopping-card__card--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
+                    <div class="shopping-card__card-title row">
+                        <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                        <p class="col c-8">Chọn tất cả</p>
+                        <div class="card__list--delete col c-3">
+                            <i class="fa-solid fa-trash-can"></i>Xóa
+                        </div>
+                    </div>
+                    <div class="shopping-card__card-list grid">
+                        <div class="card__flex-item row">
+                            <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                            <div class="card__book-desc col c-5">
+                                <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                                    Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
+                                </a>
+                                <p class="card__book-provider">
+                                    Nhà cung cấp: 
+                                    <a asp-area="" asp-page="">Kim Đồng</a>
+                                </p>
+                            </div>
+                            <div class="card__book-price col c-3">
+                                <p>27.000 đ</p>
+                                <input type="number" name="quantity" min="0" value="1">
+                            </div>
+                            <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
+                        </div>
+                        <div class=" card__flex-item row">
+                            <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                            <div class="card__book-desc col c-5">
+                                <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                                    Tây Sơn Phụng Ký
+                                </a>
+                                <p class="card__book-provider">
+                                    Nhà cung cấp: 
+                                    <a asp-area="" asp-page="">Phụ nữ</a>
+                                </p>
+                            </div>
+                            <div class="card__book-price col c-3">
+                                <p>121.500 đ</p>
+                                <input type="number" name="quantity" min="0" value="1">
+                            </div>
+                            <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col c-3">
+                <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="order__title">
+                        Chi tiết đơn hàng
+                    </div>
+                    <div class="order-detail__desc grid">
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng giá (1 sách)</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">27.000 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">13.000 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng tiền</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">40.000 đ</div>
+                        </div>
+                    </div>
+                    <div class="btn--confirm">
+                        <button class="btn--blue" style="width:100%;">
+                            <a asp-area="" asp-page="/User/ConfirmPackage">
+                                XÁC NHẬN ĐƠN HÀNG (1)
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        var btnChecks=document.getElementsByClassName('card__input');
+        var shoppingCardItems=document.getElementsByClassName('card__flex-item');
+
+        btnChecks[0].addEventListener('click',function(event){
+                if (this.checked){
+                    for(var item of shoppingCardItems){
+                        item.classList.add('card__flex-item--checked');
+                    }
+                    for(var item of btnChecks){
+                        item.checked=true;
+                    }
+                }
+                else {
+                    for(var item of shoppingCardItems){
+                        item.classList.remove('card__flex-item--checked');
+                    }
+                    for(var item of btnChecks){
+                        item.checked=false;
+                    }
+                }
+            })
+        for (var i=1;i<btnChecks.length;i++){
+            btnChecks[i].addEventListener('click',function(event){
+                if (this.checked)
+                    this.parentElement.classList.add('card__flex-item--checked');
+                else{
+                    this.parentElement.classList.remove('card__flex-item--checked');
+                    btnChecks[0].checked=false;
+                }
+            })
+        }
+    </script>
+</div>
+
+

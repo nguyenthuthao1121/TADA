@@ -1,0 +1,155 @@
+﻿@page
+@model ConfirmPackageModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="confirm-pakage">
+    <div class="grid">
+        <div class="row">
+            <div class="col c-7 c-o-1">
+                <div class=" wrap-user grid">
+                    <div class="recipient-infor" style="border-radius:8px;">
+                        <div class="recipient-infor__title row">
+                            <div class="order__title col c-6">Thông tin người nhận</div>
+                            <a href="#" class="recipient-infor__change col c-6">Chỉnh sửa</a>
+                        </div>
+                        <div class="recipient-infor__desc">
+                            <p>Nguyễn Quốc Toàn, 0935382788</p>
+                            <p>74 Bàu Năng 1, Phường Hòa Minh, Quận Liên Chiểu, Thành phố Đà Nẵng</p>
+                        </div>
+                    </div>
+                    <div class="confirm__order-detail" style="border-radius: 8px;">
+                        <div class="order__title">Sản phẩm</div>
+                        <div class="confirm__book-list grid">
+                            <div class="card__flex-item row">
+                                <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
+                                <div class="card__book-desc col c-6">
+                                    <p class="card__book-name">
+                                        Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
+                                    </p>
+                                    <p class="card__book-provider">
+                                        Nhà cung cấp: 
+                                        <span>Kim Đồng</span>
+                                    </p>
+                                </div>
+                                <div class="card__book-price col c-2">
+                                    27.000 đ
+                                </div>
+                                <div class="card__book-number col c-2">
+                                    Số lượng: 1
+                                </div>
+                            </div>
+                            <div class="card__flex-item row">
+                                <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
+                                <div class="card__book-desc col c-6">
+                                    <p class="card__book-name">
+                                        Tây Sơn Phụng Ký
+                                    </p>
+                                    <p class="card__book-provider">
+                                        Nhà cung cấp: 
+                                        <span>Phụ nữ</span>
+                                    </p>
+                                </div>
+                                <div class="card__book-price col c-2">
+                                    121.500 đ
+                                </div>
+                                <div class="card__book-number col c-2">
+                                    Số lượng: 1
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col c-3">
+                <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="order__title">
+                        Chi tiết đơn hàng
+                    </div>
+                    <div class="order-detail__desc grid">
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng giá (2 sách)</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">148.500 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">13.000đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng tiền</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">161.500 đ</div>
+                        </div>
+                    </div>
+                    <div class="btn--confirm">
+                        <button class="btn--blue" style="width:100%;">
+                            <a asp-area="" asp-page="/User/OrderListFillAll">
+                                XÁC NHẬN ĐẶT HÀNG
+                            </a>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal js-modal">
+        <div class="modal-container js-modal-container style="border-radius: 8px;">
+            <div class="modal-header order__title">
+                Chỉnh sửa thông tin người nhận hàng
+            </div>
+            <div class="modal-body row">
+                <div class="modal__col col c-6">
+                    <label for="" class="modal__label">Họ và tên</label>
+                    <input type="text" class="modal__input" placeholder="Nhập họ và tên" required >
+                    <label for="" class="modal__label">Số điện thoại</label>
+                    <input type="text" class="modal__input" placeholder="Nhập số điện thoại" required >
+                </div>
+                <div class="modal__col col c-6">
+                    <label for="" class="modal__label">Địa chỉ</label>
+                    <input type="text" class="modal__input" placeholder="Nhập địa chỉ" required >
+                    <label for="" class="modal__label">Tỉnh/Thành phố</label>
+                    <input type="text" class="modal__input" placeholder="" required >
+                    <label for="" class="modal__label">Huyện/Quận</label>
+                    <input type="text" class="modal__input" placeholder="" required >
+                    <label for="" class="modal__label">Xã/Phường</label>
+                    <input type="text" class="modal__input" placeholder="" required >
+                    <div class="row">
+                        <div class="col c-6 btn--confirm">
+                            <button class="btn--grey js-modal-close" style="width:100%;"><a href="#">HỦY</a></button>
+                        </div>
+                        <div class="col c-6 btn--confirm">
+                            <button class="btn--blue js-modal-close" style="width:100%;"><a href="#">LƯU ĐỊA CHỈ</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script>
+        const changeInfor=document.querySelector('.recipient-infor__change');
+        const modal=document.querySelector('.js-modal');
+        const modalContainer=document.querySelector('.js-modal-container');
+        const modalClose_list=document.querySelectorAll('.js-modal-close');
+
+
+        function showModal(){
+            modal.classList.add('open')
+        }
+        function hideModal(){
+            modal.classList.remove('open')
+        }
+
+        changeInfor.addEventListener('click',showModal)
+        for(const modalClose of modalClose_list){
+            modalClose.addEventListener('click',hideModal)
+        }
+        modal.addEventListener('click',hideModal)
+        modalContainer.addEventListener('click',function(event){
+            event.stopPropagation()
+        })
+    </script>
+</div>

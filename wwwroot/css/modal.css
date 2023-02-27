@@ -1,0 +1,78 @@
+.modal-cancle-order.open,
+.modal.open {
+    display: flex;
+}
+
+.modal,
+.modal-cancle-order {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container {
+    background-color: #fff;
+    width: 900px;
+    max-width: calc(100% - 32px);
+    position: relative;
+    animation: modalFadeIn ease 0.5s;
+}
+
+.modal-body {
+    padding: 0 24px;
+}
+
+.modal__col {
+    display: block;
+}
+
+.modal__label {
+    width: 100%;
+    display: block;
+    font-size: 1.4rem;
+    padding: 15px 0;
+}
+
+.modal__input {
+    width: 100%;
+    font-size: 15px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.modal .btn--confirm {
+    margin: 0 auto;
+    padding: 20px 10px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        transform: translateY(-150px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#order-detail--confirm .modal-header,
+#order-detail--confirm .modal-body .btn--confirm {
+    padding: 30px;
+}
+
+    #order-detail--confirm .modal-body .btn--confirm + .btn--confirm{
+        padding-left:0;
+    }
+
+#order-detail--confirm .modal-body {
+    padding: 0;
+    margin: 0;
+}

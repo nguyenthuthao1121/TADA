@@ -1,0 +1,131 @@
+:root {
+    --primary-color: #1e90ff;
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --navbar-height: 50px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+html {
+    /* tuong duong 10px */
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+body {
+    background-color: rgba(30, 144, 255, 0.1);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover{
+    opacity: 0.8;
+}
+
+nav {
+    background-color: var(--primary-color);
+}
+
+.btn--grey,
+.btn--blue {
+    margin: 0 auto;
+    border-radius: 8px;
+    border-style: hidden;
+    text-transform: uppercase;
+}
+
+.btn--blue{
+    background-color: #1E90FF;
+}
+
+.btn--grey {
+    background-color: #EFF0F5;
+}
+
+.btn--grey a,
+.btn--blue a {
+    padding: 5px 30px;
+    display: block;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.btn--blue a{
+    color: #fff;
+}
+
+.btn--grey a {
+    color: #333;
+}
+
+.btn-grey:hover,
+.btn-blue:hover {
+    opacity: 0.8;
+}
+
+.btn--confirm {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+input[type=number] {
+    /*for absolutely positioning spinners*/
+    position: relative;
+    padding: 1px 25px 1px 5px;
+    font-size: 1.4rem;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: inner-spin-button !important;
+    width: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+.order__title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    height: 40px;
+    line-height: 40px;
+    font-weight: 500;
+    border-bottom: solid 2px #EFF0F5;
+}
+
+.wrap-user {
+    width: 100%;
+    height: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.nav__order-detail {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+

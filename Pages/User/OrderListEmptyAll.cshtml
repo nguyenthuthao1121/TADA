@@ -1,0 +1,56 @@
+﻿@page
+@model OrderListEmptyAllModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="order-list__all--empty">
+    <div class="grid">
+        <div class="row">
+            <div class="col c-2 c-o-1">
+                <div class="nav-oder-list__title nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="order__title">
+                        Đơn hàng của tôi
+                    </div>
+                    <div class="nav-order-list__title--detail grid">
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                            <p>Tất cả</p>
+                        </a>
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link">
+                            <p>Chờ xác nhận</p>
+                        </a>
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link">
+                            <p>Chờ giao hàng</p>
+                        </a>
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link">
+                            <p>Chờ đánh giá</p>
+                        </a>
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link">
+                            <p>Đã đánh giá</p>
+                        </a>
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="nav-order-list__link">
+                            <p>Đã hủy</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col c-8">
+                <div class="order-list__title order__title row ">Tất cả</div>
+                <div class="order-list__des--empty"  style="border-radius: 8px;">
+                    <div class="shopping-card__img--empty">
+                        <img src="~/img/ico_emptycart.svg" alt="Empty Shopping Card" width=100px>
+                    </div>
+                    <div class="shopping-card__text--empty">
+                        Danh sách đang trống
+                    </div>
+                    <button class="btn--blue">
+                        <a asp-area="" asp-page="/User/ConfirmPackage">
+                            MUA SẮM NGAY
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

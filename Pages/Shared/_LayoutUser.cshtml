@@ -2,23 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TADA</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/layout-user.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/base-user.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/grid.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/shopping-card-user.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/confirm-package.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/order-list.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/order-detail.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/modal.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/base-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout-user.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TADA.styles.css" asp-append-version="true" />
 </head>
 <body>
-
+   
     <header>
          <nav class="navbar bg-primary py-0">
             <div class="container-fluid d-flex justify-content-center mx-0">
@@ -34,25 +28,29 @@
               </div>
               <ul class="navbar-nav d-flex flex-row">
                 <li class="nav-item">
-                  <a class="nav-link text-white mx-4" asp-area="" asp-page="/User/ShoppingCardFill" style="font-size:20px; font-weight: 300" ><i
-                      class="fas fa-shopping-cart me-2 --white-color" style="font-weight:900"></i>Giỏ hàng</a>
+                  <a class="nav-link text-white mx-4" href="#" style="font-size:20px; font-weight: 300"><i
+                      class="fas fa-shopping-cart me-2 text-dark" style="font-weight:900"></i>Giỏ hàng</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white" asp-area="" asp-page="/User/OrderListFillAll" style="font-size:20px; font-weight: 300"><i
-                      class="fas fa-user me-2 --white-color" style="font-weight:900"></i>Username</a>
+                  <a class="nav-link text-white" href="#" style="font-size:20px; font-weight: 300"><i
+                      class="fas fa-user me-2 text-dark" style="font-weight:900"></i>Username</a>
                 </li>
               </ul>
             </div>
           </nav>
-
+        
     </header>
-    <div class="container-fluid px-0">
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - TADA - <a asp-area="" asp-page="/Admin/admin">Privacy</a>
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
