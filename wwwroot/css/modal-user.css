@@ -66,6 +66,8 @@
 #order-detail--confirm .modal-header,
 #order-detail--confirm .modal-body .btn--confirm {
     padding: 30px;
+    margin-left:0;
+    margin-right:0;
 }
 
     #order-detail--confirm .modal-body .btn--confirm + .btn--confirm{

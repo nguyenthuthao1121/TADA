@@ -1,5 +1,5 @@
 ﻿@page
-@model OrderListFillAllModel
+@model OrderListFillCancleModel
 @{
     ViewData["Title"] = "Home page";
 }
@@ -13,7 +13,7 @@
                         Đơn hàng của tôi
                     </div>
                     <div class="nav-order-list__title--detail grid">
-                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);" >
+                        <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link" >
                             <p>Tất cả</p>
                         </a>
                         <a asp-area="" asp-page="/User/OrderListEmptyConfirm" class="nav-order-list__link">
@@ -28,7 +28,7 @@
                         <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
                             <p>Đã đánh giá</p>
                         </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyCancle" class="nav-order-list__link">
+                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
                             <p>Đã hủy</p>
                         </a>
                     </div>
@@ -36,11 +36,11 @@
             </div>
 
             <div class="col c-8">
-                <div class="order-list__title order__title row">Tất cả</div>
+                <div class="order-list__title order__title row">Đã hủy</div>
                 <div class="confirm__order-detail"  style="border-radius: 8px;">
                     <div class="order__title row">
                         <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
-                        <p style="color: var(--primary-color);">Chờ xác nhận</p>
+                        <p style="color: var(--primary-color);">Đã hủy</p>
                     </div>
                     <div class="confirm__book-list grid">
                         <div class="card__flex-item row">
@@ -85,7 +85,7 @@
                 <div class="confirm__order-detail"  style="border-radius: 8px;">
                     <div class="order__title row">
                         <a asp-area="" asp-page="/User/ConfirmPackage"><p>Xem chi tiết đơn hàng</p></a>
-                        <p style="color: var(--primary-color);">Đang giao hàng</p>
+                        <p style="color: var(--primary-color);">Đã hủy</p>
                     </div>
                     <div class="confirm__book-list grid">
                          <div class="card__flex-item row">

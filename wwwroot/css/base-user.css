@@ -31,6 +31,10 @@ a {
     text-decoration: none;
 }
 
+.order-book__img {
+    border: 0.5px solid #CCCCCC;
+}
+
 a:hover{
     opacity: 0.8;
 }
@@ -115,6 +119,10 @@ input[type=number]::-webkit-inner-spin-button {
     line-height: 40px;
     font-weight: 500;
     border-bottom: solid 2px #EFF0F5;
+    margin-left:-12px;
+    margin-right:-12px;
+    padding-left:12px;
+    padding-right:12px;
 }
 
 .wrap-user {

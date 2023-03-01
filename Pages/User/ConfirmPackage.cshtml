@@ -12,7 +12,10 @@
                     <div class="recipient-infor" style="border-radius:8px;">
                         <div class="recipient-infor__title row">
                             <div class="order__title col c-6">Thông tin người nhận</div>
-                            <a href="#" class="recipient-infor__change col c-6">Chỉnh sửa</a>
+                            <button type="button" class="recipient-infor__change col c-6" data-bs-toggle="modal" data-bs-target="#modalInformation"
+            style="width: 350px">
+                            Chỉnh sửa
+                            </button>
                         </div>
                         <div class="recipient-infor__desc">
                             <p>Nguyễn Quốc Toàn, 0935382788</p>
@@ -95,61 +98,66 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal js-modal">
-        <div class="modal-container js-modal-container style="border-radius: 8px;">
-            <div class="modal-header order__title">
-                Chỉnh sửa thông tin người nhận hàng
-            </div>
-            <div class="modal-body row">
-                <div class="modal__col col c-6">
-                    <label for="" class="modal__label">Họ và tên</label>
-                    <input type="text" class="modal__input" placeholder="Nhập họ và tên" required >
-                    <label for="" class="modal__label">Số điện thoại</label>
-                    <input type="text" class="modal__input" placeholder="Nhập số điện thoại" required >
-                </div>
-                <div class="modal__col col c-6">
-                    <label for="" class="modal__label">Địa chỉ</label>
-                    <input type="text" class="modal__input" placeholder="Nhập địa chỉ" required >
-                    <label for="" class="modal__label">Tỉnh/Thành phố</label>
-                    <input type="text" class="modal__input" placeholder="" required >
-                    <label for="" class="modal__label">Huyện/Quận</label>
-                    <input type="text" class="modal__input" placeholder="" required >
-                    <label for="" class="modal__label">Xã/Phường</label>
-                    <input type="text" class="modal__input" placeholder="" required >
-                    <div class="row">
-                        <div class="col c-6 btn--confirm">
-                            <button class="btn--grey js-modal-close" style="width:100%;"><a href="#">HỦY</a></button>
-                        </div>
-                        <div class="col c-6 btn--confirm">
-                            <button class="btn--blue js-modal-close" style="width:100%;"><a href="#">LƯU ĐỊA CHỈ</a></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="modal fade" id="modalInformation" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-0 border-0">
+        <div class="modal-header border-0" style="padding-left:22px;">
+          <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
         </div>
+        <div class="modal-body containter-fluid py-0">
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="changeName" class="form-label">Họ và tên</label>
+              <input type="text" class="form-control" id="changeName" name="userName" placeholder="Nhập họ và tên">
+            </div>
+            <div class="col-6 form-group">
+              <label for="changeAddress" class="form-label">Địa chỉ</label>
+              <input type="text" class="form-control" id="changeAddress" name="userAddress" placeholder="Nhập địa chỉ">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="changeTele" class="form-label">Số điện thoại</label>
+              <input type="text" class="form-control" id="changeTele" name="userTele" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="col-6 form-group">
+              <label for="changeCity" class="form-label">Tỉnh/Thành phố</label>
+              <select class="form-select custom-select" id="changeCity" name="userCity"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+            </div>
+            <div class="col-6 form-group">
+              <label for="changeDistrict" class="form-label">Huyện/Quận</label>
+              <select class="form-select custom-select" id="changeDistrict" name="userDistrict"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+            </div>
+            <div class="col-6 form-group">
+              <label for="changeWard" class="form-label">Xã/Phường</label>
+              <select class="form-select custom-select" id="changeWard" name="userWard"></select>
+            </div>
+          </div>
+          <div class="modal-footer mt-3 col c-6 c-o-6">
+            <div class="row">
+                <div class="button col c-6 btn--confirm">
+                  <button type="button" class="btn--grey" style="width:100%;" data-bs-dismiss="modal">
+                      <a href="#">HỦY</a>
+                  </button>
+                </div>
+                <div class="button col c-6 btn--confirm">
+                  <button type="button" class="btn--blue" style="width:100%; " data-bs-dismiss="modal">
+                      <a href="#">LƯU ĐỊA CHỈ</a>
+                  </button>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- JavaScript -->
-    <script>
-        const changeInfor=document.querySelector('.recipient-infor__change');
-        const modal=document.querySelector('.js-modal');
-        const modalContainer=document.querySelector('.js-modal-container');
-        const modalClose_list=document.querySelectorAll('.js-modal-close');
-
-
-        function showModal(){
-            modal.classList.add('open')
-        }
-        function hideModal(){
-            modal.classList.remove('open')
-        }
-
-        changeInfor.addEventListener('click',showModal)
-        for(const modalClose of modalClose_list){
-            modalClose.addEventListener('click',hideModal)
-        }
-        modal.addEventListener('click',hideModal)
-        modalContainer.addEventListener('click',function(event){
-            event.stopPropagation()
-        })
-    </script>
+  </div>
 </div>

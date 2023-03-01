@@ -1,5 +1,5 @@
 ﻿@page
-@model OrderListEmptyAllModel
+@model OrderListEmptyDoneModel
 @{
     ViewData["Title"] = "Home page";
 }
@@ -13,7 +13,7 @@
                         Đơn hàng của tôi
                     </div>
                     <div class="nav-order-list__title--detail grid">
-                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                        <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link" >
                             <p>Tất cả</p>
                         </a>
                         <a asp-area="" asp-page="/User/OrderListEmptyConfirm" class="nav-order-list__link">
@@ -25,7 +25,7 @@
                         <a asp-area="" asp-page="/User/OrderListEmptyReview" class="nav-order-list__link">
                             <p>Chờ đánh giá</p>
                         </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
+                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
                             <p>Đã đánh giá</p>
                         </a>
                         <a asp-area="" asp-page="/User/OrderListEmptyCancle" class="nav-order-list__link">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col c-8">
-                <div class="order-list__title order__title row ">Tất cả</div>
+                <div class="order-list__title order__title row ">Đã đánh giá</div>
                 <div class="order-list__des--empty"  style="border-radius: 8px;">
                     <div class="shopping-card__img--empty">
                         <img src="~/img/ico_emptycart.svg" alt="Empty Shopping Card" width=100px>
@@ -45,7 +45,7 @@
                         Danh sách đang trống
                     </div>
                     <button class="btn--blue">
-                        <a asp-area="" asp-page="/User/OrderListFillAll">
+                        <a asp-area="" asp-page="/User/OrderListFillDone">
                             MUA SẮM NGAY
                         </a>
                     </button>
