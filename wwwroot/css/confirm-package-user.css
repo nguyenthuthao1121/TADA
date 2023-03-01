@@ -11,13 +11,25 @@
     margin-top: 24px;
 }
 
-.nav__order-detail .order__title,
-.confirm__order-detail .order__title {
+#confirm-pakage .recipient-infor__title {
+    border-bottom: solid 2px #EFF0F5;
     margin-left: -24px;
     margin-right: -24px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
+
+.recipient-infor__title .order__title {
+    border-bottom: none;
+}
+
+    .nav__order-detail .order__title,
+    .confirm__order-detail .order__title {
+        margin-left: -24px;
+        margin-right: -24px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
 
 .recipient-infor .order__title {
     margin-left: -12px;
@@ -27,44 +39,48 @@
 }
 
 #confirm-pakage .recipient-infor__change {
-    color: var(--black-color);
-    align-self: center;
-    text-align: right;
-    font-size: 1.4rem;
-    background-color: #fff;
-    border:none;
+    display:flex;
+    justify-content:flex-end;
 }
 
-#order-detail--confirm .recipient-infor__desc,
-#confirm-pakage .recipient-infor__desc {
-    color: #333;
-    font-size: 1.4rem;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 16px;
-}
+    #confirm-pakage .recipient-infor__change button {
+        color: var(--black-color);
+        align-self: center;
+        font-size: 1rem;
+        background-color: #fff;
+        border: none;
+        margin-right:-24px;
+    }
+
+    #order-detail--confirm .recipient-infor__desc,
+    #confirm-pakage .recipient-infor__desc {
+        color: #333;
+        font-size: 1rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 16px;
+    }
 
 .confirm__order-detail .card__flex-item {
     background-color: #fff;
+    padding-left:0;
+    margin-left:0;
 }
 
 .confirm__order-detail .card__book-number {
     align-self: flex-start;
     text-align: right;
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: var(--black-color);
     padding-top: 10px;
 }
 
-.modal-content{
-    font-size: 1.5rem;
+.modal-content .form-group input {
+    border-radius: 0;
 }
 
-.modal-content .form-group input,
 .modal-content .form-group select {
     border-radius: 0;
-    height: 30px;
-    line-height: 3rem;
 }
 
 .modal-content .form-group label {
@@ -80,12 +96,13 @@
     border-radius: 0;
 }
 
-.modal-footer {
-    gap: 8px;
+.modal-content .modal-footer{
+    flex-wrap: nowrap;
+    border-top: none;
+    margin-top:0;
 }
 
-        .modal-footer .button:first-child .btn {
-            background-color: #EFF0F5;
-            color: #757575;
-        }
+.modal-content .modal-footer .btn--confirm{
+    padding-right:0;
+}
 

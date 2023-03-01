@@ -13,9 +13,8 @@
 }
 
 html {
-    /* tuong duong 10px */
-    font-size: 62.5%;
-    line-height: 1.6rem;
+    font-size: 100%;
+    line-height: 1rem;
     box-sizing: border-box;
     height: 100%;
 }
@@ -64,7 +63,7 @@ nav {
     padding: 5px 30px;
     display: block;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .btn--blue a{
@@ -72,7 +71,7 @@ nav {
 }
 
 .btn--grey a {
-    color: #333;
+    color: #757575;
 }
 
 .btn-grey:hover,
@@ -94,7 +93,7 @@ input[type=number] {
     /*for absolutely positioning spinners*/
     position: relative;
     padding: 1px 25px 1px 5px;
-    font-size: 1.4rem;
+    font-size: 1rem;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -113,7 +112,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .order__title {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
     height: 40px;
     line-height: 40px;
