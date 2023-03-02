@@ -1,4 +1,4 @@
-/*Shopping Card Empty*/
+/*Shopping Cart Empty*/
 
 #shopping-card--fill,
 #shopping-card--empty {
@@ -6,7 +6,6 @@
     display: block;
     width: inherit;
     height: 1080px;
-    background-color: rgba(30, 144, 255, 0.1);
 }
 
 .shopping-card__title {
@@ -42,7 +41,7 @@
 }
 
 
-/*Shopping Card Fill*/
+/*Shopping Cart Fill*/
 
 .shopping-card__card--fill,
 .nav__order-detail {

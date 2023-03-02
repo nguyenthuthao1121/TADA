@@ -1,0 +1,85 @@
+.receiver__row {
+    display: flex;
+}
+
+.receiver__info,
+.price__info {
+    display: block;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    margin-bottom: 12px;
+}
+
+.receiver__property {
+    width: 40%;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.receiver__value {
+    width: 60%;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.book-table {
+    padding: 20px 50px;
+    display: block;
+    text-align: center;
+}
+
+.order-price {
+    padding: 0 50px;
+}
+
+
+.price__value {
+    font-weight: 600;
+}
+
+.price__property {
+    text-align: left;
+}
+
+.price__value {
+    text-align: right;
+}
+
+.price__value.price__total {
+    color: var(--primary-color);
+}
+
+.price__value.price__status {
+    color: var(--red-color);
+}
+
+.order-btn {
+    display: block;
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--white-color);
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 4px;
+}
+
+.order-btn--confirm {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.order-btn--confirm:hover {
+    background-color: rgb(72, 139, 206);
+    border-color: rgb(72, 139, 206);
+}
+
+.order-btn--cancel {
+    background-color: var(--red-color);
+    border: 1px solid var(--red-color);
+}
+
+.order-btn--cancel:hover {
+    background-color: rgb(228, 27, 27);
+    border-color: rgb(228, 27, 27);
+}

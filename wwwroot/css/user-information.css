@@ -1,0 +1,49 @@
+﻿.user-personal-information .form-group label {
+    flex-basis: 12rem;
+}
+
+.modal-content .form-group input {
+    border-radius: 0;
+}
+
+.modal-content .form-group select {
+    border-radius: 0;
+}
+
+.modal-content .form-group label {
+    margin-bottom: 4px;
+    margin-top: 12px;
+}
+
+.modal-content .row:first-child .form-group label {
+    margin-top: 0;
+}
+
+.modal-content .row {
+    border-radius: 0;
+}
+
+.modal-footer {
+    gap: 8px;
+}
+
+    .modal-footer .btn {
+        width: 100%;
+    }
+
+    .modal-footer .button {
+        flex-basis: 11em;
+    }
+
+        .modal-footer .button:first-child .btn {
+            background-color: #EFF0F5;
+            color: #757575;
+        }
+
+            .modal-footer .button:first-child .btn:hover {
+                background-color: #dee2e6;
+            }
+
+            .modal-footer .button:first-child .btn:active {
+                background-color: #ced4da;
+            }

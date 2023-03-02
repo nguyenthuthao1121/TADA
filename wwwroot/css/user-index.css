@@ -1,0 +1,111 @@
+﻿.category-list .category-items button {
+    text-transform: none;
+    width: 100%;
+    text-align: start;
+    background-color: white;
+    color: black;
+    padding-left: 0.5rem;
+}
+
+.category-list .category-items button:hover {
+   background-color: #1E90FF4D;
+}
+
+.subhead {
+    font-size: 0.8rem;
+}
+
+    .subhead .form-group {
+        align-items: baseline;
+        margin-top: 1rem;
+    }
+
+        .subhead .form-group select {
+            width: 120px;
+            font-size: 0.8rem;
+            line-height: 1.1rem;
+            padding: 6px 8px;
+        }
+
+        .subhead .form-group:last-child select {
+            width: 130px;
+            margin-right: 0.5rem;
+        }
+
+        .subhead .form-group:last-child button {
+            font-size: 0.8rem;
+            line-height: 1.1rem;
+            text-transform: none;
+            width: 100px;
+            border-radius: 0;
+            background-color: #1E90FF80;
+        }
+
+            .subhead .form-group:last-child button:hover {
+                background-color: var(--primary-color);
+            }
+
+.user-view-book .card-container {
+    padding-right: 0;
+    margin-top: 0.75rem;
+}
+
+.user-view-book .card {
+    padding: 0;
+    border-radius: 0;
+}
+
+.user-view-book .card-body {
+    padding: 8px 12px;
+    position: relative;
+}
+
+.user-view-book .card-title {
+    font-size: 1rem;
+    color: black;
+}
+
+.user-view-book .card-price {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.user-view-book .card-sale {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 1px 2px;
+    float: right;
+}
+
+.user-view-book .card-oldprice {
+    color: #A4A4A4;
+    text-decoration: line-through;
+}
+
+.user-view-book .card-rating .fa-star {
+    font-weight: 400;
+    color: black;
+}
+
+.pagination li {
+    margin: 0 0.75rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+}
+
+    .pagination li button {
+        display: flex;
+        color: var(--primary-color);
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+
+        .pagination li button:hover {
+            background-color: var(--primary-color);
+        }

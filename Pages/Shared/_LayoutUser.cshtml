@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/base-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-base.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/grid-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-login-signup.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/user-index.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/user-bookdetail.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/user-information.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/shopping-cart-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/confirm-package-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/order-list-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/evaluate-user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/modal-user.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar py-1">
+            <div class="container-fluid d-flex justify-content-center">
+                <div class="navbar-brand px-3">
+                    <a asp-page="/Index"><img src="https://blog.usetada.com/hubfs/TADA-LOGO-01.png" style="width:120px"></a>
+                </div>
+                <div class="input-group input-group-sm d-flex w-50 justify-content-center">
+                    <span class="input-group-text border-0 bg-white" style="border-radius: 8px 0 0 8px"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control border-0" placeholder="Tìm kiếm sản phẩm mong muốn">
+                    <div class="border-0 border-start bg-white input-group-text justify-content-center px-0" style="border-radius: 0 8px 8px 0">
+                        <button class="btn bg-white text-primary border-0 border-start border-primary border-2"
+                                type="button" style="border-radius: 0 8px 8px 0; border-left: 1px solid; text-transform: none; font-weight: 400;">
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+                <ul class="navbar-nav d-flex flex-row">
+                    <li class="nav-item">
+                        <a class="mx-4" asp-page="/Guest/GuestShoppingCart" style="font-weight: 400; color: var(--white-color)">
+                            <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
+                        </a>
+                    </li>
+                    <li class="nav-item my-account">
+                        <a style="font-weight: 400; color: var(--white-color)">
+                            <i class="fas fa-user me-2 text-white" style="font-weight:900"></i>Tài khoản
+                        </a>
+                        <ul class="sub-navbar sub-navbar-guest">
+                            <li><a asp-page="/Guest/Login"><i class="fas fa-sign-in"></i>Đăng nhập</a></li>
+                            <li><a asp-page="/Guest/Signup"><i class="fas fa-pen-to-square"></i>Đăng ký</a></li>
+                        </ul>
+                        <ul class="sub-navbar sub-navbar-member">
+                            <li><a asp-page="/User/UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
+                            <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+                            <li><a asp-page="/Index"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
