@@ -1,0 +1,148 @@
+﻿.content {
+    position: absolute;
+    top: var(--navbar-height);
+    right: 0;
+}
+
+.revenue {
+    height: 15%;
+    background-color: var(--white-color);
+    margin: 20px 16px;
+    padding: 10px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.revenue-container {
+    list-style: none;
+    margin: 0;
+    text-align: center;
+    padding: 0;
+}
+
+
+.revenue-container__item {
+    line-height: 3.2rem;
+}
+
+.revenue-container__item-heading {
+    font-size: 2.8rem;
+    font-weight: 650;
+    color: var(--black-color);
+}
+
+.revenue-container__item-number {
+    color: var(--primary-color);
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 4rem;
+}
+
+.revenue-account {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0 16px;
+    height: calc(85% - 60px - var(--navbar-height));
+}
+
+.revenue-account__item {
+    
+}
+
+
+.revenue-in-year {
+    width: 60%;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    margin-right: 8px;
+    display: inline-block;
+    text-align: center;
+}
+
+.revenue-heading {
+    padding: 8px;
+}
+
+.revenue-heading h1 {
+    padding: 4px;
+}
+
+.revenue-heading .years {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.select-years {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0 4px;
+    width: 60px;
+    height: 30px;
+    border-radius: 4px;
+}
+
+.revenue-body {
+    display: inline-block;
+    text-align: center;
+    padding: 8px;
+}
+
+
+.table {
+    font-size: 1.4rem;
+}
+
+.table-row {
+    border-bottom: 2px solid var(--text-color);
+}
+
+.table-row.revenue-row {
+    height: 30px;
+}
+
+.table-col {
+    min-width: 150px;
+}
+
+.table-value.value {
+    color: var(--primary-color);
+    font-weight: 500;
+    height: 32px;
+}
+
+.new-accounts {
+    width: 40%;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.new-accounts-heading {
+    text-align: center;
+    padding: 8px;
+}
+
+.new-accounts-heading h1 {
+    padding: 4px;
+}
+
+.new-accounts-body {
+    font-size: 2rem;
+    font-weight: 450;
+    color: var(--primary-color);
+    padding: 4px 32px;
+}
+
+.user {
+    margin: 0 0 16px;
+}
+
+.user-icon {
+    font-size: 3rem;
+    position: relative;
+    margin-right: 16px;
+}

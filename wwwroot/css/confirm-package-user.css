@@ -1,0 +1,108 @@
+.recipient-infor,
+.confirm__order-detail {
+    background-color: #fff;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-top:24px;
+}
+
+#order-detail--confirm .nav__order-detail,
+#confirm-package .nav__order-detail {
+    margin-top: 24px;
+}
+
+#confirm-package .recipient-infor__title {
+    border-bottom: solid 2px #EFF0F5;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.recipient-infor__title .order__title {
+    border-bottom: none;
+}
+
+    .nav__order-detail .order__title,
+    .confirm__order-detail .order__title {
+        margin-left: -24px;
+        margin-right: -24px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+.recipient-infor .order__title {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+#confirm-package .recipient-infor__change {
+    display: flex;
+    justify-content: flex-end;
+}
+
+    #confirm-package .recipient-infor__change button {
+        color: var(--black-color);
+        align-self: center;
+        font-size: 1rem;
+        background-color: #fff;
+        border: none;
+        margin-right: -24px;
+    }
+
+#order-detail--confirm .recipient-infor__desc,
+#confirm-package .recipient-infor__desc {
+    color: #333;
+    font-size: 1rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 16px;
+}
+
+.confirm__order-detail .cart__flex-item {
+    background-color: #fff;
+    padding-left:0;
+    margin-left:0;
+}
+
+.confirm__order-detail .cart__book-number {
+    align-self: flex-start;
+    text-align: right;
+    font-size: 1rem;
+    color: var(--black-color);
+    padding-top: 10px;
+}
+
+#confirm-package .modal-content .form-group input {
+    border-radius: 0;
+}
+
+#confirm-package .modal-content .form-group select {
+    border-radius: 0;
+}
+
+#confirm-package .modal-content .form-group label {
+    margin-bottom: 4px;
+    margin-top: 12px;
+}
+
+#confirm-package .modal-content .row:first-child .form-group label {
+    margin-top: 0;
+}
+
+#confirm-package .modal-content .row {
+    border-radius: 0;
+}
+
+#confirm-package .modal-content .modal-footer {
+    flex-wrap: nowrap;
+    border-top: none;
+    margin-top: 0;
+}
+
+    #confirm-package .modal-content .modal-footer .btn--confirm {
+        padding-right: 0;
+    }
+

@@ -1,0 +1,170 @@
+﻿@page
+@model EvaluateUserModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="evaluate-user">
+    <div class="grid">
+        <div class="row">
+            <div class="shopping-cart__title col c-10 c-o-1">
+                ĐÁNH GIÁ
+            </div>
+        </div>
+        <div class="row">
+            <div class="col c-7 c-o-1">
+                <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="row cart__flex-item evaluate__book-name">
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                        <div class="cart__book-desc col c-9">
+                            <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
+                                Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
+                            </a>
+                            <p class="cart__book-provider">
+                                Nhà cung cấp: 
+                                <span>Kim Đồng</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row evaluate-book__item">
+                        <div class="col c-4">
+                            Đánh giá tổng quát
+                        </div>
+                        <div class="star-rating col c-3">
+                            <input type="radio" name="rate" id="rate-5">
+                            <label for="rate-5" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-4">
+                            <label for="rate-4" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-3">
+                            <label for="rate-3" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-2">
+                            <label for="rate-2" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-1">
+                            <label for="rate-1" class="fa-sharp fa-regular fa-star"></label>
+                        </div>
+                    </div>
+                    <div class="row evaluate-book__item">
+                        <p class="book-comment">Nhận xét về sách</p>
+                        <form action="#" class="book-comment__form">
+                            <header></header>
+                            <div class="book-comment__textarea">
+                                <textarea  cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row evaluate-book__item evaluate-book__file">
+                        <p>Tải hình ảnh</p>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple />
+                    </div>
+                </div>
+
+                <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="row cart__flex-item evaluate__book-name">
+                        <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
+                        <div class="cart__book-desc col c-9">
+                            <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
+                                Tây Sơn Phụng Ký
+                            </a>
+                            <p class="cart__book-provider">
+                                Nhà cung cấp: 
+                                <span>Phụ nữ</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row evaluate-book__item">
+                        <div class="col c-4">
+                            Đánh giá tổng quát
+                        </div>
+                        <div class="star-rating col c-3">
+                            <input type="radio" name="rate" id="rate-5">
+                            <label for="rate-5" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-4">
+                            <label for="rate-4" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-3">
+                            <label for="rate-3" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-2">
+                            <label for="rate-2" class="fa-sharp fa-regular fa-star"></label>
+                            <input type="radio" name="rate" id="rate-1">
+                            <label for="rate-1" class="fa-sharp fa-regular fa-star"></label>
+                        </div>
+                    </div>
+                    <div class="row evaluate-book__item">
+                        <p class="book-comment">Nhận xét về sách</p>
+                        <form action="#" class="book-comment__form">
+                            <header></header>
+                            <div class="book-comment__textarea">
+                                <textarea  cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row evaluate-book__item evaluate-book__file">
+                        <p>Tải hình ảnh</p>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple />
+                    </div>
+                </div>
+
+                <div class="btn--confirm">
+                    <button class="btn--blue"><a href="#">GỬI</a></button>
+                </div>
+            </div>
+            <div class="col c-3">
+                <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="order__title">
+                        Chi tiết đơn hàng
+                    </div>
+                    <div class="order-detail__desc grid">
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng giá (1 sách)</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">27.000 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">13.000 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng tiền</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">40.000 đ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        var btnChecks=document.getElementsByClassName('cart__input');
+        var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
+
+        btnChecks[0].addEventListener('click',function(event){
+                if (this.checked){
+                    for(var item of shoppingcartItems){
+                        item.classList.add('cart__flex-item--checked');
+                    }
+                    for(var item of btnChecks){
+                        item.checked=true;
+                    }
+                }
+                else {
+                    for(var item of shoppingcartItems){
+                        item.classList.remove('cart__flex-item--checked');
+                    }
+                    for(var item of btnChecks){
+                        item.checked=false;
+                    }
+                }
+            })
+        for (var i=1;i<btnChecks.length;i++){
+            btnChecks[i].addEventListener('click',function(event){
+                if (this.checked)
+                    this.parentElement.classList.add('cart__flex-item--checked');
+                else{
+                    this.parentElement.classList.remove('cart__flex-item--checked');
+                    btnChecks[0].checked=false;
+                }
+            })
+        }
+    </script>
+</div>
+
+

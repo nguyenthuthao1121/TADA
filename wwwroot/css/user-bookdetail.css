@@ -1,0 +1,127 @@
+﻿.rating-star .fa-star {
+    font-weight: 400;
+    color: black;
+}
+
+.book-essential-detail .book-price .new-price {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.book-essential-detail .book-price .old-price {
+    color: #A4A4A4;
+    text-decoration: line-through;
+    margin-left: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.book-essential-detail .book-price .sale-percent {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    font-size: 1rem;
+    border-radius: 4px;
+    margin-left: 1rem;
+    padding: 0px 2px;
+}
+
+.book-essential-detail .quantity input {
+    border-radius: 0;
+    border: 2px solid #ced4da;
+    padding: 2px;
+    text-align: center;
+    width: 50px;
+}
+
+    .book-essential-detail .quantity input:focus {
+        border: 2px solid var(--primary-color);
+    }
+
+.book-essential-detail .quantity button {
+    padding: 10px 12px;
+    background-color: white;
+    border: 2px solid #ced4da;
+}
+
+    .book-essential-detail .quantity button:hover {
+        background-color: #dee2e6;
+    }
+
+.shopping-cart,
+.read-more {
+    width: 100%;
+    text-transform: none;
+    padding: 8px 4px 8px 0px;
+    background-color: white;
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color);
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+    .shopping-cart:hover,
+    .read-more:hover {
+        background-color: #e9ecef;
+        color: var(--primary-color);
+        border: 1.5px solid var(--primary-color);
+        font-weight: 700;
+        border-radius: 8px;
+    }
+
+    .shopping-cart:active,
+    .read-more:active {
+        background-color: #dee2e6;
+        color: var(--primary-color);
+        border: 1.5px solid var(--primary-color);
+        border-radius: 8px;
+        font-weight: 700;
+    }
+
+.book-detail table {
+    border-collapse: separate;
+    border-spacing: 0 0.75em;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    ;
+}
+
+    .book-detail table tr td:first-child {
+        width: 25%;
+    }
+
+.rating-bar .rating-level progress {
+    height: 10px;
+    width: 225px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.rating-bar .rating-level i {
+    color: #F6A500;
+    margin-left: 4px;
+}
+
+.rating-detail {
+    flex-basis: 150px;
+}
+
+.rating-bar {
+    flex-basis: 30%;
+    align-self: center;
+    margin-left: 3rem;
+}
+
+.user-image {
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-information-review {
+    flex-basis: 15%;
+}
