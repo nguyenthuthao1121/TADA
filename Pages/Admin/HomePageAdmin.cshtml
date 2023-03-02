@@ -1,0 +1,67 @@
+﻿@page
+@model HomePageAdminModel
+@{
+    ViewData["Title"] = "Home page ADMIN";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="revenue">
+            <ul class="revenue-container">
+                <li class="revenue-container__item">
+                    <span class="revenue-container__item-heading">Doanh thu tháng này</span>
+                </li>
+                <li class="revenue-container__item">
+                    <span class="revenue-container__item-number">30.000.000 VND</span>
+                </li>
+            </ul>
+        </div>
+        <div class="revenue-account">
+            <div class="revenue-account__item revenue-in-year">
+                <div class="revenue-heading">
+                    <h1>Thống kê doanh thu</h1>
+                    <div class="years">
+                        <span>Năm</span>
+                        <select class="select-years" name="years" id="years">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="revenue-body">
+                    <table class="table">
+                        <tr class="table-row revenue-row">
+                            <th class="table-col">Tháng</th>
+                            <th class="table-col">Doanh thu (VND)</th>
+                        </tr>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <tr class="table-value revenue-value">
+                                <th>@i</th>
+                                <td class="table-value value">35.000.000</td>
+                            </tr>  
+                        }                   
+                    </table>
+                </div>
+            </div>
+            <div class="revenue-account__item new-accounts">
+                <div class="new-accounts-heading">
+                    <h1>Người dùng mới</h1>
+                </div>                
+                <div class="new-accounts-body">
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <div class="user">
+                            <i class="fa-solid fa-user-large user-icon"></i>
+                            Nguyễn Quốc Toàn
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

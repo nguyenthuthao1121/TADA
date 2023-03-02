@@ -1,0 +1,23 @@
+:root {
+  --primary-color: #1e90ff;
+  --white-color: #fff;
+  --black-color: #000;
+  --text-color: #333;
+  --red-color: #FF0000;
+  --navbar-height: 50px;
+  font-size: 62.5%;
+}
+
+* {
+  box-sizing: inherit;
+  margin: 0;
+}
+
+body {
+  /* height: 100%; */
+  box-sizing: border-box;
+  background-color: rgba(30, 144, 255, 0.1);
+  line-height: 1.6rem;
+  font-family: 'Roboto', sans-serif;
+}
+

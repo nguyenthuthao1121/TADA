@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TADA</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/base-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home-page-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/form-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/order-detail-admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TADA.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fonts/fonts-admin/css/all.min.css" asp-append-version="true" />
+
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light header__navbar">
+            <ul class="header__navbar-list col-2">
+                <li class="header__navbar-item header__logo">
+                    <a href="" class="header__logo-link">
+                        <img src="https://blog.usetada.com/hubfs/TADA-LOGO-01.png" alt="" class="header__logo-img">
+                    </a>
+                </li>
+            </ul>
+            <ul class="header__navbar-list">
+                <li class="header__navbar-item ">
+                    <span class="nav-link header__navbar-item-link header__navbar-item-link-inactive">Admin 1</span>
+                </li>
+                <li class="header__navbar-item">
+                    <a class="nav-link header__navbar-item-link" asp-area="" asp-page="/Index">Đăng xuất</a>
+                </li>
+            </ul>  
+        </nav>
+    </header>
+    <div class="container app-container">
+        <div class="row">
+            <div class="col-2 category sidenav">
+                <ul class="category-list">
+                    <li class="category-item">
+                        <a id="HomePageAdmin" class="nav-link category-item__link" asp-area="" asp-page="/Admin/HomePageAdmin">
+                            <i class="fa-solid fa-house category-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a id="User" class="nav-link category-item__link" asp-area="" asp-page="/Admin/User">
+                            <i class="fa-solid fa-user category-icon"></i>
+                            User
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a id="AdminManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/AdminManagement">
+                            <i class="fa-sharp fa-solid fa-user-tie category-icon"></i>
+                            Admin
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a id="CategoryManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/CategoryManagement">
+                            <i class="fa-solid fa-rectangle-list category-icon"></i>                            
+                            Danh mục
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a id="BookManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/BookManagement">
+                            <i class="fa-solid fa-book category-icon"></i>
+                            Sách
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a id="OrderManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/OrderManagement">
+                            <i class="fa-solid fa-list category-icon"></i>
+                            Đơn hàng
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        <main role="main" class="">
+                @RenderBody()
+        </main>
+    </div>
+
+@*    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - TADA - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>*@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
