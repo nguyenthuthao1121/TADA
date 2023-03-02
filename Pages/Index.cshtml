@@ -1,10 +1,533 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-2 bg-white my-3 ps-3 pt-3 rounded vh-100">
+            <h5 style="color: var(--primary-color); font-weight: 700; padding-left: 0.5rem">Danh mục</h5>
+            <ul class="category-list px-0" style="list-style: none">
+                <li class="category-items mt-3 fw-bold text-dark"><button type="button" class="btn">Sách giáo khoa</button></li>
+                <li class="category-items fw-bold text-dark"><button type="button" class="btn">Sách tham khảo</button></li>
+                <li class="category-items fw-bold text-dark"><button type="button" class="btn">Truyện tranh thiếu nhi</button></li>
+            </ul>
+        </div>
+        <div class="col-8">
+            <div class="subhead d-flex justify-content-between">
+                <div class="form-group d-flex me-4">
+                    <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
+                    <select class="form-select custom-select rounded-0" id="sort" name="Sort">
+                        <option>Mới nhất</option>
+                        <option>Giá tăng dần</option>
+                        <option>Giá giảm dần</option>
+                    </select>
+                </div>
+                <div class="form-group d-flex">
+                    <label for="filter" class="form-label" style="width: 64px"><i class="fas fa-filter me-1"></i>Bộ lọc:</label>
+                    <select class="form-select custom-select rounded-0 genre" id="filter" name="Filter">
+                        <option>Thể loại</option>
+                        <option>Rom-com</option>
+                        <option>Isekai</option>
+                    </select>
+                    <select class="form-select custom-select rounded-0 price" id="filter" name="Filter">
+                        <option>Giá</option>
+                        <option>0 - 50000</option>
+                        <option>50000-100000</option>
+                    </select>
+                    <select class="form-select custom-select rounded-0 publisher" id="filter" name="Filter">
+                        <option>Nhà xuất bản</option>
+                        <option>Kim Đồng</option>
+                        <option>Trẻ</option>
+                    </select>
+                    <select class="form-select custom-select rounded-0 cover" id="filter" name="Filter">
+                        <option>Hình thức bìa</option>
+                        <option>Bìa mềm</option>
+                        <option>Bìa cứng</option>
+                    </select>
+                    <button type="button" class="btn btn-primary">Xoá bộ lọc</button>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="user-view-book row">
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-3 card-container">
+                    <a asp-page="/User/BookDetailUser" class="card">
+                        <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Thỏ bảy màu</h5>
+                            <span class="card-price">100.000 đ</span>
+                            <span class="card-sale">-10%</span>
+                            <div class="card-oldprice">110.000 đ</div>
+                            <div class="card-rating mt-1">
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="fas fa-star"></span>
+                                <span class="card-numRating ms-1">(0)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row my-5">
+                <ul class="col pagination justify-content-center">
+                    <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-left"></i></button></li>
+                    <li><button type="button" class="btn btn-primary">1</button></li>
+                    <li><button type="button" class="btn btn-primary">2</button></li>
+                    <li><button type="button" class="btn btn-primary">3</button></li>
+                    <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-right"></i></button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
 </div>

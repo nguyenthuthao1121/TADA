@@ -1,0 +1,35 @@
+﻿.user-login .login-signup {
+    font-size: 2vw;
+    text-transform: uppercase;
+}
+
+.user-login .login-signup a {
+    color: var(--primary-color);
+}
+
+@media screen and (max-width: 540px) {
+    .user-login .login-signup {
+        font-size: 20px;
+    }
+
+    .user-login {
+        padding-top: 6rem;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .user-login .login-signup {
+        font-size: 16px;
+    }
+}
+
+.user-login .form-control {
+    border-style: none;
+    border-bottom: 1px solid;
+    border-radius: 0;
+}
+
+.user-login .form-control:focus {
+    border: none;
+    border-bottom: 2px solid;
+}
