@@ -4,60 +4,68 @@
     ViewData["Title"] = "Home page";
 }
 
-<div id="shopping-card--fill">
+<div id="shopping-cart--fill">
     <div class="grid">
         <div class="row">
-            <div class="shopping-card__title col c-10 c-o-1">
+            <div class="shopping-cart__title col c-10 c-o-1">
                 GIỎ HÀNG
-                <span class="shopping-card__title-quality">
+                <span class="shopping-cart__title-quality">
                         (2 sản phẩm)
                 </span>
             </div>
         </div>
         <div class="row">
             <div class="col c-7 c-o-1">
-                <div class="shopping-card__card--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
-                    <div class="shopping-card__card-title row">
-                        <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                <div class="shopping-cart__cart--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
+                    <div class="shopping-cart__cart-title row">
+                        <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
                         <p class="col c-8">Chọn tất cả</p>
-                        <div class="card__list--delete col c-3">
+                        <div class="cart__list--delete col c-3">
                             <i class="fa-solid fa-trash-can"></i>Xóa
                         </div>
                     </div>
-                    <div class="shopping-card__card-list grid">
-                        <div class="card__flex-item row">
-                            <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                    <div class="shopping-cart__cart-list grid">
+                        <div class="cart__flex-item row">
+                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
                             <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="card__book-desc col c-5">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                            <div class="cart__book-desc col c-5">
+                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
                                     Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
                                 </a>
-                                <p class="card__book-provider">
+                                <p class="cart__book-provider">
                                     Nhà cung cấp: 
                                     <span>Kim Đồng</span>
                                 </p>
                             </div>
-                            <div class="card__book-price col c-3">
+                            <div class="cart__book-price col c-3">
                                 <p>27.000 đ</p>
-                                <input type="number" name="quantity" min="0" value="1">
+                                <span class="form-group d-flex">
+                                    <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                                    <input class="form-control" type="text" value="1">
+                                    <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                                </span>
                             </div>
                             <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
                         </div>
-                        <div class=" card__flex-item row">
-                            <input type="checkbox" class="card__input col c-1" style="padding-right: 0;">
+                        <div class=" cart__flex-item row">
+                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
                             <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="card__book-desc col c-5">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                            <div class="cart__book-desc col c-5">
+                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
                                     Tây Sơn Phụng Ký
                                 </a>
-                                <p class="card__book-provider">
+                                <p class="cart__book-provider">
                                     Nhà cung cấp: 
                                     <span>Phụ nữ</span>
                                 </p>
                             </div>
-                            <div class="card__book-price col c-3">
+                            <div class="cart__book-price col c-3">
                                 <p>121.500 đ</p>
-                                <input type="number" name="quantity" min="0" value="1">
+                                <span class="form-group d-flex">
+                                    <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                                    <input class="form-control" type="text" value="1">
+                                    <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                                </span>
                             </div>
                             <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
                         </div>
@@ -97,21 +105,21 @@
 
     <!-- JavaScript -->
     <script>
-        var btnChecks=document.getElementsByClassName('card__input');
-        var shoppingCardItems=document.getElementsByClassName('card__flex-item');
+        var btnChecks=document.getElementsByClassName('cart__input');
+        var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
 
         btnChecks[0].addEventListener('click',function(event){
                 if (this.checked){
-                    for(var item of shoppingCardItems){
-                        item.classList.add('card__flex-item--checked');
+                    for(var item of shoppingcartItems){
+                        item.classList.add('cart__flex-item--checked');
                     }
                     for(var item of btnChecks){
                         item.checked=true;
                     }
                 }
                 else {
-                    for(var item of shoppingCardItems){
-                        item.classList.remove('card__flex-item--checked');
+                    for(var item of shoppingcartItems){
+                        item.classList.remove('cart__flex-item--checked');
                     }
                     for(var item of btnChecks){
                         item.checked=false;
@@ -121,9 +129,9 @@
         for (var i=1;i<btnChecks.length;i++){
             btnChecks[i].addEventListener('click',function(event){
                 if (this.checked)
-                    this.parentElement.classList.add('card__flex-item--checked');
+                    this.parentElement.classList.add('cart__flex-item--checked');
                 else{
-                    this.parentElement.classList.remove('card__flex-item--checked');
+                    this.parentElement.classList.remove('cart__flex-item--checked');
                     btnChecks[0].checked=false;
                 }
             })

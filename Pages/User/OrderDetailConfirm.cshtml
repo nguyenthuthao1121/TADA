@@ -21,40 +21,40 @@
                     <div class="confirm__order-detail" style="border-radius: 8px;">
                         <div class="order__title">Sản phẩm</div>
                         <div class="confirm__book-list grid">
-                            <div class="card__flex-item row">
+                            <div class="cart__flex-item row">
                                 <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
-                                <div class="card__book-desc col c-6">
-                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                                <div class="cart__book-desc col c-6">
+                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
                                         Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
                                     </a>
-                                    <p class="card__book-provider">
+                                    <p class="cart__book-provider">
                                         Nhà cung cấp: 
                                         <span>Kim Đồng</span>
                                     </p>
                                 </div>
-                                <div class="card__book-price col c-2">
+                                <div class="cart__book-price col c-2">
                                     27.000 đ
                                 </div>
-                                <div class="card__book-number col c-2">
+                                <div class="cart__book-number col c-2">
                                     Số lượng: 1
                                 </div>
                             </div>
-                            <div class="card__flex-item row">
+                            <div class="cart__flex-item row">
                                 <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                                <div class="card__book-desc col c-6">
-                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="card__book-name">
+                                <div class="cart__book-desc col c-6">
+                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
                                         Tây Sơn Phụng Ký
                                     </a>
-                                    <p class="card__book-provider">
+                                    <p class="cart__book-provider">
                                         Nhà cung cấp: 
                                         <span>Phụ nữ</span>
 
                                     </p>
                                 </div>
-                                <div class="card__book-price col c-2">
+                                <div class="cart__book-price col c-2">
                                     121.500 đ
                                 </div>
-                                <div class="card__book-number col c-2">
+                                <div class="cart__book-number col c-2">
                                     Số lượng: 1
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="btn--confirm">
-                        <button class="btn--blue cancleBtn" style="width:100%;">
+                        <button class="btn--blue cancelBtn" style="width:100%;">
                             <a href="#">
                                 HỦY ĐƠN HÀNG
                             </a>
@@ -101,7 +101,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal-cancle-order js-modal-cancle-order">
+    <div class="modal-cancel-order js-modal-cancel-order">
         <div class="modal-container js-modal-container" style="width:500px;">
             <div class="modal-header order__title">
                 Xác nhận hủy đơn hàng
@@ -118,8 +118,8 @@
     </div>
     <!-- JavaScript -->
     <script>
-        const cancleOrderBtn=document.querySelector('#order-detail--confirm .cancleBtn');
-        const modal=document.querySelector('#order-detail--confirm .js-modal-cancle-order');
+        const cancelOrderBtn=document.querySelector('#order-detail--confirm .cancelBtn');
+        const modal=document.querySelector('#order-detail--confirm .js-modal-cancel-order');
         const modalClose_list=document.querySelectorAll('#order-detail--confirm .js-modal-close');
 
 
@@ -130,7 +130,7 @@
             modal.classList.remove('open')
         }
 
-        cancleOrderBtn.addEventListener('click',showModal)
+        cancelOrderBtn.addEventListener('click',showModal)
 
         for(const modalClose of modalClose_list){
             modalClose.addEventListener('click',hideModal)

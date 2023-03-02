@@ -1,10 +1,10 @@
-.modal-cancle-order.open,
+.modal-cancel-order.open,
 .modal.open {
     display: flex;
 }
 
 .modal,
-.modal-cancle-order {
+.modal-cancel-order {
     position: fixed;
     top: 0;
     bottom: 0;

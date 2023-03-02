@@ -61,13 +61,13 @@
     line-height: 16px;
 }
 
-.confirm__order-detail .card__flex-item {
+.confirm__order-detail .cart__flex-item {
     background-color: #fff;
     padding-left:0;
     margin-left:0;
 }
 
-.confirm__order-detail .card__book-number {
+.confirm__order-detail .cart__book-number {
     align-self: flex-start;
     text-align: right;
     font-size: 1rem;

@@ -44,7 +44,7 @@
     width: 100%;
     padding-bottom: 24px;
 }
-    .order-list__des--empty .shopping-card__img--empty{
+    .order-list__des--empty .shopping-cart__img--empty{
         padding-top: 12px;
         margin-top:0;
     }
