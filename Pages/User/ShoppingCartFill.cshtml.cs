@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TADA.Pages;
 
-public class ShoppingCardFillModel : PageModel
+public class ShoppingCartFillModel : PageModel
 {
-    private readonly ILogger<ShoppingCardFillModel> _logger;
+    private readonly ILogger<ShoppingCartFillModel> _logger;
 
-    public ShoppingCardFillModel(ILogger<ShoppingCardFillModel> logger)
+    public ShoppingCartFillModel(ILogger<ShoppingCartFillModel> logger)
     {
         _logger = logger;
     }

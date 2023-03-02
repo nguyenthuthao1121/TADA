@@ -1,5 +1,5 @@
 ﻿@page
-@model ShoppingCardEmptyModel
+@model GuestShoppingCartModel
 @{
     ViewData["Title"] = "Home page";
 }
@@ -20,11 +20,11 @@
                     <img src="~/img/ico_emptycart.svg" alt="Empty Shopping Card" width=100px>
                 </div>
                 <div class="shopping-card__text--empty">
-                    Chưa có sản phẩm trong giỏ hàng của bạn
+                    Vui lòng đăng nhập để sử dụng chức năng này
                 </div>
                 <button class="btn--blue">
-                    <a asp-area="" asp-page="/User/ConfirmPackage">
-                        MUA SẮM NGAY
+                    <a asp-area="" asp-page="/User/Login">
+                        ĐĂNG NHẬP
                     </a>
                 </button>
             </div>
