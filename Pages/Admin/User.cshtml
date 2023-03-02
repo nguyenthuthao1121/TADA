@@ -1,0 +1,129 @@
+﻿@page
+@model UserModel
+@{
+    ViewData["Title"] = "User ADMIN";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="feature">
+            <div class="feature-item filter-search">
+                <span class="filter-search-heading">Lọc theo :</span>
+                <div class="filter-search-feature">
+                    <div class="filter-feature">
+                        <select class="select-filter filter-feature-item" name="filter-by-gender" id="filter-by-gender">
+                            <option value="Giới tính: Tất cả">Giới tính: Tất cả</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                        <select class="select-filter filter-feature-item" name="filter-by-status" id="filter-by-status">
+                            <option value="Trạng thái: Tất cả">Trạng thái: Tất cả</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <button class="feature-btn filter-feature-item">
+                            Lọc
+                        </button>
+                    </div>
+                    <div class="search-feature">
+                        <input type="text" class="search-feature-input" placeholder="Tìm kiếm người dùng">
+                        <button class="feature-btn">
+                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item sort">
+                <span class="sort-heading">Sắp xếp theo :</span>
+                <div class="sort-feature">
+                    <div class="sort-feature-item">
+                        <select class="sort-by" name="sort-by" id="sort-by">
+                            <option value="Họ và tên">Họ và tên</option>
+                            <option value="Giới tính">Giới tính</option>
+                            <option value="Email">Email</option>
+                            <option value="Địa chỉ">Địa chỉ</option>
+                            <option value="Trạng thái">Trạng thái</option>
+                        </select>
+                        <select class="sort-type" name="sort-type" id="sort-type">
+                            <option value="Tăng dần">Tăng dần</option>
+                            <option value="Giảm dần">Giảm dần</option>
+                        </select>
+                        <button class="feature-btn">
+                            Sắp xếp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="user-list-container">
+            <div class="user-table">
+                <table class="table" style="width: 100%; color: var(--primary-color)">
+                    <tr class="table-row list-row">
+                        <th style="width: 5%">STT</th>
+                        <th style="width: 20%">Họ và tên</th>
+                        <th style="width: 10%">Giới tính</th>
+                        <th style="width: 15%">Email</th>
+                        <th style="width: 25%">Địa chỉ</th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 7%">Đơn hàng</th>
+                        <th style="width: 8%">Action</th>
+                    </tr>
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <tr class="table-container" style="color: var(--text-color)">
+                            <th class="table-value list-value">@i</th>
+                            <td class="table-value list-value" style="font-weight: 550">Nguyễn Quốc Toàn</td>
+                            <td class="table-value list-value">Nam</td>
+                            <td class="table-value list-value">nguyenquoctoan@gmail.com</td>
+                            <td class="table-value list-value">74 Bàu Năng 1, Hòa Minh, Liên Chiểu, Đà Nẵng</td>
+                            <td class="table-value list-value">Active</td>
+                            <td class="table-value list-value">
+                                <button class="action-btn" onclick="location.href='/Admin/UserOrder';">
+                                    <i class="view-icon fa-regular fa-eye"></i>
+                                </button>
+                            </td>
+                            <td class="table-value list-value">
+                                <button class="action-btn">
+                                    <i class="block-icon fa-solid fa-ban"></i>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>  
+                    }                   
+                </table>
+            </div>
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trang trước</a> 
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

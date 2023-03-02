@@ -1,0 +1,99 @@
+﻿@page
+@model CategoryManagementModel
+@{
+    ViewData["Title"] = "Category Management ADMIN";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="feature">
+            <div class="feature-item filter-search">
+                <div class="filter-search-feature">
+                    <div class="search-feature">
+                        <input type="text" class="search-feature-input" style="width: 300px" placeholder="Tìm kiếm danh mục">
+                        <button class="feature-btn">
+                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item sort">
+                <span class="sort-heading">Sắp xếp theo :</span>
+                <div class="sort-feature">
+                    <div class="sort-feature-item">
+                        <select class="sort-by" name="sort-by" id="sort-by">
+                            <option value="categoryID">Mã danh mục</option>
+                            <option value="categoryName">Tên danh mục</option>
+                            <option value="count">Số lượng sách</option>
+                        </select>
+                        <select class="sort-type" name="sort-type" id="sort-type">
+                            <option value="Tăng dần">Tăng dần</option>
+                            <option value="Giảm dần">Giảm dần</option>
+                        </select>
+                        <button class="feature-btn">
+                            Sắp xếp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="user-list-container">
+            <div class="user-table">
+                <table class="table">
+                    <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
+                        <th style="width: 10%">STT</th>
+                        <th style="width: 30%">Mã danh mục</th>
+                        <th style="width: 40%">Tên danh mục</th>
+                        <th style="width: 20%">Số lượng sách</th>
+                    </tr>
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <tr class="table-container" style="color: var(--text-color)">
+                            <th class="table-value list-value">@i</th>
+                            <td class="table-value list-value" style="font-weight: 600">truyentranhthieunhi</td>
+                            <td class="table-value list-value">Truyện Tranh Thiếu Nhi</td>
+                            <td class="table-value list-value">27</td>
+                        </tr>  
+                    }                   
+                </table>
+            </div>
+            <div class="pagination-container add-button">
+                <div class="add-button">
+                    <a asp-area="" asp-page="/Admin/AddCategory">
+                        <button class="feature-btn add-btn">
+                            THÊM DANH MỤC
+                        </button>
+                    </a>
+                </div>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trang trước</a> 
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

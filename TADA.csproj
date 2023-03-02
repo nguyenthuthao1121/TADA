@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="wwwroot\img\" />
+=======
+    <Folder Include="wwwroot\lib\img\" />
+>>>>>>> 3713fb3009479b0d91ac57c1ca5dda15b9ff3c0f
   </ItemGroup>
 
 </Project>
