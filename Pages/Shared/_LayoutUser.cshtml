@@ -31,7 +31,7 @@
                 </div>
                 <ul class="navbar-nav d-flex flex-row">
                     <li class="nav-item">
-                        <a class="mx-4" href="#" style="font-weight: 400; color: var(--white-color)">
+                        <a class="mx-4" asp-page="/User/GuestShoppingCart" style="font-weight: 400; color: var(--white-color)">
                             <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
                         </a>
                     </li>
@@ -45,7 +45,7 @@
                         </ul>
                         <ul class="sub-navbar sub-navbar-member">
                             <li><a asp-page="/User/UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
-                            <li><a asp-page="#"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+                            <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
                             <li><a asp-page="/Index"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
                         </ul>
                     </li>
