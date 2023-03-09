@@ -16,4 +16,10 @@ public class AddBookModel : PageModel
     {
 
     }
+    public void OnPost()
+    {
+        var bookName = Request.Form["inputName"];
+        Console.WriteLine(bookName);
+        RedirectToAction("/Admin/BookManagement");
+    }
 }
