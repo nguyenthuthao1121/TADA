@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using TADA.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+var service = builder.Services;
+var connectionString = builder.Configuration.GetConnectionString("Default");
+service.AddDbContext<TadaContext>(option=>option.UseSqlServer(@"Server=DESKTOP-5AUB9TQ\NGUYENTHITHUTHAO; Database=TADA;TrustServerCertificate=True;User Id=sa;Password=08334311210;"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
