@@ -1,8 +1,9 @@
 ﻿@page
 @model IndexModel
+@using TADA.Model.Entity
 @{
     ViewData["Title"] = "Trang chủ";
-    Layout = "_LayoutUser";
+    Layout = "_LayoutUser"; 
 }
 
 <div class="container-fluid">
@@ -11,57 +12,84 @@
         <div class="col-2 bg-white my-3 ps-3 pt-3 rounded vh-100">
             <h5 style="color: var(--primary-color); font-weight: 700; padding-left: 0.5rem">Danh mục</h5>
             <ul class="category-list px-0" style="list-style: none">
-                <li class="category-items mt-3 fw-bold text-dark"><button type="button" class="btn">Sách giáo khoa</button></li>
-                <li class="category-items fw-bold text-dark"><button type="button" class="btn">Sách tham khảo</button></li>
-                <li class="category-items fw-bold text-dark"><button type="button" class="btn">Truyện tranh thiếu nhi</button></li>
+                @foreach (var category in Model.Categories)
+                {
+                    <li class="category-items fw-bold text-dark">
+                        <button type="button" class="btn">
+                            <a href="@Url.Content("~/?category=" + @category.Id)">@category.Name</a>
+                        </button>
+                    </li>
+                }
             </ul>
         </div>
         <div class="col-8">
-            <div class="subhead d-flex justify-content-between">
-                <div class="form-group d-flex me-4">
-                    <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
-                    <select class="form-select custom-select rounded-0" id="sort" name="Sort">
-                        <option>Mới nhất</option>
-                        <option>Giá tăng dần</option>
-                        <option>Giá giảm dần</option>
-                    </select>
+            <form class ="row" method="get">
+                <div class="subhead d-flex justify-content-between">
+                    <div class="form-group d-flex me-4">
+                        <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
+                        <select class="form-select custom-select rounded-0" id="sort" name="SortBy">
+                            <option value="New">Mới nhất</option>
+                            <option value="Asc">Giá tăng dần</option>
+                            <option value="Desc">Giá giảm dần</option>
+                        </select>
+                    </div>
+                    <div class="form-group d-flex me-4 justify-content-between">
+                        <label for="filter" class="form-label" style="width: 64px">
+                            <i class="fas fa-filter me-1"></i>
+                            Bộ lọc:
+                        </label>
+                        <select class="form-select custom-select rounded-0 genre" id="filter" name="Filter">
+                            <option>Thể loại</option>
+                            <option>Rom-com</option>
+                            <option>Isekai</option>
+                        </select>
+                        <select class="form-select custom-select rounded-0 price" id="PriceRange" name="PriceRange">
+                            <option value="minint-maxint">Giá</option>
+                            <option value="0 - 50000">0 - 50000</option>
+                            <option value="50000-100000">50000-100000</option>
+                        </select>
+                        <select class="form-select custom-select rounded-0 publisher" id="filter" name="Filter">
+                            <option>Nhà xuất bản</option>
+                            <option>Kim Đồng</option>
+                            <option>Trẻ</option>
+                        </select>
+                        <select class="form-select custom-select rounded-0 cover" id="filter" name="Filter">
+                            <option>Hình thức bìa</option>
+                            <option>Bìa mềm</option>
+                            <option>Bìa cứng</option>
+                        </select>
+                        <select class="visually-hidden" id="Category" name="Category">
+                            @foreach (var category in Model.Categories)
+                            {
+                                @if (Model.Category == category.Id)
+                                {
+                                    <option value="@category.Id" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group d-flex">
+                        <button type="submit" class="btn" style="width: 80px">Lọc</button>
+                        <button type="button" class="btn btn-delete-filter">Xoá bộ lọc</button>
+                    </div>
                 </div>
-                <div class="form-group d-flex">
-                    <label for="filter" class="form-label" style="width: 64px"><i class="fas fa-filter me-1"></i>Bộ lọc:</label>
-                    <select class="form-select custom-select rounded-0 genre" id="filter" name="Filter">
-                        <option>Thể loại</option>
-                        <option>Rom-com</option>
-                        <option>Isekai</option>
-                    </select>
-                    <select class="form-select custom-select rounded-0 price" id="filter" name="Filter">
-                        <option>Giá</option>
-                        <option>0 - 50000</option>
-                        <option>50000-100000</option>
-                    </select>
-                    <select class="form-select custom-select rounded-0 publisher" id="filter" name="Filter">
-                        <option>Nhà xuất bản</option>
-                        <option>Kim Đồng</option>
-                        <option>Trẻ</option>
-                    </select>
-                    <select class="form-select custom-select rounded-0 cover" id="filter" name="Filter">
-                        <option>Hình thức bìa</option>
-                        <option>Bìa mềm</option>
-                        <option>Bìa cứng</option>
-                    </select>
-                    <button type="button" class="btn btn-primary">Xoá bộ lọc</button>
-                </div>
-            </div>
+            </form>
             <div class="user-view-book row">
-                @for (int i = 0; i < 24; i++)
+                @foreach (var i in Model.Books)
                 {
                     <div class="col-3 card-container">
-                        <a asp-page="/User/BookDetailUser" class="card">
-                            <img src="~/img/book1.jpg" alt="Book image" class="card-body-top">
+                        <a asp-page="/User/BookDetailUser?id=@i.Id" class="card">
+                            <img src="img/book1.jpg" alt="Book image" class="card-body-top">
                             <div class="card-body">
-                                <h5 class="card-title">@Model.TenSach</h5>
-                                <span class="card-price">100.000 đ</span>
+                                <h5 class="card-title">@i.Name</h5>
+                                <span class="card-price">@i.Price</span>
                                 <span class="card-sale">-10%</span>
-                                <div class="card-oldprice">110.000 đ</div>
+                                <div class="card-oldprice">@i.Price</div>
                                 <div class="card-rating mt-1">
                                     <span class="fas fa-star"></span>
                                     <span class="fas fa-star"></span>
@@ -76,13 +104,29 @@
                 }
             </div>
             <div class="row my-5">
-                <ul class="col pagination justify-content-center">
+@*                <ul class="col pagination justify-content-center">
                     <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-left"></i></button></li>
                     <li><button type="button" class="btn btn-primary">1</button></li>
                     <li><button type="button" class="btn btn-primary">2</button></li>
                     <li><button type="button" class="btn btn-primary">3</button></li>
                     <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-right"></i></button></li>
-                </ul>
+                </ul>*@
+                @{
+                    // xây dựng Func phát sinh Url từ page ./Index
+                    Func<int?, string> generateUrl = (int? _pagenumber) =>
+                    {
+                        return Url.Page("./Index", new { pageNumber = _pagenumber });
+                    };
+
+                    var datapaging = new
+                    {
+                        currentPage = 2,    // trang hiện tại
+                        countPages = 20,   // tổng  số trang
+                        generateUrl = generateUrl
+                    };
+
+                }
+                <partial name="_PagingUser" model="@datapaging" />
             </div>
         </div>
         <div class="col-1"></div>

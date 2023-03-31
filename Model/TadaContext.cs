@@ -6,10 +6,11 @@ namespace TADA.Model
 {
     public class TadaContext: DbContext
     {
-        public TadaContext(DbContextOptions<TadaContext> option) :base(option) { 
+        public TadaContext(DbContextOptions<TadaContext> option) :base(option) 
+        { 
             
         }
-        DbSet<Book> Books { get; set; }
-
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

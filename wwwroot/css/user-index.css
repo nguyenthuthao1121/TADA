@@ -11,6 +11,10 @@
    background-color: #1E90FF4D;
 }
 
+.category-list .category-items a {
+    color: var(--black-color);
+}
+
 .subhead {
     font-size: 0.8rem;
 }
@@ -27,18 +31,19 @@
             padding: 6px 8px;
         }
 
-        .subhead .form-group:last-child select {
-            width: 130px;
-            margin-right: 0.5rem;
+        .subhead .form-group select {
+            width: 120px;
+            margin-right: 4px;
         }
 
         .subhead .form-group:last-child button {
             font-size: 0.8rem;
             line-height: 1.1rem;
             text-transform: none;
-            width: 100px;
+            width: 90px;
             border-radius: 0;
             background-color: #1E90FF80;
+            margin-left: 4px;
         }
 
             .subhead .form-group:last-child button:hover {

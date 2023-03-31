@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TADA.Model;
 
@@ -10,9 +11,11 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    partial class TadaContextModelSnapshot : ModelSnapshot
+    [Migration("20230327080848_initdb")]
+    partial class initdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

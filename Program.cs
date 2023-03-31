@@ -1,13 +1,28 @@
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using TADA.Model;
+using TADA.Repository;
+using TADA.Repository.Implement;
+using TADA.Service;
+using TADA.Service.Implement;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 var service = builder.Services;
-var connectionString = builder.Configuration.GetConnectionString("Default");
-service.AddDbContext<TadaContext>(option=>option.UseSqlServer(@"Server=DESKTOP-5AUB9TQ\NGUYENTHITHUTHAO; Database=TADA;TrustServerCertificate=True;User Id=sa;Password=08334311210;"));
+
+service.AddDbContext<TadaContext>(option =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Default");
+    option.UseSqlServer(connectionString);
+    //option.UseSqlServer(connectionString);
+});
+
+service.AddScoped<IBookRepository, BookRepository>();
+service.AddScoped<IBookService, BookService>();
+service.AddScoped<ICategoryRepository, CategoryRepository>();
+service.AddScoped<ICategoryService, CategoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
