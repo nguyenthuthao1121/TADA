@@ -2,6 +2,7 @@
 @model HomePageAdminModel
 @{
     ViewData["Title"] = "Home page ADMIN";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <div class="row">
