@@ -15,15 +15,16 @@ namespace TADA.Model.Entity
         public string Name { get; set; }
 
         [Column(TypeName = "date")]
-        public DateOnly Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
+        [Column(TypeName = "bit")]
         public bool Gender { get; set; }
 
         [StringLength(10)]
         [Column(TypeName = "char")]
 
         public string TelephoneNumber { get; set; }
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         [ForeignKey("AddressId")]
         public Address Address { get; set; }
@@ -31,7 +32,7 @@ namespace TADA.Model.Entity
 
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }

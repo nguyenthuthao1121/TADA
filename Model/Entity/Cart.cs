@@ -12,6 +12,7 @@ namespace TADA.Model.Entity
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
+        public virtual List<Book>? Books { get; set; }
 
     }
 }

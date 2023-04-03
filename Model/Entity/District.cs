@@ -17,6 +17,7 @@ namespace TADA.Model.Entity
 
         [ForeignKey("ProvinceId")]
         public Province Province { get; set; }
+        public virtual List<Ward>? Wards { get; set; }
 
     }
 }

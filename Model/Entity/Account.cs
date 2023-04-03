@@ -7,6 +7,8 @@ namespace TADA.Model.Entity
     {
         [Key]
         public int Id { get; set; }
+
+        [Column(TypeName = "bit")]
         public bool Type { get; set; }
 
         [Required]
@@ -21,6 +23,7 @@ namespace TADA.Model.Entity
 
         [Column(TypeName = "datetime")]
         public DateTime CreateDate { get; set; }
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

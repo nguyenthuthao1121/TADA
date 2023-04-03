@@ -19,6 +19,7 @@ namespace TADA.Model.Entity
 
         [ForeignKey("AddressId")]
         public Address Address { get; set; }
+        public virtual List<Contract>? Contracts { get; set; }
 
     }
 }

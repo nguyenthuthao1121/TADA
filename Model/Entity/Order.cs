@@ -16,7 +16,7 @@ namespace TADA.Model.Entity
         [Column(TypeName = "datetime")]
         public DateTime DateOrder { get; set; }
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         [ForeignKey("AddressId")]
         public Address Address { get; set; }
@@ -25,9 +25,10 @@ namespace TADA.Model.Entity
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
 
         [ForeignKey("StatusId")]
         public Status Status { get; set; }
+        public virtual List<Book>? Books { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace TADA.Model.Entity
     public class Book
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -30,6 +30,8 @@ namespace TADA.Model.Entity
         public double Length { get; set; }
         public double Width { get; set; }
         public double Weight { get; set; }
+
+        [Column(TypeName = "money")]
         public int Price { get; set; }
 
         [StringLength(255)]
@@ -38,16 +40,24 @@ namespace TADA.Model.Entity
         public int Quantity { get; set; }
 
         [StringLength(255)]
-        [Column(TypeName = "nvarchar")]
+        [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
         [StringLength(255)]
         [Column(TypeName = "varchar")]
         public string Image { get; set; }
+        [Column(TypeName = "decimal")]
+        public double Promotion { get; set; }
 
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
+
+        public virtual List<Order>? Orders { get; set; }
+        public virtual List<Contract>? Contracts { get; set; }
+        public virtual List<Cart>? Carts { get; set; }
+        public virtual List<Review>? Reviews { get; set; }
+
     }
 }

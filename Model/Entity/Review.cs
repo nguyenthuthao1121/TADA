@@ -24,7 +24,7 @@ namespace TADA.Model.Entity
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
-        public int BookId { get; set; }
+        public int? BookId { get; set; }
 
         [ForeignKey("BookId")]
         public Book Book { get; set; }

@@ -10,27 +10,23 @@ namespace TADA.Model
         { 
             
         }
-<<<<<<< HEAD
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Category> Categories { get; set; }
-=======
-        DbSet<Book> books { get; set; }
-        DbSet<Provider> providers { get; set; }
-        DbSet<Contract> contracts { get; set; }
-        DbSet<Category> categories { get; set; }
-        DbSet<Order> orders { get; set; }
-        DbSet<Status> statuses { get; set; }
-        DbSet<Customer> customers { get; set; }
-        DbSet<Staff> staffs { get; set; }
-        DbSet<Role> roles { get; set; }
-        DbSet<Account> accounts { get; set; }
-        DbSet<Cart> carts { get; set; }
-        DbSet<Review> reviews { get; set; }
-        DbSet<Province> provinces { get; set; }
-        DbSet<District> districts { get; set; }
-        DbSet<Ward> wards { get; set; }
-        DbSet<Address> addresses { get; set; }
 
->>>>>>> ThoaiVy
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Provider> Providers { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Ward> Wards { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
     }
 }
