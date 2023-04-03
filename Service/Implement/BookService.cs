@@ -23,7 +23,7 @@ public class BookService : IBookService
                 Image = book.Image,
                 Name = book.Name,
                 Price = book.Price,
-                Sale = book.Sale,
+                Promotion = book.Promotion,
             });
         }
         return listBook;
@@ -41,7 +41,7 @@ public class BookService : IBookService
                 Image = book.Image,
                 Name = book.Name,
                 Price = book.Price,
-                Sale = book.Sale,
+                Promotion = book.Promotion,
             });
         }
         return listBook;

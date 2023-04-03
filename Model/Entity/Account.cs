@@ -7,6 +7,8 @@ public class Account
 {
     [Key]
     public int Id { get; set; }
+
+    [Column(TypeName = "bit")]
     public bool Type { get; set; }
 
     [Required]
@@ -21,6 +23,6 @@ public class Account
 
     [Column(TypeName = "datetime")]
     public DateTime CreateDate { get; set; }
+    [Column(TypeName = "bit")]
     public bool Status { get; set; }
-
 }

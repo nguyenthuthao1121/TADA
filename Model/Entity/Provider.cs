@@ -16,8 +16,8 @@ public class Provider
     public string Name { get; set; }
 
     public int AddressId { get; set; }
-
     [ForeignKey("AddressId")]
     public Address Address { get; set; }
+    public virtual List<Contract>? Contracts { get; set; }
 
 }

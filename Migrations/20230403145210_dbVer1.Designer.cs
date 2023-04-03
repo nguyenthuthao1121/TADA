@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TADA.Model;
 
@@ -11,19 +12,19 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    partial class TadaContextModelSnapshot : ModelSnapshot
+    [Migration("20230403145210_dbVer1")]
+    partial class dbVer1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("BookCart", b =>
                 {
                     b.Property<int>("BooksId")
@@ -69,7 +70,6 @@ namespace TADA.Migrations
                     b.ToTable("BookOrder");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Account", b =>
                 {
                     b.Property<int>("Id")
@@ -79,19 +79,6 @@ namespace TADA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
-<<<<<<< HEAD
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-=======
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
@@ -103,7 +90,6 @@ namespace TADA.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -116,8 +102,6 @@ namespace TADA.Migrations
                     b.ToTable("Accounts");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("TADA.Model.Entity.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -141,7 +125,6 @@ namespace TADA.Migrations
                     b.ToTable("Addresses");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -170,12 +153,6 @@ namespace TADA.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("Image")
-<<<<<<< HEAD
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-=======
                         .HasMaxLength(255)
                         .HasColumnType("varchar");
 
@@ -186,7 +163,6 @@ namespace TADA.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.Property<int>("Pages")
                         .HasColumnType("int");
@@ -247,21 +223,15 @@ namespace TADA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-<<<<<<< HEAD
-                        .HasColumnType("nvarchar(max)");
-=======
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("TADA.Model.Entity.Contract", b =>
                 {
                     b.Property<int>("Id")
@@ -287,7 +257,6 @@ namespace TADA.Migrations
                     b.ToTable("Contracts");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -299,53 +268,28 @@ namespace TADA.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-=======
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("date");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-<<<<<<< HEAD
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TelephoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-=======
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneNumber")
                         .HasMaxLength(10)
                         .HasColumnType("char");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-<<<<<<< HEAD
-                    b.ToTable("Customers");
-                });
-
-=======
                     b.HasIndex("AddressId");
 
                     b.ToTable("Customers");
@@ -488,7 +432,6 @@ namespace TADA.Migrations
                     b.ToTable("Reviews");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -498,12 +441,8 @@ namespace TADA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-<<<<<<< HEAD
-                        .HasColumnType("nvarchar(max)");
-=======
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.HasKey("Id");
 
@@ -521,44 +460,15 @@ namespace TADA.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-=======
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("date");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
 
-<<<<<<< HEAD
-                    b.Property<string>("Hometown")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TelephoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-=======
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -570,17 +480,11 @@ namespace TADA.Migrations
                     b.Property<string>("TelephoneNumber")
                         .HasMaxLength(10)
                         .HasColumnType("char");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-<<<<<<< HEAD
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Staff");
-=======
                     b.HasIndex("AddressId");
 
                     b.HasIndex("RoleId");
@@ -682,7 +586,6 @@ namespace TADA.Migrations
                         .IsRequired();
 
                     b.Navigation("Ward");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
@@ -696,8 +599,6 @@ namespace TADA.Migrations
                     b.Navigation("Category");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("TADA.Model.Entity.Cart", b =>
                 {
                     b.HasOne("TADA.Model.Entity.Customer", "Customer")
@@ -720,7 +621,6 @@ namespace TADA.Migrations
                     b.Navigation("Provider");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
                 {
                     b.HasOne("TADA.Model.Entity.Account", "Account")
@@ -729,9 +629,6 @@ namespace TADA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-<<<<<<< HEAD
-                    b.Navigation("Account");
-=======
                     b.HasOne("TADA.Model.Entity.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
@@ -801,7 +698,6 @@ namespace TADA.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Customer");
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Staff", b =>
@@ -812,19 +708,6 @@ namespace TADA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-<<<<<<< HEAD
-                    b.HasOne("TADA.Model.Entity.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Role");
-                });
-
-=======
                     b.HasOne("TADA.Model.Entity.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
@@ -856,7 +739,6 @@ namespace TADA.Migrations
                     b.Navigation("Reviews");
                 });
 
->>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
                 {
                     b.Navigation("Books");

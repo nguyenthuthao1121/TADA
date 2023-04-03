@@ -15,7 +15,13 @@ public class District
     public string Name { get; set; }
     public int ProvinceId { get; set; }
 
+<<<<<<< HEAD
     [ForeignKey("ProvinceId")]
     public Province Province { get; set; }
+=======
+        [ForeignKey("ProvinceId")]
+        public Province Province { get; set; }
+        public virtual List<Ward>? Wards { get; set; }
+>>>>>>> 8704d3caa62f5f089e211017247bb897177b811d
 
 }

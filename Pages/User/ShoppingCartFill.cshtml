@@ -25,50 +25,32 @@
                         </div>
                     </div>
                     <div class="shopping-cart__cart-list grid">
-                        <div class="cart__flex-item row">
-                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
-                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="cart__book-desc col c-5">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                    Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà cung cấp: 
-                                    <span>Kim Đồng</span>
-                                </p>
+                        @foreach (var i in Model.Books)
+                        {
+                            <div class="cart__flex-item row">
+                                <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
+                                <a asp-area="" asp-page="/User/BookDetailUser?id=@i.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                                <div class="cart__book-desc col c-5">
+                                    <a asp-area="" asp-page="/User/BookDetailUser?id=@i.Id" class="cart__book-name">
+                                        @i.Name
+                                    </a>
+                                    <p class="cart__book-provider">
+                                        Nhà cung cấp:
+                                        <span>Phụ nữ</span>
+                                    </p>
+                                </div>
+                                <div class="cart__book-price col c-3">
+                                    <p>@i.Price.ToString() VND</p>
+                                    <span class="form-group d-flex">
+                                        <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                                        <input class="form-control" type="text" value="@i.Id">
+                                        <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                                    </span>
+                                </div>
+                                <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
                             </div>
-                            <div class="cart__book-price col c-3">
-                                <p>27.000 đ</p>
-                                <span class="form-group d-flex">
-                                    <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                    <input class="form-control" type="text" value="1">
-                                    <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
-                                </span>
-                            </div>
-                            <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
-                        </div>
-                        <div class=" cart__flex-item row">
-                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
-                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="cart__book-desc col c-5">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                    Tây Sơn Phụng Ký
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà cung cấp: 
-                                    <span>Phụ nữ</span>
-                                </p>
-                            </div>
-                            <div class="cart__book-price col c-3">
-                                <p>121.500 đ</p>
-                                <span class="form-group d-flex">
-                                    <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                    <input class="form-control" type="text" value="1">
-                                    <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
-                                </span>
-                            </div>
-                            <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
-                        </div>
+                        }
+                        
                     </div>
                 </div>
             </div>

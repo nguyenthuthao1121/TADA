@@ -8,10 +8,9 @@ public class Province
 {
     [Key]
     public int Id { get; set; }
-
     [Required]
     [StringLength(255)]
     [Column(TypeName = "nvarchar")]
     public string Name { get; set; }
-
+    public virtual List<District>? Districts { get; set; }
 }

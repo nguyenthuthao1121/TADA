@@ -7,9 +7,9 @@ public class Role
 {
     [Key]
     public int Id { get; set; }
-
     [StringLength(255)]
     [Column(TypeName = "nvarchar")]
     public string Name { get; set; }
+    public List<Staff>? Staff { get; set; }
 
 }

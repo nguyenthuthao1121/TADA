@@ -19,5 +19,6 @@ namespace TADA.Model.Entity
 
         [ForeignKey("ProviderId")]
         public Provider Provider { get; set; }
+        public virtual List<Book>? Books { get; set; }
     }
 }
