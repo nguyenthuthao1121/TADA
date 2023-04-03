@@ -17,6 +17,6 @@ namespace TADA.Model.Entity
 
         [ForeignKey("DistrictId")]
         public District District { get; set; }
-        public virtual List<Address>? Addresses { get; set; }
+        public  List<Address>? Addresses { get; set; }
     }
 }

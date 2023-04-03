@@ -10,7 +10,41 @@ namespace TADA.Model
         { 
             
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderDetail>()
+            .HasKey(bc => new { bc.OrderId, bc.BookId });
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.OrderDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Order)
+                .WithMany(c => c.OrderDetails)
+                .HasForeignKey(bc => bc.OrderId);
 
+            modelBuilder.Entity<CartDetail>()
+            .HasKey(bc => new { bc.CartId, bc.BookId });
+            modelBuilder.Entity<CartDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.CartDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<CartDetail>()
+                .HasOne(bc => bc.Cart)
+                .WithMany(c => c.CartDetails)
+                .HasForeignKey(bc => bc.CartId);
+
+            modelBuilder.Entity<ContractDetail>()
+            .HasKey(bc => new { bc.ContractId, bc.BookId });
+            modelBuilder.Entity<ContractDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.ContractDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<ContractDetail>()
+                .HasOne(bc => bc.Contract)
+                .WithMany(c => c.ContractDetails)
+                .HasForeignKey(bc => bc.ContractId);
+        }
         public DbSet<Book> Books { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Contract> Contracts { get; set; }

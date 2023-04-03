@@ -26,14 +26,14 @@ namespace TADA.Model.Entity
         public int? AddressId { get; set; }
 
         [ForeignKey("AddressId")]
-        public virtual Address Address { get; set; }
+        public  Address Address { get; set; }
         public int AccountId { get; set; }
 
         [ForeignKey("AccountId")]
-        public virtual Account Account { get; set; }
+        public  Account Account { get; set; }
 
-        public virtual List<Order>? Orders { get; set; }
-        public virtual List<Review>? Reviews { get; set; }
+        public  List<Order>? Orders { get; set; }
+        public  List<Review>? Reviews { get; set; }
 
     }
 }
