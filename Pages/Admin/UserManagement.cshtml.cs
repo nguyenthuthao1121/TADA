@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto;
+using TADA.Middleware;
 using TADA.Service;
 
 namespace TADA.Pages;
 
+[Authorize("Admin", "SalesStaff")]
 public class UserModel : PageModel
 {
     public readonly ICustomerService customerService;

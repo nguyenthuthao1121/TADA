@@ -2,6 +2,7 @@
 @model UserModel
 @{
     ViewData["Title"] = "User ADMIN";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <form class="row" method="get">

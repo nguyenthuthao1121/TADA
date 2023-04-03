@@ -12,7 +12,7 @@ public class LoginModel : PageModel
 {
     private readonly IAuthenticationService authenticationService;
     private readonly ICustomerService customerService;
-    private readonly IAdminService adminService;
+    private readonly IStaffService staffService;
 
     [BindProperty]
     public string Email { get; set; }
@@ -21,11 +21,11 @@ public class LoginModel : PageModel
 
     public string Message;
 
-    public LoginModel(IAuthenticationService authenticationService, ICustomerService customerService, IAdminService adminService)
+    public LoginModel(IAuthenticationService authenticationService, ICustomerService customerService, IStaffService staffService)
     {
         this.authenticationService = authenticationService;
         this.customerService = customerService;
-        this.adminService = adminService;
+        this.staffService = staffService;
     }
 
     public void OnGet()
@@ -43,7 +43,7 @@ public class LoginModel : PageModel
         if (account != null)
         {
             HttpContext.Session.SetInt32("Id", account.Id);
-            HttpContext.Session.SetString("Type", account.Type ? "Customer" : "Admin");
+            HttpContext.Session.SetString("Type", account.Type ? "Customer" : "Staff");
             if (account.Type)
             {
                 HttpContext.Session.SetString("Name", customerService.GetNameByAccountId(account.Id));
@@ -51,7 +51,9 @@ public class LoginModel : PageModel
             }
             else
             {
-                HttpContext.Session.SetString("Name", adminService.GetNameByAccountId(account.Id));
+                var staff = staffService.GetStaffByAccountId(account.Id);
+                HttpContext.Session.SetString("Name", staff.Name);
+                HttpContext.Session.SetString("Role", staff.RoleName);
                 return RedirectToPage("/Admin/HomePageAdmin");
             }
         }

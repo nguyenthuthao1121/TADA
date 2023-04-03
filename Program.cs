@@ -37,8 +37,8 @@ service.AddScoped<IAuthenticationService, AuthenticationService>();
 service.AddScoped<IAccountRepository, AccountRepository>();
 service.AddScoped<IAccountService, AccountService>();
 
-service.AddScoped<IAdminRepository, AdminRepository>();
-service.AddScoped<IAdminService, AdminService>();
+service.AddScoped<IStaffRepository, StaffRepository>();
+service.AddScoped<IStaffService, StaffService>();
 
 var app = builder.Build();
 
