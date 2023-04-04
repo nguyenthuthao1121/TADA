@@ -13,15 +13,16 @@ namespace TADA.Repository.Implement
         }
         public List<CustomerDto> GetAllCustomers()
         {
-            var customers = context.Customers
-                .Join(context.Accounts,
-                customer => customer.AccountId,
-                account => account.Id,
-                (customer, account) => new CustomerDto(
-                    account.Id, account.Email, account.Password, account.CreateDate, account.Status, 
-                    customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, customer.Address
-                    )).ToList();
-            return customers;
+            /*            var customers = context.Customers
+                            .Join(context.Accounts,
+                            customer => customer.AccountId,
+                            account => account.Id,
+                            (customer, account) => new CustomerDto(
+                                account.Id, account.Email, account.Password, account.CreateDate, account.Status, 
+                                customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, customer.Address
+                                )).ToList();
+                        return customers;*/
+            return null;
         }
         public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
         {
