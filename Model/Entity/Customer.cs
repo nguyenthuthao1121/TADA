@@ -32,8 +32,8 @@ namespace TADA.Model.Entity
         [ForeignKey("AccountId")]
         public  Account Account { get; set; }
 
-        public  List<Order>? Orders { get; set; }
-        public  List<Review>? Reviews { get; set; }
+        public  List<Order> Orders { get; set; }
+        public  List<Review> Reviews { get; set; }
 
     }
 }
