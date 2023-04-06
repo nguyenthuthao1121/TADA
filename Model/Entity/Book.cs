@@ -57,7 +57,7 @@ namespace TADA.Model.Entity
         public List<OrderDetail> OrderDetails { get; } = new();
         public List<ContractDetail> ContractDetails { get; } = new();
         public List<CartDetail> CartDetails { get; } = new();
-        public  List<Review>? Reviews { get; set; }
+        public  List<Review> Reviews { get; set; }
 
     }
 }

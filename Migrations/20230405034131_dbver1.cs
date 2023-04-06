@@ -6,133 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TADA.Migrations
 {
     /// <inheritdoc />
-    public partial class dbVer1 : Migration
+    public partial class dbver1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Sale",
-                table: "Books",
-                newName: "Width");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Categories",
-                type: "varchar(255)",
-                maxLength: 255,
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<decimal>(
-                name: "Price",
-                table: "Books",
-                type: "money",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Books",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Image",
-                table: "Books",
-                type: "varchar(255)",
-                maxLength: 255,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Author",
-                table: "Books",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Cover",
-                table: "Books",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
-                table: "Books",
-                type: "ntext",
-                maxLength: 255,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Genre",
-                table: "Books",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: true);
-
-            migrationBuilder.AddColumn<double>(
-                name: "Length",
-                table: "Books",
-                type: "float",
-                nullable: false,
-                defaultValue: 0.0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "Pages",
-                table: "Books",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<decimal>(
-                name: "Promotion",
-                table: "Books",
-                type: "decimal(38,17)",
-                nullable: false,
-                defaultValue: 0m);
-
-            migrationBuilder.AddColumn<int>(
-                name: "PublicationYear",
-                table: "Books",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Publisher",
-                table: "Books",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "Quantity",
-                table: "Books",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<double>(
-                name: "Weight",
-                table: "Books",
-                type: "float",
-                nullable: false,
-                defaultValue: 0.0);
-
             migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
@@ -148,6 +26,19 @@ namespace TADA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,6 +78,40 @@ namespace TADA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Statuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Publisher = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PublicationYear = table.Column<int>(type: "int", nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Pages = table.Column<int>(type: "int", nullable: false),
+                    Length = table.Column<double>(type: "float", nullable: false),
+                    Width = table.Column<double>(type: "float", nullable: false),
+                    Weight = table.Column<double>(type: "float", nullable: false),
+                    Price = table.Column<decimal>(type: "money", nullable: false),
+                    Cover = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "ntext", maxLength: 255, nullable: true),
+                    Image = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    Promotion = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -436,72 +361,77 @@ namespace TADA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookCart",
+                name: "CartDetail",
                 columns: table => new
                 {
-                    BooksId = table.Column<int>(type: "int", nullable: false),
-                    CartsId = table.Column<int>(type: "int", nullable: false)
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookCart", x => new { x.BooksId, x.CartsId });
+                    table.PrimaryKey("PK_CartDetail", x => new { x.CartId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_BookCart_Books_BooksId",
-                        column: x => x.BooksId,
+                        name: "FK_CartDetail_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookCart_Carts_CartsId",
-                        column: x => x.CartsId,
+                        name: "FK_CartDetail_Carts_CartId",
+                        column: x => x.CartId,
                         principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookOrder",
+                name: "OrderDetail",
                 columns: table => new
                 {
-                    BooksId = table.Column<int>(type: "int", nullable: false),
-                    OrdersId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookOrder", x => new { x.BooksId, x.OrdersId });
+                    table.PrimaryKey("PK_OrderDetail", x => new { x.OrderId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_BookOrder_Books_BooksId",
-                        column: x => x.BooksId,
+                        name: "FK_OrderDetail_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookOrder_Orders_OrdersId",
-                        column: x => x.OrdersId,
+                        name: "FK_OrderDetail_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookContract",
+                name: "ContractDetail",
                 columns: table => new
                 {
-                    BooksId = table.Column<int>(type: "int", nullable: false),
-                    ContractsId = table.Column<int>(type: "int", nullable: false)
+                    ContractId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookContract", x => new { x.BooksId, x.ContractsId });
+                    table.PrimaryKey("PK_ContractDetail", x => new { x.ContractId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_BookContract_Books_BooksId",
-                        column: x => x.BooksId,
+                        name: "FK_ContractDetail_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookContract_Contracts_ContractsId",
-                        column: x => x.ContractsId,
+                        name: "FK_ContractDetail_Contracts_ContractId",
+                        column: x => x.ContractId,
                         principalTable: "Contracts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -513,24 +443,24 @@ namespace TADA.Migrations
                 column: "WardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookCart_CartsId",
-                table: "BookCart",
-                column: "CartsId");
+                name: "IX_Books_CategoryId",
+                table: "Books",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookContract_ContractsId",
-                table: "BookContract",
-                column: "ContractsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookOrder_OrdersId",
-                table: "BookOrder",
-                column: "OrdersId");
+                name: "IX_CartDetail_BookId",
+                table: "CartDetail",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_CustomerId",
                 table: "Carts",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractDetail_BookId",
+                table: "ContractDetail",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_ProviderId",
@@ -551,6 +481,11 @@ namespace TADA.Migrations
                 name: "IX_Districts_ProvinceId",
                 table: "Districts",
                 column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetail_BookId",
+                table: "OrderDetail",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_AddressId",
@@ -607,13 +542,13 @@ namespace TADA.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookCart");
+                name: "CartDetail");
 
             migrationBuilder.DropTable(
-                name: "BookContract");
+                name: "ContractDetail");
 
             migrationBuilder.DropTable(
-                name: "BookOrder");
+                name: "OrderDetail");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -631,6 +566,9 @@ namespace TADA.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
@@ -641,6 +579,9 @@ namespace TADA.Migrations
 
             migrationBuilder.DropTable(
                 name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
@@ -656,91 +597,6 @@ namespace TADA.Migrations
 
             migrationBuilder.DropTable(
                 name: "Provinces");
-
-            migrationBuilder.DropColumn(
-                name: "Author",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Cover",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Genre",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Length",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Pages",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Promotion",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "PublicationYear",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Publisher",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Quantity",
-                table: "Books");
-
-            migrationBuilder.DropColumn(
-                name: "Weight",
-                table: "Books");
-
-            migrationBuilder.RenameColumn(
-                name: "Width",
-                table: "Books",
-                newName: "Sale");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Categories",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "varchar(255)",
-                oldMaxLength: 255);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Price",
-                table: "Books",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "money");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Books",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(255)",
-                oldMaxLength: 255);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Image",
-                table: "Books",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "varchar(255)",
-                oldMaxLength: 255,
-                oldNullable: true);
         }
     }
 }

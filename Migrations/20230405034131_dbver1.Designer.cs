@@ -12,8 +12,8 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230403171834_dbVer2")]
-    partial class dbVer2
+    [Migration("20230405034131_dbver1")]
+    partial class dbver1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
