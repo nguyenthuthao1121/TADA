@@ -23,7 +23,7 @@ namespace TADA.Model.Entity
         [StringLength(10)]
         [Column(TypeName = "char")]
         public string TelephoneNumber { get; set; }
-        public int? AddressId { get; set; }
+        public int AddressId { get; set; }
 
         [ForeignKey("AddressId")]
         public  Address Address { get; set; }
