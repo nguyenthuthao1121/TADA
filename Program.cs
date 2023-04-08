@@ -19,10 +19,31 @@ service.AddDbContext<TadaContext>(option =>
     //option.UseSqlServer(connectionString);
 });
 
+service.AddSession();
+service.AddMvc();
+
 service.AddScoped<IBookRepository, BookRepository>();
 service.AddScoped<IBookService, BookService>();
+
 service.AddScoped<ICategoryRepository, CategoryRepository>();
 service.AddScoped<ICategoryService, CategoryService>();
+
+service.AddScoped<ICustomerRepository, CustomerRepository>();
+service.AddScoped<ICustomerService, CustomerService>();
+
+service.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+service.AddScoped<IAuthenticationService, AuthenticationService>();
+
+service.AddScoped<IAccountRepository, AccountRepository>();
+service.AddScoped<IAccountService, AccountService>();
+
+service.AddScoped<IStaffRepository, StaffRepository>();
+service.AddScoped<IStaffService, StaffService>();
+
+service.AddScoped<IAddressRepository, AddressRepository>();
+service.AddScoped<IAddressService, AddressService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,8 +58,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 app.MapRazorPages();
 

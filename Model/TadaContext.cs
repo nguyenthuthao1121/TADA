@@ -13,6 +13,7 @@ namespace TADA.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderDetail>()
+<<<<<<< HEAD
             .HasKey(bc => new { bc.OrderId, bc.BookId});
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(bc => bc.Book)
@@ -22,6 +23,39 @@ namespace TADA.Model
                 .HasOne(bc => bc.Order)
                 .WithMany(c => c.Details)
                 .HasForeignKey(bc => bc.OrderId);
+=======
+            .HasKey(bc => new { bc.OrderId, bc.BookId });
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.OrderDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Order)
+                .WithMany(c => c.OrderDetails)
+                .HasForeignKey(bc => bc.OrderId);
+
+            modelBuilder.Entity<CartDetail>()
+            .HasKey(bc => new { bc.CartId, bc.BookId });
+            modelBuilder.Entity<CartDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.CartDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<CartDetail>()
+                .HasOne(bc => bc.Cart)
+                .WithMany(c => c.CartDetails)
+                .HasForeignKey(bc => bc.CartId);
+
+            modelBuilder.Entity<ContractDetail>()
+            .HasKey(bc => new { bc.ContractId, bc.BookId });
+            modelBuilder.Entity<ContractDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.ContractDetails)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<ContractDetail>()
+                .HasOne(bc => bc.Contract)
+                .WithMany(c => c.ContractDetails)
+                .HasForeignKey(bc => bc.ContractId);
+>>>>>>> 4f6355c8aa4fda140086b2593ef5c168c787f8e0
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Provider> Providers { get; set; }
@@ -30,7 +64,7 @@ namespace TADA.Model
         public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Staff> Staff { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Cart> Carts { get; set; }

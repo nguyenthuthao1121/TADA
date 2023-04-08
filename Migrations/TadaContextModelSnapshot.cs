@@ -17,40 +17,10 @@ namespace TADA.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BookCart", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksId", "CartsId");
-
-                    b.HasIndex("CartsId");
-
-                    b.ToTable("BookCart");
-                });
-
-            modelBuilder.Entity("BookContract", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ContractsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksId", "ContractsId");
-
-                    b.HasIndex("ContractsId");
-
-                    b.ToTable("BookContract");
-                });
 
             modelBuilder.Entity("TADA.Model.Entity.Account", b =>
                 {
@@ -81,7 +51,7 @@ namespace TADA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Address", b =>
@@ -104,7 +74,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
@@ -152,8 +122,8 @@ namespace TADA.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
-                    b.Property<decimal>("Promotion")
-                        .HasColumnType("decimal");
+                    b.Property<int>("Promotion")
+                        .HasColumnType("int");
 
                     b.Property<int>("PublicationYear")
                         .HasColumnType("int");
@@ -175,7 +145,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Cart", b =>
@@ -193,7 +163,25 @@ namespace TADA.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.CartDetail", b =>
+                {
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("CartDetail", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
@@ -211,7 +199,7 @@ namespace TADA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Contract", b =>
@@ -236,7 +224,28 @@ namespace TADA.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Contracts");
+                    b.ToTable("Contracts", (string)null);
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.ContractDetail", b =>
+                {
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContractId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("ContractDetail", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
@@ -274,7 +283,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.District", b =>
@@ -297,7 +306,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Districts");
+                    b.ToTable("Districts", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Order", b =>
@@ -333,7 +342,28 @@ namespace TADA.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("OrderDetail", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.OrderDetail", b =>
@@ -377,7 +407,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Providers");
+                    b.ToTable("Providers", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Province", b =>
@@ -395,7 +425,7 @@ namespace TADA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Provinces", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Review", b =>
@@ -432,7 +462,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Role", b =>
@@ -449,7 +479,7 @@ namespace TADA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Staff", b =>
@@ -492,7 +522,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staff", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Status", b =>
@@ -509,7 +539,7 @@ namespace TADA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Ward", b =>
@@ -532,37 +562,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Wards");
-                });
-
-            modelBuilder.Entity("BookCart", b =>
-                {
-                    b.HasOne("TADA.Model.Entity.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TADA.Model.Entity.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BookContract", b =>
-                {
-                    b.HasOne("TADA.Model.Entity.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TADA.Model.Entity.Contract", null)
-                        .WithMany()
-                        .HasForeignKey("ContractsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Wards", (string)null);
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Address", b =>
@@ -598,6 +598,25 @@ namespace TADA.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("TADA.Model.Entity.CartDetail", b =>
+                {
+                    b.HasOne("TADA.Model.Entity.Book", "Book")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TADA.Model.Entity.Cart", "Cart")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("TADA.Model.Entity.Contract", b =>
                 {
                     b.HasOne("TADA.Model.Entity.Provider", "Provider")
@@ -607,6 +626,25 @@ namespace TADA.Migrations
                         .IsRequired();
 
                     b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.ContractDetail", b =>
+                {
+                    b.HasOne("TADA.Model.Entity.Book", "Book")
+                        .WithMany("ContractDetails")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TADA.Model.Entity.Contract", "Contract")
+                        .WithMany("ContractDetails")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
@@ -663,13 +701,15 @@ namespace TADA.Migrations
             modelBuilder.Entity("TADA.Model.Entity.OrderDetail", b =>
                 {
                     b.HasOne("TADA.Model.Entity.Book", "Book")
-                        .WithMany("Details")
+
+                        .WithMany("OrderDetails")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TADA.Model.Entity.Order", "Order")
-                        .WithMany("Details")
+
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -743,14 +783,28 @@ namespace TADA.Migrations
 
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
                 {
-                    b.Navigation("Details");
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("ContractDetails");
+
+                    b.Navigation("OrderDetails");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.Cart", b =>
+                {
+                    b.Navigation("CartDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.Contract", b =>
+                {
+                    b.Navigation("ContractDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
@@ -767,7 +821,7 @@ namespace TADA.Migrations
 
             modelBuilder.Entity("TADA.Model.Entity.Order", b =>
                 {
-                    b.Navigation("Details");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>

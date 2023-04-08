@@ -1,6 +1,7 @@
 ﻿using Azure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 using System.Security.Policy;
 
 namespace TADA.Model.Entity
@@ -47,18 +48,16 @@ namespace TADA.Model.Entity
         [StringLength(255)]
         [Column(TypeName = "varchar")]
         public string Image { get; set; }
-        [Column(TypeName = "decimal")]
-        public double Promotion { get; set; }
+        public int Promotion { get; set; }
 
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
+        public  Category Category { get; set; }
+        public List<OrderDetail> OrderDetails { get; } = new();
+        public List<ContractDetail> ContractDetails { get; } = new();
+        public List<CartDetail> CartDetails { get; } = new();
+        public List<Review> Reviews { get; set; }
 
-        public virtual List<Contract>? Contracts { get; set; }
-        public virtual List<Cart>? Carts { get; set; }
-        public virtual List<Review>? Reviews { get; set; }
-
-        public List<OrderDetail> Details { get; } = new();
     }
 }

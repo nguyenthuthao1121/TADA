@@ -13,7 +13,7 @@ namespace TADA.Model.Entity
         [StringLength(255)]
         [Column(TypeName = "nvarchar")]
         public string Name { get; set; }
-        public virtual List<District>? Districts { get; set; }
+        public  List<District> Districts { get; set; }
 
     }
 }

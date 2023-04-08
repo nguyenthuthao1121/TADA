@@ -43,18 +43,28 @@
                         </a>
                     </li>
                     <li class="nav-item my-account">
-                        <a style="font-weight: 400; color: var(--white-color)">
-                            <i class="fas fa-user me-2 text-white" style="font-weight:900"></i>Tài khoản
-                        </a>
-                        <ul class="sub-navbar sub-navbar-guest">
-                            <li><a asp-page="/Guest/Login"><i class="fas fa-sign-in"></i>Đăng nhập</a></li>
-                            <li><a asp-page="/Guest/Signup"><i class="fas fa-pen-to-square"></i>Đăng ký</a></li>
-                        </ul>
-                        <ul class="sub-navbar sub-navbar-member">
-                            <li><a asp-page="/User/UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
-                            <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
-                            <li><a asp-page="/Index"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
-                        </ul>
+
+                        @if (ViewBag.Name == null)
+                        {
+                            <a style="font-weight: 400; color: var(--white-color)">
+                                <i class="fas fa-user me-2 text-white" style="font-weight:900"></i>Tài khoản
+                            </a>
+                            <ul class="sub-navbar sub-navbar-guest">
+                                <li><a asp-page="/Account/Login"><i class="fas fa-sign-in"></i>Đăng nhập</a></li>
+                                <li><a asp-page="/Account/Signup"><i class="fas fa-pen-to-square"></i>Đăng ký</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a style="font-weight: 400; color: var(--white-color)">
+                                <i class="fas fa-user me-2 text-white" style="font-weight:900"></i>@ViewBag.Name
+                            </a>
+                            <ul class="sub-navbar sub-navbar-member">
+                                <li><a asp-page="/User/UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
+                                <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+                                <li><a asp-page="/Account/Login" asp-page-handler="Logout"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
+                            </ul>                            
+                        }
                     </li>
                 </ul>
             </div>
