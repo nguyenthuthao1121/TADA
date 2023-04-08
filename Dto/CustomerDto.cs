@@ -15,8 +15,9 @@ public class CustomerDto
     public DateTime Birthday { get; set; }
     public bool Gender { get; set; }
     public string TelephoneNumber { get; set; }
+    public int AddressId { get; set; }
     public string Address { get; set; }
-    public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, string address)
+    public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, int addressId)
     {
         AccountId = accountId;
         Email = email;
@@ -28,6 +29,21 @@ public class CustomerDto
         Birthday = birthday;
         Gender = gender;
         TelephoneNumber = telephoneNumber;
+        AddressId = addressId;
+    }
+    public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, int addressId, string address)
+    {
+        AccountId = accountId;
+        Email = email;
+        Password = password;
+        CreateDate = createDate;
+        Status = status;
+        CustomerId = customerId;
+        Name = name;
+        Birthday = birthday;
+        Gender = gender;
+        TelephoneNumber = telephoneNumber;
+        AddressId = addressId;
         Address = address;
     }
 }

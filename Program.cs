@@ -40,6 +40,10 @@ service.AddScoped<IAccountService, AccountService>();
 service.AddScoped<IStaffRepository, StaffRepository>();
 service.AddScoped<IStaffService, StaffService>();
 
+service.AddScoped<IAddressRepository, AddressRepository>();
+service.AddScoped<IAddressService, AddressService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

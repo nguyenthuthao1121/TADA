@@ -39,6 +39,7 @@
                 <div class="sort-feature">
                     <div class="sort-feature-item">
                         <select class="sort-by" name="SortBy" id="sort-by">
+                            <option value="New">Mới nhất</option>
                             <option value="Name">Họ và tên</option>
                             <option value="Email">Email</option>
                             <option value="Address">Địa chỉ</option>
@@ -59,12 +60,14 @@
             <div class="user-table">
                 <table class="table" style="width: 100%; color: var(--primary-color)">
                     <tr class="table-row list-row">
-                        <th style="width: 5%">STT</th>
-                        <th style="width: 20%">Họ và tên</th>
-                        <th style="width: 10%">Giới tính</th>
+                        <th style="width: 4%">STT</th>
+                        <th style="width: 10%">Họ và tên</th>
+                        <th style="width: 7%">Giới tính</th>
+                        <th style="width: 8%">Ngày sinh</th>
                         <th style="width: 15%">Email</th>
+                        <th style="width: 10%">Số điện thoại</th>
                         <th style="width: 25%">Địa chỉ</th>
-                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 7%">Trạng thái</th>
                         <th style="width: 7%">Đơn hàng</th>
                         <th style="width: 8%">Action</th>
                     </tr>
@@ -85,7 +88,17 @@
                                         <span>Nữ</span>
                                     }
                                 </td>
+                                <td class="table-value list-value">
+                                    @{
+                                        var d = customer.Birthday.Day;
+                                        var m = customer.Birthday.Month;
+                                        var y = customer.Birthday.Year;
+                                        string date = "" + d + " - " + m + " - " + y;
+                                        <span>@date</span>
+                                    }
+                                </td>
                                 <td class="table-value list-value">@customer.Email</td>
+                                <td class="table-value list-value">@customer.TelephoneNumber</td>
                                 <td class="table-value list-value">@customer.Address</td>
                                 <td class="table-value list-value">
                                     @if (customer.Status)
