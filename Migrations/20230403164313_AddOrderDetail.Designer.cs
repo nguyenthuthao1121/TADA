@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TADA.Model;
 
@@ -11,9 +12,11 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    partial class TadaContextModelSnapshot : ModelSnapshot
+    [Migration("20230403164313_AddOrderDetail")]
+    partial class AddOrderDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +53,21 @@ namespace TADA.Migrations
                     b.HasIndex("ContractsId");
 
                     b.ToTable("BookContract");
+                });
+
+            modelBuilder.Entity("BookOrder", b =>
+                {
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BooksId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("BookOrder");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Account", b =>
@@ -561,6 +579,21 @@ namespace TADA.Migrations
                     b.HasOne("TADA.Model.Entity.Contract", null)
                         .WithMany()
                         .HasForeignKey("ContractsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookOrder", b =>
+                {
+                    b.HasOne("TADA.Model.Entity.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TADA.Model.Entity.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

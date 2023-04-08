@@ -10,7 +10,19 @@ namespace TADA.Model
         { 
             
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderDetail>()
+            .HasKey(bc => new { bc.OrderId, bc.BookId});
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.Details)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(bc => bc.Order)
+                .WithMany(c => c.Details)
+                .HasForeignKey(bc => bc.OrderId);
+        }
         public DbSet<Book> Books { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Contract> Contracts { get; set; }

@@ -29,6 +29,6 @@ namespace TADA.Model.Entity
 
         [ForeignKey("StatusId")]
         public Status Status { get; set; }
-        public virtual List<Book>? Books { get; set; }
+        public List<OrderDetail> Details { get; } = new();
     }
 }

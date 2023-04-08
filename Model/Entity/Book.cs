@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Azure;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Policy;
 
@@ -54,10 +55,10 @@ namespace TADA.Model.Entity
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
-        public virtual List<Order>? Orders { get; set; }
         public virtual List<Contract>? Contracts { get; set; }
         public virtual List<Cart>? Carts { get; set; }
         public virtual List<Review>? Reviews { get; set; }
 
+        public List<OrderDetail> Details { get; } = new();
     }
 }
