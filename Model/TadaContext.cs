@@ -52,7 +52,7 @@ namespace TADA.Model
         public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Staff> Staff { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Cart> Carts { get; set; }

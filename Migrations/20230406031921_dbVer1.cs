@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TADA.Migrations
 {
     /// <inheritdoc />
-    public partial class dbver1 : Migration
+    public partial class dbVer1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -224,7 +224,7 @@ namespace TADA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staffs",
+                name: "Staff",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -239,20 +239,20 @@ namespace TADA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staffs_Accounts_AccountId",
+                        name: "FK_Staff_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Staffs_Addresses_AddressId",
+                        name: "FK_Staff_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Staffs_Roles_RoleId",
+                        name: "FK_Staff_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id");
@@ -518,18 +518,18 @@ namespace TADA.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_AccountId",
-                table: "Staffs",
+                name: "IX_Staff_AccountId",
+                table: "Staff",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_AddressId",
-                table: "Staffs",
+                name: "IX_Staff_AddressId",
+                table: "Staff",
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_RoleId",
-                table: "Staffs",
+                name: "IX_Staff_RoleId",
+                table: "Staff",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -554,7 +554,7 @@ namespace TADA.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Staffs");
+                name: "Staff");
 
             migrationBuilder.DropTable(
                 name: "Carts");

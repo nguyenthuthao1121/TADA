@@ -12,15 +12,15 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230405034131_dbver1")]
-    partial class dbver1
+    [Migration("20230406031921_dbVer1")]
+    partial class dbVer1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -504,7 +504,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Status", b =>

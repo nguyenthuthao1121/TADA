@@ -3,7 +3,8 @@
 @using TADA.Model.Entity
 @{
     ViewData["Title"] = "Trang chủ";
-    Layout = "_LayoutUser"; 
+    Layout = "_LayoutUser";
+    ViewBag.Name = Model.Username;
 }
 
 <div class="container-fluid">
