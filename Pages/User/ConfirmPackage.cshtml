@@ -63,15 +63,15 @@
                     <div class="order-detail__desc grid">
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng giá (@Model.OrderDetails.Count sách)</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.SumPriceOfBooks() VND</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.SumPriceOfBooks()) VND</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">15.000đ</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">15.000 VND</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng tiền</div>
-                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.SumPriceOfOrder() VND</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetPriceString(Model.SumPriceOfOrder()) VND</div>
                         </div>
                     </div>
                     <div class="btn--confirm">
