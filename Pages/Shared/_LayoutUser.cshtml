@@ -38,9 +38,28 @@
                 </div>
                 <ul class="navbar-nav d-flex flex-row">
                     <li class="nav-item">
-                        <a class="mx-4" asp-page="/Guest/GuestShoppingCart" style="font-weight: 400; color: var(--white-color)">
-                            <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
-                        </a>
+                        @if (ViewBag.Name == null)
+                        {
+                            <a class="mx-4" asp-page="/Guest/GuestShoppingCart" style="font-weight: 400; color: var(--white-color)">
+                                <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
+                            </a>
+                        }
+                        else
+                        {
+                            @if (ViewBag.CountBookOfCart == 0)
+                            {
+                                <a class="mx-4" asp-page="/User/ShoppingCartEmpty" style="font-weight: 400; color: var(--white-color)">
+                                    <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="mx-4" asp-page="/User/ShoppingCartFill" style="font-weight: 400; color: var(--white-color)">
+                                    <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
+                                </a>
+                            }
+                                                   
+                        }
                     </li>
                     <li class="nav-item my-account">
 
@@ -61,7 +80,15 @@
                             </a>
                             <ul class="sub-navbar sub-navbar-member">
                                 <li><a asp-page="/User/UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
-                                <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+                                @if (ViewBag.CountAllOrder == 0)
+                                {
+                                    <li><a asp-page="/User/OrderListEmptyAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-page="/User/OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
+
+                                }
                                 <li><a asp-page="/Account/Login" asp-page-handler="Logout"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
                             </ul>                            
                         }

@@ -12,7 +12,7 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230406031921_dbVer1")]
+    [Migration("20230408141724_dbVer1")]
     partial class dbVer1
     {
         /// <inheritdoc />
@@ -262,11 +262,11 @@ namespace TADA.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Birthday")
-                        .HasColumnType("date");
+                        .HasColumnType("DateTime");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
@@ -639,7 +639,9 @@ namespace TADA.Migrations
 
                     b.HasOne("TADA.Model.Entity.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
 

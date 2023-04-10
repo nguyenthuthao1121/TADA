@@ -162,6 +162,14 @@ namespace TADA.Repository.Implement
         {
             return context.Customers.Count();
         }
-        
+        public CustomerDto GetCustomerByAccountId(int accountId)
+        {
+            return context.Customers.Where(customer => customer.AccountId == accountId)
+                .Select(customer => new CustomerDto(customer)).FirstOrDefault();
+        }
+        public int GetIdByAccountId(int id)
+        {
+            return context.Customers.Where(customer => customer.AccountId == id).Select(customer => customer.Id).FirstOrDefault();
+        }
     }
 }

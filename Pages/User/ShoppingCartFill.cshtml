@@ -1,7 +1,9 @@
 ﻿@page
 @model ShoppingCartFillModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "_LayoutUser";
+    ViewBag.Name = Model.Username;
 }
 
 <div id="shopping-cart--fill">
@@ -10,7 +12,7 @@
             <div class="shopping-cart__title col c-10 c-o-1">
                 GIỎ HÀNG
                 <span class="shopping-cart__title-quality">
-                        (2 sản phẩm)
+                        (@Model.CartDetails.Count sản phẩm)
                 </span>
             </div>
         </div>
@@ -25,25 +27,26 @@
                         </div>
                     </div>
                     <div class="shopping-cart__cart-list grid">
-                        @foreach (var i in Model.Books)
+                        @foreach (var cartDetail in Model.CartDetails)
                         {
+                            var Book = Model.GetBookByCartDetail(cartDetail);
                             <div class="cart__flex-item row">
                                 <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
-                                <a asp-area="" asp-page="/User/BookDetailUser?id=@i.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                                <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
                                 <div class="cart__book-desc col c-5">
-                                    <a asp-area="" asp-page="/User/BookDetailUser?id=@i.Id" class="cart__book-name">
-                                        @i.Name
+                                    <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="cart__book-name">
+                                        @Book.Name
                                     </a>
                                     <p class="cart__book-provider">
                                         Nhà cung cấp:
-                                        <span>Phụ nữ</span>
+                                        <span>@Book.Publisher</span>
                                     </p>
                                 </div>
                                 <div class="cart__book-price col c-3">
-                                    <p>@i.Price.ToString() VND</p>
+                                    <p>@Book.GetPriceString(Book.GetCurrentPrice()) VND</p>
                                     <span class="form-group d-flex">
                                         <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                        <input class="form-control" type="text" value="@i.Id">
+                                        <input class="form-control" type="text" value="@cartDetail.Quantity">
                                         <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                                     </span>
                                 </div>

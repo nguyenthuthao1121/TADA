@@ -6,7 +6,6 @@ namespace TADA.Model.Entity
 {
     public class Cart
     {
-        [Key]
         public int Id { get; set; }
         public int CustomerId { get; set; }
 

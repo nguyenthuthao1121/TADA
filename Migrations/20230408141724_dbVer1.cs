@@ -181,10 +181,10 @@ namespace TADA.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "date", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "DateTime", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     TelephoneNumber = table.Column<string>(type: "char(10)", maxLength: 10, nullable: true),
-                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -200,7 +200,8 @@ namespace TADA.Migrations
                         name: "FK_Customers_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

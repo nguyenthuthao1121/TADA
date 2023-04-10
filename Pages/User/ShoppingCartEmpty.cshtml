@@ -1,7 +1,9 @@
 ﻿@page
 @model ShoppingCartEmptyModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "_LayoutUser";
+    ViewBag.Name = Model.Username;
 }
 
 <div id="shopping-cart--empty">

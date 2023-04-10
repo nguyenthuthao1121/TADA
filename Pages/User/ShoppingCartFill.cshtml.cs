@@ -7,19 +7,26 @@ namespace TADA.Pages;
 
 public class ShoppingCartFillModel : PageModel
 {
-    private readonly ILogger<ShoppingCartFillModel> _logger;
+    private readonly ICartService cartService;
+    private readonly IAccountService accountService;
     private readonly IBookService bookService;
 
-    public List<BookDto> Books { get; set; }
+    public string Username;
+    public List<CartDetailDto> CartDetails { get; set; }
 
-    public ShoppingCartFillModel(ILogger<ShoppingCartFillModel> logger, IBookService bookService)
+    public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService)
     {
-        _logger = logger;
+        this.cartService = cartService;
+        this.accountService = accountService;
         this.bookService = bookService;
     }
-
+    public BookDto GetBookByCartDetail(CartDetailDto cartDetail)
+    {
+        return cartService.GetBookByCartDetail(cartDetail);
+    }
     public void OnGet()
     {
-        Books=bookService.GetAllBook();
+        CartDetails = cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id"));
+        Username = HttpContext.Session.GetString("Name");
     }
 }
