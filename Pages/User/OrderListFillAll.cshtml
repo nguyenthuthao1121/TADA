@@ -96,45 +96,63 @@
 
             <div class="col c-8">
                 <div class="order-list__title order__title row">Tất cả</div>
-                @foreach (var order in Model.Orders)
+                @if (Model.GetOrderCountByStatus(0) == 0)
                 {
-                    <div class="confirm__order-detail" style="border-radius: 8px;">
-                        <div class="order__title row">
-                            <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
-                            <p style="color: var(--primary-color);">@Model.GetStatusOfOrder(order)</p>
+                    <div class="order-list__des--empty"  style="border-radius: 8px;">
+                        <div class="shopping-cart__img--empty">
+                            <img src="~/img/ico_emptycart.svg" alt="Empty Shopping cart" width=100px>
                         </div>
-                        <div class="confirm__book-list grid">
-
-                            @{
-                                var OrderDetails = Model.GetOrderDetailsDto(order);
-                            }
-                            @foreach (var orderDetail in OrderDetails)
-                            {
-                                var Book=Model.GetBookByOrderDetail(orderDetail);
-                                <div class="cart__flex-item row">
-                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                                    <div class="cart__book-desc col c-6">
-                                        <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                            @Book.Name
-                                        </a>
-                                        <p class="cart__book-provider">
-                                            Nhà cung cấp:
-                                            <span>@Book.Publisher</span>
-                                        </p>
-                                    </div>
-                                    <div class="cart__book-price col c-2">
-                                        @orderDetail.GetPriceString(orderDetail.Price) VND
-                                    </div>
-                                    <div class="cart__book-number col c-2">
-                                        Số lượng: @orderDetail.Quantity
-                                    </div>
-                                </div>
-                            }
-                            
+                        <div class="shopping-cart__text--empty">
+                            Danh sách đang trống
                         </div>
+                        <button class="btn--blue">
+                            <a asp-area="" asp-page="/Index">
+                                MUA SẮM NGAY
+                            </a>
+                        </button>
                     </div>
                 }
+                else
+                {
+                    @foreach (var order in Model.Orders)
+                    {
+                        <div class="confirm__order-detail" style="border-radius: 8px;">
+                            <div class="order__title row">
+                                <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
+                                <p style="color: var(--primary-color);">@Model.GetStatusOfOrder(order)</p>
+                            </div>
+                            <div class="confirm__book-list grid">
 
+                                @{
+                                    var OrderDetails = Model.GetOrderDetailsDto(order);
+                                }
+                                @foreach (var orderDetail in OrderDetails)
+                                {
+                                    var Book = Model.GetBookByOrderDetail(orderDetail);
+                                    <div class="cart__flex-item row">
+                                        <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
+                                        <div class="cart__book-desc col c-6">
+                                            <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
+                                                @Book.Name
+                                            </a>
+                                            <p class="cart__book-provider">
+                                                Nhà cung cấp:
+                                                <span>@Book.Publisher</span>
+                                            </p>
+                                        </div>
+                                        <div class="cart__book-price col c-2">
+                                            @orderDetail.GetPriceString(orderDetail.Price) VND
+                                        </div>
+                                        <div class="cart__book-number col c-2">
+                                            Số lượng: @orderDetail.Quantity
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>
