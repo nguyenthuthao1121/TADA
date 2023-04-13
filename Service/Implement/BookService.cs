@@ -46,4 +46,9 @@ public class BookService : IBookService
         }
         return listBook;
     }
+
+    public BookDto GetBookById(int id)
+    {
+        return bookRepository.GetBookById(id);
+    }
 }

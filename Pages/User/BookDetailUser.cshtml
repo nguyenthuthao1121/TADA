@@ -1,9 +1,29 @@
 ﻿@page
 @model BookDetailUserModel
+@using TADA.Model.Entity
 @{
-    ViewData["Title"] = "Chi tiết sách";
+    ViewData["Title"] = Model.Book.Name;
+    ViewBag.Name = Model.Username;
 }
-
+@{
+    var oldPrice = Model.Book.Price.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")).Replace(',', '.'); 
+    var newPrice = (Model.Book.Price * (100 - Model.Book.Promotion) / 100).ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")).Replace(',', '.');
+    var dimension = Model.Book.Length + " x " + Model.Book.Width + " cm";
+    var descriptionText = "";
+    var filePath = Model.Book.Description;
+    if (System.IO.File.Exists(filePath))
+    {
+        using (StreamReader sr = new StreamReader(filePath, System.Text.Encoding.Default))
+        {
+            descriptionText = sr.ReadToEnd();
+            descriptionText = descriptionText.Replace("\n", "<br>");
+            sr.Close();
+        }
+    }
+    var imgPath = Model.Book.Image + "/thien_su_nha_ben_5_bia.jpg";
+    var numberOfReview = Model.Reviews.Count;
+    //var averageRating = Model.Reviews.Average(decimal p, )
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-1"></div>
@@ -11,7 +31,7 @@
             <div class="row bg-white px-3 py-4 mt-3 rounded">
                 <div class="col-4">
                     <div class="bookImage" style="border: 0.5px solid #CCCCCC;">
-                        <img src="~/img/book2.jpg" alt="Book image" style="width: 100%; border: 0.5px">
+                        <img src="@Url.Content(imgPath)" alt="Book image" style="width: 100%; border: 0.5px">
                     </div>
                     <div class="row mt-3">
                         <div class="col">
@@ -23,7 +43,7 @@
                     </div>
                 </div>
                 <div class="book-essential-detail col-8 px-5">
-                    <h4 class="fw-bold" style="line-height: 2rem">Tây Sơn Phụng Thần Ký</h4>
+                    <h4 class="fw-bold" style="line-height: 2rem">@Model.Book.Name</h4>
                     <div class="row mt-4">
                         <div class="provider col-6">
                             <span>Nhà cung cấp:</span>
@@ -31,17 +51,17 @@
                         </div>
                         <div class="author col-6">
                             <span>Tác giả:</span>
-                            <span style="font-weight: bold;">Thành Châu</span>
+                            <span style="font-weight: bold;">@Model.Book.Author</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="publisher col-6">
                             <span>Nhà xuất bản:</span>
-                            <span style="font-weight: bold;">Phụ Nữ Việt Nam</span>
+                            <span style="font-weight: bold;">@Model.Book.Publisher</span>
                         </div>
                         <div class="cover col-6">
                             <span>Hình thức bìa:</span>
-                            <span style="font-weight: bold;">Bìa mềm</span>
+                            <span style="font-weight: bold;">@Model.Book.Cover</span>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4rem">
@@ -55,9 +75,9 @@
                         </div>
                     </div>
                     <div class="book-price mt-2 d-flex align-items-center">
-                        <span class="new-price">121.500 đ</span>
-                        <span class="old-price">135.000 đ</span>
-                        <span class="sale-percent">-10%</span>
+                        <span class="new-price">@newPrice đ</span>
+                        <span class="old-price">@oldPrice đ</span>
+                        <span class="sale-percent">@(-Model.Book.Promotion)%</span>
                     </div>
                     <div class="quantity mt-3 d-flex" style="align-items: baseline">
                         <span style="font-weight: bold; margin-right: 2rem">Số lượng:</span>
@@ -76,44 +96,40 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td>Mã hàng</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
                                     <td>Tên nhà cung cấp</td>
                                     <td>Phụ Nữ</td>
                                 </tr>
                                 <tr>
                                     <td>Tác giả</td>
-                                    <td>Thành Châu</td>
+                                    <td>@Model.Book.Author</td>
                                 </tr>
                                 <tr>
                                     <td>Nhà xuất bản</td>
-                                    <td>Phụ Nữ Việt Nam</td>
+                                    <td>@Model.Book.Publisher</td>
                                 </tr>
                                 <tr>
                                     <td>Năm xuất bản</td>
-                                    <td>2023</td>
+                                    <td>@Model.Book.PublicationYear</td>
                                 </tr>
                                 <tr>
                                     <td>Thể loại</td>
-                                    <td>Lịch sử</td>
+                                    <td>@Model.Book.Genre</td>
                                 </tr>
                                 <tr>
                                     <td>Trọng lượng (gr)</td>
-                                    <td>450</td>
+                                    <td>@Model.Book.Weight</td>
                                 </tr>
                                 <tr>
                                     <td>Kích thước bao bì</td>
-                                    <td>20.5 x 13.5 cm</td>
+                                    <td>@dimension</td>
                                 </tr>
                                 <tr>
                                     <td>Số trang</td>
-                                    <td>350</td>
+                                    <td>@Model.Book.Pages</td>
                                 </tr>
                                 <tr>
                                     <td>Hình thức</td>
-                                    <td>Bìa mềm</td>
+                                    <td>@Model.Book.Cover</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -121,13 +137,7 @@
                 </div>
                 <div class="col-12 book-desciption mt-3">
                     <p style="text-align: justify">
-                        Đàng Trong năm 1765, chúa Nguyễn Phúc Khoát mất, vương tử lớn nhất là Nguyễn Phúc Luân theo lẽ được lập làm chúa. Ấy vậy mà quyền thần Trương Phúc Loan nổi lên những dã tâm cuồng bá, một tay đổi trắng thay đen, đưa vương tử Nguyễn Phúc Thuần mới chỉ là đứa trẻ mười hai tuổi lên nối ngôi, mang thứ tâm cơ độc tàn làm xáo trộn dòng dõi nhà chúa, để rồi tự thân hắn bán quan, buôn tước, đầy đọa cuộc sống nhân dân đến khốn cùng…
-                        <br>
-                        <br>
-                        Từ ấp Tây Sơn, phủ Quy Nhơn (Bình Định), ba anh em Nguyễn Nhạc, Nguyễn Huệ, Nguyễn Lữ quy tụ dân chúng đứng lên, dần kết thành nghĩa quân “lấy của nhà giàu chia cho dân nghèo”, thế ngày càng mạnh, xung khí tựa như sớm có ngày tung trời nổ đất, càn quét hết nào những quý tộc, quan lại đang “sâu bọ”, chà đạp lên con dân đất Việt…
-                        <br>
-                        <br>
-                        Xứ Bắc Hà, Lê - Trịnh mục nát, vậy mà ý chí nam chinh vẫn cuồn cuộn.
+                        @Html.Raw(descriptionText)
                     </p>
                 </div>
                 <div class="col-12 mt-3 d-flex justify-content-center">
@@ -148,7 +158,7 @@
                             <span class="fas fa-star"></span>
                             <span class="fas fa-star"></span>
                             <span class="fas fa-star"></span>
-                            <div class="mt-1" style="color: var(--primary-color)">(0 đánh giá)</div>
+                            <div class="mt-1" style="color: var(--primary-color)">((@Model.Reviews.Count) đánh giá)</div>
                         </div>
                     </div>
                     <div class="rating-bar">
@@ -179,7 +189,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
+                @{
+                    foreach(var review in Model.Reviews)
+                    {
+                        <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
+                            <div class="user-image">TT</div>
+                            <div class="user-information-review ms-3">
+                                <div class="user-name" style="font-size: 1.2rem">@review.CustomerName</div>
+                                <div class="date-review">@review.DateReview.ToShortDateString()</div>
+                            </div>
+                            <div>
+                                <div class="rating-star" style="font-size: 0.9rem; height: 1.8rem">
+                                    <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                </div>
+                                <div class="user-comment">
+                                    @review.Comment
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                @*<div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
                     <div class="user-image">TT</div>
                     <div class="user-information-review ms-3">
                         <div class="user-name" style="font-size: 1.2rem">Thu Thảo</div>
@@ -235,7 +270,7 @@
                             Truyện cũng hay. Shop đóng gói cẩn thận. Cho 4 sao.
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
         <div class="col-1"></div>

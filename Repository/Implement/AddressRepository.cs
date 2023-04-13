@@ -12,7 +12,7 @@ public class AddressRepository : IAddressRepository
     }
     public string GetCustomerAddressByAccountId(int id)
     {
-        var addressId = context.Customers.Where(customer => customer.Id == id).Select(customer => customer.Id).FirstOrDefault();
+        var addressId = context.Customers.Where(customer => customer.AccountId == id).Select(customer => customer.AddressId).FirstOrDefault();
         var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
         if (address == null)
         {

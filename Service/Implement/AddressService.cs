@@ -1,4 +1,5 @@
-﻿using TADA.Repository;
+﻿using TADA.Dto;
+using TADA.Repository;
 
 namespace TADA.Service.Implement;
 
@@ -27,4 +28,11 @@ public class AddressService : IAddressService
     {
         return addressRepository.GetAddressById(id);
     }
+
+    public string GetCustomerAddressByAccountId(int id)
+    {
+        return addressRepository.GetCustomerAddressByAccountId(id);
+    }
+
+
 }

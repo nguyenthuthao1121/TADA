@@ -1,9 +1,37 @@
 ﻿@page
 @model UserInformationModel
+@using TADA.Model.Entity
 @{
     ViewData["Title"] = "Thông tin cá nhân";
-}
+    ViewBag.Name = Model.Username;
 
+}
+@{
+    var Gender = Model.Customer.Gender ? "Nam" : "Nữ";
+    string Street = "", Ward = "", District = "", Province = "";
+    string[] DetailAddress = Model.Address.Split(',');
+    try
+    {
+        Street = DetailAddress[0];
+    }
+    catch (IndexOutOfRangeException){}
+    try
+    {
+        Ward = DetailAddress[1];
+    }
+    catch (IndexOutOfRangeException) { }
+    try
+    {
+        District = DetailAddress[2];
+    }
+    catch (IndexOutOfRangeException){}
+    try
+    {
+        Province = DetailAddress[3];
+    }
+    catch (IndexOutOfRangeException) { }
+
+}
 <div class="container ps-5">
     <div class="row bg-white py-4 mt-3 rounded">
         <div class="col-sm-10 col-md-12 border-0 border-bottom border-2 px-4" style="border-color: #cccccc">
@@ -14,48 +42,48 @@
         <div class="user-personal-information mt-2 px-4">
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="name" class="form-label">Họ và tên người dùng</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="name" name="userName"
-                       value="Trương Thoại Vỹ" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="name" name="userName"
+                       value="" readonly>@Model.Customer.Name
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="date" class="form-label">Ngày sinh</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="date" name="userDate"
-                       value="03/10/2003" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="date" name="userDate"
+                       value="" readonly>@Model.Customer.Birthday.ToShortDateString()
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="gender" class="form-label">Giới tính</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="gender" name="userGender'" value="Nam"
-                       readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="gender" name="userGender'" value=""
+                       readonly>@Gender
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="telephone" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="telephone" name="userTele"
-                       value="0764895103" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="telephone" name="userTele"
+                       value="" readonly>@Model.Customer.TelephoneNumber
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="email" name="userEmail"
-                       value="truongthoaivy3102003@gmail.com" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="email" name="userEmail"
+                       value="" readonly>@Model.Customer.Email
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="address" name="userAddress"
-                       value="74 Bàu Năng 1" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="address" name="userAddress"
+                       value="" readonly>@Street
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="city" class="form-label">Tỉnh/Thành phố</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="city" name="userCity" value="Đà Nẵng"
-                       readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="city" name="userCity" value=""
+                       readonly>@Province
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="district" class="form-label">Huyện/Quận</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="district" name="userDistrict"
-                       value="Liên Chiểu" readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="district" name="userDistrict"
+                       value="" readonly>@District
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
                 <label for="ward" class="form-label">Xã/Phường</label>
-                <input type="text" class="form-control border-0" style="width: 50%" id="ward" name="userWard" value="Hoà Minh"
-                       readonly>
+                <input type="text" class="form-control border-0" style="width: 0" id="ward" name="userWard" value=""
+                       readonly>@Ward
             </div>
             <div class="form-group mt-3">
                 <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modalInformation"
@@ -72,7 +100,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modalForgotPwd" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content rounded-0 border-0">

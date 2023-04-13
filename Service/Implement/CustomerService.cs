@@ -17,6 +17,12 @@ namespace TADA.Service.Implement
         {
             return customerRepository.GetAllCustomers();
         }
+
+        public CustomerDto GetCustomerByAccountId(int id)
+        {
+            return customerRepository.GetCustomerByAccountId(id);
+        }
+
         public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
         {
             return customerRepository.GetCustomers(gender, status, sortBy, sortType);
@@ -25,5 +31,6 @@ namespace TADA.Service.Implement
         {
             return customerRepository.GetNameByAccountId(id);
         }
+
     }
 }

@@ -13,17 +13,6 @@ namespace TADA.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderDetail>()
-<<<<<<< HEAD
-            .HasKey(bc => new { bc.OrderId, bc.BookId});
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(bc => bc.Book)
-                .WithMany(b => b.Details)
-                .HasForeignKey(bc => bc.BookId);
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(bc => bc.Order)
-                .WithMany(c => c.Details)
-                .HasForeignKey(bc => bc.OrderId);
-=======
             .HasKey(bc => new { bc.OrderId, bc.BookId });
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(bc => bc.Book)
@@ -55,7 +44,6 @@ namespace TADA.Model
                 .HasOne(bc => bc.Contract)
                 .WithMany(c => c.ContractDetails)
                 .HasForeignKey(bc => bc.ContractId);
->>>>>>> 4f6355c8aa4fda140086b2593ef5c168c787f8e0
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Provider> Providers { get; set; }

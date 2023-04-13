@@ -43,6 +43,8 @@ service.AddScoped<IStaffService, StaffService>();
 service.AddScoped<IAddressRepository, AddressRepository>();
 service.AddScoped<IAddressService, AddressService>();
 
+service.AddScoped<IReviewRepository, ReviewRepository>();
+service.AddScoped<IReviewService, ReviewService>();
 
 var app = builder.Build();
 
