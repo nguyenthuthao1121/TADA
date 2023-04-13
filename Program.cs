@@ -46,6 +46,12 @@ service.AddScoped<IAddressService, AddressService>();
 service.AddScoped<IReviewRepository, ReviewRepository>();
 service.AddScoped<IReviewService, ReviewService>();
 
+service.AddScoped<ICartRepository, CartRepository>();
+service.AddScoped<ICartService, CartService>();
+
+service.AddScoped<IOrderRepository, OrderRepository>();
+service.AddScoped<IOrderService, OrderService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

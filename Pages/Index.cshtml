@@ -5,6 +5,8 @@
     ViewData["Title"] = "Trang chủ";
     Layout = "_LayoutUser";
     ViewBag.Name = Model.Username;
+    ViewBag.CountBookOfCart = Model.CountBookOfCart;
+    ViewBag.CountAllOrder = Model.CountOrder;
 }
 
 <div class="container-fluid">
@@ -88,9 +90,9 @@
                             <img src="img/book1.jpg" alt="Book image" class="card-body-top">
                             <div class="card-body">
                                 <h5 class="card-title">@i.Name</h5>
-                                <span class="card-price">@i.Price</span>
-                                <span class="card-sale">-10%</span>
-                                <div class="card-oldprice">@i.Price</div>
+                                <span class="card-price">@i.GetPriceString(i.GetCurrentPrice()) VND</span>
+                                <span class="card-sale">-@i.Promotion%</span>
+                                <div class="card-oldprice">@i.GetPriceString(i.Price) VND</div>
                                 <div class="card-rating mt-1">
                                     <span class="fas fa-star"></span>
                                     <span class="fas fa-star"></span>

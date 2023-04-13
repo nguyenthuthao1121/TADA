@@ -1,7 +1,9 @@
 ﻿@page
 @model OrderListFillConfirmModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Đơn hàng";
+    Layout = "_LayoutUser";
+    ViewBag.Name = Model.Username;
 }
 
 <div id="order-list__all--fill">
@@ -13,101 +15,125 @@
                         Đơn hàng của tôi
                     </div>
                     <div class="nav-order-list__title--detail grid">
-                        <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link" >
-                            <p>Tất cả</p>
-                        </a>
-                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
-                            <p>Chờ xác nhận</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyDeliver" class="nav-order-list__link">
-                            <p>Chờ giao hàng</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyReview" class="nav-order-list__link">
-                            <p>Chờ đánh giá</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
-                            <p>Đã đánh giá</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyCancel" class="nav-order-list__link">
-                            <p>Đã hủy</p>
-                        </a>
+                        @if (Model.GetOrderCountByStatus(0) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link">
+                                <p>Tất cả</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillAll" class="nav-order-list__link">
+                                <p>Tất cả</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(1) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyConfirm" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                                <p>Chờ xác nhận</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillConfirm" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                                <p>Chờ xác nhận</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(2) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyDeliver" class="nav-order-list__link">
+                                <p>Chờ giao hàng</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillDeliver" class="nav-order-list__link">
+                                <p>Chờ giao hàng</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(3) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyReview" class="nav-order-list__link">
+                                <p>Chờ đánh giá</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillReview" class="nav-order-list__link">
+                                <p>Chờ đánh giá</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(4) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
+                                <p>Đã đánh giá</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillDone" class="nav-order-list__link">
+                                <p>Đã đánh giá</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(5) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyCancel" class="nav-order-list__link">
+                                <p>Đã hủy</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillCancel" class="nav-order-list__link">
+                                <p>Đã hủy</p>
+                            </a>
+                        }
                     </div>
                 </div>
             </div>
 
             <div class="col c-8">
                 <div class="order-list__title order__title row">Chờ xác nhận</div>
-                <div class="confirm__order-detail"  style="border-radius: 8px;">
-                    <div class="order__title row">
-                        <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
-                        <p style="color: var(--primary-color);">Chờ xác nhận</p>
-                    </div>
-                    <div class="confirm__book-list grid">
-                        <div class="cart__flex-item row">
-                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="cart__book-desc col c-6">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                    Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà cung cấp: 
-                                    <span >Kim Đồng</span>
-                                </p>
-                            </div>
-                            <div class="cart__book-price col c-2">
-                                27.000 đ
-                            </div>
-                            <div class="cart__book-number col c-2">
-                                Số lượng: 1
-                            </div>
+                @foreach (var order in Model.Orders)
+                {
+                    <div class="confirm__order-detail" style="border-radius: 8px;">
+                        <div class="order__title row">
+                            <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
+                            <p style="color: var(--primary-color);">@Model.GetStatusOfOrder(order)</p>
                         </div>
-                        <div class="cart__flex-item row">
-                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="cart__book-desc col c-6">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                    Tây Sơn Phụng Ký
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà cung cấp: 
-                                    <span >Phụ nữ</span>
-                                </p>
-                            </div>
-                            <div class="cart__book-price col c-2">
-                                121.500 đ
-                            </div>
-                            <div class="cart__book-number col c-2">
-                                Số lượng: 1
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="confirm__book-list grid">
 
-                <div class="confirm__order-detail"  style="border-radius: 8px;">
-                    <div class="order__title row">
-                        <a asp-area="" asp-page="/User/ConfirmPackage"><p>Xem chi tiết đơn hàng</p></a>
-                        <p style="color: var(--primary-color);">Chờ xác nhận</p>
-                    </div>
-                    <div class="confirm__book-list grid">
-                         <div class="cart__flex-item row">
-                            <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
-                            <div class="cart__book-desc col c-6">
-                                <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
-                                    Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà cung cấp: 
-                                    <span >Kim Đồng</span>
-                                </p>
-                            </div>
-                            <div class="cart__book-price col c-2">
-                                27.000 đ
-                            </div>
-                            <div class="cart__book-number col c-2">
-                                Số lượng: 1
-                            </div>
+                            @{
+                                var OrderDetails = Model.GetOrderDetailsDto(order);
+                            }
+                            @foreach (var orderDetail in OrderDetails)
+                            {
+                                var Book = Model.GetBookByOrderDetail(orderDetail);
+                                <div class="cart__flex-item row">
+                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
+                                    <div class="cart__book-desc col c-6">
+                                        <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
+                                            @Book.Name
+                                        </a>
+                                        <p class="cart__book-provider">
+                                            Nhà cung cấp:
+                                            <span>@Book.Publisher</span>
+                                        </p>
+                                    </div>
+                                    <div class="cart__book-price col c-2">
+                                        @orderDetail.GetPriceString(orderDetail.Price) VND
+                                    </div>
+                                    <div class="cart__book-number col c-2">
+                                        Số lượng: @orderDetail.Quantity
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     </div>
-                </div>
+                }
 
             </div>
         </div>
