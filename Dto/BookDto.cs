@@ -26,6 +26,10 @@ public class BookDto
     public string CategoryName { get; set; }
     public string ProviderName { get; set; }
     public int CategoryId { get; set; }
+    public BookDto()
+    {
+
+    }
 
     public BookDto(int id, string name, string author, string publisher, int publicationYear, string genre, int pages, double length, double width, double weight, int price, string cover, int quantity, string description, string image, int promotion, int categoryId)
     {

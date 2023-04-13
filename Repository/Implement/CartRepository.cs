@@ -23,13 +23,13 @@ public class CartRepository : ICartRepository
     public List<CartDetailDto> GetCartDetailsByCustomerId(int customerId)
     {
         List<CartDetailDto> cartDetailDtos = new List<CartDetailDto>();
-        List<CartDetail> cartDetails = context.Carts
-            .Where(cart => cart.CustomerId == customerId)
-            .Select(cart => cart.CartDetails).FirstOrDefault().ToList();
-        foreach (CartDetail cartDetail in cartDetails)
-        {
-            cartDetailDtos.Add(new CartDetailDto(cartDetail));
-        }
+        //List<CartDetail> cartDetails = context.Carts
+        //    .Where(cart => cart.CustomerId == customerId)
+        //    .Select(cart => cart.CartDetails).FirstOrDefault().ToList();
+        //foreach (CartDetail cartDetail in cartDetails)
+        //{
+        //    cartDetailDtos.Add(new CartDetailDto(cartDetail));
+        //}
         return cartDetailDtos;
     }
 
