@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.Account;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;

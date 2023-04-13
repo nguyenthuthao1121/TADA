@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TADA.Dto;
+using TADA.Dto.Account;
+using TADA.Dto.Book;
+using TADA.Dto.Category;
 using TADA.Model;
 using TADA.Service;
 

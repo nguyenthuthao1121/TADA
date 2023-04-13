@@ -1,0 +1,115 @@
+﻿@page
+@model OrderDetailAdminModel
+@{
+    ViewData["Title"] = "Xem chi tiết đơn hàng";
+    Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="form-container">
+            <div class="form-heading">
+                <p>Thông tin đơn hàng</p>
+            </div>
+            <div class="form-body">
+                <div class="receiver">
+                    <div class="row">
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Mã đơn hàng</span>
+                            <span class="receiver__info receiver__value">4928731</span>
+                        </div>
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Tên người nhận hàng</span>
+                            <span class="receiver__info receiver__value">Nguyễn Quốc Toàn</span>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Ngày đặt hàng</span>
+                            <span class="receiver__info receiver__value">5:36 PM 18/2/2023</span>
+                        </div>
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Email</span>
+                            <span class="receiver__info receiver__value">nguyenquoctoan12122003@gmail.com</span>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Địa chỉ nhận hàng</span>
+                            <span class="receiver__info receiver__value">
+                                74 Bàu Năng 1, Phường Hoà Minh, Quận Liên Chiểu, Thành phố Đà Nẵng
+                            </span>
+                        </div>
+                        <div class="col-md-6 receiver__row">
+                            <span class="receiver__info receiver__property">Số điện thoại</span>
+                            <span class="receiver__info receiver__value">0935382788</span>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="book-table">
+                    <table class="table" >
+                        <tr class="table-row" style="width: 100%; color: var(--primary-color)">
+                            <th style="width: 10%">STT</th>
+                            <th style="width: 50%">Tên sách</th>
+                            <th style="width: 15%">Đơn giá (VND)</th>
+                            <th style="width: 10%">Số lượng</th>
+                            <th style="width: 15%">Thành tiền (VND)</th>
+                        </tr>
+                        @for (int i = 1; i <= 3; i++)
+                        {
+                            <tr class="table-container" style="color: var(--text-color)">
+                                <th>@i</th>
+                                <td class="table-value list-value" style="font-weight: 600">
+                                    "Cậu" Ma Nhà Xí Hanako - Tập @i - Tặng Kèm Postcard PVC
+                                </td>
+                                <td class="table-value list-value">23.000</td>
+                                <td class="table-value list-value">2</td>
+                                <td class="table-value list-value">46.000</td>                                
+                            </tr>  
+                        }                   
+                    </table>
+                </div>
+                <div class="order-price col-md-4">
+                    <div class="price-container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price__info price__property">Tổng giá</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="price__info price__value">138.000 đ</span>                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price__info price__property">Phí giao hàng</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="price__info price__value">18.000 đ</span>                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price__info price__property">Tổng giá</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="price__info price__value price__total">156.000 đ</span>                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price__info price__property">Trạng thái</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="price__info price__value price__status">Chờ xác nhận</span>                            
+                            </div>
+                        </div>
+                        <div class="order-button">
+                            <button class="order-btn order-btn--confirm">XÁC NHẬN ĐƠN HÀNG</button>
+                            <button class="order-btn order-btn--cancel">HỦY ĐƠN HÀNG</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>

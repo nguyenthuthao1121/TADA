@@ -1,0 +1,163 @@
+﻿@page
+@model UserModel
+@{
+    ViewData["Title"] = "Quản lý khách hàng";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+}
+
+<form class="row" method="get">
+    <div class="col-10 m-0 p-0 content">
+        <div class="feature">
+            <div class="feature-item filter-search">
+                <span class="filter-search-heading">Lọc theo :</span>
+                <div class="filter-search-feature">
+                    <div class="filter-feature">
+                        <select class="select-filter filter-feature-item" name="Gender" id="filter-by-gender">
+                            <option value="All">Giới tính: Tất cả</option>
+                            <option value="Male">Nam</option>
+                            <option value="Female">Nữ</option>
+                        </select>
+                        <select class="select-filter filter-feature-item" name="Status" id="filter-by-status">
+                            <option value="All">Trạng thái: Tất cả</option>
+                            <option value="Active">Active</option>
+                            <option value="Blocked">Blocked</option>
+                        </select>
+                        <button class="feature-btn filter-feature-item">
+                            Lọc
+                        </button>
+                    </div>
+                    <div class="search-feature">
+                        <input type="text" class="search-feature-input" placeholder="Tìm kiếm người dùng">
+                        <button class="feature-btn">
+                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item sort">
+                <span class="sort-heading">Sắp xếp theo :</span>
+                <div class="sort-feature">
+                    <div class="sort-feature-item">
+                        <select class="sort-by" name="SortBy" id="sort-by">
+                            <option value="New">Mới nhất</option>
+                            <option value="Name">Họ và tên</option>
+                            <option value="Email">Email</option>
+                            <option value="Address">Địa chỉ</option>
+                        </select>
+                        <select class="sort-type" name="SortType" id="sort-type">
+                            <option value="Acs">Tăng dần</option>
+                            <option value="Desc">Giảm dần</option>
+                        </select>
+                        <button class="feature-btn">
+                            Sắp xếp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="user-list-container">
+            <div class="user-table">
+                <table class="table" style="width: 100%; color: var(--primary-color)">
+                    <tr class="table-row list-row">
+                        <th style="width: 4%">STT</th>
+                        <th style="width: 10%">Họ và tên</th>
+                        <th style="width: 7%">Giới tính</th>
+                        <th style="width: 8%">Ngày sinh</th>
+                        <th style="width: 15%">Email</th>
+                        <th style="width: 10%">Số điện thoại</th>
+                        <th style="width: 25%">Địa chỉ</th>
+                        <th style="width: 7%">Trạng thái</th>
+                        <th style="width: 7%">Đơn hàng</th>
+                        <th style="width: 8%">Action</th>
+                    </tr>
+                    @{
+                        int cnt = 0;
+                        foreach(var customer in Model.Customers)
+                        {
+                            <tr class="table-container" style="color: var(--text-color)">
+                                <th class="table-value list-value">@(++cnt)</th>
+                                <td class="table-value list-value" style="font-weight: 600">@customer.Name</td>
+                                <td class="table-value list-value">
+                                    @if (customer.Gender)
+                                    {
+                                        <span>Nam</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Nữ</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">
+                                    @{
+                                        var d = customer.Birthday.Day;
+                                        var m = customer.Birthday.Month;
+                                        var y = customer.Birthday.Year;
+                                        string date = "" + d + " - " + m + " - " + y;
+                                        <span>@date</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">@customer.Email</td>
+                                <td class="table-value list-value">@customer.TelephoneNumber</td>
+                                <td class="table-value list-value">@customer.Address</td>
+                                <td class="table-value list-value">
+                                    @if (customer.Status)
+                                    {
+                                        <span>Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Blocked</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">
+                                    <button class="action-btn" onclick="location.href='/Admin/UserOrder';">
+                                        <i class="view-icon fa-regular fa-eye"></i>
+                                    </button>
+                                </td>
+                                <td class="table-value list-value">
+                                    <button class="action-btn">
+                                        <i class="block-icon fa-solid fa-ban"></i>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>                              
+                        }
+                    }                   
+                </table>
+            </div>
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trang trước</a> 
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+</form>

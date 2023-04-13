@@ -20,12 +20,9 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     }
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        if (context.HttpContext.Session.GetString("Type") == "Staff")
+        if (!roles.Contains(context.HttpContext.Session.GetString("Role")))
         {
-            if (!roles.Contains(context.HttpContext.Session.GetString("Role")))
-            {
-                context.Result = new RedirectResult("~/Admin/HomePageAdmin");
-            }
+            context.Result = new RedirectResult("~/Error");
         }
     }
 }

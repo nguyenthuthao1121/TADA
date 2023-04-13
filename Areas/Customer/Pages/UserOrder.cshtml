@@ -1,0 +1,121 @@
+﻿@page
+@model UserOrderModel
+@{
+    ViewData["Title"] = "Đơn hàng";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="feature">
+            <div class="feature-item filter-search">
+                <span class="filter-search-heading">Lọc theo :</span>
+                <div class="filter-search-feature">
+                    <div class="filter-feature">
+                        <select class="select-filter filter-feature-item" name="filter-by-price" id="filter-by-price">
+                            <option value="Giá tiền: Tất cả">Giá tiền: Tất cả</option>
+                            <option value="Dưới 50.000 đồng">Dưới 50.000 đồng</option>
+                            <option value="50.000 - 100.000 đồng">50.000 - 100.000 đồng</option>
+                            <option value="100.000 - 200.000 đồng">100.000 - 200.000 đồng</option>
+                            <option value="200.000 - 500.000 đồng">200.000 - 500.000 đồng</option>
+                            <option value="Trên 500.000 đồng">Trên 500.000 đồng</option>
+                        </select>
+                        <select class="select-filter filter-feature-item" name="filter-by-status" id="filter-by-status">
+                            <option value="Trạng thái: Tất cả">Trạng thái: Tất cả</option>
+                            <option value="Pending">Chờ xác nhận</option>
+                            <option value="Waiting for delivery">Chờ giao hàng</option>
+                            <option value="Delivered">Đã giao hàng</option>
+                            <option value="Cancel order">Hủy đơn hàng</option>
+                        </select>
+                        <button class="feature-btn filter-feature-item">
+                            Lọc
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item sort">
+                <span class="sort-heading">Sắp xếp theo :</span>
+                <div class="sort-feature">
+                    <div class="sort-feature-item">
+                        <select class="sort-by" name="sort-by" id="sort-by">
+                            <option value="Thành tiền">Thành tiền</option>
+                        </select>
+                        <select class="sort-type" name="sort-type" id="sort-type">
+                            <option value="Tăng dần">Tăng dần</option>
+                            <option value="Giảm dần">Giảm dần</option>
+                        </select>
+                        <button class="feature-btn">
+                            Sắp xếp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="user-list-container">
+            <div class="user-table">
+                <table class="table" style="width: 100%; color: var(--primary-color)">
+                    <tr class="table-row list-row">
+                        <th style="width: 5%">STT</th>
+                        <th style="width: 10%">Mã đơn hàng</th>
+                        <th style="width: 15%">Ngày đặt hàng</th>
+                        <th style="width: 25%">Địa chỉ nhận hàng</th>
+                        <th style="width: 10%">Số điện thoại</th>
+                        <th style="width: 15%">Thành tiền (VND)</th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 10%">Action</th>
+                    </tr>
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <tr class="table-container" style="color: var(--text-color)">
+                            <th class="table-value list-value">@i</th>
+                            <td class="table-value list-value" style="font-weight: 550">2839127831</td>
+                            <td class="table-value list-value">
+                                5:36 PM
+                                18/2/2023
+                            </td>
+                            <td class="table-value list-value">74 Bàu Năng 1, Hòa Minh, Liên Chiểu, Đà Nẵng</td>
+                            <td class="table-value list-value">0935382788</td>
+                            <td class="table-value list-value">57.000</td>
+                            <td class="table-value list-value">Chờ giao hàng</td>
+                            <td class="table-value list-value">
+                                <button class="action-btn" onclick="location.href='/Admin/OrderDetailAdmin';">
+                                    <i class="view-icon fa-regular fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>  
+                    }                   
+                </table>
+            </div>
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trang trước</a> 
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

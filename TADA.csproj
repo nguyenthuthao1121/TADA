@@ -35,7 +35,64 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Provider\Pages\" />
+    <Folder Include="Areas\Revuene\Pages\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_LayoutAccount.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HomePageAdmin.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LayoutAccount.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LayoutAdmin.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LayoutUser.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_PagingUser.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_LayoutAdmin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_LayoutUser.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_PagingUser.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Error.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\HomePageAdmin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Privacy.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,122 @@
+﻿@page
+@model AdminManagementModel
+@{
+    ViewData["Title"] = "Quản lý nhân viên";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="feature">
+            <div class="feature-item filter-search">
+                <span class="filter-search-heading">Lọc theo :</span>
+                <div class="filter-search-feature">
+                    <div class="filter-feature">
+                        <select class="select-filter filter-feature-item" name="filter-by-status" id="filter-by-status">
+                            <option value="Trạng thái: Tất cả">Trạng thái: Tất cả</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <button class="feature-btn filter-feature-item">
+                            Lọc
+                        </button>
+                    </div>
+                    <div class="search-feature">
+                        <input type="text" class="search-feature-input" placeholder="Tìm kiếm admin">
+                        <button class="feature-btn">
+                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item sort">
+                <span class="sort-heading">Sắp xếp theo :</span>
+                <div class="sort-feature">
+                    <div class="sort-feature-item">
+                        <select class="sort-by" name="sort-by" id="sort-by">
+                            <option value="Tên">Tên</option>
+                            <option value="Email">Email</option>
+                            <option value="Trạng thái">Trạng thái</option>
+                        </select>
+                        <select class="sort-type" name="sort-type" id="sort-type">
+                            <option value="Tăng dần">Tăng dần</option>
+                            <option value="Giảm dần">Giảm dần</option>
+                        </select>
+                        <button class="feature-btn">
+                            Sắp xếp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="user-list-container">
+            <div class="user-table">
+                <table class="table">
+                    <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
+                        <th style="width: 10%">STT</th>
+                        <th style="width: 20%">Tên</th>
+                        <th style="width: 30%">Email</th>
+                        <th style="width: 20%">Số điện thoại</th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 10%">Action</th>
+                    </tr>
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <tr class="table-container" style="color: var(--text-color)">
+                            <th class="table-value list-value">@i</th>
+                            <td class="table-value list-value" style="font-weight: 600">Admin 1</td>
+                            <td class="table-value list-value">admin1@gmail.com</td>
+                            <td class="table-value list-value">0935382788</td>
+                            <td class="table-value list-value">Active</td>
+                            <td class="table-value list-value">
+                                <button class="action-btn">
+                                    <i class="block-icon fa-solid fa-ban"></i>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>  
+                    }                   
+                </table>
+            </div>
+            <div class="pagination-container add-button">
+                <div class="add-button">
+                    <a asp-area="" asp-page="/Admin/AddAdmin">
+                        <button class="feature-btn add-btn">
+                            THÊM ADMIN
+                        </button>
+                    </a>
+                </div>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trang trước</a> 
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.Customer;
 using TADA.Model.Entity;
 
 namespace TADA.Repository;

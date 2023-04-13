@@ -1,0 +1,161 @@
+﻿@page
+@model ConfirmPackageModel
+@{
+    ViewData["Title"] = "Xác nhận đơn hàng";
+    Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+}
+
+<div id="confirm-package">
+    <div class="grid">
+        <div class="row">
+            <div class="col c-7 c-o-1">
+                <div class=" wrap-user grid">
+                    <div class="recipient-infor" style="border-radius:8px;">
+                        <div class="recipient-infor__title row">
+                            <div class="order__title col c-6">Thông tin người nhận</div>
+                            <div class="recipient-infor__change col c-6">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#modalInformation">Chỉnh sửa</button>
+                            </div>
+                            
+                        </div>
+                        <div class="recipient-infor__desc">
+                            <p>Nguyễn Quốc Toàn, 0935382788</p>
+                            <p>74 Bàu Năng 1, Phường Hòa Minh, Quận Liên Chiểu, Thành phố Đà Nẵng</p>
+                        </div>
+                    </div>
+                    <div class="confirm__order-detail" style="border-radius: 8px;">
+                        <div class="order__title">Sản phẩm</div>
+                        <div class="confirm__book-list grid">
+                            <div class="cart__flex-item row">
+                                <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
+                                <div class="cart__book-desc col c-6">
+                                    <p class="cart__book-name">
+                                        Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
+                                    </p>
+                                    <p class="cart__book-provider">
+                                        Nhà cung cấp: 
+                                        <span>Kim Đồng</span>
+                                    </p>
+                                </div>
+                                <div class="cart__book-price col c-2">
+                                    27.000 đ
+                                </div>
+                                <div class="cart__book-number col c-2">
+                                    Số lượng: 1
+                                </div>
+                            </div>
+                            <div class="cart__flex-item row">
+                                <div class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></div>
+                                <div class="cart__book-desc col c-6">
+                                    <p class="cart__book-name">
+                                        Tây Sơn Phụng Ký
+                                    </p>
+                                    <p class="cart__book-provider">
+                                        Nhà cung cấp: 
+                                        <span>Phụ nữ</span>
+                                    </p>
+                                </div>
+                                <div class="cart__book-price col c-2">
+                                    121.500 đ
+                                </div>
+                                <div class="cart__book-number col c-2">
+                                    Số lượng: 1
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col c-3">
+                <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="order__title">
+                        Chi tiết đơn hàng
+                    </div>
+                    <div class="order-detail__desc grid">
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng giá (2 sách)</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">148.500 đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">13.000đ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;">Tổng tiền</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">161.500 đ</div>
+                        </div>
+                    </div>
+                    <div class="btn--confirm">
+                        <button class="btn--blue" style="width:100%;">
+                            <a asp-area="" asp-page="/User/OrderListFillAll">
+                                XÁC NHẬN ĐẶT HÀNG
+                            </a>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalInformation" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content rounded-0 border-0">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
+            </div>
+            <div class="modal-body containter-fluid py-0">
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="changeName" class="form-label">Họ và tên</label>
+                  <input type="text" class="form-control" id="changeName" name="userName" placeholder="Nhập họ và tên">
+                </div>
+                <div class="col-6 form-group">
+                  <label for="changeAddress" class="form-label">Địa chỉ</label>
+                  <input type="text" class="form-control" id="changeAddress" name="userAddress" placeholder="Nhập địa chỉ">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="changeTele" class="form-label">Số điện thoại</label>
+                  <input type="text" class="form-control" id="changeTele" name="userTele" placeholder="Nhập số điện thoại">
+                </div>
+                <div class="col-6 form-group">
+                  <label for="changeCity" class="form-label">Tỉnh/Thành phố</label>
+                  <select class="form-select custom-select" id="changeCity" name="userCity"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 c-o-6 form-group">
+                  <label for="changeDistrict" class="form-label">Huyện/Quận</label>
+                  <select class="form-select custom-select" id="changeDistrict" name="userDistrict"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 c-o-6 form-group">
+                  <label for="changeWard" class="form-label">Xã/Phường</label>
+                  <select class="form-select custom-select" id="changeWard" name="userWard"></select>
+                </div>
+              </div>
+              <div class="modal-footer col c-6 c-o-6">
+                <div class="row">
+                    <div class="button col c-6 btn--confirm">
+                      <button type="button" class="btn--grey" style="width:100%;" data-bs-dismiss="modal">
+                          <a href="#">HỦY</a>
+                      </button>
+                    </div>
+                    <div class="button col c-6 btn--confirm">
+                      <button type="button" class="btn--blue" style="width:100%; " data-bs-dismiss="modal">
+                          <a href="#">LƯU ĐỊA CHỈ</a>
+                      </button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+</div>
