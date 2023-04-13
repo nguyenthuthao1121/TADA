@@ -14,7 +14,7 @@ namespace TADA.Model.Entity
         [Column(TypeName = "nvarchar")]
         public string Name { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "DateTime")]
         public DateTime Birthday { get; set; }
 
         [Column(TypeName = "bit")]

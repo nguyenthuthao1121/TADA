@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Xác nhận đơn hàng";
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+    ViewBag.Name = Model.Username;
 }
 
 <div id="confirm-package">
@@ -19,49 +20,35 @@
                             
                         </div>
                         <div class="recipient-infor__desc">
-                            <p>Nguyễn Quốc Toàn, 0935382788</p>
-                            <p>74 Bàu Năng 1, Phường Hòa Minh, Quận Liên Chiểu, Thành phố Đà Nẵng</p>
+                            <p>@Model.Customer.Name, @Model.Customer.TelephoneNumber</p>
+                            <p>@Model.Address</p>
                         </div>
                     </div>
                     <div class="confirm__order-detail" style="border-radius: 8px;">
                         <div class="order__title">Sản phẩm</div>
                         <div class="confirm__book-list grid">
-                            <div class="cart__flex-item row">
-                                <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
-                                <div class="cart__book-desc col c-6">
-                                    <p class="cart__book-name">
-                                        Toán Nâng Cao Và Bồi Dưỡng Học Sinh Giỏi Lớp 2
-                                    </p>
-                                    <p class="cart__book-provider">
-                                        Nhà cung cấp: 
-                                        <span>Kim Đồng</span>
-                                    </p>
+                            @foreach (var orderDetail in Model.OrderDetails)
+                            {
+                                var Book = Model.GetBookByOrderDetail(orderDetail);
+                                <div class="cart__flex-item row">
+                                    <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
+                                    <div class="cart__book-desc col c-6">
+                                        <p class="cart__book-name">
+                                            @Book.Name
+                                        </p>
+                                        <p class="cart__book-provider">
+                                            Nhà cung cấp:
+                                            <span>@Book.Publisher</span>
+                                        </p>
+                                    </div>
+                                    <div class="cart__book-price col c-2">
+                                        @orderDetail.GetPriceString(orderDetail.Price) VND
+                                    </div>
+                                    <div class="cart__book-number col c-2">
+                                        Số lượng: @orderDetail.Quantity
+                                    </div>
                                 </div>
-                                <div class="cart__book-price col c-2">
-                                    27.000 đ
-                                </div>
-                                <div class="cart__book-number col c-2">
-                                    Số lượng: 1
-                                </div>
-                            </div>
-                            <div class="cart__flex-item row">
-                                <div class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></div>
-                                <div class="cart__book-desc col c-6">
-                                    <p class="cart__book-name">
-                                        Tây Sơn Phụng Ký
-                                    </p>
-                                    <p class="cart__book-provider">
-                                        Nhà cung cấp: 
-                                        <span>Phụ nữ</span>
-                                    </p>
-                                </div>
-                                <div class="cart__book-price col c-2">
-                                    121.500 đ
-                                </div>
-                                <div class="cart__book-number col c-2">
-                                    Số lượng: 1
-                                </div>
-                            </div>
+                            }
                         </div>
 
                     </div>
@@ -75,16 +62,16 @@
                     </div>
                     <div class="order-detail__desc grid">
                         <div class="row">
-                            <div class="col c-7" style="padding: 0;">Tổng giá (2 sách)</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">148.500 đ</div>
+                            <div class="col c-7" style="padding: 0;">Tổng giá (@Model.OrderDetails.Count sách)</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.SumPriceOfBooks()) VND</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">13.000đ</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">15.000 VND</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng tiền</div>
-                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">161.500 đ</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetPriceString(Model.SumPriceOfOrder()) VND</div>
                         </div>
                     </div>
                     <div class="btn--confirm">

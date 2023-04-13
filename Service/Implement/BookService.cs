@@ -17,14 +17,7 @@ public class BookService : IBookService
         var listBook = new List<BookDto>();
         foreach (var book in books)
         {
-            listBook.Add(new BookDto()
-            {
-                Id = book.Id,
-                Image = book.Image,
-                Name = book.Name,
-                Price = book.Price,
-                Promotion = book.Promotion,
-            });
+            listBook.Add(new BookDto(book));
         }
         return listBook;
     }
@@ -35,15 +28,13 @@ public class BookService : IBookService
         var listBook = new List<BookDto>();
         foreach (var book in books)
         {
-            listBook.Add(new BookDto()
-            {
-                Id = book.Id,
-                Image = book.Image,
-                Name = book.Name,
-                Price = book.Price,
-                Promotion = book.Promotion,
-            });
+            listBook.Add(new BookDto(book));
         }
         return listBook;
+    }
+
+    public BookDto GetBookById(int id)
+    {
+        return bookRepository.GetBookById(id);
     }
 }

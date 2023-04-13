@@ -10,7 +10,7 @@ namespace TADA.Model.Entity
 
         [Required]
         [StringLength(255)]
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "nvarchar")]
         public string Name { get; set; }
         public  List<Book> Books { get; set; }
     }

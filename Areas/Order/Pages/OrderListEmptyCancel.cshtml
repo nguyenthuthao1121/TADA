@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Đơn hàng đã hủy";
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+    ViewBag.Name = Model.Username;
 }
 
 <div id="order-list__all--empty">
@@ -14,24 +15,81 @@
                         Đơn hàng của tôi
                     </div>
                     <div class="nav-order-list__title--detail grid">
-                        <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link" >
-                            <p>Tất cả</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyConfirm" class="nav-order-list__link">
-                            <p>Chờ xác nhận</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyDeliver" class="nav-order-list__link">
-                            <p>Chờ giao hàng</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyReview" class="nav-order-list__link">
-                            <p>Chờ đánh giá</p>
-                        </a>
-                        <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
-                            <p>Đã đánh giá</p>
-                        </a>
-                        <a asp-area="" asp-page="" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
-                            <p>Đã hủy</p>
-                        </a>
+                        @if (Model.GetOrderCountByStatus(0) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyAll" class="nav-order-list__link">
+                                <p>Tất cả</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillAll" class="nav-order-list__link">
+                                <p>Tất cả</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(1) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyConfirm" class="nav-order-list__link">
+                                <p>Chờ xác nhận</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillConfirm" class="nav-order-list__link">
+                                <p>Chờ xác nhận</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(2) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyDeliver" class="nav-order-list__link">
+                                <p>Chờ giao hàng</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillDeliver" class="nav-order-list__link">
+                                <p>Chờ giao hàng</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(3) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyReview" class="nav-order-list__link">
+                                <p>Chờ đánh giá</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillReview" class="nav-order-list__link">
+                                <p>Chờ đánh giá</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(4) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyDone" class="nav-order-list__link">
+                                <p>Đã đánh giá</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillDone" class="nav-order-list__link">
+                                <p>Đã đánh giá</p>
+                            </a>
+                        }
+                        @if (Model.GetOrderCountByStatus(5) == 0)
+                        {
+                            <a asp-area="" asp-page="/User/OrderListEmptyCancel" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                                <p>Đã hủy</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-page="/User/OrderListFillCancel" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                                <p>Đã hủy</p>
+                            </a>
+                        }
                     </div>
                 </div>
             </div>

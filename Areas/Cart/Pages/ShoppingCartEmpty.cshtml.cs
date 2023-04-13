@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TADA.Service;
 
 namespace TADA.Pages;
 
 public class ShoppingCartEmptyModel : PageModel
 {
-    private readonly ILogger<ShoppingCartEmptyModel> _logger;
+    private readonly IAccountService accountService;
 
-    public ShoppingCartEmptyModel(ILogger<ShoppingCartEmptyModel> logger)
+
+    public string Username;
+    public ShoppingCartEmptyModel(IAccountService accountService)
     {
-        _logger = logger;
+        this.accountService = accountService;
     }
 
     public void OnGet()
     {
+        Username = HttpContext.Session.GetString("Name");
 
     }
 }

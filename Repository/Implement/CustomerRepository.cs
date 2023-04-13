@@ -24,6 +24,18 @@ namespace TADA.Repository.Implement
             customers.Reverse();
             return customers;
         }
+        //public CustomerDto GetCustomerByAccountId(int id)
+        //{
+        //    var customer = context.Customers
+        //        .Join(context.Accounts,
+        //        customer => customer.AccountId,
+        //        account => account.Id,
+        //        (customer, account) => new CustomerDto(
+        //            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
+        //            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, customer.AddressId
+        //            )).ToList().Where(customeraccount => customeraccount.AccountId == id).FirstOrDefault();
+        //    return customer;
+        //}
         public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
         {
 /*            switch (gender)
@@ -162,6 +174,14 @@ namespace TADA.Repository.Implement
         {
             return context.Customers.Count();
         }
-        
+        public CustomerDto GetCustomerByAccountId(int accountId)
+        {
+            return context.Customers.Where(customer => customer.AccountId == accountId)
+                .Select(customer => new CustomerDto(customer)).FirstOrDefault();
+        }
+        public int GetIdByAccountId(int id)
+        {
+            return context.Customers.Where(customer => customer.AccountId == id).Select(customer => customer.Id).FirstOrDefault();
+        }
     }
 }

@@ -17,6 +17,10 @@ public class CustomerDto
     public string TelephoneNumber { get; set; }
     public int AddressId { get; set; }
     public string Address { get; set; }
+    public CustomerDto()
+    {
+
+    }
     public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, int addressId)
     {
         AccountId = accountId;
@@ -45,5 +49,15 @@ public class CustomerDto
         TelephoneNumber = telephoneNumber;
         AddressId = addressId;
         Address = address;
+    }
+    public CustomerDto(Customer customer)
+    {
+        AccountId=customer.AccountId;
+        CustomerId = customer.Id;
+        Name= customer.Name;
+        Birthday= customer.Birthday;
+        Gender = customer.Gender;
+        TelephoneNumber = customer.TelephoneNumber;
+        AddressId = customer.AddressId;
     }
 }

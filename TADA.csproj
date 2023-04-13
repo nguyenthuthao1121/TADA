@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
     <Compile Remove="wwwroot\NewFolder1\**" />
+    <Content Remove="Migrations\**" />
     <Content Remove="wwwroot\NewFolder1\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="wwwroot\NewFolder1\**" />
+    <None Remove="Migrations\**" />
     <None Remove="wwwroot\NewFolder1\**" />
   </ItemGroup>
 
@@ -37,7 +41,6 @@
   <ItemGroup>
     <Folder Include="Areas\Provider\Pages\" />
     <Folder Include="Areas\Revuene\Pages\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

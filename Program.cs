@@ -46,6 +46,14 @@ service.AddScoped<IStaffService, StaffService>();
 service.AddScoped<IAddressRepository, AddressRepository>();
 service.AddScoped<IAddressService, AddressService>();
 
+service.AddScoped<IReviewRepository, ReviewRepository>();
+service.AddScoped<IReviewService, ReviewService>();
+
+service.AddScoped<ICartRepository, CartRepository>();
+service.AddScoped<ICartService, CartService>();
+
+service.AddScoped<IOrderRepository, OrderRepository>();
+service.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 
