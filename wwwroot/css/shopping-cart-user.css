@@ -46,8 +46,6 @@
 .shopping-cart__cart--fill,
 .nav__order-detail {
     background-color: #ffffff;
-    padding-left:12px;
-    padding-right:12px;
 }
 
 .nav__order-detail{
@@ -117,7 +115,7 @@
 }
 
 #shopping-cart--fill .cart__flex-item--checked {
-    background-color: rgba(30, 144, 255, 0.1) !important;
+    background-color: rgba(30, 144, 255, 0.2) !important;
 }
 
 .cart__flex-item .order-book__img {

@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.Category;
 
 namespace TADA.Service;
 

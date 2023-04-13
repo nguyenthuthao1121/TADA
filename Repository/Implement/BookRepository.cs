@@ -1,4 +1,6 @@
-﻿using TADA.Model;
+﻿using TADA.Dto;
+using TADA.Dto.BookDto;
+using TADA.Model;
 using TADA.Model.Entity;
 
 namespace TADA.Repository.Implement;
@@ -24,12 +26,13 @@ public class BookRepository : IBookRepository
             var i = priceRange.Replace(" ", "").Split("-");
             min = int.Parse(i[0]);
             max = int.Parse(i[1]);
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             min = 0;
             max = int.MaxValue;
         }
-        
+
         if (category != 0)
         {
             switch (sortBy)
@@ -48,5 +51,28 @@ public class BookRepository : IBookRepository
                 default: return context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min).ToList();
             }
         }
+    }
+    public BookDto GetBookById(int id)
+    {
+        var book = context.Books.Where(book => book.Id == id).Select(book => new BookDto
+        {
+            Id = book.Id,
+            Name = book.Name,
+            Author = book.Author,
+            Publisher = book.Publisher,
+            PublicationYear = book.PublicationYear,
+            Genre = book.Genre,
+            Pages = book.Pages,
+            Length = book.Length,
+            Width = book.Width,
+            Weight = book.Weight,
+            Price = book.Price,
+            Cover = book.Cover,
+            Quantity = book.Quantity,
+            Description = book.Description,
+            Image = book.Image,
+            Promotion = book.Promotion
+        }).FirstOrDefault();
+        return book;
     }
 }

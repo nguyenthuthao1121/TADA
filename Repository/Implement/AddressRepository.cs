@@ -13,25 +13,13 @@ public class AddressRepository : IAddressRepository
     public string GetCustomerAddressByAccountId(int id)
     {
         var addressId = context.Customers.Where(customer => customer.Id == id).Select(customer => customer.Id).FirstOrDefault();
-        var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
-        if (address == null)
-        {
-            return null;
-        }
-        var ward = context.Wards.Where(ward => ward.Id == address.WardId).FirstOrDefault();
-        var district = context.Districts.Where(district => district.Id == ward.DistrictId).FirstOrDefault();
-        var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
-        return $"{address.Street}, {ward.Name}, {district.Name}, {province.Name}";
+        return GetAddressById(addressId);   
     }
 
     public string GetStaffAddressByAccountId(int id)
     {
         var addressId = context.Staff.Where(staff => staff.Id == id).Select(staff => staff.Id).FirstOrDefault();
-        var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
-        var ward = context.Wards.Where(ward => ward.Id == address.WardId).FirstOrDefault();
-        var district = context.Districts.Where(district => district.Id == ward.DistrictId).FirstOrDefault();
-        var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
-        return $"{address.Street}, {ward.Name}, {district.Name}, {province.Name}";
+        return GetAddressById(addressId);
     }
     public string GetAddressById(int id)
     {

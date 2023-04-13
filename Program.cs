@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using TADA.Model;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 var service = builder.Services;
 
 service.AddDbContext<TadaContext>(option =>
@@ -20,6 +22,7 @@ service.AddDbContext<TadaContext>(option =>
 });
 
 service.AddSession();
+service.AddMemoryCache();
 service.AddMvc();
 
 service.AddScoped<IBookRepository, BookRepository>();
@@ -43,6 +46,9 @@ service.AddScoped<IStaffService, StaffService>();
 service.AddScoped<IAddressRepository, AddressRepository>();
 service.AddScoped<IAddressService, AddressService>();
 
+service.AddScoped<IReviewRepository, ReviewRepository>();
+service.AddScoped<IReviewService, ReviewService>();
+
 service.AddScoped<ICartRepository, CartRepository>();
 service.AddScoped<ICartService, CartService>();
 
@@ -65,6 +71,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
 app.UseSession();
 
 app.MapRazorPages();

@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.CustomerDto;
 using TADA.Model;
 using TADA.Repository;
 using TADA.Repository.Implement;
@@ -17,7 +17,6 @@ namespace TADA.Service.Implement
         {
             return customerRepository.GetAllCustomers();
         }
-
         public CustomerDto GetCustomerByAccountId(int accountId)
         {
             return customerRepository.GetCustomerByAccountId(accountId);
@@ -37,6 +36,5 @@ namespace TADA.Service.Implement
         {
             return customerRepository.GetNameByAccountId(id);
         }
-        
     }
 }

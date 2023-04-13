@@ -1,0 +1,40 @@
+﻿@page
+@model AddCategoryModel
+@{
+    ViewData["Title"] = "Thêm mới danh mục";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="form-container">
+            <div class="form-heading">
+                <p>Thêm mới danh mục</p>
+            </div>
+            <div class="form-body">
+                <form>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCategoryID" class="form__label">Mã danh mục</label>
+                            <input type="text" class="form-control form__input" id="inputCategoryID" placeholder="Nhập mã danh mục">
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCategoryName" class="form__label">Tên danh mục</label>
+                            <input type="text" class="form-control form__input" id="inputCategoryName" placeholder="Nhập tên danh mục">
+                        </div>
+                    </div>
+                    <div class="form-row form__row col-md-6 form__btn-margin">
+                        <a class="form-group form__btn" style="margin-right: 4px" asp-area="" asp-page="/Admin/CategoryManagement">
+                            THÊM MỚI DANH MỤC
+                        </a>
+                        <a class="form-group form__btn form__btn--cancel" style="margin-left: 4px" asp-area="" asp-page="/Admin/CategoryManagement">
+                            HỦY
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>

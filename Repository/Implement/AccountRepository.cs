@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TADA.Dto;
+using TADA.Dto.Account;
 using TADA.Model;
 using TADA.Model.Entity;
 

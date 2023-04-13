@@ -1,0 +1,35 @@
+﻿@page
+@model ShoppingCartEmptyModel
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+    ViewBag.Name = Model.Username;
+}
+
+<div id="shopping-cart--empty">
+    <div class="grid">
+        <div class="row">
+            <div class="shopping-cart__title col c-10 c-o-1">
+                GIỎ HÀNG
+                <span class="shopping-cart__title-quality">
+                        (0 sản phẩm)
+                </span>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="shopping-cart__cart--empty col c-10 c-o-1" style="padding-bottom:24px;border-radius: 8px;">
+                <div class="shopping-cart__img--empty">
+                    <img src="~/img/ico_emptycart.svg" alt="Empty Shopping cart" width=100px>
+                </div>
+                <div class="shopping-cart__text--empty">
+                    Chưa có sản phẩm trong giỏ hàng của bạn
+                </div>
+                <button class="btn--blue">
+                    <a asp-area="" asp-page="/Index">
+                        MUA SẮM NGAY
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

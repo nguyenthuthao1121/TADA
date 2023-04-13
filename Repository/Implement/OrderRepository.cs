@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TADA.Dto;
+using TADA.Dto.BookDto;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -39,11 +40,12 @@ public class OrderRepository : IOrderRepository
         return GetAllOrdersByCustomerId(customerId);
     }
 
-    
+
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return new BookDto(context.Books.Find(orderDetail.BookId));
     }
+
 
     public List<OrderDto> GetOrdersByAccountId(int accountId, int statusId)
     {
@@ -68,4 +70,5 @@ public class OrderRepository : IOrderRepository
     {
         return context.Statuses.Find(order.StatusId).Name;
     }
+
 }

@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.BookDto;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;
@@ -31,5 +31,10 @@ public class BookService : IBookService
             listBook.Add(new BookDto(book));
         }
         return listBook;
+    }
+
+    public BookDto GetBookById(int id)
+    {
+        return bookRepository.GetBookById(id);
     }
 }
