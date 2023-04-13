@@ -21,43 +21,5 @@ public class CustomerDto
     {
 
     }
-    public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, int addressId)
-    {
-        AccountId = accountId;
-        Email = email;
-        Password = password;
-        CreateDate = createDate;
-        Status = status;
-        CustomerId = customerId;
-        Name = name;
-        Birthday = birthday;
-        Gender = gender;
-        TelephoneNumber = telephoneNumber;
-        AddressId = addressId;
-    }
-    public CustomerDto(int accountId, string email, string password, DateTime createDate, bool status, int customerId, string name, DateTime birthday, bool gender, string telephoneNumber, int addressId, string address)
-    {
-        AccountId = accountId;
-        Email = email;
-        Password = password;
-        CreateDate = createDate;
-        Status = status;
-        CustomerId = customerId;
-        Name = name;
-        Birthday = birthday;
-        Gender = gender;
-        TelephoneNumber = telephoneNumber;
-        AddressId = addressId;
-        Address = address;
-    }
-    public CustomerDto(Customer customer)
-    {
-        AccountId=customer.AccountId;
-        CustomerId = customer.Id;
-        Name= customer.Name;
-        Birthday= customer.Birthday;
-        Gender = customer.Gender;
-        TelephoneNumber = customer.TelephoneNumber;
-        AddressId = customer.AddressId;
-    }
+    
 }

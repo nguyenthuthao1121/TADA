@@ -46,18 +46,9 @@
                         }
                         else
                         {
-                            @if (ViewBag.CountBookOfCart == 0)
-                            {
-                                <a class="mx-4" asp-area="Cart" asp-page="ShoppingCartFill" style="font-weight: 400; color: var(--white-color)">
-                                    <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="mx-4" asp-area="Cart" asp-page="ShoppingCartFill" style="font-weight: 400; color: var(--white-color)">
-                                    <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
-                                </a>
-                            }
+                            <a class="mx-4" asp-area="Cart" asp-page="ShoppingCartFill" style="font-weight: 400; color: var(--white-color)">
+                                <i class="fas fa-shopping-cart me-2 text-white" style="font-weight:900"></i>Giỏ hàng
+                            </a>
                         }
                     </li>
                     <li class="nav-item my-account">
@@ -79,14 +70,7 @@
                             <ul class="sub-navbar sub-navbar-member">
 
                                 <li><a asp-area="PersonalManagement" asp-page="UserInformation"><i class="fas fa-address-card"></i>Tài khoản của tôi</a></li>
-                                @if (ViewBag.CountAllOrder == 0)
-                                {
-                                    <li><a asp-area="Order" asp-page="OrderListEmptyAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
-                                }
-                                else
-                                {
-                                    <li><a asp-area="Order" asp-page="OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
-                                }
+                                <li><a asp-area="Order" asp-page="OrderListFillAll"><i class="fas fa-receipt" style="width:18px; text-align: center;"></i>Đơn hàng của tôi</a></li>
                                 <li><a asp-area="Authentication" asp-page="Login" asp-page-handler="Logout"><i class="fas fa-sign-out" style="width:18px; text-align: center;"></i>Đăng xuất</a></li>
                                 
                             </ul>                            

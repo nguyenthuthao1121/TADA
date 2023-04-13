@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
 using TADA.Dto;
 using TADA.Dto.BookDto;
 using TADA.Model;
@@ -48,7 +49,27 @@ public class CartRepository : ICartRepository
 
     public BookDto GetBookByCartDetail(CartDetailDto cartDetail)
     {
-        return new BookDto(context.Books.Find(cartDetail.BookId));
+        var book = context.Books.Find(cartDetail.BookId);
+        return new BookDto
+        {
+            Id = book.Id,
+            Name= book.Name,
+            Author= book.Author,
+            Publisher= book.Publisher,
+            PublicationYear= book.PublicationYear,
+            Genre= book.Genre,
+            Pages= book.Pages,
+            Length= book.Length,
+            Weight= book.Weight,
+            Width= book.Width,
+            Price= book.Price,
+            Cover= book.Cover,
+            Quantity= book.Quantity,
+            Description= book.Description,
+            Image= book.Image,
+            Promotion= book.Promotion,
+            CategoryId= book.CategoryId,
+        };
     }
 
 }

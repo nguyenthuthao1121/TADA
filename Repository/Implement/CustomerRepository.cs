@@ -1,4 +1,6 @@
-﻿using TADA.Dto.CustomerDto;
+﻿using Microsoft.Identity.Client;
+using System.Net;
+using TADA.Dto.CustomerDto;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -17,10 +19,20 @@ namespace TADA.Repository.Implement
                 .Join(context.Accounts,
                 customer => customer.AccountId,
                 account => account.Id,
-                (customer, account) => new CustomerDto(
-                    account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                    customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, customer.AddressId
-                    )).ToList();
+                (customer, account) => new CustomerDto
+                {
+                    AccountId = account.Id,
+                    Email = account.Email,
+                    Password = account.Password,
+                    CreateDate = account.CreateDate,
+                    Status = account.Status,
+                    CustomerId = customer.Id,
+                    Name = customer.Name,
+                    Birthday = customer.Birthday,
+                    Gender = customer.Gender,
+                    TelephoneNumber = customer.TelephoneNumber,
+                    AddressId = customer.AddressId,
+                }).ToList();
             customers.Reverse();
             return customers;
         }
@@ -176,8 +188,23 @@ namespace TADA.Repository.Implement
         }
         public CustomerDto GetCustomerByAccountId(int accountId)
         {
-            return context.Customers.Where(customer => customer.AccountId == accountId)
-                .Select(customer => new CustomerDto(customer)).FirstOrDefault();
+            var account=context.Accounts.Find(accountId);
+            var customer = context.Customers.Where(customer => customer.AccountId == accountId)
+                .Select(customer => customer).FirstOrDefault();
+            return new CustomerDto
+            {
+                AccountId= accountId,
+                Email=account.Email,
+                Password=account.Password,
+                CreateDate=account.CreateDate,
+                Status=account.Status,
+                CustomerId= customer.Id,
+                Name = customer.Name,
+                Birthday=customer.Birthday,
+                Gender=customer.Gender,
+                TelephoneNumber=customer.TelephoneNumber,
+                AddressId=customer.AddressId,
+            };
         }
         public int GetIdByAccountId(int id)
         {
