@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TADA.Dto.BookDto;
+using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Model.Entity;
 using TADA.Service;

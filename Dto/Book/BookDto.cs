@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using TADA.Model.Entity;
 
-namespace TADA.Dto.BookDto;
+namespace TADA.Dto.Book;
 
 public class BookDto
 {
@@ -29,47 +29,6 @@ public class BookDto
     public BookDto()
     {
         
-    }
-
-    public BookDto(int id, string name, string author, string publisher, int publicationYear, string genre, int pages, double length, double width, double weight, int price, string cover, int quantity, string description, string image, int promotion, int categoryId)
-    {
-        Id = id;
-        Name = name;
-        Author = author;
-        Publisher = publisher;
-        PublicationYear = publicationYear;
-        Genre = genre;
-        Pages = pages;
-        Length = length;
-        Width = width;
-        Weight = weight;
-        Price = price;
-        Cover = cover;
-        Quantity = quantity;
-        Description = description;
-        Image = image;
-        Promotion = promotion;
-        CategoryId = categoryId;
-    }
-    public BookDto(Book book)
-    {
-        Id = book.Id;
-        Name = book.Name;
-        Author = book.Author;
-        Publisher = book.Publisher;
-        PublicationYear = book.PublicationYear;
-        Genre = book.Genre;
-        Pages = book.Pages;
-        Length = book.Length;
-        Width = book.Width;
-        Weight = book.Weight;
-        Price = book.Price;
-        Cover = book.Cover;
-        Quantity = book.Quantity;
-        Description = book.Description;
-        Image = book.Image;
-        Promotion = book.Promotion;
-        CategoryId = book.CategoryId;
     }
     public int GetCurrentPrice()
     {

@@ -43,7 +43,7 @@ public class LoginModel : PageModel
         {
             HttpContext.Session.SetInt32("Id", account.Id);
             HttpContext.Session.SetString("Type", account.Type ? "Customer" : "Staff");
-            if (account.Type)
+            if (!account.Type)
             {
                 HttpContext.Session.SetString("Name", customerService.GetNameByAccountId(account.Id));
                 return RedirectToPage("/Index");
