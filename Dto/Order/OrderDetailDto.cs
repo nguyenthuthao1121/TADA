@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TADA.Model.Entity;
 
-namespace TADA.Dto;
+namespace TADA.Dto.Order;
 
 public class OrderDetailDto
 {
@@ -14,10 +14,10 @@ public class OrderDetailDto
     {
     }
 
-    public OrderDetailDto (OrderDetail orderDetail)
+    public OrderDetailDto(OrderDetail orderDetail)
     {
-        OrderId= orderDetail.OrderId;
-        BookId= orderDetail.BookId;
+        OrderId = orderDetail.OrderId;
+        BookId = orderDetail.BookId;
         Quantity = orderDetail.Quantity;
         Price = orderDetail.Price;
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using System.Net;
-using TADA.Dto.CustomerDto;
+using TADA.Dto.Customer;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -189,6 +189,7 @@ namespace TADA.Repository.Implement
         public CustomerDto GetCustomerByAccountId(int accountId)
         {
             var account=context.Accounts.Find(accountId);
+            if (account == null) return null;
             var customer = context.Customers.Where(customer => customer.AccountId == accountId)
                 .Select(customer => customer).FirstOrDefault();
             return new CustomerDto

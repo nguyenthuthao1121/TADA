@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Address;
-using TADA.Dto.CustomerDto;
+using TADA.Dto.Customer;
 using TADA.Middleware;
 using TADA.Service;
 
@@ -33,7 +33,6 @@ public class UserModel : PageModel
         Customers = customerService.GetCustomers(Gender, Status, SortBy, SortType);
         foreach(var customer in Customers)
         {
-
             customer.Address = addressService.GetAddressById(customer.AddressId);
         }
     }

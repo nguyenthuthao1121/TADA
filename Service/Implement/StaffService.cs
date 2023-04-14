@@ -13,4 +13,8 @@ public class StaffService : IStaffService
     {
         return staffRepository.GetStaffByAccountId(id);
     }
+    public List<StaffDto> GetAllStaffs()
+    {
+        return staffRepository.GetAllStaffs();
+    }
 }

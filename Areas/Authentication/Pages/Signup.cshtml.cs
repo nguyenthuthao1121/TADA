@@ -43,7 +43,9 @@ public class SignupModel : PageModel
             else
             {
                 accountService.AddNewAccount(Email, Password);
-                return RedirectToPage("/User/UserInformation");
+                //return RedirectToPage("/Authentication/UserInformation");
+                //return RedirectToPage("UserInformation", new { area = "PersonalManagement"});
+                return Page();
             }
         }
         else

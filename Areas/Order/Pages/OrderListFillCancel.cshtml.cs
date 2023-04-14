@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TADA.Dto;
 using TADA.Dto.BookDto;
+using TADA.Dto.Order;
 using TADA.Service;
 
 namespace TADA.Pages;

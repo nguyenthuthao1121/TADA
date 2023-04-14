@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TADA</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/base-admin.css" asp-append-version="true" />
@@ -32,7 +32,7 @@
                     <span class="nav-link header__navbar-item-link header__navbar-item-link-inactive">@ViewBag.Name</span>
                 </li>
                 <li class="header__navbar-item">
-                    <a class="nav-link header__navbar-item-link" asp-page="/Account/Login" asp-page-handler="Logout">Đăng xuất</a>
+                    <a class="nav-link header__navbar-item-link" asp-area="Authentication" asp-page="Login" asp-page-handler="Logout">Đăng xuất</a>
                 </li>
             </ul>  
         </nav>
@@ -42,37 +42,37 @@
             <div class="col-2 category sidenav">
                 <ul class="category-list">
                     <li class="category-item">
-                        <a id="HomePageAdmin" class="nav-link category-item__link" asp-area="" asp-page="/Admin/HomePageAdmin">
+                        <a id="HomePageAdmin" class="nav-link category-item__link" asp-area="" asp-page="HomePageAdmin">
                             <i class="fa-solid fa-house category-icon"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="UserManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/UserManagement">
+                        <a id="UserManagement" class="nav-link category-item__link" asp-area="Customer" asp-page="UserManagement">
                             <i class="fa-solid fa-user category-icon"></i>
-                            User
+                            Khách hàng
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="AdminManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/AdminManagement">
+                        <a id="AdminManagement" class="nav-link category-item__link" asp-area="Staff" asp-page="AdminManagement">
                             <i class="fa-sharp fa-solid fa-user-tie category-icon"></i>
-                            Admin
+                            Nhân viên
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="CategoryManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/CategoryManagement">
+                        <a id="CategoryManagement" class="nav-link category-item__link" asp-area="Category" asp-page="CategoryManagement">
                             <i class="fa-solid fa-rectangle-list category-icon"></i>                            
                             Danh mục
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="BookManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/BookManagement">
+                        <a id="BookManagement" class="nav-link category-item__link" asp-area="Book" asp-page="BookManagement">
                             <i class="fa-solid fa-book category-icon"></i>
                             Sách
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="OrderManagement" class="nav-link category-item__link" asp-area="" asp-page="/Admin/OrderManagement">
+                        <a id="OrderManagement" class="nav-link category-item__link" asp-area="Order" asp-page="OrderManagement">
                             <i class="fa-solid fa-list category-icon"></i>
                             Đơn hàng
                         </a>

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TADA.Model.Entity;
 
-namespace TADA.Dto;
+namespace TADA.Dto.Cart;
 
 public class CartDetailDto
 {
@@ -18,8 +18,8 @@ public class CartDetailDto
 
     public CartDetailDto(CartDetailDto cartDetailDto)
     {
-        CartId= cartDetailDto.CartId;
-        BookId= cartDetailDto.BookId;
+        CartId = cartDetailDto.CartId;
+        BookId = cartDetailDto.BookId;
         Quantity = cartDetailDto.Quantity;
     }
     public CartDetailDto(CartDetail cartDetail)
@@ -28,5 +28,5 @@ public class CartDetailDto
         BookId = cartDetail.BookId;
         Quantity = cartDetail.Quantity;
     }
-    
+
 }

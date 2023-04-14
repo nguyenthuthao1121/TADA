@@ -1,4 +1,4 @@
-﻿using TADA.Dto;
+﻿using TADA.Dto.Review;
 
 namespace TADA.Repository
 {

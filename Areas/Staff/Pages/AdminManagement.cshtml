@@ -1,8 +1,9 @@
 ﻿@page
-@model AdminManagementModel
+@model StaffModel
 @{
     ViewData["Title"] = "Quản lý nhân viên";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <div class="row">
@@ -54,30 +55,71 @@
             <div class="user-table">
                 <table class="table">
                     <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
-                        <th style="width: 10%">STT</th>
-                        <th style="width: 20%">Tên</th>
-                        <th style="width: 30%">Email</th>
-                        <th style="width: 20%">Số điện thoại</th>
-                        <th style="width: 10%">Trạng thái</th>
-                        <th style="width: 10%">Action</th>
+                        <th style="width: 3%">STT</th>
+                        <th style="width: 10%">Họ và tên</th>
+                        <th style="width: 7%">Vai trò</th>
+                        <th style="width: 7%">Giới tính</th>
+                        <th style="width: 8%">Ngày sinh</th>
+                        <th style="width: 15%">Email</th>
+                        <th style="width: 10%">Số điện thoại</th>
+                        <th style="width: 25%">Địa chỉ</th>
+                        <th style="width: 7%">Trạng thái</th>
+                        <th style="width: 8%">Action</th>
                     </tr>
+                    @{
+                        int cnt = 0;
+                        foreach(var staff in Model.Staffs)
+                        {
+                            <tr class="table-container" style="color: var(--text-color)">
+                                <th class="table-value list-value">@(++cnt)</th>
+                                <td class="table-value list-value" style="font-weight: 600">@staff.Name</td>
+                                <td class="table-value list-value">@staff.RoleName</td>
+                                <td class="table-value list-value">
+                                    @if (staff.Gender)
+                                    {
+                                        <span>Nam</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Nữ</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">
+                                    @{
+                                        var d = staff.Birthday.Day;
+                                        var m = staff.Birthday.Month;
+                                        var y = staff.Birthday.Year;
+                                        string date = "" + d + " - " + m + " - " + y;
+                                        <span>@date</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">@staff.Email</td>
+                                <td class="table-value list-value">@staff.TelephoneNumber</td>
+                                <td class="table-value list-value">@staff.Address</td>
+                                <td class="table-value list-value">
+                                    @if (staff.Status)
+                                    {
+                                        <span>Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Blocked</span>
+                                    }
+                                </td>
+                                <td class="table-value list-value">
+                                    <button class="action-btn">
+                                        <i class="block-icon fa-solid fa-ban"></i>
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
                     @for (int i = 1; i <= 9; i++)
                     {
-                        <tr class="table-container" style="color: var(--text-color)">
-                            <th class="table-value list-value">@i</th>
-                            <td class="table-value list-value" style="font-weight: 600">Admin 1</td>
-                            <td class="table-value list-value">admin1@gmail.com</td>
-                            <td class="table-value list-value">0935382788</td>
-                            <td class="table-value list-value">Active</td>
-                            <td class="table-value list-value">
-                                <button class="action-btn">
-                                    <i class="block-icon fa-solid fa-ban"></i>
-                                </button>
-                                <button class="action-btn">
-                                    <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>  
+
                     }                   
                 </table>
             </div>

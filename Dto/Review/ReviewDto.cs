@@ -1,4 +1,4 @@
-﻿namespace TADA.Dto
+﻿namespace TADA.Dto.Review
 {
     public class ReviewDto
     {
