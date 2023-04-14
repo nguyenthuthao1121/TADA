@@ -9,11 +9,6 @@ public class BookDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-<<<<<<< HEAD:Dto/Book/BookDto.cs
-    public int Price { get; set; }
-    public double Promotion { get; set; }
-    public string Image { get; set; }
-=======
     public string Author { get; set; }
     public string Publisher { get; set; }
     public int PublicationYear { get; set; }
