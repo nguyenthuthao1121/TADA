@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model BookDetailUserModel
 @using TADA.Model.Entity
 @{
@@ -23,8 +23,6 @@
         }
     }
     var imgPath = Model.Book.Image + "/thien_su_nha_ben_5_bia.jpg";
-    var numberOfReview = Model.Reviews.Count;
-    //var averageRating = Model.Reviews.Average(decimal p, )
 }
 <div class="container-fluid">
     <div class="row">
@@ -151,43 +149,67 @@
                 <div class="col-12 px-3 d-flex">
                     <div class="rating-detail">
                         <div class="rating-number" style="text-align: center;">
-                            <span style="font-weight: bold; font-size: 4rem">0</span>
+                            <span style="font-weight: bold; font-size: 4rem">@Model.AverageRating</span>
                             <span style="font-weight: bold; font-size: 3rem">/5</span>
                         </div>
                         <div class="rating-star" style="margin-top: -0.8rem; text-align: center;">
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <div class="mt-1" style="color: var(--primary-color)">((@Model.Reviews.Count) đánh giá)</div>
+                            @{
+                                for(int i = 1; i <= (int)Model.AverageRating; i++)
+                                {
+                                    <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
+                                }
+                                if (Model.AverageRating - (int)Model.AverageRating <= 0.2)
+                                {
+                                    for (int i = 1; i <= 5 - (int)Model.AverageRating; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                                else if (Model.AverageRating - (int)Model.AverageRating >= 0.3 && Model.AverageRating - (int)Model.AverageRating <= 0.7)
+                                {
+                                    <span class="fa fa-star-half" style="color: #F6A500;"></span>
+                                    for (int i = 1; i <= 5 - (int)Model.AverageRating - 1; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="fas fa-star" style="color: #F6A500;"></span>
+                                    for (int i = 1; i <= 5 - (int)Model.AverageRating - 1; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                            }
+                            <div class="mt-1" style="color: var(--primary-color)">(@Model.TotalNumberOfReview đánh giá)</div>
                         </div>
                     </div>
                     <div class="rating-bar">
                         <div class="rating-level">
                             <label for="review-rating-bar">5<i class="fas fa-star"></i></label>
-                            <progress id="review-rating-bar" max="100" value="80"></progress>
-                            <span class="ms-2">80%</span>
+                            <progress id="review-rating-bar" max="100" value="@Model.FiveStar"></progress>
+                            <span class="ms-2">@Model.FiveStar %</span>
                         </div>
                         <div class="rating-level">
                             <label for="review-rating-bar">4<i class="fas fa-star"></i></label>
-                            <progress id="review-rating-bar" max="100" value="0"></progress>
-                            <span class="ms-2">0%</span>
+                            <progress id="review-rating-bar" max="100" value="@Model.FourStar"></progress>
+                            <span class="ms-2">@Model.FourStar %</span>
                         </div>
                         <div class="rating-level">
                             <label for="review-rating-bar">3<i class="fas fa-star"></i></label>
-                            <progress id="review-rating-bar" max="100" value="0"></progress>
-                            <span class="ms-2">0%</span>
+                            <progress id="review-rating-bar" max="100" value="@Model.ThreeStar"></progress>
+                            <span class="ms-2">@Model.ThreeStar %</span>
                         </div>
                         <div class="rating-level">
                             <label for="review-rating-bar">2<i class="fas fa-star"></i></label>
-                            <progress id="review-rating-bar" max="100" value="0"></progress>
-                            <span class="ms-2">0%</span>
+                            <progress id="review-rating-bar" max="100" value="@Model.TwoStar"></progress>
+                            <span class="ms-2">@Model.TwoStar %</span>
                         </div>
                         <div class="rating-level">
                             <label for="review-rating-bar">1<i class="fas fa-star"></i></label>
-                            <progress id="review-rating-bar" max="100" value="0"></progress>
-                            <span class="ms-2">0%</span>
+                            <progress id="review-rating-bar" max="100" value="@Model.OneStar"></progress>
+                            <span class="ms-2">@Model.OneStar %</span>
                         </div>
                     </div>
                 </div>
@@ -195,84 +217,51 @@
                     foreach(var review in Model.Reviews)
                     {
                         <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
-                            <div class="user-image">TT</div>
-                            <div class="user-information-review ms-3">
-                                <div class="user-name" style="font-size: 1.2rem">@review.CustomerName</div>
-                                <div class="date-review">@review.DateReview.ToShortDateString()</div>
-                            </div>
+                            @{
+                                string[] customerName = review.CustomerName.Split(" ");
+                                if (customerName.Count() >= 2)
+                                {
+                                    string shortName = customerName[customerName.Count() - 2] + " " + customerName[customerName.Count() - 1];
+                                    <div class="user-image">
+                                        @(customerName[customerName.Count() - 2].Substring(0, 1).ToUpper() + customerName[customerName.Count() - 1].Substring(0, 1).ToUpper())
+                                    </div>
+                                    <div class="user-information-review ms-3">
+                                        <div class="user-name" style="font-size: 1.2rem">@shortName</div>
+                                        <div class="date-review">@review.DateReview.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    string shortName = customerName[customerName.Count() - 1];
+                                    <div class="user-image">
+                                        @(customerName[customerName.Count() - 1].Substring(0, 1).ToUpper())
+                                    </div>
+                                    <div class="user-information-review ms-3">
+                                        <div class="user-name" style="font-size: 1.2rem">@shortName</div>
+                                        <div class="date-review">@review.DateReview.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                }
+                            }             
                             <div>
                                 <div class="rating-star" style="font-size: 0.9rem; height: 1.8rem">
-                                    <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
+                                    @{
+                                        for(int i = 1; i <= review.Rating; i++)
+                                        {
+                                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
+                                        }
+                                        for(int i = 1; i <= 5 - review.Rating; i++)
+                                        {
+                                            <span class="fas fa-star"></span>
+                                        }
+                                    }
                                 </div>
                                 <div class="user-comment">
                                     @review.Comment
                                 </div>
                             </div>
                         </div>
-
                     }
                 }
-                @*<div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
-                    <div class="user-image">TT</div>
-                    <div class="user-information-review ms-3">
-                        <div class="user-name" style="font-size: 1.2rem">Thu Thảo</div>
-                        <div class="date-review">10/02/2023</div>
-                    </div>
-                    <div>
-                        <div class="rating-star" style="font-size: 0.9rem; height: 1.8rem">
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                        </div>
-                        <div class="user-comment">
-                            Truyện không hợp với mình. Cho 1 sao.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-2" style="background-color: rgba(30, 144, 255, 0.1)">
-                    <div class="user-image">QT</div>
-                    <div class="user-information-review ms-3">
-                        <div class="user-name" style="font-size: 1.2rem">Quốc Toàn</div>
-                        <div class="date-review">09/02/2023</div>
-                    </div>
-                    <div>
-                        <div class="rating-star" style="font-size: 0.9rem; height: 1.8rem">
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                        </div>
-                        <div class="user-comment">
-                            Truyện hay. Giao hàng nhanh. Cho 5 sao.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-2" style="background-color: rgba(30, 144, 255, 0.1)">
-                    <div class="user-image">TV</div>
-                    <div class="user-information-review ms-3">
-                        <div class="user-name" style="font-size: 1.2rem">Thoại Vỹ</div>
-                        <div class="date-review">08/02/2023</div>
-                    </div>
-                    <div>
-                        <div class="rating-star" style="font-size: 0.9rem; height: 1.8rem">
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
-                            <span class="fas fa-star"></span>
-                        </div>
-                        <div class="user-comment">
-                            Truyện cũng hay. Shop đóng gói cẩn thận. Cho 4 sao.
-                        </div>
-                    </div>
-                </div>*@
             </div>
         </div>
         <div class="col-1"></div>

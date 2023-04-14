@@ -12,14 +12,14 @@ public class AddressRepository : IAddressRepository
     }
     public string GetCustomerAddressByAccountId(int id)
     {
-        var addressId = context.Customers.Where(customer => customer.Id == id).Select(customer => customer.Id).FirstOrDefault();
+        var addressId = context.Customers.Where(customer => customer.AccountId == id).Select(customer => customer.AddressId).FirstOrDefault();
         return GetAddressById(addressId);   
     }
 
     public string GetStaffAddressByAccountId(int id)
     {
-        var addressId = context.Staff.Where(staff => staff.Id == id).Select(staff => staff.Id).FirstOrDefault();
-        return GetAddressById(addressId);
+        var addressId = context.Staff.Where(staff => staff.AccountId == id).Select(staff => staff.AddressId).FirstOrDefault();
+        return GetAddressById(Convert.ToInt32(addressId));
     }
     public string GetAddressById(int id)
     {
