@@ -57,8 +57,6 @@ public class OrderRepository : IOrderRepository
                 StatusId = (int)order.StatusId,
             }).ToList();
     }
-
-
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         var book = context.Books.Find(orderDetail.BookId);

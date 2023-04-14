@@ -9,10 +9,6 @@ public class BookDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-<<<<<<< HEAD
-=======
-
->>>>>>> b917be3019a92b5af24c68cec0028cf2e29e0fba
     public string Author { get; set; }
     public string Publisher { get; set; }
     public int PublicationYear { get; set; }
