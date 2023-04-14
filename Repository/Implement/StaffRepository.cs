@@ -19,7 +19,28 @@ public class StaffRepository : IStaffRepository
                     AccountId = staff.AccountId,
                     Name = staff.Name,
                     RoleId = role.Id,
-                    RoleName = role.Name,
+                    RoleName = role.Name
                 }).FirstOrDefault();
+    }
+    public List<StaffDto> GetAllStaffs()
+    {
+        return context.Accounts
+            .Where(account => account.Type == false)
+            .Join(context.Staff, account => account.Id, staff => staff.AccountId,
+            (account, staff) => new StaffDto
+            {
+                AccountId = account.Id,
+                Email = account.Email,
+                Password = account.Password,
+                CreateDate = account.CreateDate,
+                Status = account.Status,
+                StaffId = staff.Id,
+                Name = staff.Name,
+                Birthday = staff.Birthday,
+                Gender = staff.Gender,
+                TelephoneNumber = staff.TelephoneNumber,
+                AddressId = (int)staff.AddressId,
+                RoleId = (int)staff.RoleId
+            }).ToList();
     }
 }

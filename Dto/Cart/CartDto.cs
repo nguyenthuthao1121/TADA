@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TADA.Model.Entity;
 
-namespace TADA.Dto;
+namespace TADA.Dto.Cart;
 
 public class CartDto
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 using System.Security.Claims;
 using TADA.Dto;
-using TADA.Dto.CustomerDto;
+using TADA.Dto.Customer;
 using TADA.Service;
 
 namespace TADA.Pages;
