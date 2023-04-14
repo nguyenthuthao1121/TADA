@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TADA.Dto.BookDto;
+using TADA.Dto.Book;
 using TADA.Dto.Customer;
 using TADA.Dto.Order;
 using TADA.Dto.Staff;
