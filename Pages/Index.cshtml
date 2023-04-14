@@ -4,9 +4,7 @@
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "_LayoutUser";
-    ViewBag.Name = Model.Username;
-    ViewBag.CountBookOfCart = Model.CountBookOfCart;
-    ViewBag.CountAllOrder = Model.CountOrder;
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <div class="container-fluid">

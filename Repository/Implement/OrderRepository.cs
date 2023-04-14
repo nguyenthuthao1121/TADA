@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TADA.Dto;
+using TADA.Dto.BookDto;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -18,7 +19,15 @@ public class OrderRepository : IOrderRepository
     {
         return context.Orders
             .Where(order=> order.CustomerId == customerId)
-            .Select(order => new OrderDto(order)).ToList();
+            .Select(order => new OrderDto
+            {
+                Id = order.Id,
+                TelephoneNumber = order.TelephoneNumber,
+                DateOrder = order.DateOrder,
+                AddressId = (int)order.AddressId,
+                CustomerId = order.CustomerId,
+                StatusId = (int)order.StatusId,
+            }).ToList();
     }
     public List<OrderDetailDto> GetOrderDetailsByOrder (OrderDto orderDto)
     {
@@ -36,14 +45,45 @@ public class OrderRepository : IOrderRepository
     {
         var customerId= context.Customers.Where(customer => customer.AccountId == accountId)
             .Select(customer => customer.Id).FirstOrDefault();
-        return GetAllOrdersByCustomerId(customerId);
+        return context.Orders
+            .Where(order => order.CustomerId == customerId && order.StatusId<6)
+            .Select(order => new OrderDto
+            {
+                Id = order.Id,
+                TelephoneNumber = order.TelephoneNumber,
+                DateOrder = order.DateOrder,
+                AddressId = (int)order.AddressId,
+                CustomerId = order.CustomerId,
+                StatusId = (int)order.StatusId,
+            }).ToList();
     }
 
-    
+
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
-        return new BookDto(context.Books.Find(orderDetail.BookId));
+        var book = context.Books.Find(orderDetail.BookId);
+        return new BookDto
+        {
+            Id = book.Id,
+            Name = book.Name,
+            Author = book.Author,
+            Publisher = book.Publisher,
+            PublicationYear = book.PublicationYear,
+            Genre = book.Genre,
+            Pages = book.Pages,
+            Length = book.Length,
+            Weight = book.Weight,
+            Width = book.Width,
+            Price = book.Price,
+            Cover = book.Cover,
+            Quantity = book.Quantity,
+            Description = book.Description,
+            Image = book.Image,
+            Promotion = book.Promotion,
+            CategoryId = book.CategoryId,
+        };
     }
+
 
     public List<OrderDto> GetOrdersByAccountId(int accountId, int statusId)
     {
@@ -59,7 +99,15 @@ public class OrderRepository : IOrderRepository
         List<OrderDto> orderDtos= new List<OrderDto>();
         foreach(var order in orders)
         {
-            orderDtos.Add(new OrderDto(order));
+            orderDtos.Add(new OrderDto
+            {
+                Id = order.Id,
+                TelephoneNumber = order.TelephoneNumber,
+                DateOrder = order.DateOrder,
+                AddressId = (int)order.AddressId,
+                CustomerId = order.CustomerId,
+                StatusId = (int)order.StatusId,
+            });
         }
         return orderDtos;
     }
@@ -68,4 +116,5 @@ public class OrderRepository : IOrderRepository
     {
         return context.Statuses.Find(order.StatusId).Name;
     }
+
 }

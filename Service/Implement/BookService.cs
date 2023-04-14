@@ -1,4 +1,4 @@
-﻿using TADA.Dto.Book;
+﻿using TADA.Dto.BookDto;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;
@@ -17,7 +17,26 @@ public class BookService : IBookService
         var listBook = new List<BookDto>();
         foreach (var book in books)
         {
-            listBook.Add(new BookDto(book));
+            listBook.Add(new BookDto 
+            {
+                Id = book.Id,
+                Name = book.Name,
+                Author = book.Author,
+                Publisher = book.Publisher,
+                PublicationYear = book.PublicationYear,
+                Genre = book.Genre,
+                Pages = book.Pages,
+                Length = book.Length,
+                Weight = book.Weight,
+                Width = book.Width,
+                Price = book.Price,
+                Cover = book.Cover,
+                Quantity = book.Quantity,
+                Description = book.Description,
+                Image = book.Image,
+                Promotion = book.Promotion,
+                CategoryId = book.CategoryId,
+            });
         }
         return listBook;
     }
@@ -28,7 +47,26 @@ public class BookService : IBookService
         var listBook = new List<BookDto>();
         foreach (var book in books)
         {
-            listBook.Add(new BookDto(book));
+            listBook.Add(new BookDto
+            {
+                Id = book.Id,
+                Name = book.Name,
+                Author = book.Author,
+                Publisher = book.Publisher,
+                PublicationYear = book.PublicationYear,
+                Genre = book.Genre,
+                Pages = book.Pages,
+                Length = book.Length,
+                Weight = book.Weight,
+                Width = book.Width,
+                Price = book.Price,
+                Cover = book.Cover,
+                Quantity = book.Quantity,
+                Description = book.Description,
+                Image = book.Image,
+                Promotion = book.Promotion,
+                CategoryId = book.CategoryId,
+            });
         }
         return listBook;
     }

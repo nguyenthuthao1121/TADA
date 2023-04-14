@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Address;
-using TADA.Dto.Customer;
+using TADA.Dto.CustomerDto;
 using TADA.Middleware;
 using TADA.Service;
 

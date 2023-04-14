@@ -1,4 +1,4 @@
-﻿using TADA.Dto.Customer;
+﻿using TADA.Dto.CustomerDto;
 
 namespace TADA.Service;
 

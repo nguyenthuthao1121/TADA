@@ -12,15 +12,4 @@ public class OrderDto
     public int? AddressId { get; set; }
     public int CustomerId { get; set; }
     public int StatusId { get; set; }
-    public OrderDto(Order order)
-    {
-        Id = order.Id;
-        TelephoneNumber = order.TelephoneNumber;
-        DateOrder = order.DateOrder;
-        AddressId = (int)order.AddressId;
-        CustomerId = order.CustomerId;
-        StatusId = (int)order.StatusId;
-    }
-    
-
 }
