@@ -28,7 +28,7 @@
                         Chưa có sản phẩm trong giỏ hàng của bạn
                     </div>
                     <button class="btn--blue">
-                        <a asp-area="" asp-page="/Index">
+                        <a asp-area="Pages" asp-page="Index">
                             MUA SẮM NGAY
                         </a>
                     </button>
@@ -51,9 +51,9 @@
                                 var Book = Model.GetBookByCartDetail(cartDetail);
                                 <div class="cart__flex-item row">
                                     <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
-                                    <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                                    <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
                                     <div class="cart__book-desc col c-5">
-                                        <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="cart__book-name">
+                                        <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">
