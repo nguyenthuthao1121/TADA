@@ -54,8 +54,11 @@ namespace TADA.Model.Entity
 
         [ForeignKey("CategoryId")]
         public  Category Category { get; set; }
+        public int ProviderId { get; set; }
+
+        [ForeignKey("ProviderId")]
+        public Provider Provider { get; set; }
         public List<OrderDetail> OrderDetails { get; } = new();
-        public List<ContractDetail> ContractDetails { get; } = new();
         public List<CartDetail> CartDetails { get; } = new();
         public List<Review> Reviews { get; set; }
 
