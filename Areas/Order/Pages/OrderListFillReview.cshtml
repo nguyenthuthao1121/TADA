@@ -60,10 +60,10 @@
                 @foreach (var order in Model.Orders)
                 {
                     <div class="confirm__order-detail" style="border-radius: 8px;">
-                        <div class="order__title row">
-                            <a asp-area="" asp-page="/User/OrderDetailConfirm"><p>Xem chi tiết đơn hàng</p></a>
+                        <form class="order__title row" method="post">
+                            <button class="order-detail__button">Xem chi tiết đơn hàng</button>
                             <p style="color: var(--primary-color);">@Model.GetStatusOfOrder(order)</p>
-                        </div>
+                        </form>
                         <div class="confirm__book-list grid">
 
                             @{
@@ -72,9 +72,10 @@
                             @foreach (var orderDetail in OrderDetails)
                             {
                                 var Book = Model.GetBookByOrderDetail(orderDetail);
-                                <div class="cart__flex-item row">
-                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="~/img/book2.jpg" alt="Ảnh sách" width=95%></a>
-                                    <div class="cart__book-desc col c-6">
+                                    var imgPath = Book.Image + "/cover.jpg";
+                                    <div class="cart__flex-item row">
+                                        <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
+                                        <div class="cart__book-desc col c-6">
                                         <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
                                             @Book.Name
                                         </a>
@@ -84,7 +85,7 @@
                                         </p>
                                     </div>
                                     <div class="cart__book-price col c-2">
-                                        @orderDetail.GetPriceString(orderDetail.Price) VND
+                                        @orderDetail.GetPriceString(orderDetail.Price) đ
                                     </div>
                                     <div class="cart__book-number col c-2">
                                         Số lượng: @orderDetail.Quantity

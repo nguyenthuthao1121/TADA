@@ -57,6 +57,20 @@ public class OrderRepository : IOrderRepository
                 StatusId = (int)order.StatusId,
             }).ToList();
     }
+    public OrderDto GetOrderById(int orderId)
+    {
+        var order= context.Orders.Find(orderId);
+        return new OrderDto
+        {
+            Id = order.Id,
+            TelephoneNumber = order.TelephoneNumber,
+            DateOrder = order.DateOrder,
+            AddressId = (int)order.AddressId,
+            CustomerId = order.CustomerId,
+            StatusId = (int)order.StatusId,
+        };
+    }
+
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         var book = context.Books.Find(orderDetail.BookId);

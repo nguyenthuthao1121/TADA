@@ -48,5 +48,9 @@ public class OrderListFillAllModel : PageModel
 
     }
 
-    
+    public IActionResult OnPost()
+    {
+        HttpContext.Session.SetInt32("OrderId", 1);
+        return RedirectToPage("/OrderDetailConfirm");
+    }
 }

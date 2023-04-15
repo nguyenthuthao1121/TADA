@@ -19,7 +19,6 @@ public class ConfirmPackageModel : PageModel
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
 
-    public string Username;
     public OrderDto Order { get; set; } = null;
     public List<OrderDetailDto> OrderDetails { get; set; }
     public CustomerDto Customer { get; set; }
@@ -75,7 +74,6 @@ public class ConfirmPackageModel : PageModel
 
     public void OnGet()
     {
-        Username = HttpContext.Session.GetString("Name");
         Order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault();
         OrderDetails = orderService.GetOrderDetailsByOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault());
         Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));

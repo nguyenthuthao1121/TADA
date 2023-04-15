@@ -28,26 +28,21 @@ namespace TADA.Model
             modelBuilder.Entity<CartDetail>()
                 .HasOne(bc => bc.Book)
                 .WithMany(b => b.CartDetails)
-                .HasForeignKey(bc => bc.BookId);
+                .HasForeignKey(bc => bc.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<CartDetail>()
                 .HasOne(bc => bc.Cart)
                 .WithMany(c => c.CartDetails)
-                .HasForeignKey(bc => bc.CartId);
+                .HasForeignKey(bc => bc.CartId)
+                .OnDelete(DeleteBehavior.Restrict);
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
-            modelBuilder.Entity<ContractDetail>()
-            .HasKey(bc => new { bc.ContractId, bc.BookId });
-            modelBuilder.Entity<ContractDetail>()
-                .HasOne(bc => bc.Book)
-                .WithMany(b => b.ContractDetails)
-                .HasForeignKey(bc => bc.BookId);
-            modelBuilder.Entity<ContractDetail>()
-                .HasOne(bc => bc.Contract)
-                .WithMany(c => c.ContractDetails)
-                .HasForeignKey(bc => bc.ContractId);
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Provider> Providers { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }

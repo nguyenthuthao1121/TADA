@@ -83,14 +83,17 @@
             <div class="user-view-book row">
                 @foreach (var i in Model.Books)
                 {
+                    var imgPath = i.Image + "/cover.jpg";
                     <div class="col-3 card-container">
                         <a asp-page="/User/BookDetailUser?id=@i.Id" class="card">
-                            <img src="img/book1.jpg" alt="Book image" class="card-body-top">
+                            <div class="card-img" style="height: 300px; width:100%; background-image: url(@Url.Content(imgPath));">
+                            </div>
+                            
                             <div class="card-body">
                                 <h5 class="card-title">@i.Name</h5>
-                                <span class="card-price">@i.GetPriceString(i.GetCurrentPrice()) VND</span>
+                                <span class="card-price">@i.GetPriceString(i.GetCurrentPrice()) đ</span>
                                 <span class="card-sale">-@i.Promotion%</span>
-                                <div class="card-oldprice">@i.GetPriceString(i.Price) VND</div>
+                                <div class="card-oldprice">@i.GetPriceString(i.Price) đ</div>
                                 <div class="card-rating mt-1">
                                     <span class="fas fa-star"></span>
                                     <span class="fas fa-star"></span>

@@ -49,11 +49,12 @@
                             @foreach (var cartDetail in Model.CartDetails)
                             {
                                 var Book = Model.GetBookByCartDetail(cartDetail);
+                                var imgPath = Book.Image + "/cover.jpg";
                                 <form class="cart__flex-item row" method="post">
                                     <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
                                         <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
                                     </label>
-                                    <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                                    <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
                                         <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="cart__book-name">
                                             @Book.Name
@@ -64,7 +65,7 @@
                                         </p>
                                     </div>
                                     <div class="cart__book-price col c-3">
-                                        <p>@Book.GetPriceString(Book.GetCurrentPrice()) VND</p>
+                                        <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
                                             <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
                                             <input class="form-control" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">

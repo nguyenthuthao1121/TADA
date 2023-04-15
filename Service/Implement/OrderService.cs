@@ -25,7 +25,10 @@ namespace TADA.Service.Implement
             return orderRepository.GetAllOrdersByAccountId(accountId);
         }
 
-
+        public OrderDto GetOrderById(int orderId)
+        {
+            return orderRepository.GetOrderById(orderId);
+        }
         public BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail)
         {
             return orderRepository.GetBookByOrderDetail(OrderDetail);
