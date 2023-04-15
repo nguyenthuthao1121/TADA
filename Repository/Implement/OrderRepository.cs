@@ -115,4 +115,113 @@ public class OrderRepository : IOrderRepository
         return context.Statuses.Find(order.StatusId).Name;
     }
 
+    public void DeleteOrder(OrderDto order)
+    {
+        var orderDel= context.Orders.Find(order.Id);
+        if (orderDel != null)
+        {
+            context.Orders.Remove(orderDel);
+            context.SaveChanges();
+        }
+    }
+
+    public void AddOrder(OrderDto order)
+    {
+        Order newOrder = new Order
+        {
+            TelephoneNumber = order.TelephoneNumber,
+            DateOrder = order.DateOrder,
+            AddressId = order.AddressId,
+            CustomerId = order.CustomerId,
+            StatusId = order.StatusId,
+        };
+        context.Orders.Add(newOrder);
+        context.SaveChanges();
+    }
+
+    public void UpdateStatusOrder(int orderId, int statusId)
+    {
+        var orderUpdate = context.Orders.Find(orderId);
+        if (orderUpdate != null)
+        {
+            orderUpdate.StatusId= statusId;
+            context.SaveChanges();
+        }
+    }
+    public void UpdateBookOrder(OrderDto order, BookDto book, int quantity)
+    {
+        var orderUpdate = context.Orders.Find(order.Id);
+        var bookNew = context.Books.Find(book.Id);
+        OrderDetail orderDetail = new OrderDetail
+        {
+            OrderId = order.Id,
+            BookId = book.Id,
+            Quantity = quantity,
+            Price = book.GetCurrentPrice() * quantity,
+        };
+        if (orderUpdate != null)
+        {
+            orderUpdate.OrderDetails.Add(orderDetail);
+            bookNew.OrderDetails.Add(orderDetail);
+        }
+
+    }
+
+    public void AddOrderDetail(OrderDetailDto orderDetailDto)
+    {
+        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
+        var book = context.Books.Find(orderDetailDto.BookId);
+        OrderDetail orderDetail = new OrderDetail
+        {
+            OrderId = orderDetailDto.OrderId,
+            BookId = orderDetailDto.BookId,
+            Quantity = orderDetailDto.Quantity,
+            Price = orderDetailDto.Price,
+        };
+        if (orderUpdate != null)
+        {
+            orderUpdate.OrderDetails.Add(orderDetail);
+            book.OrderDetails.Add(orderDetail);
+        }
+    }
+
+    public void UpdateOrderDetail(OrderDetailDto orderDetailDto, int quantity)
+    {
+        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
+        var book = context.Books.Find(orderDetailDto.BookId);
+        foreach (var orderDetail in orderUpdate.OrderDetails)
+        {
+            if (orderDetail.BookId == orderDetailDto.BookId)
+            {
+                orderDetail.Quantity = quantity;
+                orderDetail.Price = orderDetailDto.Price / orderDetailDto.Price * quantity;
+            }
+        }
+        foreach (var orderDetail in book.OrderDetails)
+        {
+            if (orderDetail.OrderId == orderDetailDto.OrderId)
+            {
+                orderDetail.Quantity = quantity;
+                orderDetail.Price = orderDetailDto.Price / orderDetailDto.Price * quantity;
+            }
+        }
+    }
+
+    public void DeleteOrderDetail(OrderDetailDto orderDetailDto)
+    {
+        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
+        var book = context.Books.Find(orderDetailDto.BookId);
+        OrderDetail orderDetail = new OrderDetail
+        {
+            OrderId = orderDetailDto.OrderId,
+            BookId = orderDetailDto.BookId,
+            Quantity = orderDetailDto.Quantity,
+            Price = orderDetailDto.Price,
+        };
+        if (orderUpdate != null)
+        {
+            orderUpdate.OrderDetails.Remove(orderDetail);
+            book.OrderDetails.Remove(orderDetail);
+        }
+    }
 }

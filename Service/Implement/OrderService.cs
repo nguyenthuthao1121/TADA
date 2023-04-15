@@ -45,5 +45,35 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderDetailsByOrder(order);
         }
+
+        public void DeleteOrder(OrderDto order)
+        {
+            orderRepository.DeleteOrder(order);
+        }
+
+        public void AddOrder(OrderDto order)
+        {
+            orderRepository.AddOrder(order);
+        }
+
+        public void UpdateStatusOrder(int orderId, int statusId)
+        {
+            orderRepository.UpdateStatusOrder(orderId, statusId);
+        }
+
+        public void AddOrderDetail(OrderDetailDto orderDetail)
+        {
+            orderRepository.AddOrderDetail(orderDetail);
+        }
+
+        public void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity)
+        {
+            orderRepository.UpdateOrderDetail(orderDetail, quantity);
+        }
+
+        public void DeleteOrderDetail(OrderDetailDto orderDetail)
+        {
+            orderRepository.DeleteOrderDetail(orderDetail);
+        }
     }
 }

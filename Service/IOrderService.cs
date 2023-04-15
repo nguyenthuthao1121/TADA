@@ -11,4 +11,10 @@ public interface IOrderService
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
     string GetStatusByOrder(OrderDto order);
+    void DeleteOrder(OrderDto order);
+    void AddOrder(OrderDto order);
+    void UpdateStatusOrder(int orderId, int statusId);
+    void AddOrderDetail(OrderDetailDto orderDetail);
+    void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity);
+    void DeleteOrderDetail(OrderDetailDto orderDetail);
 }

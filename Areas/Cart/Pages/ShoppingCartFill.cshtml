@@ -49,8 +49,10 @@
                             @foreach (var cartDetail in Model.CartDetails)
                             {
                                 var Book = Model.GetBookByCartDetail(cartDetail);
-                                <div class="cart__flex-item row">
-                                    <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
+                                <form class="cart__flex-item row" method="post">
+                                    <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
+                                        <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
+                                    </label>
                                     <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
                                     <div class="cart__book-desc col c-5">
                                         <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="cart__book-name">
@@ -65,12 +67,12 @@
                                         <p>@Book.GetPriceString(Book.GetCurrentPrice()) VND</p>
                                         <span class="form-group d-flex">
                                             <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                            <input class="form-control" type="text" value="@cartDetail.Quantity">
+                                            <input class="form-control" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
                                             <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                                         </span>
                                     </div>
                                     <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
-                                </div>
+                                </form>
                             }
 
                         </div>
@@ -97,7 +99,7 @@
                         </div>
                         <div class="btn--confirm">
                             <button class="btn--blue" style="width:100%;">
-                                <a asp-area="" asp-page="/User/ConfirmPackage">
+                                <a asp-area="Order" asp-page="ConfirmPackage">
                                     XÁC NHẬN ĐƠN HÀNG (1)
                                 </a>
                             </button>
@@ -134,10 +136,12 @@
             })
         for (var i=1;i<btnChecks.length;i++){
             btnChecks[i].addEventListener('click',function(event){
-                if (this.checked)
-                    this.parentElement.classList.add('cart__flex-item--checked');
+                if (this.checked){
+                    (this.parentElement).parentElement.classList.add('cart__flex-item--checked');
+                    
+                }
                 else{
-                    this.parentElement.classList.remove('cart__flex-item--checked');
+                    (this.parentElement).parentElement.classList.remove('cart__flex-item--checked');
                     btnChecks[0].checked=false;
                 }
             })

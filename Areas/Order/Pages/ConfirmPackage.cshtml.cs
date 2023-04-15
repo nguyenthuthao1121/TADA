@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.JSInterop;
 using TADA.Dto.Book;
 using TADA.Dto.Customer;
 using TADA.Dto.Order;
 using TADA.Dto.Staff;
 using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Service.Implement;
 
 namespace TADA.Pages;
 
@@ -41,7 +43,7 @@ public class ConfirmPackageModel : PageModel
         int sum = 0;
         foreach (var orderDetail in OrderDetails)
         {
-            sum += GetBookByOrderDetail(orderDetail).GetCurrentPrice();
+            sum += orderDetail.Price;
         }
         return sum;
     }
@@ -62,6 +64,15 @@ public class ConfirmPackageModel : PageModel
         tmp = str + tmp;
         return tmp;
     }
+    public void DeleteOrder(OrderDto order)
+    {
+        orderService.DeleteOrder(order);
+    }
+    public string GetPartOfAddress(int part)
+    {
+        return addressService.GetAddressByIdAndPart(Customer.AddressId, part);
+    }
+
     public void OnGet()
     {
         Username = HttpContext.Session.GetString("Name");
@@ -70,4 +81,11 @@ public class ConfirmPackageModel : PageModel
         Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
         Address = addressService.GetAddressById(Customer.AddressId);
     }
+    public IActionResult OnPostUpdateStatusOrder()
+    {
+        orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault().Id, 1);
+        Console.WriteLine("OK");
+        return RedirectToPage("/OrderListFillAll");
+    }
+
 }

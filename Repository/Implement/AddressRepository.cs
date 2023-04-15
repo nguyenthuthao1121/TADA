@@ -33,4 +33,15 @@ public class AddressRepository : IAddressRepository
         var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
         return $"{address.Street}, {ward.Name}, {district.Name}, {province.Name}";
     }
+    public string GetAddressByIdAndPart(int id, int part)
+    {
+        var address = context.Addresses.Find(id);
+        if (part == 1) return address.Street;
+        var ward = context.Wards.Find(address.WardId);
+        if (part == 2) return ward.Name;
+        var district=context.Districts.Find(ward.DistrictId);
+        if (part==3) return district.Name;
+        var province=context.Provinces.Find(district.ProvinceId);
+        return province.Name;
+    }
 }
