@@ -75,4 +75,8 @@ public class BookRepository : IBookRepository
         }).FirstOrDefault();
         return book;
     }
+    public int GetNumOfBooksByCategoryId(int categoryId)
+    {
+        return context.Books.Where(book => book.CategoryId == categoryId).Count();
+    }
 }

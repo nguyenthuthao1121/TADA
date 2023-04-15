@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TADA.Dto.Category;
+using TADA.Service;
 
 namespace TADA.Pages;
 
 public class CategoryManagementModel : PageModel
 {
-    private readonly ILogger<CategoryManagementModel> _logger;
-
-    public CategoryManagementModel(ILogger<CategoryManagementModel> logger)
+    private readonly ICategoryService categoryService;
+    public List<CategoryDto> Categories { get; set; }
+    public CategoryManagementModel(ICategoryService categoryService)
     {
-        _logger = logger;
+        this.categoryService = categoryService;
     }
 
     public void OnGet()
     {
-
+        Categories = categoryService.GetAllCategories();
     }
 }

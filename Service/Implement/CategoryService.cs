@@ -6,10 +6,12 @@ namespace TADA.Service.Implement;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository categoryRepository;
+    private readonly IBookRepository bookRepository;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IBookRepository bookRepository)
     {
         this.categoryRepository = categoryRepository;
+        this.bookRepository = bookRepository;
     }
     public List<CategoryDto> GetAllCategories()
     {
@@ -20,7 +22,8 @@ public class CategoryService : ICategoryService
             listCategories.Add(new CategoryDto()
             {
                 Id = category.Id,
-                Name = category.Name
+                Name = category.Name,
+                NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
             });
         }
         return listCategories;
