@@ -59,6 +59,7 @@ service.AddScoped<IRoleRepository, RoleRepository>();
 service.AddScoped<IRoleService, RoleService>();
 
 service.AddScoped<IProviderRepository, ProviderRepository>();
+service.AddScoped<IProviderService, ProviderService>();
 
 var app = builder.Build();
 

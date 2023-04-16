@@ -3,7 +3,8 @@
 @model OrderManagementModel
 @{
     ViewData["Title"] = "Quản lý đơn hàng";
-    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml"; 
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <div class="row">
