@@ -28,7 +28,7 @@
                         Chưa có sản phẩm trong giỏ hàng của bạn
                     </div>
                     <button class="btn--blue">
-                        <a asp-area="" asp-page="/Index">
+                        <a asp-area="Pages" asp-page="Index">
                             MUA SẮM NGAY
                         </a>
                     </button>
@@ -49,11 +49,14 @@
                             @foreach (var cartDetail in Model.CartDetails)
                             {
                                 var Book = Model.GetBookByCartDetail(cartDetail);
-                                <div class="cart__flex-item row">
-                                    <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
-                                    <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></a>
+                                var imgPath = Book.Image + "/cover.jpg";
+                                <form class="cart__flex-item row" method="post">
+                                    <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
+                                        <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
+                                    </label>
+                                    <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
-                                        <a asp-area="" asp-page="/User/BookDetailUser?id=@Book.Id" class="cart__book-name">
+                                        <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">
@@ -62,15 +65,15 @@
                                         </p>
                                     </div>
                                     <div class="cart__book-price col c-3">
-                                        <p>@Book.GetPriceString(Book.GetCurrentPrice()) VND</p>
+                                        <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
                                             <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                            <input class="form-control" type="text" value="@cartDetail.Quantity">
+                                            <input class="form-control" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
                                             <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                                         </span>
                                     </div>
                                     <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
-                                </div>
+                                </form>
                             }
 
                         </div>
@@ -97,7 +100,7 @@
                         </div>
                         <div class="btn--confirm">
                             <button class="btn--blue" style="width:100%;">
-                                <a asp-area="" asp-page="/User/ConfirmPackage">
+                                <a asp-area="Order" asp-page="ConfirmPackage">
                                     XÁC NHẬN ĐƠN HÀNG (1)
                                 </a>
                             </button>
@@ -134,10 +137,12 @@
             })
         for (var i=1;i<btnChecks.length;i++){
             btnChecks[i].addEventListener('click',function(event){
-                if (this.checked)
-                    this.parentElement.classList.add('cart__flex-item--checked');
+                if (this.checked){
+                    (this.parentElement).parentElement.classList.add('cart__flex-item--checked');
+                    
+                }
                 else{
-                    this.parentElement.classList.remove('cart__flex-item--checked');
+                    (this.parentElement).parentElement.classList.remove('cart__flex-item--checked');
                     btnChecks[0].checked=false;
                 }
             })
