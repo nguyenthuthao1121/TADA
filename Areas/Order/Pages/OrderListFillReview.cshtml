@@ -60,10 +60,10 @@
                 @foreach (var order in Model.Orders)
                 {
                     <div class="confirm__order-detail" style="border-radius: 8px;">
-                        <form class="order__title row" method="post">
-                            <button class="order-detail__button">Xem chi tiết đơn hàng</button>
+                        <div class="order__title row" method="post">
+                            <a class="order-detail--link" asp-area="Order" asp-page="OrderDetailConfirm" asp-route-id="@order.Id">Xem chi tiết đơn hàng</a>
                             <p style="color: var(--primary-color);">@Model.GetStatusOfOrder(order)</p>
-                        </form>
+                        </div>
                         <div class="confirm__book-list grid">
 
                             @{

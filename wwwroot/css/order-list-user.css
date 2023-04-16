@@ -61,7 +61,7 @@
         color: var(--black-color);
     }
 
-        #order-list__all--fill .confirm__order-detail .row button,
+        #order-list__all--fill .confirm__order-detail .row a,
         #order-list__all--fill .confirm__order-detail .row p {
             width: fit-content;
             display: block;

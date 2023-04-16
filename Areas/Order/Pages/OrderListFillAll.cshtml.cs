@@ -47,10 +47,4 @@ public class OrderListFillAllModel : PageModel
         Orders = orderService.GetAllOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"));
 
     }
-
-    public IActionResult OnPost()
-    {
-        HttpContext.Session.SetInt32("OrderId", 1);
-        return RedirectToPage("/OrderDetailConfirm");
-    }
 }

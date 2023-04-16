@@ -76,12 +76,16 @@ public class OrderDetailConfirmModel : PageModel
 
     public void OnGet()
     {
-        Username = HttpContext.Session.GetString("Name");
-        Order = orderService.GetOrderById((int)HttpContext.Session.GetInt32("OrderId"));
-        if (Order == null) { statusId = 1; }
-        else statusId = Order.StatusId;
-        OrderDetails = orderService.GetOrderDetailsByOrder(orderService.GetOrderById((int)HttpContext.Session.GetInt32("OrderId")));
-        Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
-        Address = addressService.GetAddressById(Customer.AddressId);
+        if (int.TryParse(Request.Query["id"], out int orderId))
+        {
+            Username = HttpContext.Session.GetString("Name");
+            Order = orderService.GetOrderById(orderId);
+            if (Order == null) { statusId = 1; }
+            else statusId = Order.StatusId;
+            OrderDetails = orderService.GetOrderDetailsByOrder(orderService.GetOrderById(orderId));
+            Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
+            Address = addressService.GetAddressById(Customer.AddressId);
+        }
+            
     }
 }
