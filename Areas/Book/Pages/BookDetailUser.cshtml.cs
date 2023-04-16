@@ -14,9 +14,6 @@ public class BookDetailUserModel : PageModel
     public BookDto Book { get; set; }
     public List<ReviewDto> Reviews { get; set; }
 
-    public string Username;
-    public int TotalNumberOfReview;
-    public double AverageRating;
     public double OneStar;
     public double TwoStar;
     public double ThreeStar;
@@ -29,21 +26,21 @@ public class BookDetailUserModel : PageModel
     }
     public void OnGet()
     {
-        Username = HttpContext.Session.GetString("Name");
-        Book = bookService.GetBookById(10);
-        Reviews = reviewService.GetReviewsByBookId(10);
-        AverageRating = Math.Round(reviewService.GetAverageRating(10), 1);
-        TotalNumberOfReview = Reviews.Count();
-        int numberOfOneStar = reviewService.GetNumberOfStar(10, 1);
-        int numberOfTwoStar = reviewService.GetNumberOfStar(10, 2);
-        int numberOfThreeStar = reviewService.GetNumberOfStar(10, 3);
-        int numberOfFourStar = reviewService.GetNumberOfStar(10, 4);
-        int numberOfFiveStar = reviewService.GetNumberOfStar(10, 5);
-        OneStar = numberOfOneStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfOneStar / TotalNumberOfReview * 100), 1);
-        TwoStar = numberOfTwoStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfTwoStar / TotalNumberOfReview * 100), 1);
-        ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / TotalNumberOfReview * 100), 1);
-        FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / TotalNumberOfReview * 100), 1);
-        FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / TotalNumberOfReview * 100), 1);
-
+        if (int.TryParse(Request.Query["id"], out int bookId))
+        {
+            Book = bookService.GetBookById(bookId);
+            Reviews = reviewService.GetReviewsByBookId(bookId);
+            int numberOfOneStar = reviewService.GetNumberOfStar(bookId, 1);
+            int numberOfTwoStar = reviewService.GetNumberOfStar(bookId, 2);
+            int numberOfThreeStar = reviewService.GetNumberOfStar(bookId, 3);
+            int numberOfFourStar = reviewService.GetNumberOfStar(bookId, 4);
+            int numberOfFiveStar = reviewService.GetNumberOfStar(bookId, 5);
+            OneStar = numberOfOneStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfOneStar / Book.NumberOfReview * 100), 1);
+            TwoStar = numberOfTwoStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfTwoStar / Book.NumberOfReview * 100), 1);
+            ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
+            FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
+            FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
+        }
+        
     }
 }

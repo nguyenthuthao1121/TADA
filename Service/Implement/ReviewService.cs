@@ -11,10 +11,6 @@ namespace TADA.Service.Implement
             this.reviewRepository = reviewRepository;
         }
 
-        public double GetAverageRating(int bookId)
-        {
-            return reviewRepository.GetAverageRating(bookId);
-        }
         public int GetNumberOfStar(int bookId, int star)
         {
             return reviewRepository.GetNumberOfStar(bookId, star);

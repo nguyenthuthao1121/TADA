@@ -6,6 +6,5 @@ namespace TADA.Service
     {
         List<ReviewDto> GetReviewsByBookId(int bookId);
         int GetNumberOfStar(int bookId, int star);
-        double GetAverageRating(int bookId);
     }
 }

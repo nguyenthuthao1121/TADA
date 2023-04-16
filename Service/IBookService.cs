@@ -4,7 +4,7 @@ namespace TADA.Service;
 
 public interface IBookService
 {
-    List<BookDto> GetAllBook();
+    List<BookDto> GetAllBooks();
 
     List<BookDto> GetBooks(int category, String priceRange, String sortBy);
 

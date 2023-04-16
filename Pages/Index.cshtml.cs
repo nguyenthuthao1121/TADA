@@ -15,6 +15,10 @@ public class IndexModel : PageModel
     private readonly ICategoryService categoryService;
     private readonly IAccountService accountService;
 
+    public const int ITEMS_PER_PAGE = 12;
+    public int countPages { get; set; }
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int currentPage { get; set; }
     public List<BookDto> Books { get; set; }
     public List<CategoryDto> Categories { get; set; }
     public AccountDto Account { get; set; }
@@ -25,7 +29,6 @@ public class IndexModel : PageModel
     public string SortBy { get; set; } = "New";
     [BindProperty(SupportsGet = true)]
     public string PriceRange { get; set; } = string.Empty;
-    public string Username;
 
     public IndexModel(IBookService bookService, ICategoryService categoryService, IAccountService accountService)
     {
@@ -36,9 +39,20 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        Books = bookService.GetBooks(Category, PriceRange, SortBy);
+        var books = bookService.GetBooks(Category, PriceRange, SortBy);
+
         Categories = categoryService.GetAllCategories();
-        Username = HttpContext.Session.GetString("Name");
+        int totalBook = books.Count();
+        countPages = (int)Math.Ceiling((double)totalBook / ITEMS_PER_PAGE);
+        if (currentPage < 1)
+        {
+            currentPage = 1;
+        }
+        if (currentPage > countPages)
+        {
+            currentPage = countPages;
+        }
+        Books = books.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
     }
 
 

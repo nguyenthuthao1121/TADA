@@ -6,8 +6,7 @@ namespace TADA.Repository;
 
 public interface IBookRepository
 {
-    List<Book> GetAllBooks();
-
-    List<Book> GetBooks(int category, string priceRange, string sortBy);
+    List<BookDto> GetAllBooks();
+    List<BookDto> GetBooks(int category, string priceRange, string sortBy);
     BookDto GetBookById(int id);
 }
