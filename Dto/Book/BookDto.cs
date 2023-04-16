@@ -26,10 +26,12 @@ public class BookDto
     public string CategoryName { get; set; }
     public string ProviderName { get; set; }
     public int CategoryId { get; set; }
-    public BookDto()
-    {
-        
-    }
+    public int ProviderId { get; set; }
+    public double AverageRating { get; set; }
+    public int NumberOfReview { get; set; }
+
+
+
     public int GetCurrentPrice()
     {
         return Price - Price * Promotion / 100;

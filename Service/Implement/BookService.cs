@@ -14,64 +14,14 @@ public class BookService : IBookService
         this.categoryRepository = categoryRepository;
         this.providerRepository = providerRepository;
     }
-    public List<BookDto> GetAllBook()
+    public List<BookDto> GetAllBooks()
     {
-        var books = bookRepository.GetAllBooks();
-        var listBook = new List<BookDto>();
-        foreach (var book in books)
-        {
-            listBook.Add(new BookDto 
-            {
-                Id = book.Id,
-                Name = book.Name,
-                Author = book.Author,
-                Publisher = book.Publisher,
-                PublicationYear = book.PublicationYear,
-                Genre = book.Genre,
-                Pages = book.Pages,
-                Length = book.Length,
-                Weight = book.Weight,
-                Width = book.Width,
-                Price = book.Price,
-                Cover = book.Cover,
-                Quantity = book.Quantity,
-                Description = book.Description,
-                Image = book.Image,
-                Promotion = book.Promotion,
-                CategoryId = book.CategoryId,
-            });
-        }
-        return listBook;
+        return bookRepository.GetAllBooks();
     }
-
     public List<BookDto> GetBooks(int category, string priceRange, string sortBy)
     {
-        var books = bookRepository.GetBooks(category, priceRange, sortBy);
-        var listBook = new List<BookDto>();
-        foreach (var book in books)
-        {
-            listBook.Add(new BookDto
-            {
-                Id = book.Id,
-                Name = book.Name,
-                Author = book.Author,
-                Publisher = book.Publisher,
-                PublicationYear = book.PublicationYear,
-                Genre = book.Genre,
-                Pages = book.Pages,
-                Length = book.Length,
-                Weight = book.Weight,
-                Width = book.Width,
-                Price = book.Price,
-                Cover = book.Cover,
-                Quantity = book.Quantity,
-                Description = book.Description,
-                Image = book.Image,
-                Promotion = book.Promotion,
-                CategoryId = book.CategoryId,
-            });
-        }
-        return listBook;
+        return bookRepository.GetBooks(category, priceRange, sortBy);
+          
     }
 
     public BookDto GetBookById(int id)

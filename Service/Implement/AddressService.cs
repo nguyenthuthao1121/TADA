@@ -33,6 +33,9 @@ public class AddressService : IAddressService
     {
         return addressRepository.GetCustomerAddressByAccountId(id);
     }
-
+    public string GetAddressByIdAndPart(int id, int part)
+    {
+        return addressRepository.GetAddressByIdAndPart(id, part);
+    }
 
 }

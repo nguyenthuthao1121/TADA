@@ -2,7 +2,12 @@
     font-weight: 400;
     color: black;
 }
-
+.book-image img {
+    width: 75%;
+    height: 50vh;
+    object-fit: contain;
+    border: 0.5px;
+}
 .book-essential-detail .book-price .new-price {
     color: var(--primary-color);
     font-weight: bold;

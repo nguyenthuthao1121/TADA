@@ -6,7 +6,24 @@
     Layout = "_LayoutUser";
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
-
+@{
+    // xây dựng Func phát sinh Url từ page ./Index
+    Func<int?, int?, string> generateUrl = (int? _category, int? _pagenumber) =>
+                    {
+                        if (Model.Category == 0)
+                        {
+                            return Url.Page("./Index", new {pageNumber = _pagenumber});
+                        }
+                        return Url.Page("./Index", new { category = _category, pageNumber = _pagenumber });
+                    };
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = generateUrl,
+        category = Model.Category
+    };
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-1"></div>
@@ -16,9 +33,7 @@
                 @foreach (var category in Model.Categories)
                 {
                     <li class="category-items fw-bold text-dark">
-                        <button type="button" class="btn">
-                            <a href="@Url.Content("~/?category=" + @category.Id)">@category.Name</a>
-                        </button>
+                        <a href="@Url.Page("./Index", new { category = category.Id })">@category.Name</a>
                     </li>
                 }
             </ul>
@@ -80,23 +95,57 @@
                 </div>
             </form>
             <div class="user-view-book row">
-                @foreach (var i in Model.Books)
+                @foreach (var book in Model.Books)
                 {
+                    var imgPath = book.Image + "/cover.jpg";
                     <div class="col-3 card-container">
-                        <a asp-page="/User/BookDetailUser?id=@i.Id" class="card">
-                            <img src="img/book1.jpg" alt="Book image" class="card-body-top">
+                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@book.Id" class="card h-100">
+                            <img src="@Url.Content(imgPath)" alt="Book image" class="card-body-top">
                             <div class="card-body">
-                                <h5 class="card-title">@i.Name</h5>
-                                <span class="card-price">@i.GetPriceString(i.GetCurrentPrice()) VND</span>
-                                <span class="card-sale">-@i.Promotion%</span>
-                                <div class="card-oldprice">@i.GetPriceString(i.Price) VND</div>
-                                <div class="card-rating mt-1">
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="fas fa-star"></span>
-                                    <span class="card-numRating ms-1">(0)</span>
+                                <h5 class="card-title">@book.Name</h5>
+                                <span class="card-price" style="line-height: 32px">@book.GetPriceString(book.GetCurrentPrice()) đ</span>
+                                @{
+                                    if (book.Promotion != 0)
+                                    {
+                                        <span class="card-sale">-@book.Promotion%</span>
+                                        <div class="card-oldprice">@book.GetPriceString(book.Price) đ</div>
+                                    }
+                                    else
+                                    {
+                                        <div style="height: 24px"></div>
+                                    }
+                                }
+                               <div class="card-rating mt-1">
+                                    @{
+                                        for (int i = 1; i <= (int)book.AverageRating; i++)
+                                        {
+                                            <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
+                                        }
+                                        if (book.AverageRating - (int)book.AverageRating <= 0.2)
+                                        {
+                                            for (int i = 1; i <= 5 - (int)book.AverageRating; i++)
+                                            {
+                                                <span class="fas fa-star"></span>
+                                            }
+                                        }
+                                        else if (book.AverageRating - (int)book.AverageRating >= 0.3 && book.AverageRating - (int)book.AverageRating <= 0.7)
+                                        {
+                                            <span class="fa fa-star-half" style="color: #F6A500;"></span>
+                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            {
+                                                <span class="fas fa-star"></span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="fas fa-star" style="color: #F6A500;"></span>
+                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            {
+                                                <span class="fas fa-star"></span>
+                                            }
+                                        }
+                                    }
+                                    <span class="card-numRating ms-1">(@book.NumberOfReview)</span>
                                 </div>
                             </div>
                         </a>
@@ -104,28 +153,6 @@
                 }
             </div>
             <div class="row my-5">
-@*                <ul class="col pagination justify-content-center">
-                    <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-left"></i></button></li>
-                    <li><button type="button" class="btn btn-primary">1</button></li>
-                    <li><button type="button" class="btn btn-primary">2</button></li>
-                    <li><button type="button" class="btn btn-primary">3</button></li>
-                    <li><button type="button" class="btn btn-primary"><i class="fas fa-chevron-right"></i></button></li>
-                </ul>*@
-                @{
-                    // xây dựng Func phát sinh Url từ page ./Index
-                    Func<int?, string> generateUrl = (int? _pagenumber) =>
-                    {
-                        return Url.Page("./Index", new { pageNumber = _pagenumber });
-                    };
-
-                    var datapaging = new
-                    {
-                        currentPage = 2,    // trang hiện tại
-                        countPages = 20,   // tổng  số trang
-                        generateUrl = generateUrl
-                    };
-
-                }
                 <partial name="_PagingUser" model="@datapaging" />
             </div>
         </div>

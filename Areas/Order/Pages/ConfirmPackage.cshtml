@@ -1,9 +1,9 @@
 ﻿@page
 @model ConfirmPackageModel
 @{
-    ViewData["Title"] = "Xác nhận đơn hàng";
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
-    ViewBag.Name = Model.Username;
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+    ViewData["Title"] = "Đơn hàng";
 }
 
 <div id="confirm-package">
@@ -30,8 +30,9 @@
                             @foreach (var orderDetail in Model.OrderDetails)
                             {
                                 var Book = Model.GetBookByOrderDetail(orderDetail);
+                                var imgPath = Book.Image + "/cover.jpg";
                                 <div class="cart__flex-item row">
-                                    <div class="order-book__img col c-2"><img src="~/img/book1.jpg" alt="Ảnh sách" width=95%></div>
+                                    <div class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px"></div>
                                     <div class="cart__book-desc col c-6">
                                         <p class="cart__book-name">
                                             @Book.Name
@@ -42,7 +43,7 @@
                                         </p>
                                     </div>
                                     <div class="cart__book-price col c-2">
-                                        @orderDetail.GetPriceString(orderDetail.Price) VND
+                                        @orderDetail.GetPriceString(orderDetail.Price) đ
                                     </div>
                                     <div class="cart__book-number col c-2">
                                         Số lượng: @orderDetail.Quantity
@@ -63,87 +64,87 @@
                     <div class="order-detail__desc grid">
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng giá (@Model.OrderDetails.Count sách)</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.SumPriceOfBooks()) VND</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.SumPriceOfBooks()) đ</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">15.000 VND</div>
+                            <div class="col c-5" style="padding: 0; text-align:right;">15.000 đ</div>
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng tiền</div>
-                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetPriceString(Model.SumPriceOfOrder()) VND</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetPriceString(Model.SumPriceOfOrder()) đ</div>
                         </div>
                     </div>
-                    <div class="btn--confirm">
-                        <button class="btn--blue" style="width:100%;">
-                            <a asp-area="" asp-page="/User/OrderListFillAll">
-                                XÁC NHẬN ĐẶT HÀNG
-                            </a>
+                    <form class="btn--confirm" method="post" asp-page-handler="UpdateStatusOrder">
+                        <button class="btn btn-primary" style="width:100%;" type="submit">
+                            XÁC NHẬN ĐẶT HÀNG
                         </button>
-                    </div>
+                    </form>
                 </div>
         </div>
-    </div>
+        </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalInformation" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content rounded-0 border-0">
-            <div class="modal-header border-0">
-              <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
-            </div>
-            <div class="modal-body containter-fluid py-0">
-              <div class="row">
-                <div class="col-6 form-group">
-                  <label for="changeName" class="form-label">Họ và tên</label>
-                  <input type="text" class="form-control" id="changeName" name="userName" placeholder="Nhập họ và tên">
+        <!-- Modal -->
+        <form class="modal fade" id="modalInformation" data-bs-backdrop="static">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content rounded-0 border-0">
+                <div class="modal-header border-0">
+                  <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
                 </div>
-                <div class="col-6 form-group">
-                  <label for="changeAddress" class="form-label">Địa chỉ</label>
-                  <input type="text" class="form-control" id="changeAddress" name="userAddress" placeholder="Nhập địa chỉ">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 form-group">
-                  <label for="changeTele" class="form-label">Số điện thoại</label>
-                  <input type="text" class="form-control" id="changeTele" name="userTele" placeholder="Nhập số điện thoại">
-                </div>
-                <div class="col-6 form-group">
-                  <label for="changeCity" class="form-label">Tỉnh/Thành phố</label>
-                  <select class="form-select custom-select" id="changeCity" name="userCity"></select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 c-o-6 form-group">
-                  <label for="changeDistrict" class="form-label">Huyện/Quận</label>
-                  <select class="form-select custom-select" id="changeDistrict" name="userDistrict"></select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 c-o-6 form-group">
-                  <label for="changeWard" class="form-label">Xã/Phường</label>
-                  <select class="form-select custom-select" id="changeWard" name="userWard"></select>
-                </div>
-              </div>
-              <div class="modal-footer col c-6 c-o-6">
-                <div class="row">
-                    <div class="button col c-6 btn--confirm">
-                      <button type="button" class="btn--grey" style="width:100%;" data-bs-dismiss="modal">
-                          <a href="#">HỦY</a>
-                      </button>
+                <div class="modal-body containter-fluid py-0">
+                  <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="changeName" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="changeName" name="userName" placeholder="Nhập họ và tên" value="@Model.Customer.Name">
                     </div>
-                    <div class="button col c-6 btn--confirm">
-                      <button type="button" class="btn--blue" style="width:100%; " data-bs-dismiss="modal">
-                          <a href="#">LƯU ĐỊA CHỈ</a>
-                      </button>
+                    
+                    <div class="col-6 form-group">
+                        <label for="changeCity" class="form-label">Tỉnh/Thành phố</label>
+                        <select class="form-select custom-select" id="changeCity" name="userCity" ></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="changeTele" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="changeTele" name="userTele" placeholder="Nhập số điện thoại" value="@Model.Customer.TelephoneNumber">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label for="changeDistrict" class="form-label">Huyện/Quận</label>
+                        <select class="form-select custom-select" id="changeDistrict" name="userDistrict"></select>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 c-o-6 form-group" style="padding-right:0">
+                        <label for="changeWard" class="form-label">Xã/Phường</label>
+                        <select class="form-select custom-select" id="changeWard" name="userWard"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                                <div class="col-6 c-o-6 form-group" style="padding-right:0">
+                      <label for="changeAddress" class="form-label">Địa chỉ</label>
+                      <input type="text" class="form-control" id="changeAddress" name="userAddress" placeholder="Nhập địa chỉ" value="@Model.GetPartOfAddress(1)">
+                    </div>
+                  </div>
+                  <div class="modal-footer col c-6 c-o-6">
+                    <div class="row">
+                                    <div class="button col c-6 btn--confirm" style="padding-left:0">
+                            <button type="button" class="btn btn-secondary" style="width:100%;" data-bs-dismiss="modal">
+                              HỦY
+                            </button>
+                        </div>
+                        <div class="button col c-6 btn--confirm">
+                            <button type="button" class="btn btn-primary" style="width:100%; " data-bs-dismiss="modal">
+                                LƯU ĐỊA CHỈ
+                          </button>
+                        </div>
                     </div>
                 </div>
+              </div>
             </div>
           </div>
-        </div>
+
+
       </div>
 
-
-  </div>
-</div>
+    </form>
+    
 </div>

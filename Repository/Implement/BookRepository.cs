@@ -12,12 +12,18 @@ public class BookRepository : IBookRepository
     {
         this.context = context;
     }
-    public List<Book> GetAllBooks()
+    public List<BookDto> GetAllBooks()
     {
-        return context.Books.ToList();
+        var bookIds = context.Books.Select(p => p.Id).ToList();
+        List<BookDto> books = new List<BookDto>();
+        foreach(var book in bookIds)
+        {
+            books.Add(GetBookById(book));
+        }
+        return books;
     }
 
-    public List<Book> GetBooks(int category, string priceRange, string sortBy)
+    public List<BookDto> GetBooks(int category, string priceRange, string sortBy)
     {
         int min = 0;
         int max = int.MaxValue;
@@ -32,29 +38,53 @@ public class BookRepository : IBookRepository
             min = 0;
             max = int.MaxValue;
         }
-
+        List<int> bookIds = new List<int>();
+        List<BookDto> books = new List<BookDto>();
         if (category != 0)
         {
             switch (sortBy)
             {
-                case "Asc": return context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderBy(x => x.Price).ToList();
-                case "Desc": return context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderByDescending(x => x.Price).ToList();
-                default: return context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderByDescending(x => x.Id).ToList();
+                case "Asc": 
+                    bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderBy(x => x.Price).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderByDescending(x => x.Price).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                    break;
             }
         }
         else
         {
             switch (sortBy)
             {
-                case "Asc": return context.Books.OrderBy(x => x.Price).Where(x => x.Price <= max && x.Price >= min).ToList();
-                case "Desc": return context.Books.OrderByDescending(x => x.Price).Where(x => x.Price <= max && x.Price >= min).ToList();
-                default: return context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min).ToList();
+                case "Asc":
+                    bookIds = context.Books.OrderBy(x => x.Price).Where(x => x.Price <= max && x.Price >= min).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    bookIds = context.Books.OrderByDescending(x => x.Price).Where(x => x.Price <= max && x.Price >= min).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    bookIds = context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min).Select(p => p.Id).ToList();
+                    break;
             }
         }
+        foreach(int i in bookIds)
+        {
+            books.Add(GetBookById(i));
+        }
+        return books;
     }
-    public BookDto GetBookById(int id)
+    public BookDto GetBookById(int bookId)
     {
-        var book = context.Books.Where(book => book.Id == id).Select(book => new BookDto
+        var book = context.Books.FirstOrDefault(x => x.Id == bookId);
+        var entry = context.Entry(book);
+        entry.Reference(b => b.Category).Load();
+        entry.Reference(b => b.Provider).Load();
+        entry.Collection(b => b.Reviews).Load();
+        double rating = (book.Reviews.Count() == 0) ? 0 : book.Reviews.Average(x => x.Rating);
+        return new BookDto
         {
             Id = book.Id,
             Name = book.Name,
@@ -71,9 +101,13 @@ public class BookRepository : IBookRepository
             Quantity = book.Quantity,
             Description = book.Description,
             Image = book.Image,
-            Promotion = book.Promotion
-        }).FirstOrDefault();
-        return book;
+            Promotion = book.Promotion,
+            AverageRating = rating,
+            NumberOfReview = book.Reviews.Count(),
+            CategoryId = book.CategoryId,
+            CategoryName = book.Category.Name,
+            ProviderName = book.Provider.Name
+		};
     }
     public int GetNumOfBooksByCategoryId(int categoryId)
     {

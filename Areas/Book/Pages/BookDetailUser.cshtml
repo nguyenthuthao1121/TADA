@@ -22,16 +22,16 @@
             sr.Close();
         }
     }
-    var imgPath = Model.Book.Image + "/thien_su_nha_ben_5_bia.jpg";
+    var imgPath = Model.Book.Image + "/cover.jpg";
 }
 <div class="container-fluid">
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">
             <div class="row bg-white px-3 py-4 mt-3 rounded">
-                <div class="col-4">
-                    <div class="bookImage" style="border: 0.5px solid #CCCCCC;">
-                        <img src="@Url.Content(imgPath)" alt="Book image" style="width: 100%; border: 0.5px">
+                <div class="col-5">
+                    <div class="book-image" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:flex-end">
+                        <img src="@Url.Content(imgPath)" alt="Book image">
                     </div>
                     <div class="row mt-3">
                         <div class="col">
@@ -42,12 +42,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="book-essential-detail col-8 px-5">
+                <div class="book-essential-detail col-7 px-5">
                     <h4 class="fw-bold" style="line-height: 2rem">@Model.Book.Name</h4>
                     <div class="row mt-4">
                         <div class="provider col-6">
                             <span>Nhà cung cấp:</span>
-                            <span style="color: var(--primary-color)">Phụ Nữ</span>
+                            <span style="color: var(--primary-color)">@Model.Book.ProviderName</span>
                         </div>
                         <div class="author col-6">
                             <span>Tác giả:</span>
@@ -66,18 +66,50 @@
                     </div>
                     <div class="row" style="margin-top: 4rem">
                         <div class="rating-star">
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
-                            <span class="ms-1" style="color: var(--primary-color)">(0 đánh giá)</span>
+                            @{
+                                for (int i = 1; i <= (int)Model.Book.AverageRating; i++)
+                                {
+                                    <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
+                                }
+                                if (Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.2)
+                                {
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                                else if (Model.Book.AverageRating - (int)Model.Book.AverageRating >= 0.3 && Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.7)
+                                {
+                                    <span class="fa fa-star-half" style="color: #F6A500;"></span>
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="fas fa-star" style="color: #F6A500;"></span>
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
+                                    {
+                                        <span class="fas fa-star"></span>
+                                    }
+                                }
+                            }
+                            <span class="ms-1" style="color: var(--primary-color)">(@Model.Book.NumberOfReview đánh giá)</span>
                         </div>
                     </div>
                     <div class="book-price mt-2 d-flex align-items-center">
-                        <span class="new-price">@newPrice đ</span>
-                        <span class="old-price">@oldPrice đ</span>
-                        <span class="sale-percent">@(-Model.Book.Promotion)%</span>
+                        @if(Model.Book.Promotion != 0)
+                        {
+                            <span class="new-price">@Model.Book.GetPriceString(Model.Book.GetCurrentPrice()) đ</span>
+                            <span class="old-price">@Model.Book.GetPriceString(Model.Book.Price) đ</span>
+                            <span class="sale-percent">@(-Model.Book.Promotion)%</span>
+                        }
+                        else
+                        {
+                            <span class="new-price">@Model.Book.GetPriceString(Model.Book.GetCurrentPrice()) đ</span>
+                        }
+
                     </div>
                     <div class="quantity mt-3 d-flex" style="align-items: baseline">
                         <span style="font-weight: bold; margin-right: 2rem">Số lượng:</span>
@@ -97,7 +129,7 @@
                             <tbody>
                                 <tr>
                                     <td>Tên nhà cung cấp</td>
-                                    <td>Phụ Nữ</td>
+                                    <td>@Model.Book.ProviderName</td>
                                 </tr>
                                 <tr>
                                     <td>Tác giả</td>
@@ -149,26 +181,26 @@
                 <div class="col-12 px-3 d-flex">
                     <div class="rating-detail">
                         <div class="rating-number" style="text-align: center;">
-                            <span style="font-weight: bold; font-size: 4rem">@Model.AverageRating</span>
+                            <span style="font-weight: bold; font-size: 4rem">@Model.Book.AverageRating</span>
                             <span style="font-weight: bold; font-size: 3rem">/5</span>
                         </div>
                         <div class="rating-star" style="margin-top: -0.8rem; text-align: center;">
                             @{
-                                for(int i = 1; i <= (int)Model.AverageRating; i++)
+                                for(int i = 1; i <= (int)Model.Book.AverageRating; i++)
                                 {
                                     <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
                                 }
-                                if (Model.AverageRating - (int)Model.AverageRating <= 0.2)
+                                if (Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.2)
                                 {
-                                    for (int i = 1; i <= 5 - (int)Model.AverageRating; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
-                                else if (Model.AverageRating - (int)Model.AverageRating >= 0.3 && Model.AverageRating - (int)Model.AverageRating <= 0.7)
+                                else if (Model.Book.AverageRating - (int)Model.Book.AverageRating >= 0.3 && Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.7)
                                 {
                                     <span class="fa fa-star-half" style="color: #F6A500;"></span>
-                                    for (int i = 1; i <= 5 - (int)Model.AverageRating - 1; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
@@ -176,13 +208,13 @@
                                 else
                                 {
                                     <span class="fas fa-star" style="color: #F6A500;"></span>
-                                    for (int i = 1; i <= 5 - (int)Model.AverageRating - 1; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
                             }
-                            <div class="mt-1" style="color: var(--primary-color)">(@Model.TotalNumberOfReview đánh giá)</div>
+                            <div class="mt-1" style="color: var(--primary-color)">(@Model.Book.NumberOfReview đánh giá)</div>
                         </div>
                     </div>
                     <div class="rating-bar">

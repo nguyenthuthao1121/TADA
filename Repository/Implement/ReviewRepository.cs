@@ -11,12 +11,6 @@ namespace TADA.Repository.Implement
             this.context = context;
         }
 
-        public double GetAverageRating(int bookId)
-        {
-            var reviews = GetReviewsByBookId(bookId);
-            return reviews.Average(p => p.Rating);
-        }
-
         public int GetNumberOfStar(int bookId, int star)
         {
             var reviews = GetReviewsByBookId(bookId);

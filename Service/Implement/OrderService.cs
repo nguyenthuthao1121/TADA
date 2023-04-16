@@ -27,7 +27,10 @@ namespace TADA.Service.Implement
             return orderRepository.GetAllOrdersByAccountId(accountId);
         }
 
-
+        public OrderDto GetOrderById(int orderId)
+        {
+            return orderRepository.GetOrderById(orderId);
+        }
         public BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail)
         {
             return orderRepository.GetBookByOrderDetail(OrderDetail);
@@ -47,6 +50,7 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderDetailsByOrder(order);
         }
+<<<<<<< HEAD
         public List<OrderManagementDto> GetAllOrdersForManagement()
         {
             var list = new List<OrderManagementDto>();
@@ -104,6 +108,37 @@ namespace TADA.Service.Implement
                 });
             }
             return list;
+=======
+
+        public void DeleteOrder(OrderDto order)
+        {
+            orderRepository.DeleteOrder(order);
+        }
+
+        public void AddOrder(OrderDto order)
+        {
+            orderRepository.AddOrder(order);
+        }
+
+        public void UpdateStatusOrder(int orderId, int statusId)
+        {
+            orderRepository.UpdateStatusOrder(orderId, statusId);
+        }
+
+        public void AddOrderDetail(OrderDetailDto orderDetail)
+        {
+            orderRepository.AddOrderDetail(orderDetail);
+        }
+
+        public void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity)
+        {
+            orderRepository.UpdateOrderDetail(orderDetail, quantity);
+        }
+
+        public void DeleteOrderDetail(OrderDetailDto orderDetail)
+        {
+            orderRepository.DeleteOrderDetail(orderDetail);
+>>>>>>> c62899945b3ed94c449ef38cc7ef364fac3db29e
         }
     }
 }
