@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Provider\Pages\" />
     <Folder Include="Areas\Revuene\Pages\" />
   </ItemGroup>
 

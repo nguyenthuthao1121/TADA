@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Quản lý sách";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
 <div class="row">

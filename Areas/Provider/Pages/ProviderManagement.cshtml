@@ -1,7 +1,7 @@
 ﻿@page
-@model CategoryManagementModel
+@model ProviderManagementModel
 @{
-    ViewData["Title"] = "Quản lý danh mục";
+    ViewData["Title"] = "Quản lý nhà cung cấp";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
@@ -12,32 +12,12 @@
             <div class="feature-item filter-search">
                 <div class="filter-search-feature">
                     <div class="search-feature">
-                        <input type="text" class="search-feature-input" style="width: 300px" placeholder="Tìm kiếm danh mục">
+                        <input type="text" class="search-feature-input" style="width: 300px" placeholder="Tìm kiếm nhà cung cấp">
                         <button class="feature-btn">
                             <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="feature-item sort">
-                <span class="sort-heading">Sắp xếp theo :</span>
-                <div class="sort-feature">
-                    <div class="sort-feature-item">
-                        <select class="sort-by" name="sort-by" id="sort-by">
-                            <option value="categoryID">Mã danh mục</option>
-                            <option value="categoryName">Tên danh mục</option>
-                            <option value="count">Số lượng sách</option>
-                        </select>
-                        <select class="sort-type" name="sort-type" id="sort-type">
-                            <option value="Tăng dần">Tăng dần</option>
-                            <option value="Giảm dần">Giảm dần</option>
-                        </select>
-                        <button class="feature-btn">
-                            Sắp xếp
-                        </button>
-                    </div>
-                </div>
-
             </div>
         </div>
         <div class="user-list-container">
@@ -45,19 +25,17 @@
                 <table class="table">
                     <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
                         <th style="width: 10%">STT</th>
-                        <th style="width: 30%">Mã danh mục</th>
-                        <th style="width: 40%">Tên danh mục</th>
-                        <th style="width: 20%">Số lượng sách</th>
+                        <th style="width: 25%">Tên nhà cung cấp</th>
+                        <th style="width: 65%">Địa chỉ</th>
                     </tr>
                     @{
                         int cnt = 0;
-                        foreach (var category in Model.Categories)
+                        foreach (var provider in Model.Providers)
                         {
                             <tr class="table-container" style="color: var(--text-color)">
                                 <th class="table-value list-value">@(++cnt)</th>
-                                <td class="table-value list-value" style="font-weight: 600">@category.Id</td>
-                                <td class="table-value list-value">@category.Name</td>
-                                <td class="table-value list-value">@category.NumOfBooks</td>
+                                <td class="table-value list-value">@provider.Name</td>
+                                <td class="table-value list-value">@provider.Address</td>
                             </tr>
                         }
                     }
@@ -67,7 +45,7 @@
                 <div class="add-button">
                     <a asp-area="" asp-page="/Admin/AddCategory">
                         <button class="feature-btn add-btn">
-                            THÊM DANH MỤC
+                            THÊM NHÀ CUNG CẤP
                         </button>
                     </a>
                 </div>
