@@ -15,16 +15,12 @@ public interface IOrderRepository
     OrderDto GetOrderById(int orderId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
     string GetStatusByOrder(OrderDto order);
-<<<<<<< HEAD
     string GetStatusByOrderId(int orderId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
-=======
     void DeleteOrder(OrderDto order);
     void AddOrder(OrderDto order);
     void UpdateStatusOrder(int orderId, int statusId);
     void AddOrderDetail(OrderDetailDto orderDetail);
     void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity);
     void DeleteOrderDetail(OrderDetailDto orderDetail);
-
->>>>>>> c62899945b3ed94c449ef38cc7ef364fac3db29e
 }

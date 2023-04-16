@@ -92,11 +92,12 @@
                         int cnt = 0;
                         foreach(var book in Model.Books)
                         {
+                            var imgPath = book.Image + "/cover.jpg";
                             <tr class="table-container" style="color: var(--text-color)">
                                 <th class="table-value list-value">@(++cnt)</th>
                                 <td class="table-value list-value" style="font-weight: 600">@book.Name</td>
-                                <td class="table-value list-value">
-                                    <img class="book-img" src="~/img/book1.jpg" alt="Cậu Ma Nhà Xí Hanako - Tập 15 - Tặng kèm Postcard PVC">
+                                <td class="table-value list-value">                                   
+                                    <img class="book-img" img src="@Url.Content(imgPath)" alt="@book.Name">
                                 </td>
                                 <td class="table-value list-value">@book.Author</td>
                                 <td class="table-value list-value">@book.Publisher</td>
