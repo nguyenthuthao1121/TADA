@@ -1,4 +1,5 @@
 ﻿@page
+@using TADA.Utilities;
 @model OrderManagementModel
 @{
     ViewData["Title"] = "Quản lý đơn hàng";
@@ -78,26 +79,27 @@
                         <th style="width: 15%">Thành tiền (VND)</th>
                         <th style="width: 10%">Trạng thái</th>
                         <th style="width: 10%">Action</th>
-                    </tr>
-                    @for (int i = 1; i <= 9; i++)
-                    {
-                        <tr class="table-container" style="color: var(--text-color)">
-                            <th class="table-value list-value">@i</th>
-                            <td class="table-value list-value" style="font-weight: 600">2839127831</td>
-                            <td class="table-value list-value">
-                                5:36 PM 18/2/2023
-                            </td>
-                            <td class="table-value list-value">74 Bàu Năng 1, Hòa Minh, Liên Chiểu, Đà Nẵng</td>
-                            <td class="table-value list-value">0935382788</td>
-                            <td class="table-value list-value">57.000</td>
-                            <td class="table-value list-value">Chờ giao hàng</td>
-                            <td class="table-value list-value">
-                                <button class="action-btn">
-                                    <i class="view-icon fa-regular fa-eye"></i>
-                                </button>
-                            </td>
-                        </tr>  
-                    }                   
+                    </tr>    
+                    @{
+                        int cnt = 0;
+                        foreach(var order in Model.Orders)
+                        {
+                            <tr class="table-container" style="color: var(--text-color)">
+                                <th class="table-value list-value">@(++cnt)</th>
+                                <td class="table-value list-value" style="font-weight: 600">@order.Id</td>
+                                <td class="table-value list-value">@UIHelper.DisplayDateOrder(order.DateOrder)</td>
+                                <td class="table-value list-value">@order.Address</td>
+                                <td class="table-value list-value">@order.TelephoneNumber</td>
+                                <td class="table-value list-value">@order.Price</td>
+                                <td class="table-value list-value">@order.Status</td>
+                                <td class="table-value list-value">
+                                    <button class="action-btn">
+                                        <i class="view-icon fa-regular fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
                 </table>
             </div>
             <div class="pagination-container">

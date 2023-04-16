@@ -112,17 +112,31 @@
                                     }
                                 </td>
                                 <td class="table-value list-value">
-                                    <button class="action-btn" onclick="location.href='/Admin/UserOrder';">
+                                    @*<button class="action-btn" onclick="location.href='/Admin/UserOrder';">
                                         <i class="view-icon fa-regular fa-eye"></i>
-                                    </button>
+                                    </button>*@
+                                    <ul class="btn-container">
+                                        <li class="btn-item">
+                                            <a href="@Url.Content("~/Order/OrderManagement/?userId=" + customer.CustomerId)" class="action-admin-btn">
+                                                <i class="view-icon fa-regular fa-eye"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
                                 </td>
                                 <td class="table-value list-value">
-                                    <button class="action-btn">
-                                        <i class="block-icon fa-solid fa-ban"></i>
-                                    </button>
-                                    <button class="action-btn">
-                                        <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
-                                    </button>
+                                    <ul class="btn-container">
+                                        <li class="btn-item">
+                                            <a href="" + customer.CustomerId)" class="action-admin-btn">
+                                                <i class="block-icon fa-solid fa-ban"></i>
+                                            </a>
+                                        </li>
+                                        <li class="btn-item">
+                                            <a href="" + customer.CustomerId)" class="action-admin-btn">
+                                                <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>                              
                         }

@@ -58,6 +58,8 @@ service.AddScoped<IOrderService, OrderService>();
 service.AddScoped<IRoleRepository, RoleRepository>();
 service.AddScoped<IRoleService, RoleService>();
 
+service.AddScoped<IProviderRepository, ProviderRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -341,6 +341,9 @@ namespace TADA.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");

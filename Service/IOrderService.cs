@@ -11,4 +11,6 @@ public interface IOrderService
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
     string GetStatusByOrder(OrderDto order);
+    List<OrderManagementDto> GetAllOrdersForManagement();
+    List<OrderManagementDto> GetOrdersByCustomerId(int customerId);
 }

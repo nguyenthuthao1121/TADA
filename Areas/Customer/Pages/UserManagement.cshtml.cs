@@ -7,7 +7,7 @@ using TADA.Service;
 
 namespace TADA.Pages;
 
-[Authorize("Admin", "SalesStaff")]
+[Authorize("Quản trị viên", "Nhân viên kinh doanh")]
 public class UserModel : PageModel
 {
     public readonly ICustomerService customerService;

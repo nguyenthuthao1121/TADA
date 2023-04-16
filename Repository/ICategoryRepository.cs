@@ -5,4 +5,5 @@ namespace TADA.Repository;
 public interface ICategoryRepository
 {
     List<Category> GetAllCategories();
+    string GetCategoryNameById(int id);
 }

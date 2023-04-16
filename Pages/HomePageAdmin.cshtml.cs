@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TADA.Dto.Customer;
+using TADA.Service;
 
 namespace TADA.Pages;
 
 public class HomePageAdminModel : PageModel
 {
-    private readonly ILogger<HomePageAdminModel> _logger;
-
-    public HomePageAdminModel(ILogger<HomePageAdminModel> logger)
+    private readonly ICustomerService customerService;
+    public List<CustomerDto> Customers { get; set; }
+    public HomePageAdminModel(ICustomerService customerService)
     {
-        _logger = logger;
+        this.customerService = customerService;
     }
 
     public void OnGet()
     {
-
+        Customers = customerService.GetAllCustomers().Take(10).ToList();
     }
 }

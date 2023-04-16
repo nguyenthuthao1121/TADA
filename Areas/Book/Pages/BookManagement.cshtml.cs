@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TADA.Dto.Book;
+using TADA.Service;
 
 namespace TADA.Pages;
 
 public class BookManagementModel : PageModel
 {
-    private readonly ILogger<BookManagementModel> _logger;
-
-    public BookManagementModel(ILogger<BookManagementModel> logger)
+    private readonly IBookService bookService;
+    public List<BookManagementDto> Books { get; set; }
+    public BookManagementModel(IBookService bookService)
     {
-        _logger = logger;
+        this.bookService = bookService;
     }
 
     public void OnGet()
     {
-
+        Books = bookService.GetAllBooksForManagement();
     }
 }

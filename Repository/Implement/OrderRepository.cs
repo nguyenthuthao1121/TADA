@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Model;
@@ -13,6 +14,18 @@ public class OrderRepository : IOrderRepository
     public OrderRepository(TadaContext context)
     {
         this.context = context;
+    }
+    public List<OrderDto> GetAllOrders()
+    {
+        return context.Orders.Select(order => new OrderDto
+        {
+            Id = order.Id,
+            TelephoneNumber = order.TelephoneNumber,
+            DateOrder = order.DateOrder,
+            AddressId = order.AddressId,
+            CustomerId = order.CustomerId,
+            StatusId = (int)order.StatusId
+        }).ToList();
     }
 
     public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
@@ -113,6 +126,21 @@ public class OrderRepository : IOrderRepository
     public string GetStatusByOrder(OrderDto order)
     {
         return context.Statuses.Find(order.StatusId).Name;
+    }
+    public string GetStatusByOrderId(int orderId)
+    {
+        return context.Statuses.Where(status => status.Id == orderId).Select(status => status.Name).FirstOrDefault();
+    }
+    public List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId)
+    {
+        List<OrderDetailDto> orderDetailDtos = new List<OrderDetailDto>();
+        List<OrderDetail> orderDetails = context.Orders.Where(order => order.Id == orderId)
+            .Select(order => order.OrderDetails).FirstOrDefault().ToList();
+        foreach (OrderDetail orderDetail in orderDetails)
+        {
+            orderDetailDtos.Add(new OrderDetailDto(orderDetail));
+        }
+        return orderDetailDtos;
     }
 
 }

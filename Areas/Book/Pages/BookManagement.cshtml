@@ -77,36 +77,52 @@
             <div class="user-table">
                 <table class="table" style="width: 100%; color: var(--primary-color)">
                     <tr class="table-row list-row">
-                        <th style="width: 5%">STT</th>
-                        <th style="width: 35%">Tên sách</th>
+                        <th style="width: 4%">STT</th>
+                        <th style="width: 30%">Tên sách</th>
                         <th style="width: 6%">Hình ảnh</th>
                         <th style="width: 10%">Tác giả</th>
                         <th style="width: 10%">Nhà xuất bản</th>
-                        <th style="width: 10%">Danh mục</th>
+                        <th style="width: 10%">Nhà cung cấp</th>
+                        <th style="width: 8%">Danh mục</th>
                         <th style="width: 10%">Đơn giá (VND)</th>
                         <th style="width: 7%">Trạng thái</th>
-                        <th style="width: 7%">Chi tiết</th>
-                    </tr>
-                    @for (int i = 1; i <= 8; i++)
-                    {
-                        <tr class="table-container" style="color: var(--text-color)">
-                            <th class="table-value list-value">@i</th>
-                            <td class="table-value list-value" style="font-weight: 550">Cậu Ma Nhà Xí Hanako - Tập 15 - Tặng kèm Postcard PVC</td>
-                            <td class="table-value list-value">
-                                <img class="book-img" src="~/img/book1.jpg" alt="Cậu Ma Nhà Xí Hanako - Tập 15 - Tặng kèm Postcard PVC">
-                            </td>
-                            <td class="table-value list-value">Haniki Shadoku</td>
-                            <td class="table-value list-value">NXB Thanh Niên</td>
-                            <td class="table-value list-value">Truyện tranh</td>
-                            <td class="table-value list-value">30.000</td>
-                            <td class="table-value list-value">Còn hàng</td>
-                            <td class="table-value list-value">
-                                <button class="action-btn">
-                                    <i class="view-icon fa-regular fa-eye"></i>
-                                </button>
-                            </td>
-                        </tr>  
-                    }                   
+                        <th style="width: 5%">Chi tiết</th>
+                    </tr>  
+                    @{
+                        int cnt = 0;
+                        foreach(var book in Model.Books)
+                        {
+                            <tr class="table-container" style="color: var(--text-color)">
+                                <th class="table-value list-value">@(++cnt)</th>
+                                <td class="table-value list-value" style="font-weight: 600">@book.Name</td>
+                                <td class="table-value list-value">
+                                    <img class="book-img" src="~/img/book1.jpg" alt="Cậu Ma Nhà Xí Hanako - Tập 15 - Tặng kèm Postcard PVC">
+                                </td>
+                                <td class="table-value list-value">@book.Author</td>
+                                <td class="table-value list-value">@book.Publisher</td>
+                                <td class="table-value list-value">@book.Provider</td>
+                                <td class="table-value list-value">@book.Category</td>
+                                <td class="table-value list-value">@book.GetPriceString(book.GetCurrentPrice())</td>
+                                @if (book.Quantity > 0)
+                                {
+                                    <td class="table-value list-value">Còn sách</td>
+                                }
+                                else
+                                {
+                                    <td class="table-value list-value">Hết sách</td>
+                                }
+                                <td class="table-value list-value">
+                                    <ul class="btn-container">
+                                        <li class="btn-item">
+                                            <a href="" class="action-admin-btn">
+                                                <i class="view-icon fa-regular fa-eye"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>                            
+                        }
+                    }
                 </table>
             </div>
             <div class="pagination-container add-button book-button" style="margin-bottom: 4px">

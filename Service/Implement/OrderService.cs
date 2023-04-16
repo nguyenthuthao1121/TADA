@@ -10,9 +10,11 @@ namespace TADA.Service.Implement
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository orderRepository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IAddressRepository addressRepository;
+        public OrderService(IOrderRepository orderRepository, IAddressRepository addressRepository)
         {
             this.orderRepository = orderRepository;
+            this.addressRepository = addressRepository;
         }
 
         public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
@@ -44,6 +46,64 @@ namespace TADA.Service.Implement
         public List<OrderDetailDto> GetOrderDetailsByOrder(OrderDto order)
         {
             return orderRepository.GetOrderDetailsByOrder(order);
+        }
+        public List<OrderManagementDto> GetAllOrdersForManagement()
+        {
+            var list = new List<OrderManagementDto>();
+            var orders = orderRepository.GetAllOrders();
+            foreach (var order in orders)
+            {
+                var orderDetailList = orderRepository.GetOrderDetailsByOrderId(order.Id);
+                int sum = 0;
+                foreach (var orderDetail in orderDetailList)
+                {
+                    var book = orderRepository.GetBookByOrderDetail(orderDetail);
+                    sum += book.GetCurrentPrice();
+                }
+                list.Add(new OrderManagementDto
+                {
+                    Id = order.Id,
+                    DateOrder = order.DateOrder,
+                    Address = addressRepository.GetAddressById((int)order.AddressId),
+                    TelephoneNumber = order.TelephoneNumber,
+                    Price = sum,
+                    Status = orderRepository.GetStatusByOrderId(order.StatusId)
+                });
+            }
+            return list;
+        }
+        public List<OrderManagementDto> GetOrdersByCustomerId(int customerId)
+        {
+            List<OrderDto> orders;
+            if (customerId > 0)
+            {
+                orders = orderRepository.GetAllOrdersByCustomerId(customerId);
+            }
+            else
+            {
+                orders = orderRepository.GetAllOrders();
+            }
+            var list = new List<OrderManagementDto>();
+            foreach (var order in orders)
+            {
+                var orderDetailList = orderRepository.GetOrderDetailsByOrderId(order.Id);
+                int sum = 0;
+                foreach (var orderDetail in orderDetailList)
+                {
+                    var book = orderRepository.GetBookByOrderDetail(orderDetail);
+                    sum += book.GetCurrentPrice();
+                }
+                list.Add(new OrderManagementDto
+                {
+                    Id = order.Id,
+                    DateOrder = order.DateOrder,
+                    Address = addressRepository.GetAddressById((int)order.AddressId),
+                    TelephoneNumber = order.TelephoneNumber,
+                    Price = sum,
+                    Status = orderRepository.GetStatusByOrderId(order.StatusId)
+                });
+            }
+            return list;
         }
     }
 }

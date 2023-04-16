@@ -14,4 +14,8 @@ public class CategoryRepository : ICategoryRepository
     {
         return context.Categories.ToList();
     }
+    public string GetCategoryNameById(int id)
+    {
+        return context.Categories.Where(category => category.Id == id).Select(category => category.Name).FirstOrDefault();
+    }
 }

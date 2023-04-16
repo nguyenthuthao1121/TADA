@@ -53,11 +53,11 @@
                     <h1>Người dùng mới</h1>
                 </div>                
                 <div class="new-accounts-body">
-                    @for (int i = 0; i < 10; i++)
+                    @foreach (var customer in Model.Customers)
                     {
                         <div class="user">
                             <i class="fa-solid fa-user-large user-icon"></i>
-                            Nguyễn Quốc Toàn
+                            @customer.Name
                         </div>
                     }
                 </div>

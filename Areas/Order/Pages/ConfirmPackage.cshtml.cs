@@ -36,6 +36,7 @@ public class ConfirmPackageModel : PageModel
     {
         return orderService.GetBookByOrderDetail(orderDetail);
     }
+    // Tinh trong service, nhet vao dto . Ai lai lam nhu ri
     public int SumPriceOfBooks()
     {
         int sum = 0;
