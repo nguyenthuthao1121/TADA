@@ -23,7 +23,7 @@ public class OrderDetailConfirmModel : PageModel
     public int statusId { get; set; }
     public string GetStatusOfOrder(OrderDto order)
     {
-        string status= orderService.GetStatusByOrder(order);
+        string status= orderService.GetStatusByOrder(order.Id);
         while (status[status.Length-1]==' ') status=status.Substring(0,status.Length-1);
         return status;
     }
@@ -65,9 +65,9 @@ public class OrderDetailConfirmModel : PageModel
         tmp = str + tmp;
         return tmp;
     }
-    public void DeleteOrder(OrderDto order)
+    public void DeleteOrder(int orderId)
     {
-        orderService.DeleteOrder(order);
+        orderService.DeleteOrder(orderId);
     }
     public string GetPartOfAddress(int part)
     {
@@ -82,7 +82,7 @@ public class OrderDetailConfirmModel : PageModel
             Order = orderService.GetOrderById(orderId);
             if (Order == null) { statusId = 1; }
             else statusId = Order.StatusId;
-            OrderDetails = orderService.GetOrderDetailsByOrder(orderService.GetOrderById(orderId));
+            OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrderById(orderId).Id);
             Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
             Address = addressService.GetAddressById(Customer.AddressId);
         }

@@ -39,5 +39,14 @@ namespace TADA.Service.Implement
         {
             return cartRepository.GetBookByCartDetail(cartDetail);
         }
+        public void AddBookToCart(int bookId, int accountId, int quantity)
+        {
+            var cart=GetCartByAccountId(accountId);
+            cartRepository.AddBookToCart(bookId,cart.Id, quantity);
+        }
+        public void DeleteBookOfCart(int bookId, int accountId)
+        {
+            cartRepository.DeleteBookOfCart(bookId,accountId);
+        }
     }
 }

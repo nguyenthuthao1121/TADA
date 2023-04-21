@@ -64,11 +64,19 @@
         #order-list__all--fill .confirm__order-detail .row a,
         #order-list__all--fill .confirm__order-detail .row p {
             width: fit-content;
-            display: block;
             border: none;
             height: 100%;
             background: #fff;
-            color: var(--primary-color);
         }
+
+#order-detail--confirm .cart__book-name,
+#order-list__all--fill .cart__book-name {
+    height: 50px;
+    line-height: 25px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
 
 

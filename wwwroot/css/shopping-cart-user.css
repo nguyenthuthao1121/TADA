@@ -139,7 +139,12 @@
 .cart__flex-item .cart__book-name {
     font-size: 1.2rem;
     color: #000;
+    height: 50px;
     line-height: 25px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 #shopping-cart--fill .cart__book-name:hover {

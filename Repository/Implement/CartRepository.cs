@@ -2,6 +2,7 @@
 using System.Security.Policy;
 using TADA.Dto.Book;
 using TADA.Dto.Cart;
+using TADA.Dto.Order;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -25,12 +26,19 @@ public class CartRepository : ICartRepository
     public List<CartDetailDto> GetCartDetailsByCustomerId(int customerId)
     {
         List<CartDetailDto> cartDetailDtos = new List<CartDetailDto>();
-        List<CartDetail> cartDetails = context.Carts
+        var cart= context.Carts
             .Where(cart => cart.CustomerId == customerId)
-            .Select(cart => cart.CartDetails).FirstOrDefault().ToList();
+            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+        List<CartDetail> cartDetails = context.CartDetail
+            .Where(cartDetails=>cartDetails.CartId==cart.Id).ToList();
         foreach (CartDetail cartDetail in cartDetails)
         {
-            cartDetailDtos.Add(new CartDetailDto(cartDetail));
+            cartDetailDtos.Add(new CartDetailDto
+            {
+                BookId= cartDetail.BookId,
+                CartId= cartDetail.CartId,
+                Quantity= cartDetail.Quantity,
+            });
         }
         return cartDetailDtos;
     }
@@ -71,5 +79,40 @@ public class CartRepository : ICartRepository
             CategoryId= book.CategoryId,
         };
     }
+    public void AddBookToCart(int bookId, int cartId, int quantity)
+    {
+        var cart = context.Carts.Find(cartId);
+        var book = context.Books.Find(bookId);
+        var cartDetail=context.CartDetail.Where(cartDetail=>cartDetail.CartId==cartId && cartDetail.BookId==bookId).FirstOrDefault();
 
+        if (cartDetail!=null)
+        {
+            cartDetail.Quantity += quantity;
+        }
+        else
+        {
+            CartDetail newCartDetail = new CartDetail
+            {
+                Quantity = quantity,
+            };
+            context.CartDetail.Add(newCartDetail);
+            newCartDetail.Cart= cart;
+            newCartDetail.CartId= cartId;
+            newCartDetail.Book= book;
+            newCartDetail.BookId= bookId;
+        }
+        context.SaveChanges();
+    }
+    public void DeleteBookOfCart(int bookId, int accountId)
+    {
+        var cart=GetCartByAccountId(accountId);
+        var cartDetail=context.CartDetail
+            .Where(cartDetail=>cartDetail.BookId== bookId && cartDetail.CartId==cart.Id)
+            .FirstOrDefault();
+        if (cartDetail!=null)
+        {
+            context.CartDetail.Remove(cartDetail);
+        }
+        context.SaveChanges();
+    }
 }

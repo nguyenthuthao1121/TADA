@@ -23,6 +23,9 @@ public class ConfirmPackageModel : PageModel
     public List<OrderDetailDto> OrderDetails { get; set; }
     public CustomerDto Customer { get; set; }
     public string Address { get; set; }
+    [BindProperty]
+    public string UpdateTel { get; set; }
+
     public int statusId = 6;
 
     public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService)
@@ -64,9 +67,9 @@ public class ConfirmPackageModel : PageModel
         tmp = str + tmp;
         return tmp;
     }
-    public void DeleteOrder(OrderDto order)
+    public void DeleteOrder(int orderId)
     {
-        orderService.DeleteOrder(order);
+        orderService.DeleteOrder(orderId);
     }
     public string GetPartOfAddress(int part)
     {
@@ -76,7 +79,7 @@ public class ConfirmPackageModel : PageModel
     public void OnGet()
     {
         Order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault();
-        OrderDetails = orderService.GetOrderDetailsByOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault());
+        OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault().Id);
         Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
         Address = addressService.GetAddressById(Customer.AddressId);
     }
@@ -86,5 +89,17 @@ public class ConfirmPackageModel : PageModel
         Console.WriteLine("OK");
         return RedirectToPage("/OrderListFillAll");
     }
+    //public IActionResult OnPostUpdateOrder(string username, string userTel, )
+    //{
+    //    //var orderUpdate = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault();
+    //    //if (orderUpdate != null)
+    //    //{
+    //    //    OrderDto order = new OrderDto
+    //    //    {
 
+    //    //    };
+    //    //    orderService.UpdateOrder(orderUpdate.Id, order);
+    //    //}
+    //    return Page();
+    //}
 }
