@@ -18,4 +18,13 @@ public class CategoryRepository : ICategoryRepository
     {
         return context.Categories.Where(category => category.Id == id).Select(category => category.Name).FirstOrDefault();
     }
+    public Category GetCategoryByName(string categoryName) 
+    { 
+        return context.Categories.Where(category => category.Name == categoryName).FirstOrDefault();
+    }
+    public void AddCategory(string categoryName)
+    {
+        context.Categories.Add(new Category { Name = categoryName });
+        context.SaveChanges();
+    }
 }

@@ -42,33 +42,34 @@
         </div>
         <div class="user-list-container">
             <div class="user-table">
-                <table class="table">
-                    <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
-                        <th style="width: 10%">STT</th>
-                        <th style="width: 30%">Mã danh mục</th>
-                        <th style="width: 40%">Tên danh mục</th>
-                        <th style="width: 20%">Số lượng sách</th>
-                    </tr>
-                    @{
-                        int cnt = 0;
-                        foreach (var category in Model.Categories)
-                        {
-                            <tr class="table-container" style="color: var(--text-color)">
-                                <th class="table-value list-value">@(++cnt)</th>
-                                <td class="table-value list-value" style="font-weight: 600">@category.Id</td>
-                                <td class="table-value list-value">@category.Name</td>
-                                <td class="table-value list-value">@category.NumOfBooks</td>
-                            </tr>
+                <form method="get">
+                    <table class="table">
+                        <tr class="table-row list-row" style="width: 100%; color: var(--primary-color)">
+                            <th style="width: 10%">STT</th>
+                            <th style="width: 70%">Tên danh mục</th>
+                            <th style="width: 20%">Số lượng sách</th>
+                        </tr>
+                        @{
+                            int cnt = 0;
+                            if (Model.Categories != null)
+                            {
+                                foreach (var category in Model.Categories)
+                                {
+                                    <tr class="table-container" style="color: var(--text-color)">
+                                        <th class="table-value list-value">@(++cnt)</th>
+                                        <td class="table-value list-value">@category.Name</td>
+                                        <td class="table-value list-value">@category.NumOfBooks</td>
+                                    </tr>
+                                }                                
+                            }
                         }
-                    }
-                </table>
+                    </table>
+                </form>
             </div>
             <div class="pagination-container add-button">
                 <div class="add-button">
-                    <a asp-area="" asp-page="/Admin/AddCategory">
-                        <button class="feature-btn add-btn">
-                            THÊM DANH MỤC
-                        </button>
+                    <a style="display: block; text-align: center" class="feature-btn add-btn" asp-area="Category" asp-page="AddCategory">
+                        THÊM DANH MỤC
                     </a>
                 </div>
                 <ul class="pagination">

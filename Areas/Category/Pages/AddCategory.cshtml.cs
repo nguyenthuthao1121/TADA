@@ -1,19 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using TADA.Service;
 
 namespace TADA.Pages;
 
 public class AddCategoryModel : PageModel
 {
-    private readonly ILogger<AddCategoryModel> _logger;
-
-    public AddCategoryModel(ILogger<AddCategoryModel> logger)
+    private readonly ICategoryService categoryService;
+    [BindProperty]
+    public string CategoryName { get; set; }
+    public string Message { get; set; }
+    public AddCategoryModel(ICategoryService categoryService)
     {
-        _logger = logger;
+        this.categoryService = categoryService;
     }
 
-    public void OnGet()
+    public IActionResult OnPost()
     {
+        if (CategoryName == null)
+        {
+            Message = "Danh mục đang để trống";
+            return Page();
+        }
+        else if (categoryService.AddCategory(CategoryName))
+        {
 
+            return RedirectToPage("/CategoryManagement", new { area = "Category" });
+        }
+        else
+        {
+            Message = "Danh mục đã tồn tại";
+            return Page();
+        }
     }
 }

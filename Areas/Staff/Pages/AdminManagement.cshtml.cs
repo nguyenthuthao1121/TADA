@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Address;
 using TADA.Dto.Staff;
+using TADA.Middleware;
 using TADA.Service;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên")]
 public class StaffModel : PageModel
 {
     private readonly IStaffService staffService;

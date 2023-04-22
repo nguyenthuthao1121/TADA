@@ -28,4 +28,16 @@ public class CategoryService : ICategoryService
         }
         return listCategories;
     }
+    public bool AddCategory(string categoryName)
+    {
+        if (categoryRepository.GetCategoryByName(categoryName) == null)
+        {
+            categoryRepository.AddCategory(categoryName);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

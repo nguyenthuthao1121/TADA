@@ -9,4 +9,6 @@ public interface IAddressRepository
     string GetCustomerAddressByAccountId(int id);
     string GetAddressById(int id);
     string GetAddressByIdAndPart(int id, int part);
+    void AddAddress(string street, int wardId);
+    int GetLastId();
 }

@@ -1,0 +1,71 @@
+﻿@page
+@model AddProviderModel
+@{
+    ViewData["Title"] = "Thêm mới danh mục";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="form-container">
+            <div class="form-heading">
+                <p>Thêm mới danh mục</p>
+            </div>
+            <div class="form-body">
+                <form method="post">
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputName" class="form__label">Tên nhà cung cấp</label>
+                            <input type="text" class="form-control form__input" id="inputName" placeholder="Nhập tên nhà cung cấp" asp-for="@Model.ProviderName">
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="province" class="form__label">Tỉnh/ Thành</label>
+                            <select id="province" class="form-select form__input">
+                                <option value="">-- Chọn tỉnh/thành --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="district" class="form__label">Quận/ Huyện</label>
+                            <select id="district" class="form-select form__input">
+                                <option value="">-- Chọn quận/huyện --</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="ward" class="form__label">Xã/ Phường</label>
+                            <select id="ward" class="form-select form__input" asp-for="@Model.WardId">
+                                <option value="0">-- Chọn xã/phường --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputAddress" class="form__label">Địa chỉ</label>
+                            <input type="text" class="form-control form__input" id="inputAddress" placeholder="Nhập địa chỉ" asp-for="@Model.Street">
+                        </div>
+                    </div>
+                    @if (Model.Message != null)
+                    {
+                        <p class="row" style="color: red; font-size: 14px; font-weight: 600; margin: 5px">@Model.Message</p>                    
+                    }
+                    <div class="form-row form__row ">
+                        <div class="col-md-6 form__btn-margin"></div>
+                        <div class="col-md-6 form__btn-margin">
+                            <button class="form-group form__btn" style="margin-right: 2px" type="submit">
+                                THÊM NHÀ CUNG CẤP
+                            </button>
+                            <button class="form-group form__btn form__btn--cancel" style="margin-left: 2px" asp-area="Provider" asp-page="ProviderManagement">
+                                HỦY
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+
+
+</div>
+

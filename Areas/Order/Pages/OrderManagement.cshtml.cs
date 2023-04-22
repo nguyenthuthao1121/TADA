@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Web;
 using TADA.Dto.Order;
+using TADA.Middleware;
 using TADA.Service;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class OrderManagementModel : PageModel
 {
     private readonly IOrderService orderService;
