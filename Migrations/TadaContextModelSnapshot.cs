@@ -186,7 +186,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("CartDetail");
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
@@ -322,7 +322,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>

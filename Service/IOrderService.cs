@@ -5,19 +5,17 @@ namespace TADA.Service;
 
 public interface IOrderService
 {
-    List<OrderDto> GetAllOrdersByCustomerId(int customerId);
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
-    List<OrderDetailDto> GetOrderDetailsByOrder(OrderDto order);
+    List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     OrderDto GetOrderById(int orderId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
-    string GetStatusByOrder(OrderDto order);
+    string GetStatusByOrder(int orderId);
     List<OrderManagementDto> GetAllOrdersForManagement();
     List<OrderManagementDto> GetOrdersByCustomerId(int customerId);
-    void DeleteOrder(OrderDto order);
-    void AddOrder(OrderDto order);
+    void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
-    void AddOrderDetail(OrderDetailDto orderDetail);
-    void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity);
-    void DeleteOrderDetail(OrderDetailDto orderDetail);
+    void DeleteOrder(int orderId);
+    void AddOrder(int accountId, OrderDetailDto orderDetail);
+    void DeleteOrderDetail(int bookId, int orderId);
 }

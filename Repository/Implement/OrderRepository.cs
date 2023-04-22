@@ -30,8 +30,9 @@ public class OrderRepository : IOrderRepository
 
     public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
     {
+        
         return context.Orders
-            .Where(order=> order.CustomerId == customerId)
+            .Where(order => order.CustomerId == customerId && order.StatusId < 6)
             .Select(order => new OrderDto
             {
                 Id = order.Id,
@@ -41,17 +42,6 @@ public class OrderRepository : IOrderRepository
                 CustomerId = order.CustomerId,
                 StatusId = (int)order.StatusId,
             }).ToList();
-    }
-    public List<OrderDetailDto> GetOrderDetailsByOrder (OrderDto orderDto)
-    {
-        List<OrderDetailDto> orderDetailDtos = new List<OrderDetailDto>();
-        List<OrderDetail> orderDetails = context.Orders.Where(order=>order.Id==orderDto.Id)
-            .Select(order=>order.OrderDetails).FirstOrDefault().ToList();
-        foreach (OrderDetail orderDetail in orderDetails)
-        {
-            orderDetailDtos.Add(new OrderDetailDto(orderDetail));
-        }
-        return orderDetailDtos;
     }
 
     public List<OrderDto> GetAllOrdersByAccountId(int accountId)
@@ -137,9 +127,9 @@ public class OrderRepository : IOrderRepository
         return orderDtos;
     }
 
-    public string GetStatusByOrder(OrderDto order)
+    public string GetStatusByOrder(int orderId)
     {
-        return context.Statuses.Find(order.StatusId).Name;
+        return context.Statuses.Find((context.Orders.Find(orderId)).StatusId).Name;
     }
     public string GetStatusByOrderId(int orderId)
     {
@@ -148,38 +138,53 @@ public class OrderRepository : IOrderRepository
     public List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId)
     {
         List<OrderDetailDto> orderDetailDtos = new List<OrderDetailDto>();
-        List<OrderDetail> orderDetails = context.Orders.Where(order => order.Id == orderId)
-            .Select(order => order.OrderDetails).FirstOrDefault().ToList();
+        List<OrderDetail> orderDetails = context.OrderDetail
+            .Where(orderDetail => orderDetail.OrderId == orderId).ToList();
         foreach (OrderDetail orderDetail in orderDetails)
         {
-            orderDetailDtos.Add(new OrderDetailDto(orderDetail));
+            orderDetailDtos.Add(new OrderDetailDto
+            {
+                OrderId = orderDetail.OrderId,
+                BookId = orderDetail.BookId,
+                Price = orderDetail.Price,
+                Quantity= orderDetail.Quantity,
+            });
         }
         return orderDetailDtos;
     }
 
-    public void DeleteOrder(OrderDto order)
+    public void DeleteOrder(int orderId)
     {
-        var orderDel= context.Orders.Find(order.Id);
+        var orderDel= context.Orders.Find(orderId);
         if (orderDel != null)
         {
+            var orderDetail = context.OrderDetail.Where(orderDetail => orderDetail.OrderId==orderId).ToList();
+            context.OrderDetail.RemoveRange(orderDetail);
             context.Orders.Remove(orderDel);
             context.SaveChanges();
         }
     }
 
-    public void AddOrder(OrderDto order)
+    public void AddOrder(int accountId)
     {
-
-        Order newOrder = new Order
+        var customer=context.Customers.Where(customer=>customer.AccountId==accountId).FirstOrDefault();
+        var order=context.Orders.Where(order=>order.CustomerId==customer.Id && order.StatusId==6).FirstOrDefault();
+        if (order == null)
         {
-            TelephoneNumber = order.TelephoneNumber,
-            DateOrder = order.DateOrder,
-            AddressId = order.AddressId,
-            CustomerId = order.CustomerId,
-            StatusId = order.StatusId,
-        };
-        context.Orders.Add(newOrder);
-        context.SaveChanges();
+            Order newOrder = new Order
+            {
+                TelephoneNumber = customer.TelephoneNumber,
+                DateOrder = DateTime.Now,
+            };
+            context.Orders.Add(newOrder);
+            newOrder.AddressId = customer.AddressId;
+            newOrder.Address=customer.Address;
+            newOrder.CustomerId = customer.Id;
+            newOrder.Customer=customer;
+            newOrder.StatusId=6;
+            newOrder.Status=context.Statuses.Find(6);
+            context.SaveChanges();
+        }
     }
 
     public void UpdateStatusOrder(int orderId, int statusId)
@@ -191,80 +196,53 @@ public class OrderRepository : IOrderRepository
             context.SaveChanges();
         }
     }
-    public void UpdateBookOrder(OrderDto order, BookDto book, int quantity)
+    public void UpdateOrder(int orderId, OrderDto orderDto)
     {
-        var orderUpdate = context.Orders.Find(order.Id);
-        var bookNew = context.Books.Find(book.Id);
-        OrderDetail orderDetail = new OrderDetail
+        var order = context.Orders.Find(orderId);
+        if (order != null )
         {
-            OrderId = order.Id,
-            BookId = book.Id,
-            Quantity = quantity,
-            Price = book.GetCurrentPrice() * quantity,
-        };
-        if (orderUpdate != null)
-        {
-            orderUpdate.OrderDetails.Add(orderDetail);
-            bookNew.OrderDetails.Add(orderDetail);
+            order.CustomerId = orderDto.CustomerId;
+            //order.StatusId = orderDto.StatusId;
+            //order.AddressId = orderDto.AddressId;
         }
-
+        context.SaveChanges();
     }
 
-    public void AddOrderDetail(OrderDetailDto orderDetailDto)
+    public void UpdateOrderDetail(int bookId, int orderId, int quantity, int price)
     {
-        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
-        var book = context.Books.Find(orderDetailDto.BookId);
-        OrderDetail orderDetail = new OrderDetail
-        {
-            OrderId = orderDetailDto.OrderId,
-            BookId = orderDetailDto.BookId,
-            Quantity = orderDetailDto.Quantity,
-            Price = orderDetailDto.Price,
-        };
-        if (orderUpdate != null)
-        {
-            orderUpdate.OrderDetails.Add(orderDetail);
-            book.OrderDetails.Add(orderDetail);
-        }
-    }
+        var orderUpdate = context.Orders.Find(orderId);
+        var book = context.Books.Find(bookId);
+        var orderDetail = context.OrderDetail
+            .Where(orderDetail => orderDetail.OrderId == orderId && orderDetail.BookId == bookId)
+            .FirstOrDefault();
 
-    public void UpdateOrderDetail(OrderDetailDto orderDetailDto, int quantity)
-    {
-        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
-        var book = context.Books.Find(orderDetailDto.BookId);
-        foreach (var orderDetail in orderUpdate.OrderDetails)
+        if (orderDetail == null)
         {
-            if (orderDetail.BookId == orderDetailDto.BookId)
+            OrderDetail newOrderDetail = new OrderDetail
             {
-                orderDetail.Quantity = quantity;
-                orderDetail.Price = orderDetailDto.Price / orderDetailDto.Price * quantity;
-            }
+                Quantity = quantity,
+                Price = price,
+            };
+            context.OrderDetail.Add(newOrderDetail);
+            newOrderDetail.OrderId = orderId;
+            newOrderDetail.Order = orderUpdate;
+            newOrderDetail.BookId= bookId;
+            newOrderDetail.Book= book;
         }
-        foreach (var orderDetail in book.OrderDetails)
+        else
         {
-            if (orderDetail.OrderId == orderDetailDto.OrderId)
-            {
-                orderDetail.Quantity = quantity;
-                orderDetail.Price = orderDetailDto.Price / orderDetailDto.Price * quantity;
-            }
+            orderDetail.Quantity = quantity;
+            orderDetail.Price = price;
         }
+        context.SaveChanges();
     }
 
-    public void DeleteOrderDetail(OrderDetailDto orderDetailDto)
+    public void DeleteOrderDetail(int bookId, int orderId)
     {
-        var orderUpdate = context.Orders.Find(orderDetailDto.OrderId);
-        var book = context.Books.Find(orderDetailDto.BookId);
-        OrderDetail orderDetail = new OrderDetail
-        {
-            OrderId = orderDetailDto.OrderId,
-            BookId = orderDetailDto.BookId,
-            Quantity = orderDetailDto.Quantity,
-            Price = orderDetailDto.Price,
-        };
-        if (orderUpdate != null)
-        {
-            orderUpdate.OrderDetails.Remove(orderDetail);
-            book.OrderDetails.Remove(orderDetail);
-        }
+        var orderDetail = context.OrderDetail
+            .Where(orderDetail => orderDetail.OrderId == orderId && orderDetail.BookId == bookId)
+            .FirstOrDefault();
+        context.OrderDetail.Remove(orderDetail);
+        context.SaveChanges();
     }
 }

@@ -25,15 +25,15 @@ public class OrderListFillDoneModel : PageModel
     }
     public List<OrderDetailDto> GetOrderDetailsDto(OrderDto order)
     {
-        return orderService.GetOrderDetailsByOrder(order);
+        return orderService.GetOrderDetailsByOrderId(order.Id);
     }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return orderService.GetBookByOrderDetail(orderDetail);
     }
-    public string GetStatusOfOrder(OrderDto order)
+    public string GetStatusOfOrder(int orderId)
     {
-        return orderService.GetStatusByOrder(order);
+        return orderService.GetStatusByOrder(orderId);
     }
     public int GetOrderCountByStatus(int statusId)
     {

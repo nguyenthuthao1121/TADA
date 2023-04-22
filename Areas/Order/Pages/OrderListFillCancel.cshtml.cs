@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.Entity.Core.Metadata.Edm;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Service;
@@ -25,15 +26,15 @@ public class OrderListFillCancelModel : PageModel
     }
     public List<OrderDetailDto> GetOrderDetailsDto(OrderDto order)
     {
-        return orderService.GetOrderDetailsByOrder(order);
+        return orderService.GetOrderDetailsByOrderId(order.Id);
     }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return orderService.GetBookByOrderDetail(orderDetail);
     }
-    public string GetStatusOfOrder(OrderDto order)
+    public string GetStatusOfOrder(int orderId)
     {
-        return orderService.GetStatusByOrder(order);
+        return orderService.GetStatusByOrder(orderId);
     }
     public int GetOrderCountByStatus(int statusId)
     {
@@ -45,5 +46,4 @@ public class OrderListFillCancelModel : PageModel
         Orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
 
     }
-
 }

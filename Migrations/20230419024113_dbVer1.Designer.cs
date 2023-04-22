@@ -12,7 +12,7 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230415164922_dbVer1")]
+    [Migration("20230419024113_dbVer1")]
     partial class dbVer1
     {
         /// <inheritdoc />
@@ -189,7 +189,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("CartDetail");
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
@@ -325,7 +325,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>

@@ -13,12 +13,12 @@
             <div class="shopping-cart__title col c-10 c-o-1">
                 GIỎ HÀNG
                 <span class="shopping-cart__title-quality">
-                        (@Model.CartDetails.Count sản phẩm)
+                    (@Model.CountBookOfCart sản phẩm)
                 </span>
             </div>
         </div>
         <div class="row">
-            @if (@Model.CartDetails.Count == 0)
+            @if (@Model.CountBookOfCart == 0)
             {
                 <div class="shopping-cart__cart--empty col c-10 c-o-1" style="padding-bottom:24px;border-radius: 8px;">
                     <div class="shopping-cart__img--empty">
@@ -28,7 +28,7 @@
                         Chưa có sản phẩm trong giỏ hàng của bạn
                     </div>
                     <button class="btn--blue">
-                        <a asp-area="Pages" asp-page="Index">
+                        <a asp-area="" asp-page="/Index">
                             MUA SẮM NGAY
                         </a>
                     </button>
@@ -51,12 +51,13 @@
                                 var Book = Model.GetBookByCartDetail(cartDetail);
                                 var imgPath = Book.Image + "/cover.jpg";
                                 <form class="cart__flex-item row" method="post">
+                                    <input name="bookId" value="@Book.Id" type="number" style="display: none;">
                                     <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
                                         <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
                                     </label>
-                                    <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
+                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
-                                        <a asp-area="" asp-page="BookDetailUser?id=@Book.Id" class="cart__book-name">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id"  class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">
@@ -67,12 +68,14 @@
                                     <div class="cart__book-price col c-3">
                                         <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                            <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                                            <input class="form-control" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
-                                            <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                                            <input class="form-control quantity-input" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
+                                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                                         </span>
                                     </div>
-                                    <i class="fa-solid fa-trash-can col c-1 icon-delete"></i>
+                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" >
+                                        <i class="fa-solid fa-trash-can icon-delete"></i>
+                                    </button>
                                 </form>
                             }
 
@@ -113,6 +116,7 @@
     </div>
 
     <!-- JavaScript -->
+    <!-- Select Book -->
     <script>
         var btnChecks=document.getElementsByClassName('cart__input');
         var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
@@ -148,6 +152,32 @@
             })
         }
     </script>
+
+    <!-- Change Quatity -->
+    @section scripts{
+        <script>
+            const minusBtns = document.querySelectorAll('.minus-btn');
+            const plusBtns = document.querySelectorAll('.plus-btn');
+
+            minusBtns.forEach(button => {
+              button.addEventListener('click', () => {
+                const input = button.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 1) {
+                  input.value = --value;
+                }
+              });
+            });
+
+            plusBtns.forEach(button => {
+              button.addEventListener('click', () => {
+                const input = button.previousElementSibling;
+                let value = parseInt(input.value);
+                input.value = ++value;
+              });
+            });
+        </script>
+    }
 </div>
 
 

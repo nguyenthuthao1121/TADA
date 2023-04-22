@@ -10,17 +10,7 @@ public class OrderDetailDto
     public int BookId { get; set; }
     public int Quantity { get; set; }
     public int Price { get; set; }
-    public OrderDetailDto()
-    {
-    }
 
-    public OrderDetailDto(OrderDetail orderDetail)
-    {
-        OrderId = orderDetail.OrderId;
-        BookId = orderDetail.BookId;
-        Quantity = orderDetail.Quantity;
-        Price = orderDetail.Price;
-    }
     public string GetPriceString(int price)
     {
         string str = price.ToString();

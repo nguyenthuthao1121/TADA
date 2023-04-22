@@ -19,11 +19,6 @@ namespace TADA.Service.Implement
             this.addressRepository = addressRepository;
         }
 
-        public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
-        {
-            return orderRepository.GetAllOrdersByCustomerId(customerId);
-        }
-
         public List<OrderDto> GetAllOrdersByAccountId(int accountId)
         {
             return orderRepository.GetAllOrdersByAccountId(accountId);
@@ -43,14 +38,14 @@ namespace TADA.Service.Implement
             return orderRepository.GetOrdersByAccountId(accountId, statusId);
         }
 
-        public string GetStatusByOrder(OrderDto order)
+        public string GetStatusByOrder(int orderId)
         {
-            return orderRepository.GetStatusByOrder(order);
+            return orderRepository.GetStatusByOrder(orderId);
         }
 
-        public List<OrderDetailDto> GetOrderDetailsByOrder(OrderDto order)
+        public List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId)
         {
-            return orderRepository.GetOrderDetailsByOrder(order);
+            return orderRepository.GetOrderDetailsByOrderId(orderId);
         }
         public List<OrderManagementDto> GetAllOrdersForManagement()
         {
@@ -111,39 +106,34 @@ namespace TADA.Service.Implement
             return list;
         }
 
-        public void DeleteOrder(OrderDto order)
-        {
-            orderRepository.DeleteOrder(order);
-        }
-
-        public void AddOrder(OrderDto order)
-        {
-            // tinh ship gan vo 1 bien
-            // orderRepository.AddOrder(order, tienship)
-            orderRepository.AddOrder(order);
-        }
-
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
         }
-
-        public void AddOrderDetail(OrderDetailDto orderDetail)
+        public void UpdateOrder(int orderId, OrderDto orderDto)
         {
-            orderRepository.AddOrderDetail(orderDetail);
+            orderRepository.UpdateOrder(orderId, orderDto);
+        }
+        public void DeleteOrder(int orderId)
+        {
+            orderRepository.DeleteOrder(orderId);
         }
 
-        public void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity)
+        public void AddOrder(int accountId, OrderDetailDto orderDetail)
         {
-            orderRepository.UpdateOrderDetail(orderDetail, quantity);
+            // tinh ship gan vo 1 bien: goi ham CalculateShipping
+            // orderRepository.AddOrder(accountId, orderDetail, order, tienship)
+            orderRepository.AddOrder(accountId);
+            var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
+            orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
         }
 
-        public void DeleteOrderDetail(OrderDetailDto orderDetail)
+        public void DeleteOrderDetail(int bookId, int orderId)
         {
-            orderRepository.DeleteOrderDetail(orderDetail);
+            orderRepository.DeleteOrderDetail(bookId, orderId);
         }
 
-        private double TinhTienShip()
+        private double CalculateShipping()
         {
             using (var httpClient = new HttpClient())
             {

@@ -10,17 +10,16 @@ public interface IOrderRepository
     List<OrderDto> GetAllOrders();
     List<OrderDto> GetAllOrdersByCustomerId(int customerId);
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
-    List<OrderDetailDto> GetOrderDetailsByOrder(OrderDto order);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     OrderDto GetOrderById(int orderId);
-    BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
-    string GetStatusByOrder(OrderDto order);
+    BookDto GetBookByOrderDetail(OrderDetailDto orderDetail);
+    string GetStatusByOrder(int orderId);
     string GetStatusByOrderId(int orderId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
-    void DeleteOrder(OrderDto order);
-    void AddOrder(OrderDto order);
+    void DeleteOrder(int orderId);
+    void AddOrder(int accountId);
+    void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
-    void AddOrderDetail(OrderDetailDto orderDetail);
-    void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity);
-    void DeleteOrderDetail(OrderDetailDto orderDetail);
+    void UpdateOrderDetail(int bookId, int orderId, int quantity, int price);
+    void DeleteOrderDetail(int bookId, int orderId);
 }
