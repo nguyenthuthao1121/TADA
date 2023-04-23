@@ -43,4 +43,16 @@ public class AccountRepository : IAccountRepository
         account.Status = !account.Status;
         context.SaveChanges();
     }
+    public bool CheckExistEmail(string email)
+    {
+        var account = context.Accounts.Where(account => account.Email == email).FirstOrDefault();
+        if (account != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

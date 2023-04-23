@@ -12,6 +12,8 @@ public interface IAddressService
     string GetCustomerAddressByAccountId(int accountId);
     int AddNewAddress(string street, int wardId);
     string GetAddressByIdAndPart(int id, int part);
+    void AddAddress(string street, int wardId);
+    int GetLastId();
     AddressDto GetCustomerAddressDto(int accountId);
     AddressDto GetOrderAddressDto(int orderId);
 

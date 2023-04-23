@@ -90,7 +90,7 @@
                                         var d = staff.Birthday.Day;
                                         var m = staff.Birthday.Month;
                                         var y = staff.Birthday.Year;
-                                        string date = "" + d + " - " + m + " - " + y;
+                                        string date = "" + d + "/" + m + "/" + y;
                                         <span>@date</span>
                                     }
                                 </td>
@@ -149,19 +149,13 @@
                                 </td>
                             </tr>
                         }
-                    }
-                    @for (int i = 1; i <= 9; i++)
-                    {
-
-                    }                   
+                    }                  
                 </table>
             </div>
             <div class="pagination-container add-button">
                 <div class="add-button">
-                    <a asp-area="" asp-page="/Admin/AddAdmin">
-                        <button class="feature-btn add-btn">
-                            THÊM ADMIN
-                        </button>
+                    <a style="display: block; text-align: center" class="feature-btn add-btn" asp-area="Staff" asp-page="AddStaff">
+                        THÊM NHÂN VIÊN
                     </a>
                 </div>
                 <ul class="pagination">

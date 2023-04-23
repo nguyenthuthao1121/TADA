@@ -44,6 +44,15 @@ public class AddressService : IAddressService
         return addressRepository.GetAllWardsByDistrictId(districtId);
     }
 
+    public void AddAddress(string street, int wardId)
+    {
+        addressRepository.AddAddress(street, wardId);
+    }
+    public int GetLastId()
+    {
+        return addressRepository.GetLastId();
+    }
+
     public List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId)
     {
         return addressRepository.GetAllDistrictsByProvinceId(provinceId);
