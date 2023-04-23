@@ -49,13 +49,13 @@
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="UserManagement" class="nav-link category-item__link" asp-area="Customer" asp-page="UserManagement">
+                        <a id="UserManagement" class="nav-link category-item__link" asp-area="Customer" asp-page="CustomerManagement">
                             <i class="fa-solid fa-user category-icon"></i>
                             Khách hàng
                         </a>
                     </li>
                     <li class="category-item">
-                        <a id="AdminManagement" class="nav-link category-item__link" asp-area="Staff" asp-page="AdminManagement">
+                        <a id="StaffManagement" class="nav-link category-item__link" asp-area="Staff" asp-page="StaffManagement">
                             <i class="fa-sharp fa-solid fa-user-tie category-icon"></i>
                             Nhân viên
                         </a>
@@ -104,8 +104,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
-
-
+    <script type="module" src="~/js/province.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

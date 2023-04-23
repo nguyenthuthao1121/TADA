@@ -17,6 +17,7 @@ public class ShoppingCartFillModel : PageModel
     private readonly IOrderService orderService;
 
     public List<CartDetailDto> CartDetails { get; set; }
+    public int CountBookOfCart { get; set; }
 
     public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService, IOrderService orderService)
     {
@@ -33,25 +34,27 @@ public class ShoppingCartFillModel : PageModel
     public void OnGet()
     {
         CartDetails = cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id"));
-
+        CountBookOfCart = CartDetails.Count();
     }
     public void OnPostAddOrder(int BookId)
     {
-        var order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), 6).FirstOrDefault();
-        foreach (var cartDetail in CartDetails)
-        {
-            if (cartDetail.BookId == BookId)
-            {
-                orderService.AddOrderDetail(new OrderDetailDto
-                {
-                    BookId = BookId,
-                    OrderId = order.Id,
-                    Price = 10,
-                    Quantity = cartDetail.Quantity,
-                });
-                break;
-            }
-        }
+        //List<OrderDetailDto> orderDetails = new List<OrderDetailDto>;
+        //orderDetails.Add(new OrderDetailDto
+        //{
+        //    BookId = BookId,
+        //    Price = 10,
+        //    Quantity = 1,
+        //});
+        //orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), orderDetails);
 
+    }
+    public IActionResult OnPostDeleteBookOfCart(int? bookId)
+    {
+        if (bookId != null)
+        {
+            cartService.DeleteBookOfCart((int)bookId, (int)HttpContext.Session.GetInt32("Id"));
+
+        }
+        return RedirectToPage("/ShoppingCartFill");
     }
 }

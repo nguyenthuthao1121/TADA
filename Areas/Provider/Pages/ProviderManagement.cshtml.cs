@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Category;
 using TADA.Dto.Provider;
+using TADA.Middleware;
 using TADA.Service;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên kinh doanh")]
 public class ProviderManagementModel : PageModel
 {
     private readonly IProviderService providerService;

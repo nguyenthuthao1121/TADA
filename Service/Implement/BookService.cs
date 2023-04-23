@@ -45,7 +45,7 @@ public class BookService : IBookService
                 Quantity = book.Quantity,
                 Image = book.Image,
                 Category = categoryRepository.GetCategoryNameById(book.CategoryId),
-                Provider = providerRepository.GetProviderNameById(book.ProviderId)
+                Provider = book.ProviderName
             });
         }
         return list;

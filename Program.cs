@@ -25,6 +25,7 @@ service.AddSession();
 service.AddMemoryCache();
 service.AddMvc();
 
+
 service.AddScoped<IBookRepository, BookRepository>();
 service.AddScoped<IBookService, BookService>();
 

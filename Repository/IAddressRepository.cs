@@ -16,4 +16,6 @@ public interface IAddressRepository
     List<WardDto> GetAllWardsByDistrictId(int districtId);
     List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId);
     List<ProvinceDto> GetAllProvinces();
+    void AddAddress(string street, int wardId);
+    int GetLastId();
 }

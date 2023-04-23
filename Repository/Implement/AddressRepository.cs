@@ -41,7 +41,7 @@ public class AddressRepository : IAddressRepository
         var ward = context.Wards.Find(address.WardId);
         if (part == 2) return ward.Name;
         var district=context.Districts.Find(ward.DistrictId);
-        if (part==3) return district.Name;
+        if (part == 3) return district.Name;
         var province=context.Provinces.Find(district.ProvinceId);
         return province.Name;
     }
@@ -92,5 +92,15 @@ public class AddressRepository : IAddressRepository
             ProvinceId = p.Id,
             ProvinceName = p.Name
         }).ToList();
+    }
+    public void AddAddress(string street, int wardId)
+    {
+        context.Addresses.Add(new Address { Street= street, WardId = wardId });
+        context.SaveChanges();
+    }
+
+    public int GetLastId()
+    {
+        return context.Addresses.ToList().Last().Id;
     }
 }

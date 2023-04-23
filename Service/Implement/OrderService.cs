@@ -1,4 +1,6 @@
-﻿using TADA.Dto.Book;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
+using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -15,11 +17,6 @@ namespace TADA.Service.Implement
         {
             this.orderRepository = orderRepository;
             this.addressRepository = addressRepository;
-        }
-
-        public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
-        {
-            return orderRepository.GetAllOrdersByCustomerId(customerId);
         }
 
         public List<OrderDto> GetAllOrdersByAccountId(int accountId)
@@ -41,14 +38,14 @@ namespace TADA.Service.Implement
             return orderRepository.GetOrdersByAccountId(accountId, statusId);
         }
 
-        public string GetStatusByOrder(OrderDto order)
+        public string GetStatusByOrder(int orderId)
         {
-            return orderRepository.GetStatusByOrder(order);
+            return orderRepository.GetStatusByOrder(orderId);
         }
 
-        public List<OrderDetailDto> GetOrderDetailsByOrder(OrderDto order)
+        public List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId)
         {
-            return orderRepository.GetOrderDetailsByOrder(order);
+            return orderRepository.GetOrderDetailsByOrderId(orderId);
         }
         public List<OrderManagementDto> GetAllOrdersForManagement()
         {
@@ -109,34 +106,113 @@ namespace TADA.Service.Implement
             return list;
         }
 
-        public void DeleteOrder(OrderDto order)
-        {
-            orderRepository.DeleteOrder(order);
-        }
-
-        public void AddOrder(OrderDto order)
-        {
-            orderRepository.AddOrder(order);
-        }
-
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
         }
-
-        public void AddOrderDetail(OrderDetailDto orderDetail)
+        public void UpdateOrder(int orderId, OrderDto orderDto)
         {
-            orderRepository.AddOrderDetail(orderDetail);
+            orderRepository.UpdateOrder(orderId, orderDto);
+        }
+        public void DeleteOrder(int orderId)
+        {
+            orderRepository.DeleteOrder(orderId);
         }
 
-        public void UpdateOrderDetail(OrderDetailDto orderDetail, int quantity)
+        public void AddOrder(int accountId, OrderDetailDto orderDetail)
         {
-            orderRepository.UpdateOrderDetail(orderDetail, quantity);
+            // tinh ship gan vo 1 bien: goi ham CalculateShipping
+            // orderRepository.AddOrder(accountId, orderDetail, order, tienship)
+            orderRepository.AddOrder(accountId);
+            var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
+            orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
         }
 
-        public void DeleteOrderDetail(OrderDetailDto orderDetail)
+        public void DeleteOrderDetail(int bookId, int orderId)
         {
-            orderRepository.DeleteOrderDetail(orderDetail);
+            orderRepository.DeleteOrderDetail(bookId, orderId);
+        }
+
+        private double CalculateShipping()
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create"))
+                {
+                    request.Headers.TryAddWithoutValidation("ShopId", "121749");
+                    request.Headers.TryAddWithoutValidation("Token", "ae3f43bd-b053-11ed-8181-eee966792c8f");
+
+                    var items = new List<Item>();
+                    items.Add(new Item()
+                    {
+                        name = "Áo Polo",
+                        code = "Polo123",
+                        quantity = 1,
+                        price = 200000,
+                        length = 12,
+                        width = 12,
+                        height = 12,
+                        category = new CategoryShipping()
+                        {
+                            level1 = "Sách"
+                        }
+                    });
+
+                    var order = new OrderShipping()
+                    {
+                        payment_type_id = 2,
+                        note = "Tintest 123",
+                        from_name = "Tin",
+                        from_phone = "0909999999",
+                        from_address = "123 Đường 3/2",
+                        from_ward_name = "Phường 5",
+                        from_district_name = "Quận 11",
+                        from_province_name = "TP Hồ Chí Minh",
+                        required_note = "KHONGCHOXEMHANG",
+                        return_name = "Tin",
+                        return_phone = "0909999999",
+                        return_address = "123 Đường 3/2",
+                        return_ward_name = "Phường 5",
+                        return_district_name = "Quận 11",
+                        return_province_name = "TP Hồ Chí Minh",
+                        client_order_code = "",
+                        to_name = "Độ Mixi",
+                        to_phone = "0909998877",
+                        to_address = "Streaming house",
+                        to_ward_name = "Phường 14",
+                        to_district_name = "Quận 10",
+                        to_province_name = "TP Hồ Chí Minh",
+                        cod_amount = 200000,
+                        content = "Theo New York Times",
+                        weight = 200,
+                        length = 1,
+                        width = 19,
+                        height = 10,
+                        cod_failed_amount = 2000,
+                        pick_station_id = 1444,
+                        deliver_station_id = null,
+                        insurance_value = 10000000,
+                        service_id = 0,
+                        service_type_id = 2,
+                        coupon = null,
+                        pick_shift = null,
+                        pickup_time = 1665272576,
+                        shop_id = 121749,
+                        items = items
+                    };
+
+                    var reqBody = JsonSerializer.Serialize(order);
+
+                    request.Content = new StringContent(reqBody);
+                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+                    var response = httpClient.SendAsync(request).Result;
+
+                    var resBody = response.Content.ReadAsStringAsync().Result;
+                    var detail = JsonSerializer.Deserialize<ResponseOrder>(resBody);
+                    return detail.data.total_fee;
+                }
+            }
         }
     }
 }

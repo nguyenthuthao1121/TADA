@@ -30,3 +30,19 @@
     background-color: rgba(30, 144, 255, 1);
     color: var(--white-color);
 }
+
+.feature-btn__add {
+    padding: 8px 16px;
+    width: 250px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.isDisabled {
+    color: var(--text-color);
+    border-color: var(--black-color);
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+}

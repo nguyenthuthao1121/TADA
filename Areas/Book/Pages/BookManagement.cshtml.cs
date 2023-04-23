@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Book;
+using TADA.Middleware;
 using TADA.Service;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class BookManagementModel : PageModel
 {
     private readonly IBookService bookService;

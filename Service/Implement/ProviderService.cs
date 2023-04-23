@@ -12,6 +12,7 @@ public class ProviderService : IProviderService
         this.providerRepository = providerRepository;
         this.addressRepository = addressRepository;
     }
+
     public List<ProviderManagementDto> GetAllProviders()
     {
         var list = new List<ProviderManagementDto>();
@@ -26,5 +27,22 @@ public class ProviderService : IProviderService
             });
         }
         return list;
+    }
+    public bool AddProvider(AddProviderDto provider)
+    {
+        if (providerRepository.GetProviderByName(provider.Name) == null)
+        {
+            addressRepository.AddAddress(provider.Street, provider.WardId);
+            providerRepository.AddProvider(new ProviderDto
+            {
+                Name = provider.Name,
+                AddressId = addressRepository.GetLastId()
+            });
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

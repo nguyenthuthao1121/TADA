@@ -24,4 +24,8 @@ public class AccountService : IAccountService
         accountRepository.AddNewAccount(account);
     }
 
+    public void ChangeStatusOfAccount(int accountId)
+    {
+        accountRepository.ChangeStatusOfAccount(accountId);
+    }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Reflection.Metadata;
 using TADA.Dto.Book;
+using TADA.Dto.Order;
 using TADA.Dto.Review;
+using TADA.Model.Entity;
 using TADA.Service;
 
 namespace TADA.Pages;
@@ -10,6 +13,8 @@ public class BookDetailUserModel : PageModel
 {
     private readonly IBookService bookService;
     private readonly IReviewService reviewService;
+    private readonly ICartService cartService;
+    private readonly IOrderService orderService;
 
     public BookDto Book { get; set; }
     public List<ReviewDto> Reviews { get; set; }
@@ -19,10 +24,14 @@ public class BookDetailUserModel : PageModel
     public double ThreeStar;
     public double FourStar;
     public double FiveStar;
-    public BookDetailUserModel(IBookService bookService, IReviewService reviewService)
+    [BindProperty]
+    public string Quantity { get; set; }
+    public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService)
     {
         this.bookService = bookService;
         this.reviewService = reviewService;
+        this.cartService = cartService;
+        this.orderService = orderService;
     }
     public void OnGet()
     {
@@ -42,5 +51,45 @@ public class BookDetailUserModel : PageModel
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
         }
         
+    }
+    public IActionResult OnPostAddToCart(int? id)
+    {
+        if (id != null && HttpContext.Session.GetInt32("Id")!=null)
+        {
+            cartService.AddBookToCart((int)id, (int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(Quantity));
+            return RedirectToPage("BookDetailUser",new {id=id});
+        }
+        else
+        {
+            return RedirectToPage("Login", new {area="Authentication"});
+        }
+    }
+    public IActionResult OnPostOrderNow(int? id)
+    {
+        if (id != null && HttpContext.Session.GetInt32("Id") != null)
+        {
+            var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), 6);
+            if (orders != null)
+            {
+                foreach (var order in orders)
+                {
+                    orderService.DeleteOrder(order.Id);
+                }
+            }
+            var bookOrder=bookService.GetBookById((int)id);
+            OrderDetailDto orderDetail = new OrderDetailDto
+            {
+                OrderId = 1,
+                BookId=(int)id,
+                Quantity= Convert.ToInt32(Quantity),
+                Price= bookOrder.Price* Convert.ToInt32(Quantity),
+            };
+            orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"),orderDetail);
+            return RedirectToPage("ConfirmPackage", new { area = "Order" });
+        }
+        else
+        {
+            return RedirectToPage("Login", new { area = "Authentication" });
+        }
     }
 }

@@ -37,4 +37,10 @@ public class AccountRepository : IAccountRepository
         return context.Accounts.Count();
     }
 
+    public void ChangeStatusOfAccount(int accountId)
+    {
+        var account = context.Accounts.Find(accountId);
+        account.Status = !account.Status;
+        context.SaveChanges();
+    }
 }

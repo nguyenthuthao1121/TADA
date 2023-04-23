@@ -28,9 +28,9 @@
                                 var Book = Model.GetBookByOrderDetail(orderDetail);
                                 var imgPath = Book.Image + "/cover.jpg";
                                 <div class="cart__flex-item row">
-                                    <a asp-area="" asp-page="/User/ConfirmPackage" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px"></a>
+                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px"></a>
                                     <div class="cart__book-desc col c-6">
-                                        <a asp-area="" asp-page="/User/ConfirmPackage" class="cart__book-name">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">

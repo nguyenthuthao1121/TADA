@@ -1,5 +1,5 @@
 ﻿@page
-@model UserModel
+@model CustomerModel
 @{
     ViewData["Title"] = "Quản lý khách hàng";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
@@ -94,7 +94,7 @@
                                         var d = customer.Birthday.Day;
                                         var m = customer.Birthday.Month;
                                         var y = customer.Birthday.Year;
-                                        string date = "" + d + " - " + m + " - " + y;
+                                        string date = "" + d + "/" + m + "/" + y;
                                         <span>@date</span>
                                     }
                                 </td>
@@ -125,18 +125,31 @@
 
                                 </td>
                                 <td class="table-value list-value">
-                                    <ul class="btn-container">
-                                        <li class="btn-item">
-                                            <a href="" + customer.CustomerId)" class="action-admin-btn">
-                                                <i class="block-icon fa-solid fa-ban"></i>
-                                            </a>
-                                        </li>
-                                        <li class="btn-item">
-                                            <a href="" + customer.CustomerId)" class="action-admin-btn">
-                                                <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <form method="post">
+                                        <ul class="btn-container">
+                                            @if (customer.Status)
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Customer/CustomerManagement/?userId=" + customer.AccountId)" class="action-admin-btn">
+                                                        <i class="block-icon fa-solid fa-ban"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Customer/CustomerManagement/?userId=" + customer.AccountId)" class="action-admin-btn">
+                                                        <i class="fa-solid fa-unlock"></i>
+                                                    </a>
+                                                </li>      
+                                            }
+                                            @*<li class="btn-item">
+                                                <a href="" + customer.CustomerId)" class="action-admin-btn">
+                                                    <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
+                                                </a>
+                                            </li>*@
+                                        </ul>                                    
+                                    </form>
                                 </td>
                             </tr>                              
                         }

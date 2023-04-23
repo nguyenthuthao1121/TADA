@@ -106,6 +106,7 @@ public class BookRepository : IBookRepository
             NumberOfReview = book.Reviews.Count(),
             CategoryId = book.CategoryId,
             CategoryName = book.Category.Name,
+            ProviderId = book.ProviderId,
             ProviderName = book.Provider.Name
 		};
     }
