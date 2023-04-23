@@ -41,19 +41,27 @@ public class LoginModel : PageModel
         var account = authenticationService.GetAccount(Email, Password);
         if (account != null)
         {
-            HttpContext.Session.SetInt32("Id", account.Id);
-            HttpContext.Session.SetString("Type", account.Type ? "Customer" : "Staff");
-            if (account.Type)
+            if (account.Status == true)
             {
-                HttpContext.Session.SetString("Name", customerService.GetNameByAccountId(account.Id));
-                return RedirectToPage("/Index");
+                HttpContext.Session.SetInt32("Id", account.Id);
+                HttpContext.Session.SetString("Type", account.Type ? "Customer" : "Staff");
+                if (account.Type)
+                {
+                    HttpContext.Session.SetString("Name", customerService.GetNameByAccountId(account.Id));
+                    return RedirectToPage("/Index");
+                }
+                else
+                {
+                    var staff = staffService.GetStaffByAccountId(account.Id);
+                    HttpContext.Session.SetString("Name", staff.Name);
+                    HttpContext.Session.SetString("Role", staff.RoleName);
+                    return RedirectToPage("/HomePageAdmin");
+                }
             }
             else
             {
-                var staff = staffService.GetStaffByAccountId(account.Id);
-                HttpContext.Session.SetString("Name", staff.Name);
-                HttpContext.Session.SetString("Role", staff.RoleName);
-                return RedirectToPage("/HomePageAdmin");
+                Message = "Tài khoản này đã bị chặn vì vi phạm Tiêu chuẩn cộng đồng của chúng tôi";
+                return Page();
             }
         }
         else
