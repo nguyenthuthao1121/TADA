@@ -19,6 +19,7 @@ public interface IOrderRepository
     void DeleteOrder(int orderId);
     void AddOrder(int accountId);
     void UpdateOrder(int orderId, OrderDto orderDto);
+    void UpdateOrderShipfee(int orderId, int fee);
     void UpdateStatusOrder(int orderId, int statusId);
     void UpdateOrderDetail(int bookId, int orderId, int quantity, int price);
     void DeleteOrderDetail(int bookId, int orderId);

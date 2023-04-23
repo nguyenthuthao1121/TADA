@@ -186,7 +186,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("CartDetails");
+                    b.ToTable("CartDetail");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Category", b =>
@@ -285,6 +285,9 @@ namespace TADA.Migrations
                     b.Property<DateTime>("DateOrder")
                         .HasColumnType("datetime");
 
+                    b.Property<decimal>("ShipFee")
+                        .HasColumnType("money");
+
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
@@ -322,7 +325,7 @@ namespace TADA.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>

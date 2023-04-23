@@ -50,8 +50,7 @@ public class OrderDetailConfirmModel : PageModel
     }
     public int SumPriceOfOrder()
     {
-        int shipFee = 15000;
-        return SumPriceOfBooks() + shipFee;
+        return SumPriceOfBooks() + Order.ShipFee;
     }
     public string GetPriceString(int price)
     {

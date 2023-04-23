@@ -26,7 +26,7 @@ public class ConfirmPackageModel : PageModel
     [BindProperty]
     public string UpdateTel { get; set; }
 
-    public int statusId = 6;
+    public int StatusId = 6;
 
     public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService)
     {
@@ -52,8 +52,7 @@ public class ConfirmPackageModel : PageModel
     }
     public int SumPriceOfOrder()
     {
-        int shipFee = 15000;
-        return SumPriceOfBooks() + shipFee;
+        return SumPriceOfBooks() + Order.ShipFee;
     }
     public string GetPriceString(int price)
     {
@@ -78,14 +77,14 @@ public class ConfirmPackageModel : PageModel
 
     public void OnGet()
     {
-        Order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault();
-        OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault().Id);
+        Order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault();
+        OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id);
         Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
         Address = addressService.GetAddressById(Customer.AddressId);
     }
     public IActionResult OnPostUpdateStatusOrder()
     {
-        orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).FirstOrDefault().Id, 1);
+        orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
         Console.WriteLine("OK");
         return RedirectToPage("/OrderListFillAll");
     }

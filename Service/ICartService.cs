@@ -12,4 +12,6 @@ public interface ICartService
     BookDto GetBookByCartDetail(CartDetailDto cartDetail);
     void AddBookToCart(int bookId, int accountId, int quantity);
     void DeleteBookOfCart(int bookId, int accountId);
+    void IncreaseQuantityOfCartDetail(int accountId, int bookId, int delta);
+    void DecreaseQuantityOfCartDetail(int accountId, int bookId, int delta);
 }

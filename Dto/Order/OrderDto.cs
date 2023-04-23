@@ -9,6 +9,7 @@ public class OrderDto
     public int Id { get; set; }
     public string TelephoneNumber { get; set; }
     public DateTime DateOrder { get; set; }
+    public int ShipFee { get; set; }
     public int? AddressId { get; set; }
     public int CustomerId { get; set; }
     public int StatusId { get; set; }

@@ -82,7 +82,7 @@ public class BookDetailUserModel : PageModel
                 OrderId = 1,
                 BookId=(int)id,
                 Quantity= Convert.ToInt32(Quantity),
-                Price= bookOrder.Price* Convert.ToInt32(Quantity),
+                Price= bookOrder.GetCurrentPrice()* Convert.ToInt32(Quantity),
             };
             orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"),orderDetail);
             return RedirectToPage("ConfirmPackage", new { area = "Order" });
