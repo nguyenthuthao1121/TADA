@@ -10,4 +10,5 @@ public interface IAccountRepository
     void AddNewAccount(AccountDto account);
     int GetLastId();
     void ChangeStatusOfAccount(int accountId);
+    bool CheckExistEmail(string email);
 }

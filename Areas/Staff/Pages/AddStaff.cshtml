@@ -1,0 +1,106 @@
+﻿@page
+@model AddStaffModel
+@{
+    ViewData["Title"] = "Thêm nhân viên";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+}
+
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="form-container">
+            <div class="form-heading">
+                <p>Thêm mới admin</p>
+            </div>
+            <div class="form-body">
+                <form method="post">
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputName" class="form__label">Tên nhân viên</label>
+                            <input type="text" class="form-control form__input" id="inputName" placeholder="Nhập tên nhân viên" asp-for="@Model.Staff.Name"> 
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="inputGender" class="form__label">Giới tính</label>
+                            <select class="form-select form__input" asp-for="@Model.Staff.Gender">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputBirthday" class="form__label">Ngày sinh</label>
+                            <input type="date" class="form-control form__input" id="inputBirthday" asp-for="@Model.Staff.Birthday">
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="inputTel" class="form__label">Số điện thoại</label>
+                            <input type="text" class="form-control form__input" id="inputTel" placeholder="Nhập số điện thoại" asp-for="@Model.Staff.TelephoneNumber">
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputName" class="form__label">Vai trò</label>
+                            <select class="form-select form__input" asp-items="@(new SelectList(Model.Roles, "RoleId", "RoleName"))" asp-for="@Model.Staff.RoleId"></select>
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="province" class="form__label">Tỉnh/ Thành</label>
+                            <select id="province" class="form-select form__input">
+                                <option value="">-- Chọn tỉnh/thành --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="district" class="form__label">Quận/ Huyện</label>
+                            <select id="district" class="form-select form__input">
+                                <option value="">-- Chọn quận/huyện --</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="ward" class="form__label">Xã/ Phường</label>
+                            <select id="ward" class="form-select form__input" asp-for="@Model.Staff.WardId">
+                                <option value="0">-- Chọn xã/phường --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputAddress" class="form__label">Địa chỉ</label>
+                            <input type="text" class="form-control form__input" id="inputAddress" placeholder="Nhập địa chỉ" asp-for="@Model.Staff.Street">
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="inputEmail" class="form__label">Email</label>
+                            <input type="email" class="form-control form__input" id="inputEmail" placeholder="Nhập email" asp-for="@Model.Staff.Email">
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
+                            <label for="inputPassword" class="form__label">Mật khẩu</label>
+                            <input type="password" class="form-control form__input" id="inputPassword" placeholder="Nhập mật khẩu" asp-for="@Model.Staff.Password">
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label for="inputConfirmPassword" class="form__label">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control form__input" id="inputConfirmPassword" placeholder="Nhập lại mật khẩu" asp-for="@Model.Staff.ConfirmPassword">
+                        </div>
+                    </div>
+                    @if (Model.Message != null)
+                    {
+                        <p class="row" style="color: red; font-size: 14px; font-weight: 600; margin: 5px">@Model.Message</p>
+                    }
+                    <div class="form-row form__row ">
+                        <div class="col-md-6 form__btn-margin"></div>
+                        <div class="col-md-6 form__btn-margin">
+                            <button class="form-group form__btn" style="margin-right: 2px" type="submit">
+                                THÊM NHÂN VIÊN
+                            </button>
+                            <button class="form-group form__btn form__btn--cancel" style="margin-left: 2px" asp-area="Staff" asp-page="StaffManagement">
+                                HỦY
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>

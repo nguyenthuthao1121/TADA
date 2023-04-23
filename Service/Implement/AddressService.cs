@@ -38,4 +38,12 @@ public class AddressService : IAddressService
         return addressRepository.GetAddressByIdAndPart(id, part);
     }
 
+    public void AddAddress(string street, int wardId)
+    {
+        addressRepository.AddAddress(street, wardId);
+    }
+    public int GetLastId()
+    {
+        return addressRepository.GetLastId();
+    }
 }
