@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 using TADA.Dto;
+using TADA.Dto.Address;
+using TADA.Model.Entity;
 
 namespace TADA.Service;
 
@@ -11,4 +13,8 @@ public interface IAddressService
     string GetAddressByIdAndPart(int id, int part);
     void AddAddress(string street, int wardId);
     int GetLastId();
+    AddressDto GetCustomerAddressDto(int accountId);
+    List<WardDto> GetAllWardsByDistrictId(int districtId);
+    List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId);
+    List<ProvinceDto> GetAllProvinces();
 }

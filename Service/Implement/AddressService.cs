@@ -1,4 +1,6 @@
 ﻿using TADA.Dto;
+using TADA.Dto.Address;
+using TADA.Model.Entity;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;
@@ -37,6 +39,10 @@ public class AddressService : IAddressService
     {
         return addressRepository.GetAddressByIdAndPart(id, part);
     }
+    public List<WardDto> GetAllWardsByDistrictId(int districtId)
+    {
+        return addressRepository.GetAllWardsByDistrictId(districtId);
+    }
 
     public void AddAddress(string street, int wardId)
     {
@@ -45,5 +51,19 @@ public class AddressService : IAddressService
     public int GetLastId()
     {
         return addressRepository.GetLastId();
+    }
+
+    public List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId)
+    {
+        return addressRepository.GetAllDistrictsByProvinceId(provinceId);
+    }
+
+    public List<ProvinceDto> GetAllProvinces()
+    {
+        return addressRepository.GetAllProvinces();
+    }
+    public AddressDto GetCustomerAddressDto(int accountId)
+    {
+        return addressRepository.GetCustomerAddressDto(accountId);
     }
 }

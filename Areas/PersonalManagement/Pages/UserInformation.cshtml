@@ -1,36 +1,11 @@
 ﻿@page
 @model UserInformationModel
+@using Microsoft.AspNetCore.Identity;
 @using TADA.Model.Entity
 @{
     ViewData["Title"] = "Thông tin cá nhân";
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
-    ViewBag.Name = Model.Username;
-}
-
-@{
-    var Gender = Model.Customer.Gender ? "Nam" : "Nữ";
-    string Street = "", Ward = "", District = "", Province = "";
-    string[] DetailAddress = Model.Address.Split(',');
-    try
-    {
-        Street = DetailAddress[0];
-    }
-    catch (IndexOutOfRangeException){}
-    try
-    {
-        Ward = DetailAddress[1];
-    }
-    catch (IndexOutOfRangeException) { }
-    try
-    {
-        District = DetailAddress[2];
-    }
-    catch (IndexOutOfRangeException){}
-    try
-    {
-        Province = DetailAddress[3];
-    }
-    catch (IndexOutOfRangeException) { }
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 <div class="container ps-5">
     <div class="row bg-white py-4 mt-3 rounded">
@@ -41,49 +16,48 @@
         </div>
         <div class="user-personal-information mt-2 px-4">
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="name" class="form-label">Họ và tên người dùng</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="name" name="userName"
-                       value="" readonly>@Model.Customer.Name
+                <label asp-for="Customer.Name" class="form-label">Họ và tên người dùng</label>
+                <input asp-for="Customer.Name" class="form-control border-0" style="width: 0" readonly> @Model.Customer.Name
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="date" class="form-label">Ngày sinh</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="date" name="userDate"
+                <label asp-for="Customer.Birthday" class="form-label">Ngày sinh</label>
+                <input asp-for="Customer.Birthday" type="text" class="form-control border-0" style="width: 0"
                        value="" readonly>@Model.Customer.Birthday.ToShortDateString()
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="gender" class="form-label">Giới tính</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="gender" name="userGender'" value=""
-                       readonly>@Gender
+                <label asp-for="Customer.Gender" class="form-label">Giới tính</label>
+                <input asp-for="Customer.Gender" type="text" class="form-control border-0" style="width: 0"
+                       readonly>@((Model.Customer.Gender) ? "Nam" : "Nữ")
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="telephone" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="telephone" name="userTele"
-                       value="" readonly>@Model.Customer.TelephoneNumber
+                <label asp-for="Customer.TelephoneNumber" class="form-label">Số điện thoại</label>
+                <input asp-for="Customer.TelephoneNumber" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.TelephoneNumber
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="email" name="userEmail"
-                       value="" readonly>@Model.Customer.Email
+                <label asp-for="Customer.Email" class="form-label">Email</label>
+                <input asp-for="Customer.Email" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.Email
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="address" name="userAddress"
-                       value="" readonly>@Street
+                <label asp-for="Customer.Province" class="form-label">Tỉnh/Thành phố</label>
+                <input asp-for="Customer.Province" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.Province
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="city" class="form-label">Tỉnh/Thành phố</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="city" name="userCity" value=""
-                       readonly>@Province
+                <label asp-for="Customer.District" class="form-label">Quận/Huyện</label>
+                <input asp-for="Customer.District" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.District
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="district" class="form-label">Huyện/Quận</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="district" name="userDistrict"
-                       value="" readonly>@District
+                <label asp-for="Customer.Ward" class="form-label">Phường/Xã</label>
+                <input asp-for="Customer.Ward" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.Ward
             </div>
             <div class="form-group d-flex" style="align-items: baseline">
-                <label for="ward" class="form-label">Xã/Phường</label>
-                <input type="text" class="form-control border-0" style="width: 0" id="ward" name="userWard" value=""
-                       readonly>@Ward
+                <label asp-for="Customer.Street" class="form-label">Địa chỉ</label>
+                <input asp-for="Customer.Street" class="form-control border-0" style="width: 0"
+                       readonly> @Model.Customer.Street
             </div>
             <div class="form-group mt-3">
                 <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modalInformation"
@@ -107,95 +81,198 @@
                 <h5 class="modal-title" style="color: var(--primary-color)">Đổi mật khẩu</h5>
             </div>
             <div class="modal-body containter-fluid py-0">
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="oldPwd" class="form-label">Mật khẩu hiện tại</label>
-                        <input type="text" class="form-control" id="oldPwd" name="userPws" placeholder="Nhập mật khẩu hiện tại">
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="OldPassword" class="form-label">Mật khẩu hiện tại</label>
+                            <input asp-for="OldPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại">
+                            <span class="text-danger" asp-validation-for="OldPassword"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="newPwd" class="form-label">Mật khẩu mới</label>
-                        <input type="text" class="form-control" id="newPwd" name="userPwd" placeholder="Nhập mật khẩu mới">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="NewPassword" class="form-label">Mật khẩu mới</label>
+                            <input asp-for="NewPassword" class="form-control" placeholder="Nhập mật khẩu mới">
+                            <span class="text-danger" asp-validation-for="NewPassword"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="rePwd" class="form-label">Nhập lại mật khẩu</label>
-                        <input type="text" class="form-control" id="rePwd" name="userPwd" placeholder="Nhập lại mật khẩu">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="ConfirmPassword" class="form-label">Nhập lại mật khẩu</label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu">
+                            <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer border-0 px-0 mt-3 d-flex">
-                    <div class="button px-0">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="btn btn-primary" >Đổi mật khẩu</button>
+                        </div>
                     </div>
-                    <div class="button px-0">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Đổi mật khẩu</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <div class="modal fade" id="modalInformation" data-bs-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content rounded-0 border-0">
-            <div class="modal-header border-0">
-                <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
-            </div>
-            <div class="modal-body containter-fluid py-0">
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="changeName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="changeName" name="userName" placeholder="Nhập họ và tên">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
+                </div>
+            <form method="post" asp-page-handler="ChangeInformation">
+                <div class="modal-body containter-fluid py-0">
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Name" class="form-label">Họ và tên</label>
+                            <input asp-for="Customer.Name" type="text" class="form-control" placeholder="Nhập họ và tên">
+                            <span class="text-danger" asp-validation-for="Customer.Name"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedProvince" class="form-label">Tỉnh/Thành phố</label>
+                            <select class="form-select custom-select" asp-for="SelectedProvince">
+                                @{
+                                    foreach (var province in Model.Provinces)
+                                    {
+                                        if (province.ProvinceId == Model.Address.ProvinceId)
+                                        {
+                                            <option value="@province.ProvinceId" selected>@province.ProvinceName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvinceName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-6 form-group">
-                        <label for="changeAddress" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="changeAddress" name="userAddress" placeholder="Nhập địa chỉ">
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Birthday" class="form-label">Ngày sinh</label>
+                            <input asp-for="Customer.Birthday" type="date" data-val="true" class="form-control">
+                            <span class="text-danger" asp-validation-for="Customer.Birthday"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedDistrict" class="form-label">Quận/Huyện</label>
+                            <select class="form-select custom-select" data-val="true" asp-for="SelectedDistrict" required title="Vui lòng chọn Quận/Huyện!">
+                                @{
+                                    foreach (var district in Model.Districts)
+                                    {
+                                        if (district.DistrictId == Model.Address.DistrictId)
+                                        {
+                                            <option value="@district.DistrictId" selected>@district.DistrictName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@district.DistrictId">@district.DistrictName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Gender" class="form-label">Giới tính</label>
+                            <select asp-for="Customer.Gender" class="form-select custom-select">
+                                @if (Model.Gender == "Nam")
+                                {
+                                    <option value="1" selected>Nam</option>
+                                    <option value="0">Nữ</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Nam</option>
+                                    <option value="0" selected>Nữ</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedWard" class="form-label">Phường/Xã</label>
+                            <select class="form-select custom-select" asp-for="SelectedWard" required title="Vui lòng chọn Phường/Xã!">
+                                @{
+                                    foreach (var ward in Model.Wards)
+                                    {
+                                        if (ward.WardId == Model.Address.WardId)
+                                        {
+                                            <option value="@ward.WardId" selected>@ward.WardName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@ward.WardId">@ward.WardName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.TelephoneNumber" class="form-label">Số điện thoại</label>
+                            <input asp-for="Customer.TelephoneNumber" type="text" class="form-control" placeholder="Nhập số điện thoại">
+                            <span class="text-danger" asp-validation-for="Customer.TelephoneNumber"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Street" class="form-label">Địa chỉ</label>
+                            <input asp-for="Customer.Street" type="text" class="form-control" placeholder="Nhập địa chỉ">
+                            <span class="text-danger" asp-validation-for="Customer.Street"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">Lưu thông tin</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="changeDate" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="changeDate" name="userDate">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="changeCity" class="form-label">Tỉnh/Thành phố</label>
-                        <select class="form-select custom-select" id="changeCity" name="userCity"></select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="changeGender" class="form-label">Giới tính</label>
-                        <select class="form-select custom-select" id="changeGender" name="userGender">
-                            <option>Nam</option>
-                            <option>Nữ</option>
-                        </select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="changeDistrict" class="form-label">Huyện/Quận</label>
-                        <select class="form-select custom-select" id="changeDistrict" name="userDistrict"></select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="changeTele" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="changeTele" name="userTele" placeholder="Nhập số điện thoại">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="changeWard" class="form-label">Xã/Phường</label>
-                        <select class="form-select custom-select" id="changeWard" name="userWard"></select>
-                    </div>
-                </div>
-                <div class="modal-footer border-0 px-0 mt-3 d-flex">
-                    <div class="button px-0">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-                    </div>
-                    <div class="button px-0">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Lưu thông tin</button>
-                    </div>
-                </div>
+            </form>
             </div>
         </div>
     </div>
-</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#SelectedProvince").on("change", function () {
+                var provinceId = $(this).val();
+                let districtId;
+                $("#SelectedDistrict").empty();
+                $("#SelectedWard").empty();
+                $.getJSON(`?handler=Districts&SelectedProvince=${provinceId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#SelectedDistrict").append(`<option value="${item.districtId}">${item.districtName}</option>`);
+                        if (i === 0){
+                            $.getJSON(`?handler=Wards&SelectedDistrict=${item.districtId}`, (data) => {
+                                $.each(data, function (i, item) {
+                                    $("#SelectedWard").append(`<option value="${item.wardId}">${item.wardName}</option>`);
+                                });
+                            });
+                        }
+                    });
+                });
+                console.log(districtId);                
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#SelectedDistrict").on("change", function () {
+                var districtId = $(this).val();
+                $("#SelectedWard").empty();
+                $.getJSON(`?handler=Wards&SelectedDistrict=${districtId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#SelectedWard").append(`<option value="${item.wardId}">${item.wardName}</option>`);
+                    });
+                });
+            });
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />        
+}
+
+
