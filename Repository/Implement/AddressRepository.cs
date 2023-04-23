@@ -1,4 +1,5 @@
-﻿using TADA.Dto.Address;
+﻿using Microsoft.Identity.Client;
+using TADA.Dto.Address;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -102,5 +103,44 @@ public class AddressRepository : IAddressRepository
     public int GetLastId()
     {
         return context.Addresses.ToList().Last().Id;
+    }
+    public int AddNewAddress(string street, int wardId)
+    {
+        var ward = context.Wards.Find(wardId);
+        Address address = new Address
+        {
+            Street = street,
+        };
+        context.Addresses.Add(address);
+        if (ward != null)
+        {
+            address.Ward = ward;
+            address.WardId = wardId;
+        }
+        context.SaveChanges();
+        return context.Addresses.Where(address=>address.Street== street && address.WardId==wardId)
+            .Select(address=>address.Id).FirstOrDefault();
+    }
+    public AddressDto GetOrderAddressDto(int orderId)
+    {
+        var addressId = context.Orders.Where(or => or.Id == orderId).Select(or => or.AddressId).FirstOrDefault();
+        var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
+        if (address == null)
+        {
+            return null;
+        }
+        var ward = context.Wards.Where(ward => ward.Id == address.WardId).FirstOrDefault();
+        var district = context.Districts.Where(district => district.Id == ward.DistrictId).FirstOrDefault();
+        var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
+        return new AddressDto
+        {
+            Street = address.Street,
+            WardId = ward.Id,
+            WardName = ward.Name,
+            DistrictId = district.Id,
+            DistrictName = district.Name,
+            ProvinceId = province.Id,
+            ProvinceName = province.Name
+        };
     }
 }
