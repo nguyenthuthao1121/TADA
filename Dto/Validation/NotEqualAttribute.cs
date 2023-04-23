@@ -13,7 +13,9 @@ namespace TADA.Dto.Validation
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (value != null && value.ToString() == _comparisonValue)
+            var otherPropertyInfo = validationContext.ObjectType.GetProperty(_comparisonValue);
+            var otherValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance);
+            if (value != null && otherValue.ToString() == _comparisonValue)
             {
                 return new ValidationResult(ErrorMessage);
             }

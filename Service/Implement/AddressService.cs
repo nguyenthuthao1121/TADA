@@ -66,4 +66,13 @@ public class AddressService : IAddressService
     {
         return addressRepository.GetCustomerAddressDto(accountId);
     }
+
+    public AddressDto GetOrderAddressDto(int orderId)
+    {
+        return addressRepository.GetOrderAddressDto(orderId);
+    }
+    public int AddNewAddress(string street, int wardId)
+    {
+        return addressRepository.AddNewAddress(street, wardId);
+    }
 }

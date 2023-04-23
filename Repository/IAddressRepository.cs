@@ -13,6 +13,8 @@ public interface IAddressRepository
     string GetAddressById(int id);
     string GetAddressByIdAndPart(int id, int part);
     AddressDto GetCustomerAddressDto(int accountId);
+    AddressDto GetOrderAddressDto(int orderId);
+    int AddNewAddress(string street, int wardId);
     List<WardDto> GetAllWardsByDistrictId(int districtId);
     List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId);
     List<ProvinceDto> GetAllProvinces();

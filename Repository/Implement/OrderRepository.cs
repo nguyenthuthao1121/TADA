@@ -62,7 +62,10 @@ public class OrderRepository : IOrderRepository
     }
     public OrderDto GetOrderById(int orderId)
     {
+
         var order= context.Orders.Find(orderId);
+        AddressRepository addressRepository = new AddressRepository(context);
+
         return new OrderDto
         {
             Id = order.Id,
@@ -71,6 +74,7 @@ public class OrderRepository : IOrderRepository
             AddressId = (int)order.AddressId,
             CustomerId = order.CustomerId,
             StatusId = (int)order.StatusId,
+
         };
     }
 
@@ -201,7 +205,10 @@ public class OrderRepository : IOrderRepository
         var order = context.Orders.Find(orderId);
         if (order != null )
         {
-            order.CustomerId = orderDto.CustomerId;
+            order.TelephoneNumber = orderDto.TelephoneNumber;
+            var entry = context.Entry(order);
+            entry.Reference(p => p.Address).Load();
+            order.AddressId = orderDto.AddressId;
             //order.StatusId = orderDto.StatusId;
             //order.AddressId = orderDto.AddressId;
         }
