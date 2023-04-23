@@ -36,5 +36,10 @@ namespace TADA.Service.Implement
         {
             return customerRepository.GetNameByAccountId(id);
         }
+
+        public void UpdateCustomer(CustomerDto customer)
+        {
+            customerRepository.UpdateCustomer(customer);
+        }
     }
 }

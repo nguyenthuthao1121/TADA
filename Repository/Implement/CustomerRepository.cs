@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using System.Net;
+using TADA.Dto.Address;
 using TADA.Dto.Customer;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -192,6 +193,8 @@ namespace TADA.Repository.Implement
             if (account == null) return null;
             var customer = context.Customers.Where(customer => customer.AccountId == accountId)
                 .Select(customer => customer).FirstOrDefault();
+            AddressRepository addressRepository = new AddressRepository(context);
+            AddressDto address = addressRepository.GetCustomerAddressDto(accountId);
             return new CustomerDto
             {
                 AccountId= accountId,
@@ -205,11 +208,32 @@ namespace TADA.Repository.Implement
                 Gender=customer.Gender,
                 TelephoneNumber=customer.TelephoneNumber,
                 AddressId=customer.AddressId,
+                Street = address.Street,
+                Ward = address.WardName,
+                District = address.DistrictName,
+                Province = address.ProvinceName
             };
         }
         public int GetIdByAccountId(int id)
         {
             return context.Customers.Where(customer => customer.AccountId == id).Select(customer => customer.Id).FirstOrDefault();
+        }
+
+        public void UpdateCustomer(CustomerDto customer)
+        {
+            var updateCustomer = context.Customers.FirstOrDefault(p => p.AccountId == customer.AccountId);
+            if (updateCustomer != null)
+            {
+                updateCustomer.Name = customer.Name;
+                updateCustomer.TelephoneNumber = customer.TelephoneNumber;
+                updateCustomer.Birthday= customer.Birthday;
+                updateCustomer.Gender = customer.Gender;
+                var entry = context.Entry(updateCustomer);
+                entry.Reference(p => p.Address).Load();
+                updateCustomer.Address.WardId = customer.WardId;
+                updateCustomer.Address.Street = customer.Street;
+                context.SaveChanges();
+            }
         }
     }
 }

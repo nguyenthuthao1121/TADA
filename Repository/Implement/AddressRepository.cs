@@ -1,4 +1,5 @@
-﻿using TADA.Model;
+﻿using TADA.Dto.Address;
+using TADA.Model;
 using TADA.Model.Entity;
 
 namespace TADA.Repository.Implement;
@@ -43,5 +44,53 @@ public class AddressRepository : IAddressRepository
         if (part==3) return district.Name;
         var province=context.Provinces.Find(district.ProvinceId);
         return province.Name;
+    }
+    public AddressDto GetCustomerAddressDto(int accountId)
+    {
+        var addressId = context.Customers.Where(cus => cus.AccountId == accountId).Select(cus => cus.AddressId).FirstOrDefault();
+        var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
+        if (address == null)
+        {
+            return null;
+        }
+        var ward = context.Wards.Where(ward => ward.Id == address.WardId).FirstOrDefault();
+        var district = context.Districts.Where(district => district.Id == ward.DistrictId).FirstOrDefault();
+        var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
+        return new AddressDto
+        {
+            Street = address.Street,
+            WardId = ward.Id,
+            WardName = ward.Name,
+            DistrictId = district.Id,
+            DistrictName = district.Name,
+            ProvinceId = province.Id,
+            ProvinceName = province.Name
+        };
+    }
+    public List<WardDto> GetAllWardsByDistrictId(int districtId)
+    {
+        return context.Wards.Where(p => p.DistrictId == districtId).Select(p => new WardDto
+        {
+            WardId = p.Id,
+            WardName = p.Name
+        }).ToList();
+    }
+
+    public List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId)
+    {
+        return context.Districts.Where(p => p.ProvinceId == provinceId).Select(p => new DistrictDto
+        {
+            DistrictId = p.Id,
+            DistrictName = p.Name
+        }).ToList();
+    }
+
+    public List<ProvinceDto> GetAllProvinces()
+    {
+        return context.Provinces.Select(p => new ProvinceDto
+        {
+            ProvinceId = p.Id,
+            ProvinceName = p.Name
+        }).ToList();
     }
 }

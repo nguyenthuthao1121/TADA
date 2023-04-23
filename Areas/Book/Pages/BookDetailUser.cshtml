@@ -114,9 +114,9 @@
                     <div class="quantity mt-3 d-flex" style="align-items: baseline">
                         <span style="font-weight: bold; margin-right: 2rem">Số lượng:</span>
                         <span class="form-group d-flex">
-                            <button class="input-group-text" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
-                            <input class="form-control" type="text" value="1">
-                            <button class="input-group-text" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                            <input class="form-control quantity-input" type="text" value="01">
+                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                         </span>
                     </div>
                 </div>
@@ -299,3 +299,24 @@
         <div class="col-1"></div>
     </div>
 </div>
+@section scripts{
+    <script>
+        var plusBtn = document.querySelector(".plus-btn");
+        var minusBtn = document.querySelector(".minus-btn");
+        var quantityInput = document.querySelector(".quantity-input");
+        let a = 1;
+
+        plusBtn.addEventListener("click", () => {
+            a++;
+            a = (a < 10) ? "0" + a : a;
+            quantityInput.value = a;
+        });
+
+       minusBtn.addEventListener("click", () => {
+            a--;
+            a = (a < 1) ? 1 : a;
+            a = (a < 10) ? "0" + a : a;
+            quantityInput.value = a;
+        });
+    </script>
+}
