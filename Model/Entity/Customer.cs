@@ -20,8 +20,7 @@ namespace TADA.Model.Entity
         [Column(TypeName = "bit")]
         public bool Gender { get; set; }
 
-        [StringLength(10)]
-        [Column(TypeName = "char")]
+        [Column(TypeName = "varchar")]
         public string TelephoneNumber { get; set; }
         public int AddressId { get; set; }
 

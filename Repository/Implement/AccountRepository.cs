@@ -37,4 +37,22 @@ public class AccountRepository : IAccountRepository
         return context.Accounts.Count();
     }
 
+    public void ChangeStatusOfAccount(int accountId)
+    {
+        var account = context.Accounts.Find(accountId);
+        account.Status = !account.Status;
+        context.SaveChanges();
+    }
+    public bool CheckExistEmail(string email)
+    {
+        var account = context.Accounts.Where(account => account.Email == email).FirstOrDefault();
+        if (account != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

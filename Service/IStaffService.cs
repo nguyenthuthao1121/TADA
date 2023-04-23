@@ -6,4 +6,5 @@ public interface IStaffService
 {
     StaffRoleDto GetStaffByAccountId(int id);
     List<StaffDto> GetAllStaffs();
+    void AddStaff(AddStaffDto staff);
 }

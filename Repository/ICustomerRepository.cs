@@ -13,4 +13,5 @@ public interface ICustomerRepository
     string GetNameByAccountId(int id);
     int GetIdByAccountId(int id);
     int GetLastId();
+    void UpdateCustomer(CustomerDto customer);
 }

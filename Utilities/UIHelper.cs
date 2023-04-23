@@ -13,4 +13,16 @@ public class UIHelper
             return $"{dateOrder.Hour - 12}:{dateOrder.Minute} PM {dateOrder.Day}/{dateOrder.Month}/{dateOrder.Year}";
         }
     }
+    public static string GetPriceString(int price)
+    {
+        string str = price.ToString();
+        string tmp = "";
+        while (str.Length > 3)
+        {
+            tmp = "." + str.Substring(str.Length - 3) + tmp;
+            str = str.Substring(0, str.Length - 3);
+        }
+        tmp = str + tmp;
+        return tmp;
+    }
 }

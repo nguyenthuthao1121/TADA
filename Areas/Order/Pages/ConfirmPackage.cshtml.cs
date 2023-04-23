@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.JSInterop;
+using System.ComponentModel.DataAnnotations;
+using TADA.Dto.Address;
 using TADA.Dto.Book;
 using TADA.Dto.Customer;
 using TADA.Dto.Order;
@@ -22,10 +24,24 @@ public class ConfirmPackageModel : PageModel
     public OrderDto Order { get; set; } = null;
     public List<OrderDetailDto> OrderDetails { get; set; }
     public CustomerDto Customer { get; set; }
-    public string Address { get; set; }
+    public List<WardDto> Wards { get; set; }
+    public List<DistrictDto> Districts { get; set; }
+    public List<ProvinceDto> Provinces { get; set; }
+
+    [BindProperty]
+    public int SelectedProvince { get; set; }
+    [BindProperty]
+    public int SelectedDistrict { get; set; }
+
+    [BindProperty]
+    public int SelectedWard { get; set; }
+    public AddressDto Address { get; set; }
     [BindProperty]
     public string UpdateTel { get; set; }
 
+
+    [BindProperty]
+    public string Street { get; set; }  
     public int StatusId = 6;
 
     public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService)
@@ -77,16 +93,33 @@ public class ConfirmPackageModel : PageModel
 
     public void OnGet()
     {
+
         Order = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault();
         OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id);
-        Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
-        Address = addressService.GetAddressById(Customer.AddressId);
+        int UserId = Convert.ToInt32(HttpContext.Session.GetInt32("Id"));
+        Customer = customerService.GetCustomerByAccountId(UserId);
+        Address = addressService.GetOrderAddressDto(Order.Id);
+        Provinces = addressService.GetAllProvinces();
+        Districts = addressService.GetAllDistrictsByProvinceId(Address.ProvinceId);
+        Wards = addressService.GetAllWardsByDistrictId(Address.DistrictId);
+        Street= Address.Street;
     }
     public IActionResult OnPostUpdateStatusOrder()
     {
         orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
         Console.WriteLine("OK");
         return RedirectToPage("/OrderListFillAll");
+    }
+    public IActionResult OnPostChangeInformation()
+    {
+        int addressId=addressService.AddNewAddress(Street, SelectedWard);
+        orderService.UpdateOrder(Order.Id, new OrderDto
+        {
+            Id = Order.Id,
+            TelephoneNumber=Order.TelephoneNumber,
+            AddressId= addressId,
+        });
+        return RedirectToPage("./ConfirmPackage");
     }
     //public IActionResult OnPostUpdateOrder(string username, string userTel, )
     //{
@@ -101,4 +134,16 @@ public class ConfirmPackageModel : PageModel
     //    //}
     //    return Page();
     //}
+    public JsonResult OnGetDistricts(int SelectedProvince)
+    {
+        List<DistrictDto> districtDtos = new List<DistrictDto>();
+        districtDtos = addressService.GetAllDistrictsByProvinceId(SelectedProvince);
+        return new JsonResult(districtDtos);
+    }
+    public JsonResult OnGetWards(int SelectedDistrict)
+    {
+        List<WardDto> wardDtos = new List<WardDto>();
+        wardDtos = addressService.GetAllWardsByDistrictId(SelectedDistrict);
+        return new JsonResult(wardDtos);
+    }
 }

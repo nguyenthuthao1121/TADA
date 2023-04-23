@@ -4,6 +4,7 @@
     ViewData["Title"] = "Quản lý nhân viên";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
+    ViewBag.AccountId = HttpContext.Session.GetInt32("Id");
 }
 
 <div class="row">
@@ -89,7 +90,7 @@
                                         var d = staff.Birthday.Day;
                                         var m = staff.Birthday.Month;
                                         var y = staff.Birthday.Year;
-                                        string date = "" + d + " - " + m + " - " + y;
+                                        string date = "" + d + "/" + m + "/" + y;
                                         <span>@date</span>
                                     }
                                 </td>
@@ -108,7 +109,7 @@
                                 </td>
                                 <td class="table-value list-value">
                                     <ul class="btn-container">
-                                        <li class="btn-item">
+                                        @*<li class="btn-item">
                                             <a href="" + customer.CustomerId)" class="action-admin-btn">
                                                 <i class="block-icon fa-solid fa-ban"></i>
                                             </a>
@@ -117,24 +118,44 @@
                                             <a href="" + customer.CustomerId)" class="action-admin-btn">
                                                 <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
                                             </a>
-                                        </li>
+                                        </li>*@
+                                        @{
+                                            if (staff.AccountId == ViewBag.AccountId)
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="/" class="action-admin-btn isDisabled">
+                                                        <i class="block-icon fa-solid fa-ban"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (staff.Status)
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Staff/StaffManagement/?userId=" + staff.AccountId)" class="action-admin-btn">
+                                                        <i class="block-icon fa-solid fa-ban"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Staff/StaffManagement/?userId=" + staff.AccountId)" class="action-admin-btn">
+                                                        <i class="fa-solid fa-unlock"></i>
+                                                    </a>
+                                                </li>
+                                            } 
+                                        }
                                     </ul>
                                 </td>
                             </tr>
                         }
-                    }
-                    @for (int i = 1; i <= 9; i++)
-                    {
-
-                    }                   
+                    }                  
                 </table>
             </div>
             <div class="pagination-container add-button">
                 <div class="add-button">
-                    <a asp-area="" asp-page="/Admin/AddAdmin">
-                        <button class="feature-btn add-btn">
-                            THÊM ADMIN
-                        </button>
+                    <a style="display: block; text-align: center" class="feature-btn add-btn" asp-area="Staff" asp-page="AddStaff">
+                        THÊM NHÂN VIÊN
                     </a>
                 </div>
                 <ul class="pagination">

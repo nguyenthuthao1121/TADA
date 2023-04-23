@@ -40,46 +40,86 @@
     </header>
     <div class="container app-container">
         <div class="row">
-            <div class="col-2 category sidenav">
+            <div class="col-2 sidenav">
                 <ul class="category-list">
-                    <li class="category-item">
-                        <a id="HomePageAdmin" class="nav-link category-item__link" asp-area="" asp-page="HomePageAdmin">
+                    <li id="HomePageAdmin" class="category-item">
+                        <a class="nav-link category-item__link" asp-area="" asp-page="HomePageAdmin">
                             <i class="fa-solid fa-house category-icon"></i>
                             Dashboard
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="UserManagement" class="nav-link category-item__link" asp-area="Customer" asp-page="UserManagement">
+                    <li id="CustomerManagement" class="category-item">
+                        <a class="nav-link category-item__link" asp-area="Customer" asp-page="CustomerManagement">
                             <i class="fa-solid fa-user category-icon"></i>
                             Khách hàng
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="AdminManagement" class="nav-link category-item__link" asp-area="Staff" asp-page="AdminManagement">
+                    <li id="StaffManagement" class="category-item" onclick="ShowStaffMenu()">
+                        <div class="nav-link category-item__link">
                             <i class="fa-sharp fa-solid fa-user-tie category-icon"></i>
                             Nhân viên
+                        </div>
+                    </li>
+                    <li class="category-subitem staff" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Staff" asp-page="StaffManagement">
+                            Danh sách nhân viên
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="CategoryManagement" class="nav-link category-item__link" asp-area="Category" asp-page="CategoryManagement">
+                    <li class="category-subitem staff" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Staff" asp-page="AddStaff">
+                            Thêm nhân viên
+                        </a>
+                    </li>
+                    <li id="CategoryManagement" class="category-item" onclick="ShowCategoryMenu()">
+                        <div class="nav-link category-item__link">
                             <i class="fa-solid fa-rectangle-list category-icon"></i>                            
                             Danh mục
+                        </div>
+                    </li>
+                    <li class="category-subitem category" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Category" asp-page="CategoryManagement">
+                            Danh sách danh mục
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="BookManagement" class="nav-link category-item__link" asp-area="Book" asp-page="BookManagement">
+                    <li class="category-subitem category" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Category" asp-page="AddCategory">
+                            Thêm danh mục
+                        </a>
+                    </li>
+                    <li id="BookManagement" class="category-item" onclick="ShowBookMenu()">
+                        <div class="nav-link category-item__link" asp-area="Book" asp-page="BookManagement">
                             <i class="fa-solid fa-book category-icon"></i>
                             Sách
+                        </div>
+                    </li>
+                    <li class="category-subitem book" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Book" asp-page="BookManagement">
+                            Danh sách sách
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="ProviderManagement" class="nav-link category-item__link" asp-area="Provider" asp-page="ProviderManagement">
+                    <li class="category-subitem book" style="display: none">
+                        <a class="nav-link category-subitem__link" asp-area="Book" asp-page="AddBook">
+                            Thêm sách
+                        </a>
+                    </li>
+                    <li id="ProviderManagement" class="category-item" onclick="ShowProviderMenu()">
+                        <div id="ProviderManagement" class="nav-link category-item__link" asp-area="Provider" asp-page="ProviderManagement">
                             <i class="fa-solid fa-person category-icon"></i>
                             Nhà cung cấp
+                        </div>
+                    </li>
+                    <li class="category-subitem provider" style="display: none">
+                        <a id="ProviderManagement" class="nav-link category-subitem__link" asp-area="Provider" asp-page="ProviderManagement">
+                            Danh sách nhà cung cấp
                         </a>
                     </li>
-                    <li class="category-item">
-                        <a id="OrderManagement" class="nav-link category-item__link" asp-area="Order" asp-page="OrderManagement">
+                    <li class="category-subitem provider" style="display: none">
+                        <a id="ProviderManagement" class="nav-link category-subitem__link" asp-area="Provider" asp-page="AddProvider">
+                            Thêm nhà cung cấp
+                        </a>
+                    </li>
+                    <li id="OrderManagement" class="category-item">
+                        <a class="nav-link category-item__link" asp-area="Order" asp-page="OrderManagement">
                             <i class="fa-solid fa-list category-icon"></i>
                             Đơn hàng
                         </a>

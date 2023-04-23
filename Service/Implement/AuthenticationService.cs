@@ -21,6 +21,14 @@ public class AuthenticationService : IAuthenticationService
         {
             return null;
         }
-        return new AccountDto(account.Id, account.Type, account.Email, account.Password, account.CreateDate, account.Status);
+        return new AccountDto()
+        {
+            Id = account.Id,
+            Type = account.Type,
+            Email = account.Email,
+            Password = account.Password,
+            CreateDate = account.CreateDate,
+            Status = account.Status,
+        };
     }
 }

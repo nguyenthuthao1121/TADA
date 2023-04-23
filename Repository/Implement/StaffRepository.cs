@@ -1,5 +1,9 @@
-﻿using TADA.Dto.Staff;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using TADA.Dto.Staff;
 using TADA.Model;
+using TADA.Model.Entity;
 
 namespace TADA.Repository.Implement;
 
@@ -42,5 +46,19 @@ public class StaffRepository : IStaffRepository
                 AddressId = (int)staff.AddressId,
                 RoleId = (int)staff.RoleId
             }).ToList();
+    }
+    public void AddStaff(AddStaffDto staff)
+    {
+        context.Staff.Add(new Staff
+        {
+            Name = staff.Name,
+            Birthday = staff.Birthday,
+            Gender = staff.Gender == "Nam" ? true : false,
+            TelephoneNumber = staff.TelephoneNumber,
+            AddressId = staff.AddressId,
+            AccountId = staff.AccountId,
+            RoleId = staff.RoleId
+        });
+        context.SaveChanges();
     }
 }

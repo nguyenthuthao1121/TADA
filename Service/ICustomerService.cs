@@ -9,4 +9,5 @@ public interface ICustomerService
     CustomerDto GetCustomerByAccountId(int accountId);
     string GetNameByAccountId(int id);
     int GetIdByAccountId(int id);
+    void UpdateCustomer(CustomerDto customer);
 }
