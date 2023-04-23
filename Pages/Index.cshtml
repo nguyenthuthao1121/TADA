@@ -33,7 +33,7 @@
                 @foreach (var category in Model.Categories)
                 {
                     <li class="category-items fw-bold text-dark">
-                        <a href="@Url.Page("./Index", new { category = category.Id })">@category.Name</a>
+                        <a href="@Url.Content("~/Index/?categoryId=" + category.Id)">@category.Name</a>
                     </li>
                 }
             </ul>
@@ -74,7 +74,15 @@
                             <option>Bìa mềm</option>
                             <option>Bìa cứng</option>
                         </select>
-                        <select class="visually-hidden" id="Category" name="Category">
+                        <select class="visually-hidden" id="Category" name="Category" asp-for="@Model.Category">
+                            @if (Model.Category == 0)
+                            {
+                                <option value="0" selected></option>
+                            }
+                            else
+                            {
+                                <option value="0"></option>
+                            }
                             @foreach (var category in Model.Categories)
                             {
                                 @if (Model.Category == category.Id)
