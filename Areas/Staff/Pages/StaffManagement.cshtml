@@ -4,6 +4,7 @@
     ViewData["Title"] = "Quản lý nhân viên";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
+    ViewBag.AccountId = HttpContext.Session.GetInt32("Id");
 }
 
 <div class="row">
@@ -108,7 +109,7 @@
                                 </td>
                                 <td class="table-value list-value">
                                     <ul class="btn-container">
-                                        <li class="btn-item">
+                                        @*<li class="btn-item">
                                             <a href="" + customer.CustomerId)" class="action-admin-btn">
                                                 <i class="block-icon fa-solid fa-ban"></i>
                                             </a>
@@ -117,7 +118,33 @@
                                             <a href="" + customer.CustomerId)" class="action-admin-btn">
                                                 <i class="delete-icon fa-sharp fa-solid fa-trash"></i>
                                             </a>
-                                        </li>
+                                        </li>*@
+                                        @{
+                                            if (staff.AccountId == ViewBag.AccountId)
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="/" class="action-admin-btn isDisabled">
+                                                        <i class="block-icon fa-solid fa-ban"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (staff.Status)
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Staff/StaffManagement/?userId=" + staff.AccountId)" class="action-admin-btn">
+                                                        <i class="block-icon fa-solid fa-ban"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="btn-item">
+                                                    <a href="@Url.Content("~/Staff/StaffManagement/?userId=" + staff.AccountId)" class="action-admin-btn">
+                                                        <i class="fa-solid fa-unlock"></i>
+                                                    </a>
+                                                </li>
+                                            } 
+                                        }
                                     </ul>
                                 </td>
                             </tr>
