@@ -50,4 +50,9 @@ public class BookService : IBookService
         }
         return list;
     }
+
+    public List<BookDto> SearchBooks(string query)
+    {
+        return bookRepository.SearchBooks(query);
+    }
 }

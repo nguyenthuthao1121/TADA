@@ -33,7 +33,17 @@
                 @foreach (var category in Model.Categories)
                 {
                     <li class="category-items fw-bold text-dark">
-                        <a href="@Url.Content("~/Index/?categoryId=" + category.Id)">@category.Name</a>
+                        @if (category.Id == Model.Category)
+                        {
+                            <a href="@Url.Content("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
+
+                        }
+                        else
+                        {
+                            <a href="@Url.Content("~/?category=" + category.Id)">@category.Name</a>
+
+                        }
+
                     </li>
                 }
             </ul>
@@ -42,58 +52,35 @@
             <form class ="row" method="get">
                 <div class="subhead d-flex justify-content-between">
                     <div class="form-group d-flex me-4">
-                        <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
-                        <select class="form-select custom-select rounded-0" id="sort" name="SortBy">
+                        <form method="get">
+                            <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
+                        <select class="form-select custom-select rounded-0" asp-for="SortBy">
                             <option value="New">Mới nhất</option>
                             <option value="Asc">Giá tăng dần</option>
                             <option value="Desc">Giá giảm dần</option>
                         </select>
+                        </form>
                     </div>
                     <div class="form-group d-flex me-4 justify-content-between">
                         <label for="filter" class="form-label" style="width: 64px">
                             <i class="fas fa-filter me-1"></i>
                             Bộ lọc:
                         </label>
-                        <select class="form-select custom-select rounded-0 genre" id="filter" name="Filter">
-                            <option>Thể loại</option>
-                            <option>Rom-com</option>
-                            <option>Isekai</option>
+                        <select class="form-select custom-select rounded-0 genre" asp-for="Genre">
+                            <option value="">Thể loại</option>
+                            <option value="Tiểu thuyết">Tiểu thuyết</option>
+                            <option value="Đời sống">Đời sống</option>
+                            <option value="Học đường">Học đường</option>
                         </select>
-                        <select class="form-select custom-select rounded-0 price" id="PriceRange" name="PriceRange">
+                        <select class="form-select custom-select rounded-0 price" asp-for="PriceRange">
                             <option value="minint-maxint">Giá</option>
                             <option value="0 - 50000">0 - 50000</option>
-                            <option value="50000-100000">50000-100000</option>
+                            <option value="50000 - 100000">50000 - 100000</option>
                         </select>
-                        <select class="form-select custom-select rounded-0 publisher" id="filter" name="Filter">
-                            <option>Nhà xuất bản</option>
-                            <option>Kim Đồng</option>
-                            <option>Trẻ</option>
-                        </select>
-                        <select class="form-select custom-select rounded-0 cover" id="filter" name="Filter">
-                            <option>Hình thức bìa</option>
-                            <option>Bìa mềm</option>
-                            <option>Bìa cứng</option>
-                        </select>
-                        <select class="visually-hidden" id="Category" name="Category" asp-for="@Model.Category">
-                            @if (Model.Category == 0)
-                            {
-                                <option value="0" selected></option>
-                            }
-                            else
-                            {
-                                <option value="0"></option>
-                            }
-                            @foreach (var category in Model.Categories)
-                            {
-                                @if (Model.Category == category.Id)
-                                {
-                                    <option value="@category.Id" selected>@category.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@category.Id">@category.Name</option>
-                                }
-                            }
+                        <select class="form-select custom-select rounded-0 publisher" asp-for="Provider">
+                            <option value="">Nhà xuất bản</option>
+                            <option value="Kim Đồng">Kim Đồng</option>
+                            <option value="NXB Trẻ">Trẻ</option>
                         </select>
                     </div>
                     <div class="form-group d-flex">
@@ -167,3 +154,15 @@
         <div class="col-1"></div>
     </div>
 </div>
+@section Scripts {
+     <script>
+        var form = document.getElementById('search-form');
+        var input = document.getElementById('search-input');
+        input.addEventListener('keyup', function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                form.submit();
+            }
+        });
+    </script>
+}

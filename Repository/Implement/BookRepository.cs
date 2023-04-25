@@ -115,4 +115,14 @@ public class BookRepository : IBookRepository
         return context.Books.Where(book => book.CategoryId == categoryId).Count();
     }
 
+    public List<BookDto> SearchBooks(string query)
+    {
+        List<int> bookIds = context.Books.Where(p => p.Name.Contains(query)).Select(p => p.Id).ToList();
+        List<BookDto> bookDtos = new List<BookDto>();
+        foreach (int id in bookIds)
+        {
+            bookDtos.Add(GetBookById(id));
+        }
+        return bookDtos;
+    }
 }

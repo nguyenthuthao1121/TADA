@@ -26,16 +26,22 @@
                 <div class="navbar-brand px-3">
                     <a asp-page="/Index"><img src="https://blog.usetada.com/hubfs/TADA-LOGO-01.png" style="width:120px"></a>
                 </div>
-                <div class="input-group input-group-sm d-flex w-50 justify-content-center">
-                    <span class="input-group-text border-0 bg-white" style="border-radius: 8px 0 0 8px"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control border-0" placeholder="Tìm kiếm sản phẩm mong muốn">
-                    <div class="border-0 border-start bg-white input-group-text justify-content-center px-0" style="border-radius: 0 8px 8px 0">
-                        <button class="btn bg-white text-primary border-0 border-start border-primary border-2"
-                                type="button" style="border-radius: 0 8px 8px 0; border-left: 1px solid; text-transform: none; font-weight: 400;">
-                            Tìm kiếm
-                        </button>
+                <form method="get" id="search-form" class="w-50" asp-page="Index">
+                    @if (Model.GetType().GetProperty("Category") != null)
+                    {
+                        <input type="hidden" name="category" value="@Model.Category"/>
+                    }
+                    <div class="input-group input-group-sm d-flex w-100 justify-content-center">
+                        <span class="input-group-text border-0 bg-white" style="border-radius: 8px 0 0 8px"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control border-0" id="search-input" name="q" placeholder="Tìm kiếm sản phẩm mong muốn">
+                        <div class="border-0 border-start bg-white input-group-text justify-content-center px-0" style="border-radius: 0 8px 8px 0">
+                            <button class="btn bg-white text-primary border-0 border-start border-primary border-2 search-button"
+                                    type="submit" style="border-radius: 0 8px 8px 0; border-left: 1px solid; text-transform: none; font-weight: 400;">
+                                Tìm kiếm
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <ul class="navbar-nav d-flex flex-row">
                     <li class="nav-item">
                         @if (ViewBag.Name == null)

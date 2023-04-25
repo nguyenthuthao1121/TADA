@@ -1,6 +1,5 @@
 ﻿@page
 @model UserInformationModel
-@using Microsoft.AspNetCore.Identity;
 @using TADA.Model.Entity
 @{
     ViewData["Title"] = "Thông tin cá nhân";
@@ -83,6 +82,7 @@
             <div class="modal-body containter-fluid py-0">
                 <form method="post" asp-page-handler="ChangePassword">
                     <div class="row">
+                        <input asp-for="Password" class="visually-hidden" style="height:0px; width:0px" readonly>
                         <div class="col-6 form-group">
                             <label asp-for="OldPassword" class="form-label">Mật khẩu hiện tại</label>
                             <input asp-for="OldPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại">

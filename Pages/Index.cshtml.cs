@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Policy;
 using TADA.Dto.Account;
 using TADA.Dto.Book;
 using TADA.Dto.Category;
 using TADA.Model;
+using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Service.Implement;
+using TADA.Utilities;
 
 namespace TADA.Pages;
 
@@ -22,13 +25,19 @@ public class IndexModel : PageModel
     public List<BookDto> Books { get; set; }
     public List<CategoryDto> Categories { get; set; }
     public AccountDto Account { get; set; }
+    public string SearchUrl { get; set; }
+    [TempData]
+    public string SearchQuery { get; set; }
 
-    [BindProperty(SupportsGet = true)]
     public int Category { get; set; }
     [BindProperty(SupportsGet = true)]
     public string SortBy { get; set; } = "New";
     [BindProperty(SupportsGet = true)]
     public string PriceRange { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)]
+    public string Provider { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)]
+    public string Genre { get; set; } = string.Empty;
 
     public IndexModel(IBookService bookService, ICategoryService categoryService, IAccountService accountService)
     {
@@ -39,8 +48,13 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
+        Category = Convert.ToInt32(Request.Query["category"]);
+        SearchQuery = Request.Query["q"];
         var books = bookService.GetBooks(Category, PriceRange, SortBy);
-
+        if (!string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            books = bookService.SearchBooks(SearchQuery);
+        }
         Categories = categoryService.GetAllCategories();
         int totalBook = books.Count();
         countPages = (int)Math.Ceiling((double)totalBook / ITEMS_PER_PAGE);
