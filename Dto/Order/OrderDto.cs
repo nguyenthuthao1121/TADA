@@ -11,6 +11,7 @@ public class OrderDto
     [RegularExpression(@"^0\d{9}$", ErrorMessage = "Vui lòng nhập số điện thoại hợp lệ!")]
     public string TelephoneNumber { get; set; }
     public DateTime DateOrder { get; set; }
+    public int ShipFee { get; set; }
     public int? AddressId { get; set; }
     public int WardId { get; set; }
     public int CustomerId { get; set; }

@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Revuene\Pages\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

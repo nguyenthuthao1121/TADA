@@ -57,4 +57,20 @@ public class ShoppingCartFillModel : PageModel
         }
         return RedirectToPage("/ShoppingCartFill");
     }
+    public IActionResult OnPostMinusQuantity(int? bookId)
+    {
+        if (bookId != null)
+        {
+            cartService.DecreaseQuantityOfCartDetail((int)HttpContext.Session.GetInt32("Id"), (int)bookId, 1);
+        }
+        return RedirectToPage("/ShoppingCartFill");
+    }
+    public IActionResult OnPostPlusQuantity(int? bookId)
+    {
+        if (bookId != null)
+        {
+            cartService.IncreaseQuantityOfCartDetail((int)HttpContext.Session.GetInt32("Id"), (int)bookId, 1);
+        }
+        return RedirectToPage("/ShoppingCartFill");
+    }
 }

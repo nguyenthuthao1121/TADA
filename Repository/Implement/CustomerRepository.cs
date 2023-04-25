@@ -49,6 +49,25 @@ namespace TADA.Repository.Implement
         //            )).ToList().Where(customeraccount => customeraccount.AccountId == id).FirstOrDefault();
         //    return customer;
         //}
+        public CustomerDto GetCustomerById(int customerId)
+        {
+            var customer = context.Customers.Find(customerId);
+            var account=context.Accounts.Find(customer.AccountId);
+            return new CustomerDto
+            {
+                AccountId = account.Id,
+                Email = account.Email,
+                Password = account.Password,
+                CreateDate = account.CreateDate,
+                Status = account.Status,
+                CustomerId = customer.Id,
+                Name = customer.Name,
+                Birthday = customer.Birthday,
+                Gender = customer.Gender,
+                TelephoneNumber = customer.TelephoneNumber,
+                AddressId = customer.AddressId,
+            };
+        }
         public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
         {
 /*            switch (gender)

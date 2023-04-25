@@ -54,7 +54,21 @@ public class CartRepository : ICartRepository
         var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
         return GetCartDetailsByCustomerId(customerId);
     }
-
+    public CartDetailDto GetCartDetail(int accountId, int bookId)
+    {
+        var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
+        var cart = context.Carts
+            .Where(cart => cart.CustomerId == customerId)
+            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+        var cartDetail = context.CartDetail
+            .Where(cartDetail => cartDetail.CartId == cart.Id && cartDetail.BookId==bookId).FirstOrDefault();
+        return new CartDetailDto
+        {
+            BookId = cartDetail.BookId,
+            CartId = cartDetail.CartId,
+            Quantity = cartDetail.Quantity,
+        };
+    }
     public BookDto GetBookByCartDetail(CartDetailDto cartDetail)
     {
         var book = context.Books.Find(cartDetail.BookId);
@@ -114,5 +128,20 @@ public class CartRepository : ICartRepository
             context.CartDetail.Remove(cartDetail);
         }
         context.SaveChanges();
+    }
+    public void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity)
+    {
+        if (quantity <= 0) quantity = 1;
+        var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
+        var cart = context.Carts
+            .Where(cart => cart.CustomerId == customerId)
+            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+        var cartDetail = context.CartDetail
+            .Where(cartDetail => cartDetail.CartId == cart.Id && cartDetail.BookId == bookId).FirstOrDefault();
+        if (cartDetail!=null)
+        {
+            cartDetail.Quantity = quantity;
+            context.SaveChanges();
+        }
     }
 }

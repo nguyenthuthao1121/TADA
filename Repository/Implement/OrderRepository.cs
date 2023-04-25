@@ -24,7 +24,8 @@ public class OrderRepository : IOrderRepository
             DateOrder = order.DateOrder,
             AddressId = order.AddressId,
             CustomerId = order.CustomerId,
-            StatusId = (int)order.StatusId
+            StatusId = (int)order.StatusId,
+            ShipFee=order.ShipFee,
         }).ToList();
     }
 
@@ -40,6 +41,7 @@ public class OrderRepository : IOrderRepository
                 DateOrder = order.DateOrder,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
+                ShipFee=order.ShipFee,
                 StatusId = (int)order.StatusId,
             }).ToList();
     }
@@ -57,6 +59,7 @@ public class OrderRepository : IOrderRepository
                 DateOrder = order.DateOrder,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
+                ShipFee=order.ShipFee,
                 StatusId = (int)order.StatusId,
             }).ToList();
     }
@@ -73,6 +76,7 @@ public class OrderRepository : IOrderRepository
             DateOrder = order.DateOrder,
             AddressId = (int)order.AddressId,
             CustomerId = order.CustomerId,
+            ShipFee=order.ShipFee,
             StatusId = (int)order.StatusId,
 
         };
@@ -125,6 +129,7 @@ public class OrderRepository : IOrderRepository
                 DateOrder = order.DateOrder,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
+                ShipFee=order.ShipFee,
                 StatusId = (int)order.StatusId,
             });
         }
@@ -214,7 +219,15 @@ public class OrderRepository : IOrderRepository
         }
         context.SaveChanges();
     }
-
+    public void UpdateOrderShipfee(int orderId, int fee)
+    {
+        var order = context.Orders.Find(orderId);
+        if (order != null)
+        {
+            order.ShipFee = fee;
+            context.SaveChanges();
+        }
+    }
     public void UpdateOrderDetail(int bookId, int orderId, int quantity, int price)
     {
         var orderUpdate = context.Orders.Find(orderId);

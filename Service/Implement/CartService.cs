@@ -48,5 +48,15 @@ namespace TADA.Service.Implement
         {
             cartRepository.DeleteBookOfCart(bookId,accountId);
         }
+        public void IncreaseQuantityOfCartDetail(int accountId, int bookId, int delta)
+        {
+            var cartDetail=cartRepository.GetCartDetail(accountId, bookId);
+            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity + delta);
+        }
+        public void DecreaseQuantityOfCartDetail(int accountId, int bookId, int delta)
+        {
+            var cartDetail = cartRepository.GetCartDetail(accountId, bookId);
+            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity - delta);
+        }
     }
 }

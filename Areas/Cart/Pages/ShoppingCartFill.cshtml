@@ -68,9 +68,13 @@
                                     <div class="cart__book-price col c-3">
                                         <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
+                                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
                                             <input class="form-control quantity-input" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
-                                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
+                                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
                                         </span>
                                     </div>
                                     <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" >
@@ -154,7 +158,7 @@
     </script>
 
     <!-- Change Quatity -->
-    @section scripts{
+    @*@section scripts{
         <script>
             const minusBtns = document.querySelectorAll('.minus-btn');
             const plusBtns = document.querySelectorAll('.plus-btn');
@@ -176,7 +180,7 @@
                 input.value = ++value;
               });
             });
-        </script>
+        </script>*@
     }
 </div>
 
