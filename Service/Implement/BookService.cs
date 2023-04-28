@@ -18,9 +18,10 @@ public class BookService : IBookService
     {
         return bookRepository.GetAllBooks();
     }
-    public List<BookDto> GetBooks(int category, string priceRange, string sortBy)
+    public List<BookDto> GetBooks(int category, string? search, string priceRange, string genre, string sortBy)
+
     {
-        return bookRepository.GetBooks(category, priceRange, sortBy);
+        return bookRepository.GetBooks(category, search, priceRange, genre, sortBy);
           
     }
 

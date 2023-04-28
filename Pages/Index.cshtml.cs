@@ -26,7 +26,6 @@ public class IndexModel : PageModel
     public List<CategoryDto> Categories { get; set; }
     public AccountDto Account { get; set; }
     public string SearchUrl { get; set; }
-    [TempData]
     public string SearchQuery { get; set; }
 
     public int Category { get; set; }
@@ -50,11 +49,7 @@ public class IndexModel : PageModel
     {
         Category = Convert.ToInt32(Request.Query["category"]);
         SearchQuery = Request.Query["q"];
-        var books = bookService.GetBooks(Category, PriceRange, SortBy);
-        if (!string.IsNullOrWhiteSpace(SearchQuery))
-        {
-            books = bookService.SearchBooks(SearchQuery);
-        }
+        var books = bookService.GetBooks(Category, SearchQuery, PriceRange, Genre, SortBy);
         Categories = categoryService.GetAllCategories();
         int totalBook = books.Count();
         countPages = (int)Math.Ceiling((double)totalBook / ITEMS_PER_PAGE);
@@ -68,6 +63,9 @@ public class IndexModel : PageModel
         }
         Books = books.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
     }
-
+    public IActionResult OnPostResetFilter()
+    {
+        return RedirectToAction("Index");
+    }
 
 }

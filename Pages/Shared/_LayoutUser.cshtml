@@ -27,10 +27,10 @@
                     <a asp-page="/Index"><img src="https://blog.usetada.com/hubfs/TADA-LOGO-01.png" style="width:120px"></a>
                 </div>
                 <form method="get" id="search-form" class="w-50" asp-page="Index">
-                    @if (Model.GetType().GetProperty("Category") != null)
+@*                    @if (Model.GetType().GetProperty("Category") != null)
                     {
                         <input type="hidden" name="category" value="@Model.Category"/>
-                    }
+                    }*@
                     <div class="input-group input-group-sm d-flex w-100 justify-content-center">
                         <span class="input-group-text border-0 bg-white" style="border-radius: 8px 0 0 8px"><i class="fas fa-search"></i></span>
                         <input type="text" class="form-control border-0" id="search-input" name="q" placeholder="Tìm kiếm sản phẩm mong muốn">

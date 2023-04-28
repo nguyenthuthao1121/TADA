@@ -33,15 +33,30 @@
                 @foreach (var category in Model.Categories)
                 {
                     <li class="category-items fw-bold text-dark">
-                        @if (category.Id == Model.Category)
+                        @if (string.IsNullOrWhiteSpace(Model.SearchQuery))
                         {
-                            <a href="@Url.Content("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
+                            @if (category.Id == Model.Category)
+                            {
+                                <a href="@Url.Content("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
 
+                            }
+                            else
+                            {
+                                <a href="@Url.Content("~/?category=" + category.Id)">@category.Name</a>
+
+                            }
                         }
                         else
                         {
-                            <a href="@Url.Content("~/?category=" + category.Id)">@category.Name</a>
+                            @if (category.Id == Model.Category)
+                            {
+                                <a href="@Url.Content("~/?category=" + category.Id + "&q=" + Model.SearchQuery)" style="background-color:#1E90FF4D">@category.Name</a>
 
+                            }
+                            else
+                            {
+                                <a href="@Url.Content("~/?category=" + category.Id + "&q=" + Model.SearchQuery)">@category.Name</a>
+                            }
                         }
 
                     </li>
@@ -49,46 +64,48 @@
             </ul>
         </div>
         <div class="col-8">
-            <form class ="row" method="get">
-                <div class="subhead d-flex justify-content-between">
-                    <div class="form-group d-flex me-4">
-                        <form method="get">
-                            <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
-                        <select class="form-select custom-select rounded-0" asp-for="SortBy">
+            <div class="subhead d-flex justify-content-between">
+                    <form method="get" class="form-group d-flex me-4" id="sort-form">
+                        <input type="hidden" name="category" value="@Model.Category">
+                        <input type="hidden" name="q" value="@Model.SearchQuery">
+                    @if (!string.IsNullOrEmpty(Model.Genre))
+                    {
+                        <input type="hidden" name="genre" value="@Model.Genre">
+                    }
+                    @if (!string.IsNullOrEmpty(Model.PriceRange))
+                    {
+                        <input type="hidden" name="price-range" value="@Model.PriceRange">
+                    }
+                        <label for="sort" class="form-label" style="width: 90px">Sắp xếp theo:</label>
+                        <select class="form-select custom-select rounded-0" id="sort-select" asp-for="SortBy">
                             <option value="New">Mới nhất</option>
                             <option value="Asc">Giá tăng dần</option>
                             <option value="Desc">Giá giảm dần</option>
                         </select>
-                        </form>
-                    </div>
-                    <div class="form-group d-flex me-4 justify-content-between">
-                        <label for="filter" class="form-label" style="width: 64px">
+                    </form>
+                    <form method="get" class ="form-group d-flex justify-content-end">
+                            <label for="filter" class="form-label" style="width: 64px">
                             <i class="fas fa-filter me-1"></i>
                             Bộ lọc:
                         </label>
-                        <select class="form-select custom-select rounded-0 genre" asp-for="Genre">
-                            <option value="">Thể loại</option>
+                            <input type="hidden" name="category" value="@Model.Category">
+                            <input type="hidden" name="q" value="@Model.SearchQuery">
+                            <select class="form-select custom-select rounded-0 genre" asp-for="Genre">
+                            <option value="All">Thể loại</option>
                             <option value="Tiểu thuyết">Tiểu thuyết</option>
-                            <option value="Đời sống">Đời sống</option>
+                            <option value="Đời thường">Đời thường</option>
                             <option value="Học đường">Học đường</option>
                         </select>
-                        <select class="form-select custom-select rounded-0 price" asp-for="PriceRange">
+                            <select class="form-select custom-select rounded-0 price" asp-for="PriceRange">
                             <option value="minint-maxint">Giá</option>
-                            <option value="0 - 50000">0 - 50000</option>
-                            <option value="50000 - 100000">50000 - 100000</option>
+                            <option value="0,50000">0 - 50000</option>
+                            <option value="50000,100000">50000 - 100000</option>
+                            <option value="100000,1000000">Trên 100000</option>
                         </select>
-                        <select class="form-select custom-select rounded-0 publisher" asp-for="Provider">
-                            <option value="">Nhà xuất bản</option>
-                            <option value="Kim Đồng">Kim Đồng</option>
-                            <option value="NXB Trẻ">Trẻ</option>
-                        </select>
-                    </div>
-                    <div class="form-group d-flex">
-                        <button type="submit" class="btn" style="width: 80px" asp-page-handler="Filter">Lọc</button>
-                        <button type="submit" class="btn btn-delete-filter">Xoá bộ lọc</button>
-                    </div>
-                </div>
-            </form>
+                            <button type="submit" class="btn" style="width: 80px">Lọc</button>
+                            <button type="submit" class="btn btn-delete-filter">Xoá bộ lọc</button>
+                    </form>
+            </div>
             <div class="user-view-book row">
                 @foreach (var book in Model.Books)
                 {
@@ -163,6 +180,13 @@
             if (event.keyCode === 13) {
                 form.submit();
             }
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#sort-select').on('change', function () {
+                $('#sort-form').submit();
+            });
         });
     </script>
 }
