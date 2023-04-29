@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Drawing.Printing;
+using System.Globalization;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
@@ -32,11 +34,20 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderById(orderId);
         }
-        public BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail)
+        public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
         {
-            return orderRepository.GetBookByOrderDetail(OrderDetail);
+            return orderRepository.GetBookByOrderDetail(orderDetail);
         }
-
+        public List<BookDto> GetBooksByOrderId(int orderId)
+        {
+            List<BookDto> books= new List<BookDto>();
+            var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+            foreach (var orderDetail in orderDetails)
+            {
+                books.Add(orderRepository.GetBookByOrderDetail(orderDetail));
+            }
+            return books;
+        }
         public List<OrderDto> GetOrdersByAccountId(int accountId, int statusId)
         {
             return orderRepository.GetOrdersByAccountId(accountId, statusId);
@@ -55,42 +66,100 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderDetail(orderId, bookId);
         }
-        public List<OrderManagementDto> GetAllOrdersForManagement()
+        public List<OrderManagementDto> GetAllOrdersForManagement(string? search,string province, string priceRange, int statusId, string sortBy)
         {
+            int min = 0;
+            int max = int.MaxValue;
+            if (!priceRange.Equals("All") && !string.IsNullOrEmpty(priceRange))
+            {
+                var i = priceRange.Split(",");
+                try
+                {
+                    min = int.Parse(i[0]);
+                }
+                catch (Exception)
+                {
+                    min = 0;
+                }
+                try
+                {
+                    max = int.Parse(i[1]);
+                }
+                catch (Exception)
+                {
+                    max = int.MaxValue;
+                }
+            }
+            if (province.Equals("All") || string.IsNullOrEmpty(province))
+            {
+                province = "";
+            }
             var list = new List<OrderManagementDto>();
-            var orders = orderRepository.GetAllOrders();
+            var orders = orderRepository.GetAllOrders(search, statusId, sortBy);
             foreach (var order in orders)
             {
                 var orderDetailList = orderRepository.GetOrderDetailsByOrderId(order.Id);
                 int sum = 0;
                 foreach (var orderDetail in orderDetailList)
                 {
-                    var book = orderRepository.GetBookByOrderDetail(orderDetail);
-                    sum += book.GetCurrentPrice();
+                    sum += orderDetail.Price;
                 }
-                list.Add(new OrderManagementDto
+                if((sum + order.ShipFee) <= max && (sum + order.ShipFee) >= min && order.Address.Contains(province))
                 {
-                    Id = order.Id,
-                    DateOrder = order.DateOrder,
-                    Address = addressRepository.GetAddressById((int)order.AddressId),
-                    TelephoneNumber = order.TelephoneNumber,
-                    Price = sum,
-                    Status = orderRepository.GetStatusByOrderId(order.StatusId)
-                });
+                    list.Add(new OrderManagementDto
+                    {
+                        Id = order.Id,
+                        DateOrder = order.DateOrder,
+                        Address = addressRepository.GetAddressById((int)order.AddressId),
+                        TelephoneNumber = order.TelephoneNumber,
+                        Price = sum + order.ShipFee,
+                        Status = orderRepository.GetStatusByOrderId(order.StatusId)
+                    });
+                }
+                
             }
+
             return list;
         }
-        public List<OrderManagementDto> GetOrdersByCustomerId(int customerId)
+        public List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string? search, string province, string priceRange, int statusId, string sortBy)
         {
             List<OrderDto> orders;
             if (customerId > 0)
             {
-                orders = orderRepository.GetAllOrdersByCustomerId(customerId);
+                orders = orderRepository.GetAllOrdersOfCustomer(customerId, search, statusId, sortBy);
             }
             else
             {
-                orders = orderRepository.GetAllOrders();
+                orders = orderRepository.GetAllOrders(search, statusId, sortBy);
             }
+            
+            int min = 0;
+            int max = int.MaxValue;
+            if (!priceRange.Equals("All") && !string.IsNullOrEmpty(priceRange))
+            {
+                var i = priceRange.Split(",");
+                try
+                {
+                    min = int.Parse(i[0]);
+                }
+                catch (Exception)
+                {
+                    min = 0;
+                }
+                try
+                {
+                    max = int.Parse(i[1]);
+                }
+                catch (Exception)
+                {
+                    max = int.MaxValue;
+                }
+            }
+            if (province.Equals("All") || string.IsNullOrEmpty(province))
+            {
+                province = "";
+            }
+
             var list = new List<OrderManagementDto>();
             foreach (var order in orders)
             {
@@ -98,19 +167,23 @@ namespace TADA.Service.Implement
                 int sum = 0;
                 foreach (var orderDetail in orderDetailList)
                 {
-                    var book = orderRepository.GetBookByOrderDetail(orderDetail);
-                    sum += book.GetCurrentPrice();
+                    sum += orderDetail.Price;
                 }
-                list.Add(new OrderManagementDto
+                if ((sum + order.ShipFee) <= max && (sum + order.ShipFee) >= min && order.Address.Contains(province))
                 {
-                    Id = order.Id,
-                    DateOrder = order.DateOrder,
-                    Address = addressRepository.GetAddressById((int)order.AddressId),
-                    TelephoneNumber = order.TelephoneNumber,
-                    Price = sum,
-                    Status = orderRepository.GetStatusByOrderId(order.StatusId)
-                });
+                    list.Add(new OrderManagementDto
+                    {
+                        Id = order.Id,
+                        DateOrder = order.DateOrder,
+                        Address = addressRepository.GetAddressById((int)order.AddressId),
+                        TelephoneNumber = order.TelephoneNumber,
+                        Price = sum + order.ShipFee,
+                        Status = orderRepository.GetStatusByOrderId(order.StatusId)
+                    });
+                }
+
             }
+            
             return list;
         }
 

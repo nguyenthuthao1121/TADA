@@ -117,11 +117,13 @@
             </div>
             <div class="modal-body row">
                 
-                <div class="col c-6 btn--confirm">
-                        <button class="btn btn-secondary js-modal-close" asp-page-handler="CancleOrder" asp-route-id="@Model.Order.Id" type="submit" style="width:100%; background-color:#EEF0F5; color:#757575;">HỦY ĐƠN HÀNG</button>
-                </div>
-                <div class="col c-6 btn--confirm">
-                    <button class="btn btn-primary js-modal-close" type="button" style="width:100%;">QUAY LẠI</button>
+                <div class="modal-footer border-0 px-0 d-flex">
+                    <div class="button px-0">
+                            <button type="submit" class="btn btn-secondary" asp-page-handler="CancleOrder" asp-route-id="@Model.Order.Id" data-bs-dismiss="modal">Huỷ</button>
+                    </div>
+                    <div class="button px-0">
+                            <button type="button" class="btn btn-primary js-modal-close" id="submit-btn">Quay lại</button>
+                    </div>
                 </div>
                 
             </div>

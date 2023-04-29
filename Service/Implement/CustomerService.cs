@@ -12,7 +12,10 @@ namespace TADA.Service.Implement
         {
             this.customerRepository = customerRepository;
         }
-
+        public CustomerDto GetCustomerById(int customerId)
+        {
+            return customerRepository.GetCustomerById(customerId);
+        }
         public List<CustomerDto> GetAllCustomers()
         {
             return customerRepository.GetAllCustomers();

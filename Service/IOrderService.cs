@@ -7,13 +7,14 @@ public interface IOrderService
 {
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+    List<BookDto> GetBooksByOrderId(int orderId);
     OrderDetailDto GetOrderDetail(int orderId, int bookId);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     OrderDto GetOrderById(int orderId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
     string GetStatusByOrder(int orderId);
-    List<OrderManagementDto> GetAllOrdersForManagement();
-    List<OrderManagementDto> GetOrdersByCustomerId(int customerId);
+    List<OrderManagementDto> GetAllOrdersForManagement(string? search, string province, string priceRange, int statusId, string sortBy);
+    List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string? search, string province, string priceRange, int statusId, string sortBy);
     void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
     void DeleteOrder(int orderId);

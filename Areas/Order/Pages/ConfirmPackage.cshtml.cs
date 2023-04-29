@@ -108,7 +108,6 @@ public class ConfirmPackageModel : PageModel
     public IActionResult OnPostUpdateStatusOrder()
     {
         orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
-        Console.WriteLine("OK");
         return RedirectToPage("/OrderListFillAll");
     }
     public IActionResult OnPostChangeInformation()
