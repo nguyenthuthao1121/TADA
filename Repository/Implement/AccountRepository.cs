@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using TADA.Dto.Account;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -54,5 +55,16 @@ public class AccountRepository : IAccountRepository
         {
             return false;
         }
+    }
+
+    public void ChangePassword(int accountId, string newPassword)
+    {
+        var account = context.Accounts.Find(accountId);
+        if (account == null)
+        {
+            return;
+        }
+        account.Password = newPassword;
+        context.SaveChanges();
     }
 }

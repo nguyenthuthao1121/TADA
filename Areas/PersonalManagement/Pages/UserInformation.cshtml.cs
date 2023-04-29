@@ -1,6 +1,4 @@
-﻿using Azure.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +16,7 @@ public class UserInformationModel : PageModel
 {
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
+    private readonly IAccountService accountService;
     [BindProperty]
     public CustomerDto Customer { get; set; }
     [BindProperty]
@@ -38,29 +37,35 @@ public class UserInformationModel : PageModel
     [BindProperty]
     [Required]
     public int SelectedWard { get; set; }
-    [DataType(DataType.Password)]
 
     public string Password { get; set; }
 
+    [BindProperty]
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
-    [Compare("Password", ErrorMessage = "Nhập mật khẩu hiện tại không chính xác!")]
+    [Compare(nameof(Password), ErrorMessage = "Nhập mật khẩu hiện tại không chính xác!")]
     public string OldPassword { get; set; }
+
+    [BindProperty]
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
-    [NotEqual("OldPassword", ErrorMessage = "Mật khẩu mới không được trùng với mật khẩu cũ!")]
+    [StringLength(int.MaxValue, MinimumLength = 6, ErrorMessage = "Mật khẩu phải có độ dài ít nhất là 6 ký tự!")]
+    [NotEqual(ErrorMessage = "Mật khẩu mới không được trùng với mật khẩu cũ!")]
 
     public string NewPassword { get; set; }
+
+    [BindProperty]
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     [Compare("NewPassword", ErrorMessage = "Xác nhận mật khẩu không đúng!")]
     public string ConfirmPassword { get; set; }
 
 
-    public UserInformationModel(ICustomerService customerService, IAddressService addressService)
+    public UserInformationModel(ICustomerService customerService, IAddressService addressService, IAccountService accountService)
     {
         this.customerService = customerService;
         this.addressService = addressService;
+        this.accountService = accountService;
     }
     public void OnGet()
     {
@@ -83,6 +88,11 @@ public class UserInformationModel : PageModel
     }
     public IActionResult OnPostChangePassword()
     {
+        if (NewPassword == null)
+        {
+            return RedirectToPage("Index");
+        }
+        accountService.ChangePassword(Convert.ToInt32(HttpContext.Session.GetInt32("Id")), NewPassword);
         return RedirectToPage("./UserInformation");
     }
     public JsonResult OnGetDistricts(int SelectedProvince)

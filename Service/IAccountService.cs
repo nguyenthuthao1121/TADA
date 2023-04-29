@@ -9,4 +9,6 @@ public interface IAccountService
     void ChangeStatusOfAccount(int accountId);
     bool CheckExistEmail(string email);
     int GetLastId();
+    void ChangePassword(int accountId, string newPassword);
+
 }

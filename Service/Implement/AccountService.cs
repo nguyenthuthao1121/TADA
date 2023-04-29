@@ -52,4 +52,9 @@ public class AccountService : IAccountService
     {
         return accountRepository.GetLastId();
     }
+
+    public void ChangePassword(int accountId, string newPassword)
+    {
+        accountRepository.ChangePassword(accountId, newPassword);
+    }
 }
