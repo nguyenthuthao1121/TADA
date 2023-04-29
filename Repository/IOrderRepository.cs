@@ -16,6 +16,7 @@ public interface IOrderRepository
     string GetStatusByOrder(int orderId);
     string GetStatusByOrderId(int orderId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+    OrderDetailDto GetOrderDetail(int orderId, int bookId);
     void DeleteOrder(int orderId);
     void AddOrder(int accountId);
     void UpdateOrder(int orderId, OrderDto orderDto);

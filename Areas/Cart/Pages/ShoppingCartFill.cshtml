@@ -17,7 +17,8 @@
                 </span>
             </div>
         </div>
-        <div class="row">
+        
+        <div class="row" method="post">
             @if (@Model.CountBookOfCart == 0)
             {
                 <div class="shopping-cart__cart--empty col c-10 c-o-1" style="padding-bottom:24px;border-radius: 8px;">
@@ -36,28 +37,29 @@
             }
             else
             {
+
                 <div class="col c-7 c-o-1">
                     <div class="shopping-cart__cart--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
                         <div class="shopping-cart__cart-title row">
-                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
+                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;" asp-action="GetSum">
                             <p class="col c-8">Chọn tất cả</p>
                             <div class="cart__list--delete col c-3">
                                 <i class="fa-solid fa-trash-can"></i>Xóa
                             </div>
                         </div>
-                        <div class="shopping-cart__cart-list grid">
-                            @foreach (var cartDetail in Model.CartDetails)
+                        <div class="shopping-cart__cart-list grid" method="post">
+                            @for (int i = 0;i < @Model.Cart.CartDetails.Count();i++)
                             {
-                                var Book = Model.GetBookByCartDetail(cartDetail);
-                                var imgPath = Book.Image + "/cover.jpg";
-                                <form class="cart__flex-item row" method="post">
+                                var Book = Model.GetBookByCartDetail(@Model.Cart.CartDetails[i]);
+                                    var imgPath = Book.Image + "/cover.jpg";
+                                <form class="cart__flex-item row" method="post" data-book-id="@Book.Id">
                                     <input name="bookId" value="@Book.Id" type="number" style="display: none;">
-                                    <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
-                                        <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
+                                    <label asp-for="@Model.Cart.CartDetails[i].Selected" class="lable-checkbox col c-1">
+                                        <input type="checkbox" class="cart__input" value="@Book.Id" onchange="myFunction(this)" style=" padding-right: 0;" asp-for="@Model.Cart.CartDetails[i].Selected">
                                     </label>
                                     <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
-                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id"  class="cart__book-name">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">
@@ -68,16 +70,16 @@
                                     <div class="cart__book-price col c-3">
                                         <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity">
+                                        <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity" asp-route-id="@Model.Cart.CartDetails[i].BookId">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input class="form-control quantity-input" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
-                                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity">
+                                        <input class="form-control quantity-input" type="text" asp-for="@Model.Cart.CartDetails[i].Quantity" value="@Model.Cart.CartDetails[i].Quantity">
+                                        <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity" asp-route-id="@Model.Cart.CartDetails[i].BookId">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" >
+                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.Cart.CartDetails[i].BookId">
                                         <i class="fa-solid fa-trash-can icon-delete"></i>
                                     </button>
                                 </form>
@@ -87,7 +89,7 @@
                     </div>
                 </div>
                 <div class="col c-3">
-                    <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <form method="post" class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
                         <div class="order__title">
                             Chi tiết đơn hàng
                         </div>
@@ -106,16 +108,13 @@
                             </div>
                         </div>
                         <div class="btn--confirm">
-                            <button class="btn--blue" style="width:100%;">
-                                <a asp-area="Order" asp-page="ConfirmPackage">
-                                    XÁC NHẬN ĐƠN HÀNG (1)
-                                </a>
+                            <button class="btn btn-primary" type="submit" asp-page-handler="OrderNow" style="width:100%;">
+                                XÁC NHẬN ĐƠN HÀNG (1)
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             }
-            
         </div>
     </div>
 
@@ -157,30 +156,24 @@
         }
     </script>
 
-    <!-- Change Quatity -->
-    @*@section scripts{
-        <script>
-            const minusBtns = document.querySelectorAll('.minus-btn');
-            const plusBtns = document.querySelectorAll('.plus-btn');
-
-            minusBtns.forEach(button => {
-              button.addEventListener('click', () => {
-                const input = button.nextElementSibling;
-                let value = parseInt(input.value);
-                if (value > 1) {
-                  input.value = --value;
+    <!-- Order -->
+    <script>
+        function myFunction(checkbox) {
+            var isChecked = checkbox.checked;
+            var bookId = $(checkbox).closest(".cart__flex-item").data("book-id");
+            $.ajax({
+                url: "/ShoppingCartFill?handler=AddBookToOrder&bookId=" + bookId + "&isChecked=" + isChecked,
+                type: 'POST',
+                
+                success: function(result) {
+                    // Xử lý kết quả trả về từ server
+                    console.log(result);
                 }
-              });
             });
-
-            plusBtns.forEach(button => {
-              button.addEventListener('click', () => {
-                const input = button.previousElementSibling;
-                let value = parseInt(input.value);
-                input.value = ++value;
-              });
-            });
-        </script>*@
+        }
+    </script>
+    
+    
     }
 </div>
 

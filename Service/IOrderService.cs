@@ -7,6 +7,7 @@ public interface IOrderService
 {
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+    OrderDetailDto GetOrderDetail(int orderId, int bookId);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     OrderDto GetOrderById(int orderId);
     BookDto GetBookByOrderDetail(OrderDetailDto OrderDetail);
@@ -16,6 +17,6 @@ public interface IOrderService
     void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
     void DeleteOrder(int orderId);
-    void AddOrder(int accountId, OrderDetailDto orderDetail);
+    void AddOrder(int accountId, List<OrderDetailDto> orderDetail);
     void DeleteOrderDetail(int bookId, int orderId);
 }

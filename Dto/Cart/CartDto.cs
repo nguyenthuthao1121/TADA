@@ -8,14 +8,5 @@ public class CartDto
 {
     public int Id { get; set; }
     public int CustomerId { get; set; }
-    public CartDto(int id, int customerId)
-    {
-        Id = id;
-        CustomerId = customerId;
-    }
-    public CartDto(int customerId)
-    {
-        CustomerId = customerId;
-    }
-
+    public List<CartDetailDto> CartDetails { get; set; }
 }

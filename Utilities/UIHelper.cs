@@ -1,4 +1,7 @@
-﻿namespace TADA.Utilities;
+﻿using TADA.Dto.Order;
+using TADA.Model.Entity;
+
+namespace TADA.Utilities;
 
 public class UIHelper
 {
@@ -25,4 +28,6 @@ public class UIHelper
         tmp = str + tmp;
         return tmp;
     }
+    
+    
 }

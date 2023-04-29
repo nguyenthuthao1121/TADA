@@ -19,16 +19,37 @@ public class CartRepository : ICartRepository
 
     public CartDto GetCartByCustomerId(int customerId)
     {
-        return context.Carts
+        var cart= context.Carts
             .Where(cart=>cart.CustomerId == customerId)
-            .Select(cart=>new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+            .Select(cart=>new CartDto
+            {
+                Id= cart.Id,
+                CustomerId = cart.CustomerId,
+                CartDetails= new List<CartDetailDto>(),
+            }).FirstOrDefault();
+        List<CartDetail> cartDetails = context.CartDetail
+           .Where(cartDetails => cartDetails.CartId == cart.Id).ToList();
+        foreach (CartDetail cartDetail in cartDetails)
+        {
+            cart.CartDetails.Add(new CartDetailDto
+            {
+                BookId = cartDetail.BookId,
+                CartId = cartDetail.CartId,
+                Quantity = cartDetail.Quantity,
+            });
+        }
+        return cart;
     }
     public List<CartDetailDto> GetCartDetailsByCustomerId(int customerId)
     {
         List<CartDetailDto> cartDetailDtos = new List<CartDetailDto>();
         var cart= context.Carts
             .Where(cart => cart.CustomerId == customerId)
-            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+            .Select(cart => new CartDto
+            {
+                Id = cart.Id,
+                CustomerId = cart.CustomerId,
+            }).FirstOrDefault();
         List<CartDetail> cartDetails = context.CartDetail
             .Where(cartDetails=>cartDetails.CartId==cart.Id).ToList();
         foreach (CartDetail cartDetail in cartDetails)
@@ -59,7 +80,11 @@ public class CartRepository : ICartRepository
         var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
         var cart = context.Carts
             .Where(cart => cart.CustomerId == customerId)
-            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+            .Select(cart => new CartDto
+            {
+                Id = cart.Id,
+                CustomerId = cart.CustomerId,
+            }).FirstOrDefault();
         var cartDetail = context.CartDetail
             .Where(cartDetail => cartDetail.CartId == cart.Id && cartDetail.BookId==bookId).FirstOrDefault();
         return new CartDetailDto
@@ -92,6 +117,36 @@ public class CartRepository : ICartRepository
             Promotion= book.Promotion,
             CategoryId= book.CategoryId,
         };
+    }
+    public List<BookDto> GetBooksOfCart(int accountId)
+    {
+        List<BookDto> bookDtos= new List<BookDto>();
+        var cartDetails = GetCartDetailsByAccountId(accountId);
+        foreach (var cartDetail in cartDetails)
+        {
+            var book = context.Books.Find(cartDetail.BookId);
+            bookDtos.Add(new BookDto
+            {
+                Id = book.Id,
+                Name = book.Name,
+                Author = book.Author,
+                Publisher = book.Publisher,
+                PublicationYear = book.PublicationYear,
+                Genre = book.Genre,
+                Pages = book.Pages,
+                Length = book.Length,
+                Weight = book.Weight,
+                Width = book.Width,
+                Price = book.Price,
+                Cover = book.Cover,
+                Quantity = book.Quantity,
+                Description = book.Description,
+                Image = book.Image,
+                Promotion = book.Promotion,
+                CategoryId = book.CategoryId,
+            });
+        }
+        return bookDtos;
     }
     public void AddBookToCart(int bookId, int cartId, int quantity)
     {
@@ -135,7 +190,11 @@ public class CartRepository : ICartRepository
         var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
         var cart = context.Carts
             .Where(cart => cart.CustomerId == customerId)
-            .Select(cart => new CartDto(cart.Id, cart.CustomerId)).FirstOrDefault();
+            .Select(cart => new CartDto
+            {
+                Id = cart.Id,
+                CustomerId = cart.CustomerId,
+            }).FirstOrDefault();
         var cartDetail = context.CartDetail
             .Where(cartDetail => cartDetail.CartId == cart.Id && cartDetail.BookId == bookId).FirstOrDefault();
         if (cartDetail!=null)

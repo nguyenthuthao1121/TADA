@@ -51,6 +51,10 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderDetailsByOrderId(orderId);
         }
+        public OrderDetailDto GetOrderDetail(int orderId, int bookId)
+        {
+            return orderRepository.GetOrderDetail(orderId, bookId);
+        }
         public List<OrderManagementDto> GetAllOrdersForManagement()
         {
             var list = new List<OrderManagementDto>();
@@ -123,11 +127,12 @@ namespace TADA.Service.Implement
             orderRepository.DeleteOrder(orderId);
         }
 
-        public void AddOrder(int accountId, OrderDetailDto orderDetail)
+        public void AddOrder(int accountId, List<OrderDetailDto> orderDetails)
         {
             orderRepository.AddOrder(accountId);
             var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
-            orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
+            foreach(var orderDetail in orderDetails)
+                orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
             orderRepository.UpdateOrderShipfee(order.Id, CalculateShipping(order.Id));
         }
 
@@ -209,11 +214,11 @@ namespace TADA.Service.Implement
                         width = orderWidth,
                         height = orderHeight,
                         cod_failed_amount =(int)(orderPrice * 0.05),
-                        pick_station_id = 1444,
+                        pick_station_id = 1058,
                         deliver_station_id = null,
                         insurance_value = orderPrice,
                         service_id = 0,
-                        service_type_id = 1,
+                        service_type_id = 2,
                         coupon = null,
                         pick_shift = null,
                         pickup_time = 1665272576,

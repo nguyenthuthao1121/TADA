@@ -77,14 +77,15 @@ public class BookDetailUserModel : PageModel
                 }
             }
             var bookOrder=bookService.GetBookById((int)id);
-            OrderDetailDto orderDetail = new OrderDetailDto
+            List<OrderDetailDto> orderDetailDtos= new List<OrderDetailDto>();
+            orderDetailDtos.Add(new OrderDetailDto
             {
                 OrderId = 1,
-                BookId=(int)id,
-                Quantity= Convert.ToInt32(Quantity),
-                Price= bookOrder.GetCurrentPrice()* Convert.ToInt32(Quantity),
-            };
-            orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"),orderDetail);
+                BookId = (int)id,
+                Quantity = Convert.ToInt32(Quantity),
+                Price = bookOrder.GetCurrentPrice() * Convert.ToInt32(Quantity),
+            });
+            orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), orderDetailDtos);
             return RedirectToPage("ConfirmPackage", new { area = "Order" });
         }
         else
