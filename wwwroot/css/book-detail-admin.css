@@ -1,4 +1,9 @@
-﻿
+﻿.book-image img {
+    width: 75%;
+    height: 50vh;
+    object-fit: contain;
+    border: 0.5px;
+}
 
 .new-price {
     color: var(--primary-color);

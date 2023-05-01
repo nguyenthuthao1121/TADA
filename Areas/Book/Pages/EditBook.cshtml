@@ -4,92 +4,111 @@
     ViewData["Title"] = "Chỉnh sửa sách";
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
 }
-
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="form-container">
             <div class="form-heading">
-                <p>Thêm mới sách</p>
+                <p>Thay đổi thông tin sách</p>
             </div>
             <div class="form-body">
-                <form>
+                <form method="post" asp-page-handler="ChangeBookInformation">
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputName" class="form__label">Tên sách</label>
-                            <input type="text" class="form-control form__input" id="inputName" placeholder="Nhập tên sách">
-                        </div>
-                        <div class="form-group col-md-6 form-group__right">
-                            <label for="inputId" class="form__label">Mã sách</label>
-                            <input type="text" class="form-control form__input" id="inputId" placeholder="Nhập mã sách">
+                            <label asp-for="@Model.Book.Name" class="form__label">Tên sách</label>
+                            <input asp-for="@Model.Book.Name" class="form-control form__input" placeholder="Nhập tên sách">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Name"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputAuthor" class="form__label">Tác giả</label>
-                            <input type="text" class="form-control form__input" id="inputAuthor" placeholder="Nhập tác giả">
+                            <label asp-for="@Model.Book.Author" class="form__label">Tác giả</label>
+                            <input asp-for="@Model.Book.Author" class="form-control form__input" placeholder="Nhập tác giả">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Author"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label for="inputProvider" class="form__label">Nhà cung cấp</label>
-                            <input type="text" class="form-control form__input" id="inputProvider" placeholder="Nhập nhà cung cấp">
+                            <label asp-for="@Model.Book.ProviderId" class="form__label">Nhà cung cấp</label>
+                            <select asp-for="@Model.Book.ProviderId" class="form-control form__input">
+                                @foreach(var provider in Model.Providers)
+                                {
+                                    if(provider.Id == Model.Book.ProviderId)
+                                    {
+                                        <option value="@provider.Id" selected>@provider.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@provider.Id">@provider.Name</option>
+                                    }
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputPublisher" class="form__label">Nhà xuất bản</label>
-                            <input type="text" class="form-control form__input" id="inputPublisher" placeholder="Nhập nhà xuất bản">
+                            <label asp-for="@Model.Book.Publisher" class="form__label">Nhà xuất bản</label>
+                            <input asp-for="@Model.Book.Publisher" class="form-control form__input" placeholder="Nhập nhà xuất bản">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Publisher"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label for="inputPublishingYear" class="form__label">Năm xuất bản</label>
-                            <input type="text" class="form-control form__input" id="inputPublishingYear" placeholder="Nhập năm xuất bản">
+                            <label asp-for="@Model.Book.PublicationYear" class="form__label">Năm xuất bản</label>
+                            <input asp-for="@Model.Book.PublicationYear" class="form-control form__input" placeholder="Nhập năm xuất bản">
+                            <span class="text-danger" asp-validation-for="@Model.Book.PublicationYear"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputWeight" class="form__label">Trọng lượng (gr)</label>
-                            <input type="text" class="form-control form__input" id="inputWeight" placeholder="Nhập trọng lượng">
+                            <label asp-for="@Model.Book.Weight" class="form__label">Trọng lượng (gr)</label>
+                            <input asp-for="@Model.Book.Weight" class="form-control form__input" placeholder="Nhập trọng lượng">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Weight"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputSize" class="form__label">Kích thước bao bì (Chiều dài x Chiều rộng)</label>
                             <div class="form-size">
-                                <input type="text" class="form-control form__input" style="width:50%; margin-right: 4px" id="inputWidthSize" placeholder="Nhập chiều dài">
-                                <input type="text" class="form-control form__input" style="width:50%; margin-left: 4px" id="inputHeightSize" placeholder="Nhập chiều rộng">
-                            </div>                        
+                                <input asp-for="@Model.Book.Length" class="form-control form__input" style="width:50%; margin-right: 4px" placeholder="Nhập chiều dài">
+                                <input asp-for="@Model.Book.Width" class="form-control form__input" style="width:50%; margin-left: 4px" placeholder="Nhập chiều rộng">
+                            </div>
+                                    <span class="text-danger" asp-validation-for="@Model.Book.Length" style="display:inline-block; width:50%"></span>
+                                    <span class="text-danger" asp-validation-for="@Model.Book.Width"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputPageNum" class="form__label">Số trang</label>
-                            <input type="text" class="form-control form__input" id="inputPageNum" placeholder="Nhập số trang">
+                            <label asp-for="@Model.Book.Pages" class="form__label">Số trang</label>
+                            <input asp-for="@Model.Book.Pages" class="form-control form__input" placeholder="Nhập số trang">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Pages"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label for="inputCover" class="form__label">Hình thức bìa</label>
-                            <input type="text" class="form-control form__input" id="inputCover" placeholder="Nhập hình thức bìa">
+                            <label asp-for="@Model.Book.Cover" class="form__label">Hình thức bìa</label>
+                            <input asp-for="@Model.Book.Cover" class="form-control form__input" id="inputCover" placeholder="Nhập hình thức bìa">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Cover"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputInitialPrice" class="form__label">Giá ban đầu</label>
-                            <input type="text" class="form-control form__input" id="inputInitialPrice" placeholder="Nhập giá ban đầu">
+                            <label asp-for="@Model.Book.Price" class="form__label">Giá bìa</label>
+                            <input asp-for="@Model.Book.Price" class="form-control form__input" placeholder="Nhập giá ban đầu">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Price"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label for="inputSale" class="form__label">Giảm giá theo phần trăm</label>
-                            <input type="text" class="form-control form__input" id="inputSale" placeholder="Nhập số phần trăm giảm giá">
+                            <label asp-for="@Model.Book.Promotion" class="form__label">Giảm giá (%)</label>
+                            <input asp-for="@Model.Book.Promotion" class="form-control form__input" placeholder="Nhập số phần trăm giảm giá">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Promotion"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label for="inputRemainingQuantity" class="form__label">Số lượng còn lại</label>
-                            <input type="text" class="form-control form__input" id="inputRemainingQuantity" placeholder="Nhập số lượng còn lại">
+                            <label asp-for="@Model.Book.Quantity" class="form__label">Số lượng còn lại</label>
+                            <input asp-for="@Model.Book.Quantity" class="form-control form__input" placeholder="Nhập số lượng còn lại">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Quantity"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label for="formFileMultiple" class="form__label">Hình ảnh</label>
-                            <input class="form-control form__input" type="file" id="formFileMultiple" multiple />
+                            <label asp-for="@Model.ImagePath" class="form__label">Hình ảnh</label>
+                            <input class="form-control form__input" asp-for="@Model.ImagePath" type="file">
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-12">
-                            <label for="inputDescription" class="form__label">Mô tả</label>
-                            <input type="text" class="form-control form__input form__input-description" id="inputDescription" maxlength="1000" placeholder="Nhập mô tả">
+                            <label asp-for="@Model.DescriptionText" class="form__label">Mô tả</label>
+                            <textarea asp-for="@Model.DescriptionText" class="form-control form__input form__input-description" placeholder="Nhập mô tả" rows="10"></textarea>
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -110,3 +129,6 @@
         </div>
     </div> 
 </div>
+@section scripts {
+        <partial name="_ValidationScriptsPartial" />        
+}
