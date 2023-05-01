@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Security.Policy;
 using System.Web;
 using TADA.Dto.Address;
 using TADA.Dto.Customer;
 using TADA.Middleware;
+using TADA.Model.Entity;
 using TADA.Service;
 
 namespace TADA.Pages;
@@ -23,7 +26,7 @@ public class CustomerModel : PageModel
     public string Status { get; set; }
     [BindProperty(SupportsGet = true)]
     public string SortBy { get; set; } = "New";
-    public string SortType { get; set; } = "Acs";
+    public string SortType { get; set; } = "Decs";
 
     public CustomerModel(IAccountService accountService, ICustomerService customerService, IAddressService addressService)
     {
@@ -46,5 +49,6 @@ public class CustomerModel : PageModel
         {
             customer.Address = addressService.GetAddressById(customer.AddressId);
         }
+        
     }
 }

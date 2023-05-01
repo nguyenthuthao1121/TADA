@@ -16,10 +16,10 @@ public class OrderDto
     public int WardId { get; set; }
     public int CustomerId { get; set; }
     public int StatusId { get; set; }
+    public string Address { get; set; }
     [Required]
     public string Street { get; set; }
     public string Ward { get; set; }
     public string District { get; set; }
     public string Province { get; set; }
-
 }

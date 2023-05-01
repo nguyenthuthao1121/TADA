@@ -16,7 +16,7 @@
                             <div class="order__title col c-6">Thông tin người nhận</div>
                         </div>
                         <div class="recipient-infor__desc">
-                            <p>@Model.Customer.Name, @Model.Customer.TelephoneNumber</p>
+                            <p>@Model.Customer.Name, @Model.Order.TelephoneNumber</p>
                             <p>@Model.Address</p>
                         </div>
                     </div>
@@ -77,31 +77,58 @@
                             <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetStatusOfOrder(Model.Order)</div>
                         </div>
                     </div>
-                    <div class="btn--confirm">
-                        <button class="btn btn-primary cancelBtn" style="width:100%;">
-                            HỦY ĐƠN HÀNG
-                        </button>
-                    </div>
+                    @if (Model.Order.StatusId == 1)
+                    {
+                        <div class="btn--confirm">
+                            <button class="btn btn-primary cancelBtn" style="width:100%;">
+                                HỦY ĐƠN HÀNG
+                            </button>
+                        </div>
+                    }
+                    else if (Model.Order.StatusId == 3)
+                    {
+                        <div class="btn--confirm">
+                            <button class="btn--blue" style="width:100%;">
+                                <a asp-area="Review" asp-page="EvaluateUser" asp-route-id="@Model.Order.Id">
+                                    ĐÁNH GIÁ NGAY
+                                </a>
+                            </button>
+                        </div>
+                    }
+                    else if (Model.Order.StatusId == 4)
+                    {
+                        <div class="btn--confirm">
+                            <button class="btn--blue" style="width:100%;">
+                                <a asp-area="Review" asp-page="EvaluateUser" asp-route-id="@Model.Order.Id">
+                                    XEM ĐÁNH GIÁ
+                                </a>
+                            </button>
+                        </div>
+                    }
                 </div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal-cancel-order js-modal-cancel-order">
+    <form class="modal-cancel-order js-modal-cancel-order" method="post">
         <div class="modal-container js-modal-container" style="width:500px;">
             <div class="modal-header order__title">
                 Xác nhận hủy đơn hàng
             </div>
             <div class="modal-body row">
-                <div class="col c-6 btn--confirm">
-                    <button class="btn--grey js-modal-close" style="width:100%;"><a asp-area="" asp-page="/User/EvaluateUser">HỦY ĐƠN HÀNG</a></button>
+                
+                <div class="modal-footer border-0 px-0 d-flex">
+                    <div class="button px-0">
+                            <button type="submit" class="btn btn-secondary" asp-page-handler="CancleOrder" asp-route-id="@Model.Order.Id" data-bs-dismiss="modal">Huỷ</button>
+                    </div>
+                    <div class="button px-0">
+                            <button type="button" class="btn btn-primary js-modal-close" id="submit-btn">Quay lại</button>
+                    </div>
                 </div>
-                <div class="col c-6 btn--confirm">
-                    <button class="btn--blue js-modal-close" style="width:100%;"><a href="#">QUAY LẠI</a></button>
-                </div>
+                
             </div>
         </div>
-    </div>
+    </form>
     <!-- JavaScript -->
     <script>
         const cancelOrderBtn=document.querySelector('#order-detail--confirm .cancelBtn');

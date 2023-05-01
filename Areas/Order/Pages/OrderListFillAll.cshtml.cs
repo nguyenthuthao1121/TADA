@@ -15,7 +15,6 @@ public class OrderListFillAllModel : PageModel
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
 
-    public string Username;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
 
@@ -43,7 +42,6 @@ public class OrderListFillAllModel : PageModel
     }
     public void OnGet()
     {
-        Username = HttpContext.Session.GetString("Name");
         Orders = orderService.GetAllOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"));
 
     }

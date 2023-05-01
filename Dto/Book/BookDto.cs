@@ -56,7 +56,6 @@ public class BookDto
     public int NumberOfReview { get; set; }
 
 
-
     public int GetCurrentPrice()
     {
         return Price - Price * Promotion / 100;
