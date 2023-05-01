@@ -48,14 +48,14 @@
                             </div>
                         </div>
                         <div class="shopping-cart__cart-list grid" method="post">
-                            @for (int i = 0;i < @Model.Cart.CartDetails.Count();i++)
+                            @for (int i = 0;i < Model.CartDetails.Count();i++)
                             {
                                 var Book = Model.GetBookByCartDetail(@Model.Cart.CartDetails[i]);
                                     var imgPath = Book.Image + "/cover.jpg";
                                 <form class="cart__flex-item row" method="post" data-book-id="@Book.Id">
                                     <input name="bookId" value="@Book.Id" type="number" style="display: none;">
-                                    <label asp-for="@Model.Cart.CartDetails[i].Selected" class="lable-checkbox col c-1">
-                                        <input type="checkbox" class="cart__input" value="@Book.Id" onchange="myFunction(this)" style=" padding-right: 0;" asp-for="@Model.Cart.CartDetails[i].Selected">
+                                    <label asp-for="@Model.CartDetails[i].Selected" class="lable-checkbox col c-1">
+                                        <input type="checkbox" class="cart__input" value="@Model.CartDetails[i].Selected" style=" padding-right: 0;" asp-for="@Model.CartDetails[i].Selected" name="CartDetails[i].Selected">
                                     </label>
                                     <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
@@ -70,16 +70,16 @@
                                     <div class="cart__book-price col c-3">
                                         <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                        <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity" asp-route-id="@Model.Cart.CartDetails[i].BookId">
+                                        <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                        <input class="form-control quantity-input" type="text" asp-for="@Model.Cart.CartDetails[i].Quantity" value="@Model.Cart.CartDetails[i].Quantity">
-                                        <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity" asp-route-id="@Model.Cart.CartDetails[i].BookId">
+                                        <input class="form-control quantity-input" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity">
+                                        <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.Cart.CartDetails[i].BookId">
+                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.CartDetails[i].BookId">
                                         <i class="fa-solid fa-trash-can icon-delete"></i>
                                     </button>
                                 </form>
@@ -157,21 +157,24 @@
     </script>
 
     <!-- Order -->
+    @*
     <script>
-        function myFunction(checkbox) {
-            var isChecked = checkbox.checked;
-            var bookId = $(checkbox).closest(".cart__flex-item").data("book-id");
-            $.ajax({
-                url: "/ShoppingCartFill?handler=AddBookToOrder&bookId=" + bookId + "&isChecked=" + isChecked,
-                type: 'POST',
-                
-                success: function(result) {
-                    // Xử lý kết quả trả về từ server
-                    console.log(result);
-                }
-            });
-        }
+    function myFunction(checkbox) {
+    var isChecked = checkbox.checked;
+    var bookId = $(checkbox).closest(".cart__flex-item").data("book-id");
+    $.ajax({
+    url: "/ShoppingCartFill?handler=AddBookToOrder&bookId=" + bookId + "&isChecked=" + isChecked,
+    type: 'POST',
+
+    success: function(result) {
+    // Xử lý kết quả trả về từ server
+    console.log(result);
+    }
+    });
+    }
     </script>
+    *@
+   
     
     
     }

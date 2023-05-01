@@ -197,6 +197,15 @@ namespace TADA.Service.Implement
         }
         public void DeleteOrder(int orderId)
         {
+            var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+            foreach (var orderDetail in orderDetails)
+            {
+                var book = bookRepository.GetBookById(orderDetail.BookId);
+                if (book != null)
+                {
+                    bookRepository.UpdateQuantity(book.Id, book.Quantity + orderDetail.Quantity);
+                }
+            }
             orderRepository.DeleteOrder(orderId);
         }
 
@@ -205,12 +214,20 @@ namespace TADA.Service.Implement
             orderRepository.AddOrder(accountId);
             var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
             foreach(var orderDetail in orderDetails)
+            {
                 orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
+                var book=bookRepository.GetBookById(orderDetail.BookId);
+                if(book!= null)
+                {
+                    bookRepository.UpdateQuantity(book.Id, book.Quantity - orderDetail.Quantity);
+                }
+            }
             orderRepository.UpdateOrderShipfee(order.Id, CalculateShipping(order.Id));
         }
 
         public void DeleteOrderDetail(int bookId, int orderId)
         {
+            
             orderRepository.DeleteOrderDetail(bookId, orderId);
         }
 

@@ -171,4 +171,37 @@ public class BookRepository : IBookRepository
         }
         return bookDtos;
     }
+    public void UpdateQuantity(int bookId, int quantity)
+    {
+        var book=context.Books.Find(bookId);
+        if(book!=null && book.Quantity != quantity)
+        {
+            book.Quantity = quantity;
+            context.SaveChanges();
+        }
+    }
+    public void AddBook(BookDto book)
+    {
+        context.Books.Add(new Book
+        {
+            Name = book.Name,
+            Author = book.Author,
+            Publisher = book.Publisher,
+            Weight = book.Weight,
+            PublicationYear = book.PublicationYear,
+            Genre = book.Genre,
+            Pages = book.Pages,
+            Length = book.Length,
+            Width = book.Width,
+            Price = book.Price,
+            Cover = book.Cover,
+            Quantity = book.Quantity,
+            Description = book.Description,
+            Image = book.Image,
+            Promotion = book.Promotion,
+            CategoryId = book.CategoryId,
+            ProviderId = book.ProviderId,
+        });
+        context.SaveChanges();
+    }
 }
