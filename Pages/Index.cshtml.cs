@@ -63,9 +63,9 @@ public class IndexModel : PageModel
         }
         Books = books.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
     }
-    public IActionResult OnPostResetFilter()
-    {
-        return RedirectToAction("Index");
-    }
+    //public IActionResult OnPostResetFilter()
+    //{
+    //    return RedirectToAction("Index");
+    //}
 
 }
