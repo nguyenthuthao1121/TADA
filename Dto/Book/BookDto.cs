@@ -36,17 +36,17 @@ public class BookDto
     [Required(ErrorMessage = "Vui lòng nhập trọng lượng!")]
     [RegularExpression(@"^(?=.*[1-9])\d*(\.\d+)?$", ErrorMessage = "Vui lòng nhập trọng lượng hợp lệ!")]
     public double Weight { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập số trang!")]
-    [RegularExpression(@"^(?=.*[1-9])\d+$", ErrorMessage = "Vui lòng nhập giá tiền hợp lệ!")]
+    [Required(ErrorMessage = "Vui lòng nhập giá tiền!")]
+    [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập giá tiền hợp lệ!")]
     public int Price { get; set; }
     public string Cover { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập số trang!")]
-    [RegularExpression(@"^(?=.*[1-9])\d+$", ErrorMessage = "Vui lòng nhập số lượng hợp lệ!")]
+    [Required(ErrorMessage = "Vui lòng nhập số lượng!")]
+    [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập số lượng hợp lệ!")]
     public int Quantity { get; set; }
     public string Description { get; set; }
     public string Image { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập số trang!")]
-    [RegularExpression(@"^(?=.*[1-9])\d+$", ErrorMessage = "Vui lòng nhập số phần trăm giảm giá hợp lệ!")]
+    [Required(ErrorMessage = "Vui lòng nhập giảm giá!")]
+    [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập số phần trăm giảm giá hợp lệ!")]
     public int Promotion { get; set; }
     public string CategoryName { get; set; }
     public string ProviderName { get; set; }
@@ -54,7 +54,6 @@ public class BookDto
     public int ProviderId { get; set; }
     public double AverageRating { get; set; }
     public int NumberOfReview { get; set; }
-
 
     public int GetCurrentPrice()
     {

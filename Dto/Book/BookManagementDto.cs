@@ -12,6 +12,8 @@ public class BookManagementDto
     public string Image { get; set; }
     public string Category { get; set; }
     public string Provider { get; set; }
+    public string[] ImageFiles { get; set; }
+
     public BookManagementDto()
     {
 
