@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.IO;
 using TADA.Dto.Book;
 using TADA.Dto.Category;
 using TADA.Dto.Provider;
@@ -23,8 +24,6 @@ public class AddBookModel : PageModel
     public BookDto Book { get; set; }
     [BindProperty]
     public string DescriptionText { get; set; }
-    [BindProperty]
-    public string ImagePath { get; set; }
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
     public void OnGet()
@@ -33,9 +32,27 @@ public class AddBookModel : PageModel
         Categories= categoryService.GetAllCategories();
     }
     
-    public IActionResult OnPostAddNewBook()
+    public IActionResult OnPostAddNewBook(IFormFile imageFile)
     {
+        int bookId = bookService.AddBook(Book);
+        Directory.CreateDirectory("wwwroot/img/books/book" + bookId + "/cover-img");
+        string descriptionPath = "wwwroot/img/books/book" + bookId + "/description.txt";
+        using (StreamWriter sw = new StreamWriter(descriptionPath))
+        {
+            DescriptionText = DescriptionText.Replace("<br>", "\n");
+            sw.Write(DescriptionText);
+            sw.Close();
+        }
+        string imagePath = "wwwroot/img/books/book" + bookId + "/cover-img/cover.jpg";
+        if (imageFile != null)
+        {
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                imageFile.CopyTo(fileStream);
+            }
+        }
         
+
         return RedirectToPage("BookManagement");
     }
 }

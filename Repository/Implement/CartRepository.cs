@@ -187,6 +187,8 @@ public class CartRepository : ICartRepository
     public void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity)
     {
         if (quantity <= 0) quantity = 1;
+        var book = context.Books.Find(bookId);
+        if(quantity>=book.Quantity) quantity = book.Quantity;
         var customerId = context.Customers.Where(customer => customer.AccountId == accountId).Select(customer => customer.Id).FirstOrDefault();
         var cart = context.Carts
             .Where(cart => cart.CustomerId == customerId)

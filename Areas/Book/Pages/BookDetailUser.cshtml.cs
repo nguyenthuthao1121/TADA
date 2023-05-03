@@ -58,8 +58,18 @@ public class BookDetailUserModel : PageModel
     {
         if (id != null && HttpContext.Session.GetInt32("Id")!=null)
         {
-            cartService.AddBookToCart((int)id, (int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(Quantity));
-            return RedirectToPage("BookDetailUser",new {id=id});
+            var bookOrder = bookService.GetBookById((int)id);
+            if (bookOrder.Quantity >= Convert.ToInt32(Quantity))
+            {
+                cartService.AddBookToCart((int)id, (int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(Quantity));
+                return RedirectToPage("BookDetailUser", new { id = id });
+            }
+            else
+            {
+                Message = "11";
+                return RedirectToPage("BookDetailUser", new { id = id });
+            }
+           
         }
         else
         {

@@ -244,7 +244,7 @@ public class BookRepository : IBookRepository
             context.SaveChanges();
         }
     }
-    public void AddBook(BookDto book)
+    public int AddBook(BookDto book)
     {
         context.Books.Add(new Book
         {
@@ -260,13 +260,17 @@ public class BookRepository : IBookRepository
             Price = book.Price,
             Cover = book.Cover,
             Quantity = book.Quantity,
-            Description = book.Description,
-            Image = book.Image,
             Promotion = book.Promotion,
             CategoryId = book.CategoryId,
             ProviderId = book.ProviderId,
         });
         context.SaveChanges();
+        int bookId= context.Books.Max(book => book.Id);
+        var bookNew= context.Books.Find(bookId);
+        bookNew.Description= "wwwroot/img/books/book" + bookId + "/description.txt";
+        bookNew.Image= "~/img/books/book" + bookId + "/cover-img";
+        context.SaveChanges();
+        return bookId;
     }
     public void UpdateBook(BookDto book)
     {

@@ -73,6 +73,14 @@ public class BookService : IBookService
         }
         return list;
     }
+    public void UpdateQuantity(int bookId, int quantity)
+    {
+        bookRepository.UpdateQuantity(bookId, quantity);
+    }
+    public int AddBook(BookDto book)
+    {
+        return bookRepository.AddBook(book);
+    }
     public List<BookDto> SearchBooks(string query)
     {
         return bookRepository.SearchBooks(query);

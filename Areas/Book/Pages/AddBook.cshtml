@@ -13,7 +13,7 @@
                 <p>Thêm mới sách</p>
             </div>
             <div class="form-body">
-                <form method="post">
+                <form method="post" asp-page-handler="AddNewBook" enctype="multipart/form-data">
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label asp-for="Book.Name" class="form__label">Tên sách</label>
@@ -53,7 +53,7 @@
                             <span class="text-danger" asp-validation-for="@Model.Book.Publisher"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <<label asp-for="@Model.Book.PublicationYear" class="form__label">Năm xuất bản</label>
+                            <label asp-for="@Model.Book.PublicationYear" class="form__label">Năm xuất bản</label>
                             <input asp-for="@Model.Book.PublicationYear" class="form-control form__input" placeholder="Nhập năm xuất bản">
                             <span class="text-danger" asp-validation-for="@Model.Book.PublicationYear"></span>
                         </div>
@@ -104,9 +104,9 @@
                             <input asp-for="@Model.Book.Quantity" class="form-control form__input" placeholder="Nhập số lượng còn lại">
                             <span class="text-danger" asp-validation-for="@Model.Book.Quantity"></span>
                         </div>
-                        <div class="form-group col-md-6 form-group__right">
-                            <label asp-for="@Model.ImagePath" class="form__label">Hình ảnh</label>
-                            <input class="form-control form__input" asp-for="@Model.ImagePath" type="file" multiple>
+                        <div class="form-group col-md-6 form-group__left">
+                            <label name="imageFile" class="form__label">Hình ảnh</label>
+                            <input class="form-control form__input" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -120,7 +120,7 @@
 
                         </div>
                         <div class="form-group form-row form__row col-md-6 form__btn-margin">
-                            <button class="form-group form__btn" style="margin-right: 4px" type="submit" asp-page-handler="AddNewBook">
+                            <button class="form-group form__btn" style="margin-right: 4px" type="submit">
                                 THÊM MỚI SÁCH
                             </button>
                             <a class="form-group form__btn form__btn--cancel" style="margin-left: 4px" asp-area="Admin" asp-page="BookManagement">

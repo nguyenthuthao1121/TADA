@@ -74,13 +74,7 @@ public class EditBookModel : PageModel
                     imageFile.CopyTo(fileStream);
                 }
             }
-            else
-            {
-                return RedirectToPage("./AddBook");
-            }
-
         }
-
         bookService.UpdateBook(Book);
         return RedirectToPage("./BookManagement");
     }
