@@ -46,6 +46,6 @@ public class EditBookModel : PageModel
     }
     public IActionResult OnPostChangeBookInformation()
     {
-        return RedirectToPage("./BookDetailAdmin");
+        return RedirectToPage("BookDetailAdmin");
     }
 }

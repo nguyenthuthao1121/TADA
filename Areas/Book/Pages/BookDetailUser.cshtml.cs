@@ -26,6 +26,7 @@ public class BookDetailUserModel : PageModel
     public double FiveStar;
     [BindProperty]
     public string Quantity { get; set; }
+    public string Message { get; set; } = string.Empty;
     public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService)
     {
         this.bookService = bookService;
@@ -49,6 +50,7 @@ public class BookDetailUserModel : PageModel
             ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
             FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
+            if (!string.IsNullOrEmpty(Request.Query["message"])) Message = Request.Query["message"];
         }
         
     }
@@ -90,7 +92,12 @@ public class BookDetailUserModel : PageModel
                 orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), orderDetailDtos);
                 return RedirectToPage("ConfirmPackage", new { area = "Order" });
             }
-            else return RedirectToPage("BookDetailUser", new { id = id });
+            else
+            {
+                Message = "11";
+                return RedirectToPage("BookDetailUser",new { id = id });
+            }
+                
         }
         else
         {
