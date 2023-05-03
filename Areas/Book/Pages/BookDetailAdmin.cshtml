@@ -22,10 +22,6 @@
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="row bg-white px-3 py-4 mt-3" style="margin: 10px; border-radius: 8px">
-@*            <div class="col-4">
-                <div class="bookImage" style="border: 0.5px solid #CCCCCC;">
-                    <img src="@Url.Content(imgPath)" alt="Book image" style="width: 100%; border: 0.5px">
-                </div>*@
             <div class="col-5">
                     <div class="book-image" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:center">
                         <img src="@Url.Content(imgPath)" alt="Book image" style="width: 100%; border: 0.5px">
@@ -105,7 +101,7 @@
                     <span class="sale-percent">@(-Model.Book.Promotion)%</span>
                 </div>
                 <div class="row mt-4">
-
+                    <span style="font-size: 16px">Số lượng còn lại: @Model.Book.Quantity</span>
                 </div>
             </div>
         </div>

@@ -1,4 +1,6 @@
-﻿using TADA.Dto;
+﻿using Microsoft.CodeAnalysis.Operations;
+using System.Linq;
+using TADA.Dto;
 using TADA.Dto.Book;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -23,7 +25,7 @@ public class BookRepository : IBookRepository
         return books;
     }
 
-    public List<BookDto> GetBooks(int category, string? search, string priceRange, string genre, string sortBy)
+    public List<BookDto> GetBooks(int category, string search, string priceRange, string genre, string sortBy)
     {
         if(genre.Equals("All"))
         {
@@ -122,6 +124,68 @@ public class BookRepository : IBookRepository
         }
         return books;
     }
+    public List<BookDto> GetBooksForManagement(int category, int provider, string search, int inStock, string sortBy, string sortType)
+    {
+        var books = GetAllBooks();
+        if (category != 0)
+        {
+            books = books.Where(p => p.CategoryId == category).ToList();
+        }
+        if (provider != 0)
+        {
+            books = books.Where(p => p.ProviderId == provider).ToList();
+        }
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            books = books.Where(p => p.Name.Contains(search)).ToList();
+        }
+        switch (inStock)
+        {
+            case 0:
+                break;
+            case 1:
+                books =  books.Where(p => p.Quantity > 0).ToList(); break;
+            case 2:
+                books = books.Where(p => p.Quantity <= 0).ToList(); break;
+        }
+        switch (sortType)
+        {
+            case "desc":
+                switch (sortBy)
+                {
+                    case "book":
+                        books = books.OrderByDescending(p => p.Name).ToList();
+                        break;
+                    case "category":
+                        books = books.OrderByDescending(p => p.CategoryName).ToList();
+                        break;
+                    case "provider":
+                        books = books.OrderByDescending(p => p.ProviderName).ToList();
+                        break;
+                    default:
+                        books = books.OrderByDescending(p => p.Id).ToList();
+                        break;
+                }
+                break;
+            default:
+                switch (sortBy)
+                {
+                    case "book":
+                        books = books.OrderBy(p => p.Name).ToList();
+                        break;
+                    case "category":
+                        books = books.OrderBy(p => p.CategoryName).ToList();
+                        break;
+                    case "provider":
+                        books = books.OrderBy(p => p.ProviderName).ToList();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
+        return books;
+    }
     public BookDto GetBookById(int bookId)
     {
         var book = context.Books.FirstOrDefault(x => x.Id == bookId);
@@ -204,4 +268,32 @@ public class BookRepository : IBookRepository
         });
         context.SaveChanges();
     }
+    public void UpdateBook(BookDto book)
+    {
+        var updateBook = context.Books.FirstOrDefault(p => p.Id == book.Id);
+        if (updateBook != null)
+        {
+            updateBook.Name = book.Name;
+            updateBook.Author = book.Author;
+            updateBook.Publisher = book.Publisher;
+            updateBook.PublicationYear = book.PublicationYear;
+            updateBook.Genre = book.Genre;
+            updateBook.Pages = book.Pages;
+            updateBook.Length = book.Length;
+            updateBook.Width = book.Width;
+            updateBook.Weight = book.Weight;
+            updateBook.Price = book.Price;
+            updateBook.Cover = book.Cover;
+            updateBook.Quantity = book.Quantity;
+            updateBook.Promotion = book.Promotion;
+            var entry = context.Entry(updateBook);
+            entry.Reference(p => p.Provider).Load();
+            entry.Reference(p => p.Category).Load();
+            updateBook.ProviderId = book.ProviderId;
+            updateBook.CategoryId = book.CategoryId;
+            context.SaveChanges();
+        }
+    }
+
+
 }
