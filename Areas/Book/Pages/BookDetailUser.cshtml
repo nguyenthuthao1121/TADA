@@ -123,9 +123,12 @@
                             <input class="form-control quantity-input" type="text" asp-for="@Model.Quantity" value="01" id="quantity">
                             <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                         </span>
-                        @if (string.IsNullOrEmpty(Model.Message))
+                    </div>
+
+                    <div class="quantity mt-3 d-flex" style="align-items: baseline">
+                        @if (!string.IsNullOrEmpty(Model.Message))
                         {
-                            <p class="row" style="color: red; font-size: 14px; font-weight: 600; margin: 5px">@Model.Message</p>
+                            <div class="row" style="color: red; font-size: 14px; font-weight: 600; margin: 0 50px">@Model.Message</div>
                         }
                     </div>
                 </div>

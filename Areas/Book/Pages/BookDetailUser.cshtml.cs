@@ -26,6 +26,7 @@ public class BookDetailUserModel : PageModel
     public double FiveStar;
     [BindProperty]
     public string Quantity { get; set; }
+    [BindProperty]
     public string Message { get; set; } = string.Empty;
     public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService)
     {
@@ -50,7 +51,7 @@ public class BookDetailUserModel : PageModel
             ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
             FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
-            if (!string.IsNullOrEmpty(Request.Query["message"])) Message = Request.Query["message"];
+            if (!string.IsNullOrEmpty(Request.Query["message"])) Message = Request.Query["message"].ToString();
         }
         
     }
@@ -66,10 +67,10 @@ public class BookDetailUserModel : PageModel
             }
             else
             {
-                Message = "11";
-                return RedirectToPage("BookDetailUser", new { id = id });
+                Message = "Vượt quá số lượng còn lại của sách.";
+                return RedirectToPage("BookDetailUser", new { id = id, message = Message, });
             }
-           
+
         }
         else
         {
@@ -104,8 +105,8 @@ public class BookDetailUserModel : PageModel
             }
             else
             {
-                Message = "11";
-                return RedirectToPage("BookDetailUser",new { id = id });
+                Message = "Vượt quá số lượng còn lại của sách.";
+                return RedirectToPage("BookDetailUser",new { id = id, message=Message, });
             }
                 
         }
