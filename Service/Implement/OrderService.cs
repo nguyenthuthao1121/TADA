@@ -190,6 +190,18 @@ namespace TADA.Service.Implement
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
+            if (statusId == 5)
+            {
+                var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+                foreach (var orderDetail in orderDetails)
+                {
+                    var book = bookRepository.GetBookById(orderDetail.BookId);
+                    if (book != null)
+                    {
+                        bookRepository.UpdateQuantity(book.Id, book.Quantity + orderDetail.Quantity);
+                    }
+                }
+            }
         }
         public void UpdateOrder(int orderId, OrderDto orderDto)
         {
