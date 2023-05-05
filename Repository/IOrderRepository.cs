@@ -15,7 +15,12 @@ public interface IOrderRepository
     BookDto GetBookByOrderDetail(OrderDetailDto orderDetail);
     string GetStatusByOrder(int orderId);
     string GetStatusByOrderId(int orderId);
+    string GetStatusByStatusId(int statusId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+    List<int> GetConfirmedOrderIds();
+    List<OrderGroupDto> GetOrderGroupByBookId();
+    int GetPriceOfOrder(int orderId);
+    List<OrderOfMonthDto> GetDeliveredOrderInMonth(int month, int year);
     void DeleteOrder(int orderId);
     void AddOrder(int accountId);
     void UpdateOrder(int orderId, OrderDto orderDto);

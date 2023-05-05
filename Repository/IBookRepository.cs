@@ -12,4 +12,5 @@ public interface IBookRepository
     List<BookDto> SearchBooks(string query);
     BookDto GetBookById(int id);
     int GetNumOfBooksByCategoryId(int categoryId);
+    List<SoldBookDto> GetSoldBooks();
 }

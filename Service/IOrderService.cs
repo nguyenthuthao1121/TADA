@@ -5,6 +5,7 @@ namespace TADA.Service;
 
 public interface IOrderService
 {
+    List<OrderDto> GetAllOrders();
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
@@ -13,6 +14,8 @@ public interface IOrderService
     string GetStatusByOrder(int orderId);
     List<OrderManagementDto> GetAllOrdersForManagement();
     List<OrderManagementDto> GetOrdersByCustomerId(int customerId);
+    List<RecentlyOrderDto> GetRecentlyOrders(int count);
+    int RevueneOfMonth(int month, int year);
     void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
     void DeleteOrder(int orderId);

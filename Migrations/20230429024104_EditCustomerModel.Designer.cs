@@ -12,8 +12,8 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230422193455_dbVer1")]
-    partial class dbVer1
+    [Migration("20230429024104_EditCustomerModel")]
+    partial class EditCustomerModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -236,8 +236,9 @@ namespace TADA.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneNumber")
+                        .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("char");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 

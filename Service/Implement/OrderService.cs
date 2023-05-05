@@ -23,6 +23,11 @@ namespace TADA.Service.Implement
             this.customerRepository = customerRepository;
         }
 
+        public List<OrderDto> GetAllOrders()
+        {
+            return orderRepository.GetAllOrders();
+        }
+
         public List<OrderDto> GetAllOrdersByAccountId(int accountId)
         {
             return orderRepository.GetAllOrdersByAccountId(accountId);
@@ -109,7 +114,35 @@ namespace TADA.Service.Implement
             }
             return list;
         }
+        public List<RecentlyOrderDto> GetRecentlyOrders(int count)
+        {
+            List<OrderDto> orderDtos = orderRepository.GetAllOrders().TakeLast(count).ToList();
+            orderDtos.Reverse();
+            List<RecentlyOrderDto> orders = new List<RecentlyOrderDto>();
+            foreach(var order in orderDtos)
+            {
+                var address = addressRepository.GetOrderAddressDto(order.Id);
+                orders.Add(new RecentlyOrderDto()
+                {
+                    OrderId = order.Id,
+                    CustomerName = customerRepository.GetCustomerById(order.CustomerId).Name,
+                    Province = $"{address.Street}, {address.WardName}, {address.DistrictName}, {address.ProvinceName}",
+                    Status = orderRepository.GetStatusByStatusId(order.StatusId)
+                });
+            }
+            return orders;
+        }
 
+        public int RevueneOfMonth(int month, int year) 
+        {
+            var deliveredOrders = orderRepository.GetDeliveredOrderInMonth(month, year);
+            int revuene = 0;
+            foreach (var order in deliveredOrders)
+            {
+                revuene += orderRepository.GetPriceOfOrder(order.OrderId);
+            }
+            return revuene;
+        }
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);

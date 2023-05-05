@@ -1,5 +1,9 @@
-﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
+using System.Net;
+using System.Runtime.InteropServices;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Model;
@@ -140,6 +144,10 @@ public class OrderRepository : IOrderRepository
     {
         return context.Statuses.Find((context.Orders.Find(orderId)).StatusId).Name;
     }
+    public string GetStatusByStatusId(int statusId)
+    {
+        return context.Statuses.Find(statusId).Name;
+    }
     public string GetStatusByOrderId(int orderId)
     {
         return context.Statuses.Where(status => status.Id == orderId).Select(status => status.Name).FirstOrDefault();
@@ -160,6 +168,43 @@ public class OrderRepository : IOrderRepository
             });
         }
         return orderDetailDtos;
+    }
+
+    public List<int> GetConfirmedOrderIds()
+    {
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        return context.Orders.Where(order => statusIds.Contains((int)order.StatusId)).Select(order => order.Id).ToList();
+    }
+    public List<OrderGroupDto> GetOrderGroupByBookId()
+    {
+        var ids = GetConfirmedOrderIds();
+        return context.OrderDetail.Where(order => ids.Contains(order.OrderId)).GroupBy(order => order.BookId).Select(orderGroup => new OrderGroupDto
+        {
+            BookId = orderGroup.First().BookId,
+            Quantity = orderGroup.Sum(order => order.Quantity)
+        }).ToList();
+    }
+    public int GetPriceOfOrder(int orderId)
+    {
+        int price = 0;
+        foreach (var order in context.OrderDetail)
+        {
+            if (order.OrderId == orderId)
+            {
+                price += order.Quantity * order.Price;
+            }
+        }
+        return price;
+    }
+
+    public List<OrderOfMonthDto> GetDeliveredOrderInMonth(int month, int year)
+    {
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Chờ giao hàng" && status.Name != "Đang giao hàng" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        return context.Orders.Where(order => statusIds.Contains((int)order.StatusId) && order.DateOrder.Month == month && order.DateOrder.Year == year).Select(order => new OrderOfMonthDto()
+        {
+            OrderId = order.Id,
+            StatusId = (int)order.StatusId
+        }).ToList();
     }
 
     public void DeleteOrder(int orderId)

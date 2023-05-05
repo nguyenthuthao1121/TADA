@@ -143,4 +143,8 @@ public class AddressRepository : IAddressRepository
             ProvinceName = province.Name
         };
     }
+    public string GetProvinceById(int id)
+    {
+        return context.Provinces.Where(province => province.Id == id).Select(province => province.Name).FirstOrDefault();
+    }
 }

@@ -1,5 +1,7 @@
-﻿using TADA.Dto;
+﻿using System.Data.Entity;
+using TADA.Dto;
 using TADA.Dto.Book;
+using TADA.Dto.Order;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -8,9 +10,11 @@ namespace TADA.Repository.Implement;
 public class BookRepository : IBookRepository
 {
     private readonly TadaContext context;
-    public BookRepository(TadaContext context)
+    private readonly IOrderRepository orderRepository;
+    public BookRepository(TadaContext context, IOrderRepository orderRepository)
     {
         this.context = context;
+        this.orderRepository = orderRepository;
     }
     public List<BookDto> GetAllBooks()
     {
@@ -170,5 +174,16 @@ public class BookRepository : IBookRepository
             bookDtos.Add(GetBookById(id));
         }
         return bookDtos;
+    }
+    public List<SoldBookDto> GetSoldBooks()
+    {
+        var orderGroups = orderRepository.GetOrderGroupByBookId();
+        return context.Books.ToList().Join(orderGroups, book => book.Id, orderGroup => orderGroup.BookId, (book, orderGroup) => new SoldBookDto
+        {
+            BookId = book.Id,
+            Name = book.Name,
+            Image = book.Image,
+            SoldQuantity = orderGroup.Quantity
+        }).OrderByDescending(soldBook => soldBook.SoldQuantity).ToList();
     }
 }

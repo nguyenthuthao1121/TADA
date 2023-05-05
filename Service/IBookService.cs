@@ -8,6 +8,6 @@ public interface IBookService
     List<BookDto> GetBooks(int category, string? search, string priceRange, string genre, string sortBy);
     List<BookDto> SearchBooks(string query);
     List<BookManagementDto> GetAllBooksForManagement();
-
     BookDto GetBookById(int id);
+    List<SoldBookDto> GetSoldBooks();
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TADA.Model;
 
@@ -11,9 +12,11 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    partial class TadaContextModelSnapshot : ModelSnapshot
+    [Migration("20230429022347_initdb")]
+    partial class initdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,8 +236,6 @@ namespace TADA.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
                         .HasColumnType("varchar");
 
                     b.HasKey("Id");

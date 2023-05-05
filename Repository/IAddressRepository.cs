@@ -20,4 +20,5 @@ public interface IAddressRepository
     List<ProvinceDto> GetAllProvinces();
     void AddAddress(string street, int wardId);
     int GetLastId();
+    string GetProvinceById(int id);
 }
