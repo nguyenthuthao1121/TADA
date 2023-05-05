@@ -18,7 +18,7 @@
             </div>
         </div>
         
-        <div class="row" method="post">
+        <form class="row" method="post">
             @if (@Model.CountBookOfCart == 0)
             {
                 <div class="shopping-cart__cart--empty col c-10 c-o-1" style="padding-bottom:24px;border-radius: 8px;">
@@ -43,19 +43,19 @@
                         <div class="shopping-cart__cart-title row">
                             <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;" asp-action="GetSum">
                             <p class="col c-8">Chọn tất cả</p>
-                            <div class="cart__list--delete col c-3">
-                                <i class="fa-solid fa-trash-can"></i>Xóa
-                            </div>
+                            <button class="cart__list--delete col c-3" style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart">
+                                <i class="fa-solid fa-trash-can icon-delete"></i>Xóa
+                            </button>
                         </div>
                         <div class="shopping-cart__cart-list grid" method="post">
-                            @for (int i = 0;i < Model.CartDetails.Count();i++)
+                            @for (int i = 0; i < Model.CountBookOfCart; i++)
                             {
-                                var Book = Model.GetBookByCartDetail(@Model.Cart.CartDetails[i]);
+                                var Book = Model.GetBookByCartDetail(@Model.CartDetails[i]);
                                     var imgPath = Book.Image + "/cover.jpg";
-                                <form class="cart__flex-item row" method="post" data-bookId="@Book.Id">
+                                <div class="cart__flex-item row" method="post" data-bookId="@Book.Id">
                                     <input name="bookId" value="@Book.Id" type="number" style="display: none;">
-                                    <label asp-for="@Model.CartDetails[i].Selected" class="lable-checkbox col c-1">
-                                        <input type="checkbox" class="cart__input" style=" padding-right: 0;" asp-for="@Model.CartDetails[i].Selected" name="CartDetails[i].Selected" data-id="@i">
+                                    <label class="lable-checkbox col c-1">
+                                        <input type="checkbox" class="cart__input select-book" style=" padding-right: 0;" asp-for="@Model.IsSelected[i]" data-id="@i" />
                                     </label>
                                     <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
@@ -70,26 +70,26 @@
                                     <div class="cart__book-price col c-3">
                                         <p class="js-priceOfBook" data-bookId="@Book.Id" data-price="@Book.GetCurrentPrice()">@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                        <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
+                                        <button class="input-group-text js-decrease" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                        <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity">
-                                        <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
+                                            <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity" data-item-id="@i">
+                                        <button class="input-group-text js-increase" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button" asp-page-handler="PlusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.CartDetails[i].BookId">
+                                    <button class="col c-1 js-delete-item" style="border: none;background: none;" type="button" data-item-id="@i" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.CartDetails[i].BookId">
                                         <i class="fa-solid fa-trash-can icon-delete"></i>
                                     </button>
-                                </form>
+                                </div>
                             }
 
                         </div>
                     </div>
                 </div>
                 <div class="col c-3">
-                    <form method="post" class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
                         <div class="order__title">
                             Chi tiết đơn hàng
                         </div>
@@ -108,14 +108,14 @@
                             </div>
                         </div>
                         <div class="btn--confirm">
-                            <button class="btn btn-primary" type="submit" asp-page-handler="OrderNow" style="width:100%;">
+                            <button type="submit" asp-page-handler="OrderNow" class="btn btn-primary" id="get-selected-book" style="width:100%;">
                                 XÁC NHẬN ĐƠN HÀNG (1)
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             }
-        </div>
+        </form>
     </div>
 
     <!-- JavaScript -->
@@ -188,27 +188,68 @@
     </script>
 
     <!-- Order -->
-    @*
-    <script>
-    function myFunction(checkbox) {
-    var isChecked = checkbox.checked;
-    var bookId = $(checkbox).closest(".cart__flex-item").data("book-id");
-    $.ajax({
-    url: "/ShoppingCartFill?handler=AddBookToOrder&bookId=" + bookId + "&isChecked=" + isChecked,
-    type: 'POST',
 
-    success: function(result) {
-    // Xử lý kết quả trả về từ server
-    console.log(result);
-    }
-    });
-    }
-    </script>
-    *@
-   
-    
-    
-    }
 </div>
+@section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Thêm sự kiện click cho nút "Tăng"
+            $(".js-increase").on("click", function (e) {
+                e.preventDefault();
+                var input = $(this).siblings(".js-numOfBook");
+                var quantity = parseInt(input.val());
+                input.val(quantity + 1);
+                updateCartQuantity(input);
+            });
+
+            // Thêm sự kiện click cho nút "Giảm"
+            $(".js-decrease").on("click", function (e) {
+                e.preventDefault();
+                var input = $(this).siblings(".js-numOfBook");
+                var quantity = parseInt(input.val());
+                if (quantity > 1) {
+                    input.val(quantity - 1);
+                    updateCartQuantity(input);
+                }
+            });
+
+            // Thêm sự kiện click cho nút "Xóa"
+            $(".js-delete-item").on("click", function (e) {
+                e.preventDefault();
+                var itemId = $(this).data("item-id");
+                $.ajax({
+                    type: "GET",
+                    url: "/Cart/ShoppingCartFill?handler=DeleteCartDetail",
+                    data: { itemId: itemId},
+                    success: function (response) {
+                        // Cập nhật số lượng sản phẩm trong giỏ hàng
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                    }
+                });
+                location.reload();
+
+            });
+        });
+
+        function updateCartQuantity(input) {
+            var itemId = input.data("item-id");
+            var quantity = input.val();
+            $.ajax({
+                type: "GET",
+                url: "/Cart/ShoppingCartFill?handler=UpdateQuantity",
+                data: { itemId: itemId, quantity: quantity },
+                success: function (response) {
+                    // Cập nhật số lượng sản phẩm trong giỏ hàng
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    </script>
+}
 
 

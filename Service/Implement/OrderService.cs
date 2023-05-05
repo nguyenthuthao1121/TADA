@@ -239,6 +239,7 @@ namespace TADA.Service.Implement
         public void UpdateOrder(int orderId, OrderDto orderDto)
         {
             orderRepository.UpdateOrder(orderId, orderDto);
+            orderRepository.UpdateOrderShipfee(orderId, CalculateShipping(orderId));
         }
         public void DeleteOrder(int orderId)
         {
