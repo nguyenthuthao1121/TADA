@@ -28,6 +28,6 @@ public class HomePageAdminModel : PageModel
         Customers = customerService.GetAllCustomers().Take(10).ToList();
         Orders = orderService.GetRecentlyOrders(4);
         Books = bookService.GetSoldBooks().Take(5).ToList();
-        Revuene = orderService.RevueneOfMonth(4, DateTime.Now.Year);
+        Revuene = orderService.RevueneOfMonth(DateTime.Now.Month, DateTime.Now.Year);
     }
 }
