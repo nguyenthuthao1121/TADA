@@ -17,7 +17,8 @@
                 </span>
             </div>
         </div>
-        <div class="row">
+        
+        <div class="row" method="post">
             @if (@Model.CountBookOfCart == 0)
             {
                 <div class="shopping-cart__cart--empty col c-10 c-o-1" style="padding-bottom:24px;border-radius: 8px;">
@@ -36,28 +37,29 @@
             }
             else
             {
+
                 <div class="col c-7 c-o-1">
                     <div class="shopping-cart__cart--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
                         <div class="shopping-cart__cart-title row">
-                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;">
+                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;" asp-action="GetSum">
                             <p class="col c-8">Chọn tất cả</p>
                             <div class="cart__list--delete col c-3">
                                 <i class="fa-solid fa-trash-can"></i>Xóa
                             </div>
                         </div>
-                        <div class="shopping-cart__cart-list grid">
-                            @foreach (var cartDetail in Model.CartDetails)
+                        <div class="shopping-cart__cart-list grid" method="post">
+                            @for (int i = 0;i < Model.CartDetails.Count();i++)
                             {
-                                var Book = Model.GetBookByCartDetail(cartDetail);
-                                var imgPath = Book.Image + "/cover.jpg";
-                                <form class="cart__flex-item row" method="post">
+                                var Book = Model.GetBookByCartDetail(@Model.Cart.CartDetails[i]);
+                                    var imgPath = Book.Image + "/cover.jpg";
+                                <form class="cart__flex-item row" method="post" data-bookId="@Book.Id">
                                     <input name="bookId" value="@Book.Id" type="number" style="display: none;">
-                                    <label asp-for="@Book.Id" class="lable-checkbox col c-1" >
-                                        <input type="checkbox" class="cart__input" style="padding-right: 0;" asp-route="@Book.Id" asp-page-handler="AddOrder">
+                                    <label asp-for="@Model.CartDetails[i].Selected" class="lable-checkbox col c-1">
+                                        <input type="checkbox" class="cart__input" style=" padding-right: 0;" asp-for="@Model.CartDetails[i].Selected" name="CartDetails[i].Selected" data-id="@i">
                                     </label>
                                     <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
-                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id"  class="cart__book-name">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
                                             @Book.Name
                                         </a>
                                         <p class="cart__book-provider">
@@ -66,18 +68,18 @@
                                         </p>
                                     </div>
                                     <div class="cart__book-price col c-3">
-                                        <p>@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
+                                        <p class="js-priceOfBook" data-bookId="@Book.Id" data-price="@Book.GetCurrentPrice()">@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                            <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity">
+                                        <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="submit" asp-page-handler="MinusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input class="form-control quantity-input" type="text" asp-for="@cartDetail.Quantity" value="@cartDetail.Quantity">
-                                            <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity">
+                                        <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity">
+                                        <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="submit" asp-page-handler="PlusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" >
+                                    <button class="col c-1 " style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.CartDetails[i].BookId">
                                         <i class="fa-solid fa-trash-can icon-delete"></i>
                                     </button>
                                 </form>
@@ -87,35 +89,32 @@
                     </div>
                 </div>
                 <div class="col c-3">
-                    <div class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
+                    <form method="post" class="nav__order-detail" style="width: 100%; height:auto; border-radius: 8px;">
                         <div class="order__title">
                             Chi tiết đơn hàng
                         </div>
                         <div class="order-detail__desc grid">
                             <div class="row">
-                                <div class="col c-7" style="padding: 0;">Tổng giá (1 sách)</div>
-                                <div class="col c-5" style="padding: 0; text-align:right;">27.000 đ</div>
+                                <div class="col c-7" style="padding: 0;">Số lượng</div>
+                                <div class="col c-5" style="padding: 0; text-align:right;">
+                                    <span id="js-countBook">0</span> quyển
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
-                                <div class="col c-5" style="padding: 0; text-align:right;">13.000 đ</div>
-                            </div>
-                            <div class="row">
-                                <div class="col c-7" style="padding: 0;">Tổng tiền</div>
-                                <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">40.000 đ</div>
+                                <div class="col c-7" style="padding: 0;">Tổng giá</div>
+                                <div class="col c-5" style="padding: 0; text-align:right; color:#1E90FF">
+                                    <span id="js-sumOfPrice">0</span> đ
+                                </div>
                             </div>
                         </div>
                         <div class="btn--confirm">
-                            <button class="btn--blue" style="width:100%;">
-                                <a asp-area="Order" asp-page="ConfirmPackage">
-                                    XÁC NHẬN ĐƠN HÀNG (1)
-                                </a>
+                            <button class="btn btn-primary" type="submit" asp-page-handler="OrderNow" style="width:100%;">
+                                XÁC NHẬN ĐƠN HÀNG (1)
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             }
-            
         </div>
     </div>
 
@@ -124,15 +123,38 @@
     <script>
         var btnChecks=document.getElementsByClassName('cart__input');
         var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
+        var CountBook = document.getElementById('js-countBook');
+        var SumPrice = document.getElementById('js-sumOfPrice');
+        var priceOfBooks = document.getElementsByClassName('js-priceOfBook');
+        var numOfBooks = document.getElementsByClassName('js-numOfBook');
+
+        function GetPriceString(price)
+        {
+                var str = price.toString();
+                var tmp = "";
+            while (str.length > 3) {
+                tmp = "." + str.substring(str.length - 3) + tmp;
+                str = str.substring(0, str.length - 3);
+            }
+            tmp = str + tmp;
+            console.log(tmp);
+            return tmp;
+        }
 
         btnChecks[0].addEventListener('click',function(event){
                 if (this.checked){
-                    for(var item of shoppingcartItems){
+                    for (var item of shoppingcartItems) {
                         item.classList.add('cart__flex-item--checked');
                     }
-                    for(var item of btnChecks){
-                        item.checked=true;
+                    for (var item of btnChecks) {
+                        item.checked = true;
                     }
+                    CountBook.innerHTML = SumPrice.innerHTML=0;
+                    for (var j = 0; j < priceOfBooks.length; j++){
+                        CountBook.innerHTML = parseInt(CountBook.innerHTML) + parseInt(numOfBooks[j].value);
+                        SumPrice.innerHTML = parseInt(SumPrice.innerHTML) + parseInt(priceOfBooks[j].dataset.price) * parseInt(numOfBooks[j].value);
+                    }
+                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML));
                 }
                 else {
                     for(var item of shoppingcartItems){
@@ -141,46 +163,51 @@
                     for(var item of btnChecks){
                         item.checked=false;
                     }
+                    CountBook.innerHTML = 0;
+                    SumPrice.innerHTML = 0;
                 }
             })
         for (var i=1;i<btnChecks.length;i++){
             btnChecks[i].addEventListener('click',function(event){
+                var id = parseInt(this.dataset.id);
                 if (this.checked){
                     (this.parentElement).parentElement.classList.add('cart__flex-item--checked');
-                    
+                    CountBook.innerHTML = parseInt(CountBook.innerHTML) + parseInt(numOfBooks[id].value);
+                    SumPrice.innerHTML = SumPrice.innerHTML.replace(/\./g, '');
+                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML) + parseInt(priceOfBooks[id].dataset.price) * parseInt(numOfBooks[id].value));
                 }
                 else{
                     (this.parentElement).parentElement.classList.remove('cart__flex-item--checked');
-                    btnChecks[0].checked=false;
+                    CountBook.innerHTML = parseInt(CountBook.innerHTML) - parseInt(numOfBooks[id].value);
+                    SumPrice.innerHTML = SumPrice.innerHTML.replace(/\./g, '');
+                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML) - parseInt(priceOfBooks[id].dataset.price) * parseInt(numOfBooks[id].value));
+                    btnChecks[0].checked = false;
                 }
             })
         }
     </script>
 
-    <!-- Change Quatity -->
-    @*@section scripts{
-        <script>
-            const minusBtns = document.querySelectorAll('.minus-btn');
-            const plusBtns = document.querySelectorAll('.plus-btn');
+    <!-- Order -->
+    @*
+    <script>
+    function myFunction(checkbox) {
+    var isChecked = checkbox.checked;
+    var bookId = $(checkbox).closest(".cart__flex-item").data("book-id");
+    $.ajax({
+    url: "/ShoppingCartFill?handler=AddBookToOrder&bookId=" + bookId + "&isChecked=" + isChecked,
+    type: 'POST',
 
-            minusBtns.forEach(button => {
-              button.addEventListener('click', () => {
-                const input = button.nextElementSibling;
-                let value = parseInt(input.value);
-                if (value > 1) {
-                  input.value = --value;
-                }
-              });
-            });
-
-            plusBtns.forEach(button => {
-              button.addEventListener('click', () => {
-                const input = button.previousElementSibling;
-                let value = parseInt(input.value);
-                input.value = ++value;
-              });
-            });
-        </script>*@
+    success: function(result) {
+    // Xử lý kết quả trả về từ server
+    console.log(result);
+    }
+    });
+    }
+    </script>
+    *@
+   
+    
+    
     }
 </div>
 

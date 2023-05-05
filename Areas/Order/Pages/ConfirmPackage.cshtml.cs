@@ -21,6 +21,7 @@ public class ConfirmPackageModel : PageModel
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
 
+    [BindProperty]
     public OrderDto Order { get; set; } = null;
     public List<OrderDetailDto> OrderDetails { get; set; }
     public CustomerDto Customer { get; set; }
@@ -107,17 +108,18 @@ public class ConfirmPackageModel : PageModel
     public IActionResult OnPostUpdateStatusOrder()
     {
         orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
-        Console.WriteLine("OK");
         return RedirectToPage("/OrderListFillAll");
     }
     public IActionResult OnPostChangeInformation()
     {
-        int addressId=addressService.AddNewAddress(Street, SelectedWard);
-        orderService.UpdateOrder(Order.Id, new OrderDto
+        int addressId = 0;
+        if (SelectedWard != 0)
+            addressId=addressService.AddNewAddress(Street, SelectedWard);
+        orderService.UpdateOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, new OrderDto
         {
-            Id = Order.Id,
-            TelephoneNumber=Order.TelephoneNumber,
-            AddressId= addressId,
+            Id =Order.Id,
+            TelephoneNumber = Order.TelephoneNumber,
+            AddressId = addressId,
         });
         return RedirectToPage("./ConfirmPackage");
     }

@@ -16,6 +16,9 @@ public class ShoppingCartFillModel : PageModel
     private readonly IBookService bookService;
     private readonly IOrderService orderService;
 
+    [BindProperty(SupportsGet = true)]
+    public CartDto Cart {get;set;}
+    [BindProperty(SupportsGet = true)]
     public List<CartDetailDto> CartDetails { get; set; }
     public int CountBookOfCart { get; set; }
 
@@ -33,20 +36,73 @@ public class ShoppingCartFillModel : PageModel
 
     public void OnGet()
     {
+        Cart = cartService.GetCartByAccountId((int)HttpContext.Session.GetInt32("Id"));
         CartDetails = cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id"));
         CountBookOfCart = CartDetails.Count();
     }
-    public void OnPostAddOrder(int BookId)
+    
+    //public IActionResult OnPostAddBookToOrder(int bookId,bool isChecked)
+    //{
+    //    //var cartDetail = cartService.GetCartDetail((int)HttpContext.Session.GetInt32("Id"), bookId);
+    //    //if (isChecked)
+    //    //{
+    //    //    CartDetails.Add(cartDetail);
+    //    //}
+    //    return RedirectToPage("/ShoppingCartFill");
+    //}
+    public IActionResult OnPostOrderNow()
     {
-        //List<OrderDetailDto> orderDetails = new List<OrderDetailDto>;
-        //orderDetails.Add(new OrderDetailDto
+        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), 6);
+        if (orders != null)
+        {
+            foreach (var order in orders)
+            {
+                orderService.DeleteOrder(order.Id);
+            }
+        }
+        List<OrderDetailDto> selectedOrderDetails= new List<OrderDetailDto>();
+        // selectedCartDetails= Cart.CartDetails.Where(x => x.Selected).ToList();
+        foreach (var cartDetail in CartDetails)
+        {
+            if (cartDetail.Selected)
+            {
+                var bookOrder = bookService.GetBookById(cartDetail.BookId);
+                selectedOrderDetails.Add(new OrderDetailDto
+                {
+                    OrderId = 1,
+                    BookId = bookOrder.Id,
+                    Quantity = Convert.ToInt32(cartDetail.Quantity),
+                    Price = bookOrder.GetCurrentPrice() * Convert.ToInt32(cartDetail.Quantity),
+                });
+            }
+            
+            //var bookOrder = bookService.GetBookById(cartDetail.BookId);
+            //selectedOrderDetails.Add(new OrderDetailDto
+            //{
+            //    OrderId = 1,
+            //    BookId = bookOrder.Id,
+            //    Quantity = Convert.ToInt32(cartDetail.Quantity),
+            //    Price = bookOrder.GetCurrentPrice() * Convert.ToInt32(cartDetail.Quantity),
+            //});
+        }
+        //foreach (var item in selectedItems)
         //{
-        //    BookId = BookId,
-        //    Price = 10,
-        //    Quantity = 1,
-        //});
-        //orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), orderDetails);
-
+        //    var bookOrder = bookService.GetBookById(Convert.ToInt32(item));
+        //    var cartDetail = cartService.GetCartDetail((int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(item));
+        //    selectedOrderDetails.Add(new OrderDetailDto
+        //    {
+        //        OrderId = 1,
+        //        BookId = bookOrder.Id,
+        //        Quantity = Convert.ToInt32(cartDetail.Quantity),
+        //        Price = bookOrder.GetCurrentPrice() * Convert.ToInt32(cartDetail.Quantity),
+        //    });
+        //}
+        if (selectedOrderDetails.Count > 0)
+        {
+            orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), selectedOrderDetails);
+            return RedirectToPage("ConfirmPackage", new { area = "Order" });
+        }
+        return RedirectToPage("/ShoppingCartFill");
     }
     public IActionResult OnPostDeleteBookOfCart(int? bookId)
     {

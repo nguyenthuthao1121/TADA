@@ -13,6 +13,7 @@ public interface ICartRepository
     List<CartDetailDto> GetCartDetailsByAccountId(int accountId);
     CartDetailDto GetCartDetail(int accountId, int bookId);
     BookDto GetBookByCartDetail(CartDetailDto cartDetail);
+    List<BookDto> GetBooksOfCart(int accountId);
     void AddBookToCart(int bookId, int cartId, int quantity);
     void DeleteBookOfCart(int bookId, int accountId);
     void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity);

@@ -1,11 +1,13 @@
 ﻿@page
+@using TADA.Utilities;
 @model OrderDetailAdminModel
 @{
-    ViewData["Title"] = "Xem chi tiết đơn hàng";
-    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Quản lý đơn hàng";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml"; 
+    ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 
-<div class="row">
+<div class="row" id="order-detail--admin">
     <div class="col-10 m-0 p-0 content">
         <div class="form-container">
             <div class="form-heading">
@@ -14,36 +16,40 @@
             <div class="form-body">
                 <div class="receiver">
                     <div class="row">
-                        <div class="col-md-6 receiver__row">
-                            <span class="receiver__info receiver__property">Mã đơn hàng</span>
-                            <span class="receiver__info receiver__value">4928731</span>
+                        <div class="col-md-12 receiver__row">
+                            <span class="receiver__info receiver__property" style="width:20%;">Mã đơn hàng</span>
+                            <span class="receiver__info receiver__value" style="margin-left:-3px;">@Model.Order.Id</span>
                         </div>
-                        <div class="col-md-6 receiver__row">
-                            <span class="receiver__info receiver__property">Tên người nhận hàng</span>
-                            <span class="receiver__info receiver__value">Nguyễn Quốc Toàn</span>                            
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-md-6 receiver__row">
                             <span class="receiver__info receiver__property">Ngày đặt hàng</span>
-                            <span class="receiver__info receiver__value">5:36 PM 18/2/2023</span>
+                            <span class="receiver__info receiver__value">@UIHelper.DisplayDateOrder(Model.Order.DateOrder)</span>
                         </div>
                         <div class="col-md-6 receiver__row">
-                            <span class="receiver__info receiver__property">Email</span>
-                            <span class="receiver__info receiver__value">nguyenquoctoan12122003@gmail.com</span>                            
+                            <span class="receiver__info receiver__property">Tên người nhận hàng</span>
+                            <span class="receiver__info receiver__value">@Model.Customer.Name</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 receiver__row">
-                            <span class="receiver__info receiver__property">Địa chỉ nhận hàng</span>
-                            <span class="receiver__info receiver__value">
-                                74 Bàu Năng 1, Phường Hoà Minh, Quận Liên Chiểu, Thành phố Đà Nẵng
-                            </span>
+                            <span class="receiver__info receiver__property">Số điện thoại</span>
+                            <span class="receiver__info receiver__value">@Model.Order.TelephoneNumber</span>
                         </div>
                         <div class="col-md-6 receiver__row">
-                            <span class="receiver__info receiver__property">Số điện thoại</span>
-                            <span class="receiver__info receiver__value">0935382788</span>                            
+                            <span class="receiver__info receiver__property">Email</span>
+                            <span class="receiver__info receiver__value">@Model.Customer.Email</span>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 receiver__row">
+                            <span class="receiver__info receiver__property" style="width:20%">Địa chỉ nhận hàng</span>
+                            <span class="receiver__info receiver__value" style="margin-left:-3px;">
+                                @Model.Order.Address
+                            </span>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="book-table">
@@ -55,16 +61,17 @@
                             <th style="width: 10%">Số lượng</th>
                             <th style="width: 15%">Thành tiền (VND)</th>
                         </tr>
-                        @for (int i = 1; i <= 3; i++)
+                        @for (int i = 0; i < Model.OrderDetails.Count; i++)
                         {
+                            var Book = Model.GetBookByOrderDetail(Model.OrderDetails[i]);
                             <tr class="table-container" style="color: var(--text-color)">
-                                <th>@i</th>
-                                <td class="table-value list-value" style="font-weight: 600">
-                                    "Cậu" Ma Nhà Xí Hanako - Tập @i - Tặng Kèm Postcard PVC
+                                <th>@(i+1)</th>
+                                <td class="table-value list-value" style="font-weight: 600; text-align:left;">
+                                    @Book.Name
                                 </td>
-                                <td class="table-value list-value">23.000</td>
-                                <td class="table-value list-value">2</td>
-                                <td class="table-value list-value">46.000</td>                                
+                                <td class="table-value list-value">@UIHelper.GetPriceString(Model.OrderDetails[i].Price/Model.OrderDetails[i].Quantity)</td>
+                                <td class="table-value list-value">@Model.OrderDetails[i].Quantity</td>
+                                <td class="table-value list-value">@UIHelper.GetPriceString(Model.OrderDetails[i].Price)</td>
                             </tr>  
                         }                   
                     </table>
@@ -76,7 +83,7 @@
                                 <span class="price__info price__property">Tổng giá</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="price__info price__value">138.000 đ</span>                            
+                                <span class="price__info price__value">@UIHelper.GetPriceString(Model.SumPriceOfBooks()) đ</span>
                             </div>
                         </div>
                         <div class="row">
@@ -84,7 +91,7 @@
                                 <span class="price__info price__property">Phí giao hàng</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="price__info price__value">18.000 đ</span>                            
+                                <span class="price__info price__value">@UIHelper.GetPriceString(Model.Order.ShipFee) đ</span>
                             </div>
                         </div>
                         <div class="row">
@@ -92,7 +99,7 @@
                                 <span class="price__info price__property">Tổng giá</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="price__info price__value price__total">156.000 đ</span>                            
+                                <span class="price__info price__value price__total">@UIHelper.GetPriceString(Model.SumPriceOfOrder()) đ</span>
                             </div>
                         </div>
                         <div class="row">
@@ -100,16 +107,64 @@
                                 <span class="price__info price__property">Trạng thái</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="price__info price__value price__status">Chờ xác nhận</span>                            
+                                <span class="price__info price__value price__status">@Model.Status</span>                            
                             </div>
                         </div>
-                        <div class="order-button">
-                            <button class="order-btn order-btn--confirm">XÁC NHẬN ĐƠN HÀNG</button>
-                            <button class="order-btn order-btn--cancel">HỦY ĐƠN HÀNG</button>
-                        </div>
+                        <form method="post" class="order-button">
+                            @if (Model.Order.StatusId == 1)
+                            {
+                                <button class="order-btn order-btn--confirm" type="submit" asp-page-handler="ConfirmOrder" asp-route-orderId="@Model.Order.Id">XÁC NHẬN ĐƠN HÀNG</button>
+                                <button class="order-btn order-btn--cancel" type="button" data-bs-toggle="modal" data-bs-target="#modalCancel">HỦY ĐƠN HÀNG</button>
+                            }
+                            else if (Model.Order.StatusId == 2)
+                            {
+                                <button class="order-btn order-btn--confirm" asp-page-handler="DeliverOrder" asp-route-orderId="@Model.Order.Id">XÁC NHẬN GIAO HÀNG</button>
+                            }
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div> 
+    <!-- Modal -->
+    <form class="modal-cancel-order js-modal-cancel-order" method="post">
+        <div class="modal-container js-modal-container" style="width:500px;">
+            <div class="modal-header order__title">
+                Xác nhận hủy đơn hàng
+            </div>
+            <div class="modal-body row px-0 ">
+
+                <div class="modal-footer border-0 p-0 d-flex mt-0">
+                    <div class="button px-0 mt-0">
+                        <button type="submit" class="btn btn-secondary" asp-page-handler="CancleOrder" asp-route-orderId="@Model.Order.Id" asp-route-userId="@Model.CustomerId" data-bs-dismiss="modal">Huỷ</button>
+                    </div>
+                    <div class="button px-0 mt-0">
+                        <button type="button" class="btn btn-primary js-modal-close" id="submit-btn">Quay lại</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <!-- JavaScript -->
+    <script>
+        const cancelOrderBtn = document.querySelector('.order-btn--cancel');
+        const modal = document.querySelector('.js-modal-cancel-order');
+        const modalClose_list = document.querySelectorAll('.js-modal-close');
+
+
+        function showModal() {
+            modal.classList.add('open')
+        }
+        function hideModal() {
+            modal.classList.remove('open')
+        }
+
+        cancelOrderBtn.addEventListener('click', showModal)
+
+        for (const modalClose of modalClose_list) {
+            modalClose.addEventListener('click', hideModal)
+        }
+
+    </script>
 </div>

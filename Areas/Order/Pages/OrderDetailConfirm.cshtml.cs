@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.IO;
 using TADA.Dto.Book;
 using TADA.Dto.Customer;
 using TADA.Dto.Order;
 using TADA.Service;
+using TADA.Service.Implement;
 
 namespace TADA.Pages;
 
@@ -83,8 +85,13 @@ public class OrderDetailConfirmModel : PageModel
             else statusId = Order.StatusId;
             OrderDetails = orderService.GetOrderDetailsByOrderId(orderService.GetOrderById(orderId).Id);
             Customer = customerService.GetCustomerByAccountId((int)HttpContext.Session.GetInt32("Id"));
-            Address = addressService.GetAddressById(Customer.AddressId);
+            Address = addressService.GetAddressById((int)Order.AddressId);
         }
             
+    }
+    public IActionResult OnPostCancleOrder(int? id)
+    {
+        orderService.UpdateStatusOrder((int)id, 5);
+        return RedirectToPage("OrderListFillAll", new {area="Order"});
     }
 }

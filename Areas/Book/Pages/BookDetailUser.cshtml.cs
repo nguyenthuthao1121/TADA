@@ -26,6 +26,8 @@ public class BookDetailUserModel : PageModel
     public double FiveStar;
     [BindProperty]
     public string Quantity { get; set; }
+    [BindProperty]
+    public string Message { get; set; } = string.Empty;
     public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService)
     {
         this.bookService = bookService;
@@ -49,6 +51,7 @@ public class BookDetailUserModel : PageModel
             ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
             FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
+            if (!string.IsNullOrEmpty(Request.Query["message"])) Message = Request.Query["message"].ToString();
         }
         
     }
@@ -56,8 +59,18 @@ public class BookDetailUserModel : PageModel
     {
         if (id != null && HttpContext.Session.GetInt32("Id")!=null)
         {
-            cartService.AddBookToCart((int)id, (int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(Quantity));
-            return RedirectToPage("BookDetailUser",new {id=id});
+            var bookOrder = bookService.GetBookById((int)id);
+            if (bookOrder.Quantity >= Convert.ToInt32(Quantity))
+            {
+                cartService.AddBookToCart((int)id, (int)HttpContext.Session.GetInt32("Id"), Convert.ToInt32(Quantity));
+                return RedirectToPage("BookDetailUser", new { id = id });
+            }
+            else
+            {
+                Message = "Vượt quá số lượng còn lại của sách.";
+                return RedirectToPage("BookDetailUser", new { id = id, message = Message, });
+            }
+
         }
         else
         {
@@ -77,15 +90,25 @@ public class BookDetailUserModel : PageModel
                 }
             }
             var bookOrder=bookService.GetBookById((int)id);
-            OrderDetailDto orderDetail = new OrderDetailDto
+            if (bookOrder.Quantity>= Convert.ToInt32(Quantity))
             {
-                OrderId = 1,
-                BookId=(int)id,
-                Quantity= Convert.ToInt32(Quantity),
-                Price= bookOrder.GetCurrentPrice()* Convert.ToInt32(Quantity),
-            };
-            orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"),orderDetail);
-            return RedirectToPage("ConfirmPackage", new { area = "Order" });
+                List<OrderDetailDto> orderDetailDtos = new List<OrderDetailDto>();
+                orderDetailDtos.Add(new OrderDetailDto
+                {
+                    OrderId = 1,
+                    BookId = (int)id,
+                    Quantity = Convert.ToInt32(Quantity),
+                    Price = bookOrder.GetCurrentPrice() * Convert.ToInt32(Quantity),
+                });
+                orderService.AddOrder((int)HttpContext.Session.GetInt32("Id"), orderDetailDtos);
+                return RedirectToPage("ConfirmPackage", new { area = "Order" });
+            }
+            else
+            {
+                Message = "Vượt quá số lượng còn lại của sách.";
+                return RedirectToPage("BookDetailUser",new { id = id, message=Message, });
+            }
+                
         }
         else
         {

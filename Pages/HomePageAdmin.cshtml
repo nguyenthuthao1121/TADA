@@ -88,7 +88,7 @@
                     {
                         var imgPath = book.Image + "/cover.jpg";
                         <div class="dashboard-book__item">
-                            <a href="#" class="dashboard-book__container">
+                            <a href="@Url.Content("~/Book/BookDetailAdmin?id=" + book.BookId)" class="dashboard-book__container">
                                 @*<div class="dashboard-book__img" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:center">
                                     <img src="@Url.Content(imgPath)" alt="Book image" >
                                 </div>*@
@@ -114,7 +114,7 @@
                     @foreach (var order in Model.Orders)
                     {
                         <div class="dashboard-order__item">
-                            <a href="@Url.Content("~/Order/OrderDetailAdmin/?orderId=" + order.OrderId)" class="dashboard-order__container">
+                            <a href="@Url.Content("~/Order/OrderDetailAdmin/?handler=AllOrder&orderId=" + order.OrderId)" class="dashboard-order__container">
                                 <div class="dashboard-order__info">
                                     <div class="dashboard-order__customer">
                                         @order.CustomerName

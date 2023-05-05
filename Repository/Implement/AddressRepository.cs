@@ -70,7 +70,7 @@ public class AddressRepository : IAddressRepository
     }
     public List<WardDto> GetAllWardsByDistrictId(int districtId)
     {
-        return context.Wards.Where(p => p.DistrictId == districtId).Select(p => new WardDto
+        return context.Wards.OrderBy(p => p.Name).Where(p => p.DistrictId == districtId).Select(p => new WardDto
         {
             WardId = p.Id,
             WardName = p.Name
@@ -79,7 +79,7 @@ public class AddressRepository : IAddressRepository
 
     public List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId)
     {
-        return context.Districts.Where(p => p.ProvinceId == provinceId).Select(p => new DistrictDto
+        return context.Districts.OrderBy(p => p.Name).Where(p => p.ProvinceId == provinceId).Select(p => new DistrictDto
         {
             DistrictId = p.Id,
             DistrictName = p.Name
@@ -88,7 +88,7 @@ public class AddressRepository : IAddressRepository
 
     public List<ProvinceDto> GetAllProvinces()
     {
-        return context.Provinces.Select(p => new ProvinceDto
+        return context.Provinces.OrderBy(p=> p.Name).Select(p => new ProvinceDto
         {
             ProvinceId = p.Id,
             ProvinceName = p.Name

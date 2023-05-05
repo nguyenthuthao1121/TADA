@@ -8,7 +8,9 @@ namespace TADA.Repository;
 public interface IOrderRepository
 {
     List<OrderDto> GetAllOrders();
+    List<OrderDto> GetAllOrders(string? search, int statusId, string sortBy);
     List<OrderDto> GetAllOrdersByCustomerId(int customerId);
+    List<OrderDto> GetAllOrdersOfCustomer(int customerId, string? search, int statusId, string sortby);
     List<OrderDto> GetAllOrdersByAccountId(int accountId);
     List<OrderDto> GetOrdersByAccountId(int accountId, int statusId);
     OrderDto GetOrderById(int orderId);
@@ -21,6 +23,7 @@ public interface IOrderRepository
     List<OrderGroupDto> GetOrderGroupByBookId();
     int GetPriceOfOrder(int orderId);
     List<OrderOfMonthDto> GetDeliveredOrderInMonth(int month, int year);
+    OrderDetailDto GetOrderDetail(int orderId, int bookId);
     void DeleteOrder(int orderId);
     void AddOrder(int accountId);
     void UpdateOrder(int orderId, OrderDto orderDto);

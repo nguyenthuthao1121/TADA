@@ -8,9 +8,13 @@ namespace TADA.Repository;
 public interface IBookRepository
 {
     List<BookDto> GetAllBooks();
-    List<BookDto> GetBooks(int category, string? search, string priceRange, string genre, string sortBy);
+    List<BookDto> GetBooks(int category, string search, string priceRange, string genre, string sortBy);
+    List<BookDto> GetBooksForManagement(int category, int provider, string? search, int inStock, string sortBy, string sortType);
     List<BookDto> SearchBooks(string query);
     BookDto GetBookById(int id);
     int GetNumOfBooksByCategoryId(int categoryId);
     List<SoldBookDto> GetSoldBooks();
+    int AddBook(BookDto book);
+    void UpdateQuantity(int bookId, int quantity);
+    void UpdateBook(BookDto book);
 }
