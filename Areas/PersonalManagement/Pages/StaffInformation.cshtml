@@ -1,0 +1,445 @@
+﻿@page
+@model StaffInformationModel
+@using TADA.Model.Entity
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+}
+<div class="row">
+    <div class="col-10 content">
+        <div class="bg-white staff-info">
+            <div class="staff-info__heading">
+                <p>Thông tin cá nhân</p>
+            </div>
+            @*<div class="user-personal-information mt-2 px-4">
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Name" class="form-label">Họ và tên người dùng</label>
+                    <input asp-for="Customer.Name" class="form-control border-0" style="width: 0" readonly> @Model.Customer.Name
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Birthday" class="form-label">Ngày sinh</label>
+                    <input asp-for="Customer.Birthday" type="text" class="form-control border-0" style="width: 0"
+                           value="" readonly>@Model.Customer.Birthday.ToShortDateString()
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Gender" class="form-label">Giới tính</label>
+                    <input asp-for="Customer.Gender" type="text" class="form-control border-0" style="width: 0"
+                           readonly>@((Model.Customer.Gender) ? "Nam" : "Nữ")
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.TelephoneNumber" class="form-label">Số điện thoại</label>
+                    <input asp-for="Customer.TelephoneNumber" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.TelephoneNumber
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Email" class="form-label">Email</label>
+                    <input asp-for="Customer.Email" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.Email
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Province" class="form-label">Tỉnh/Thành phố</label>
+                    <input asp-for="Customer.Province" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.Province
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.District" class="form-label">Quận/Huyện</label>
+                    <input asp-for="Customer.District" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.District
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Ward" class="form-label">Phường/Xã</label>
+                    <input asp-for="Customer.Ward" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.Ward
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label asp-for="Customer.Street" class="form-label">Địa chỉ</label>
+                    <input asp-for="Customer.Street" class="form-control border-0" style="width: 0"
+                           readonly> @Model.Customer.Street
+                </div>
+                <div class="form-group mt-3">
+                    <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modalInformation"
+                            style="width: 350px">
+                        Thay đổi thông tin cá nhân
+                    </button>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modalForgotPwd"
+                            style="width: 350px">
+                        Đổi mật khẩu
+                    </button>
+                </div>
+            </div>*@
+            <div class="staff-personal-information mt-2 px-4">
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Họ và tên người dùng</label>
+                    <input class="form-control border-0" style="width: 0" readonly> abc
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Ngày sinh</label>
+                    <input type="text" class="form-control border-0" style="width: 0"
+                           value="" readonly>12/11/2020
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Giới tính</label>
+                    <input type="text" class="form-control border-0" style="width: 0"
+                           readonly> Nam
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Số điện thoại</label>
+                    <input class="form-control border-0" style="width: 0"
+                           readonly> 0345678912
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Email</label>
+                    <input  class="form-control border-0" style="width: 0"
+                           readonly> abc@gmail.com
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Tỉnh/Thành phố</label>
+                    <input class="form-control border-0" style="width: 0"
+                           readonly> Hue
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Quận/Huyện</label>
+                    <input class="form-control border-0" style="width: 0"
+                           readonly> TP.Hue
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Phường/Xã</label>
+                    <input class="form-control border-0" style="width: 0"
+                           readonly> Phu Hoi
+                </div>
+                <div class="form-group d-flex" style="align-items: baseline">
+                    <label class="form-label">Địa chỉ</label>
+                    <input class="form-control border-0" style="width: 0"
+                           readonly> Le Loi
+                </div>
+                <div class="form-group mt-3">
+                    <button type="button" class="feature-btn" data-bs-toggle="modal" data-bs-target="#modalInformation"
+                            style="width: 350px; font-weight: 600">
+                        THAY ĐỔI THÔNG TIN CÁ NHÂN
+                    </button>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="button" class="feature-btn" data-bs-toggle="modal" data-bs-target="#modalForgotPwd"
+                            style="width: 350px; font-weight: 600">
+                        ĐỔI MẬT KHẨU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalForgotPwd" data-bs-backdrop="static">
+    @*<div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-0 border-0">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" style="color: var(--primary-color)">Đổi mật khẩu</h5>
+            </div>
+            <div class="modal-body containter-fluid py-0">
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="row">
+                        <input asp-for="Password" class="visually-hidden" style="height:0px; width:0px" readonly>
+                        <div class="col-6 form-group">
+                            <label asp-for="OldPassword" class="form-label">Mật khẩu hiện tại</label>
+                            <input asp-for="OldPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại">
+                            <span class="text-danger" asp-validation-for="OldPassword"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="NewPassword" class="form-label">Mật khẩu mới</label>
+                            <input asp-for="NewPassword" class="form-control" placeholder="Nhập mật khẩu mới">
+                            <span class="text-danger" asp-validation-for="NewPassword"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="ConfirmPassword" class="form-label">Nhập lại mật khẩu</label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu">
+                            <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="btn btn-primary" >Đổi mật khẩu</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>*@
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-info rounded-0 border-0">
+            <div class="modal-info-header border-0">
+                <p class="modal-info-title" style="color: var(--primary-color)">Đổi mật khẩu</p>
+            </div>
+            <div class="modal-info-body containter-fluid py-0">
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="row">
+                        <input class="visually-hidden" style="height:0px; width:0px" readonly>
+                        <div class="col-6 form-group">
+                            <label class="form-label">Mật khẩu hiện tại</label>
+                            <input class="form-control " placeholder="Nhập mật khẩu hiện tại">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Mật khẩu mới</label>
+                            <input class="form-control " placeholder="Nhập mật khẩu mới">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Nhập lại mật khẩu</label>
+                            <input class="form-control " placeholder="Nhập lại mật khẩu">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="info-btn btn-secondary" data-bs-dismiss="modal">HỦY</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="info-btn btn-primary">ĐỔI MẬT KHẨU</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalInformation" data-bs-backdrop="static">
+    @*<div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</h5>
+                </div>
+            <form method="post" asp-page-handler="ChangeInformation">
+                <div class="modal-body containter-fluid py-0">
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Name" class="form-label">Họ và tên</label>
+                            <input asp-for="Customer.Name" type="text" class="form-control" placeholder="Nhập họ và tên">
+                            <span class="text-danger" asp-validation-for="Customer.Name"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedProvince" class="form-label">Tỉnh/Thành phố</label>
+                            <select class="form-select custom-select" asp-for="SelectedProvince">
+                                @{
+                                    foreach (var province in Model.Provinces)
+                                    {
+                                        if (province.ProvinceId == Model.Address.ProvinceId)
+                                        {
+                                            <option value="@province.ProvinceId" selected>@province.ProvinceName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@province.ProvinceId">@province.ProvinceName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Birthday" class="form-label">Ngày sinh</label>
+                            <input asp-for="Customer.Birthday" type="date" data-val="true" class="form-control">
+                            <span class="text-danger" asp-validation-for="Customer.Birthday"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedDistrict" class="form-label">Quận/Huyện</label>
+                            <select class="form-select custom-select" data-val="true" asp-for="SelectedDistrict" required title="Vui lòng chọn Quận/Huyện!">
+                                @{
+                                    foreach (var district in Model.Districts)
+                                    {
+                                        if (district.DistrictId == Model.Address.DistrictId)
+                                        {
+                                            <option value="@district.DistrictId" selected>@district.DistrictName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@district.DistrictId">@district.DistrictName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Gender" class="form-label">Giới tính</label>
+                            <select asp-for="Customer.Gender" class="form-select custom-select">
+                                @if (Model.Gender == "Nam")
+                                {
+                                    <option value="1" selected>Nam</option>
+                                    <option value="0">Nữ</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Nam</option>
+                                    <option value="0" selected>Nữ</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="SelectedWard" class="form-label">Phường/Xã</label>
+                            <select class="form-select custom-select" asp-for="SelectedWard" required title="Vui lòng chọn Phường/Xã!">
+                                @{
+                                    foreach (var ward in Model.Wards)
+                                    {
+                                        if (ward.WardId == Model.Address.WardId)
+                                        {
+                                            <option value="@ward.WardId" selected>@ward.WardName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@ward.WardId">@ward.WardName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.TelephoneNumber" class="form-label">Số điện thoại</label>
+                            <input asp-for="Customer.TelephoneNumber" type="text" class="form-control" placeholder="Nhập số điện thoại">
+                            <span class="text-danger" asp-validation-for="Customer.TelephoneNumber"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label asp-for="Customer.Street" class="form-label">Địa chỉ</label>
+                            <input asp-for="Customer.Street" type="text" class="form-control" placeholder="Nhập địa chỉ">
+                            <span class="text-danger" asp-validation-for="Customer.Street"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">Lưu thông tin</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>*@
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-info rounded-0 border-0">
+            <div class="modal-info-header border-0">
+                <p class="modal-info-title" style="color: var(--primary-color)">Chỉnh sửa thông tin cá nhân</p>
+            </div>
+            <form method="post" asp-page-handler="ChangeInformation">
+                <div class="modal-info-body containter-fluid py-0">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control " placeholder="Nhập họ và tên">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label  class="form-label">Tỉnh/Thành phố</label>
+                            <select class="form-select custom-select ">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Ngày sinh</label>
+                            <input type="date" data-val="true" class="form-control ">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label class="form-label">Quận/Huyện</label>
+                            <select class="form-select custom-select " data-val="true" required title="Vui lòng chọn Quận/Huyện!">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Giới tính</label>
+                            <select class="form-select custom-select ">
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label class="form-label">Phường/Xã</label>
+                            <select class="form-select custom-select " required title="Vui lòng chọn Phường/Xã!">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control " placeholder="Nhập số điện thoại">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control " placeholder="Nhập địa chỉ">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 mt-3 d-flex">
+                        <div class="button px-0">
+                            <button type="button" class="info-btn btn-secondary" data-bs-dismiss="modal">HỦY</button>
+                        </div>
+                        <div class="button px-0">
+                            <button type="submit" class="info-btn btn-primary" id="submit-btn">LƯU THÔNG TIN</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#SelectedProvince").on("change", function () {
+                var provinceId = $(this).val();
+                let districtId;
+                $("#SelectedDistrict").empty();
+                $("#SelectedWard").empty();
+                $.getJSON(`?handler=Districts&SelectedProvince=${provinceId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#SelectedDistrict").append(`<option value="${item.districtId}">${item.districtName}</option>`);
+                        if (i === 0){
+                            $.getJSON(`?handler=Wards&SelectedDistrict=${item.districtId}`, (data) => {
+                                $.each(data, function (i, item) {
+                                    $("#SelectedWard").append(`<option value="${item.wardId}">${item.wardName}</option>`);
+                                });
+                            });
+                        }
+                    });
+                });
+                console.log(districtId);                
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#SelectedDistrict").on("change", function () {
+                var districtId = $(this).val();
+                $("#SelectedWard").empty();
+                $.getJSON(`?handler=Wards&SelectedDistrict=${districtId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#SelectedWard").append(`<option value="${item.wardId}">${item.wardName}</option>`);
+                    });
+                });
+            });
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />        
+}
+
+
