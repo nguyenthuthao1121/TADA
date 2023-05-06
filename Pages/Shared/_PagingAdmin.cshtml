@@ -3,10 +3,11 @@
     int currentPage = Model.currentPage;
     int countPages = Model.countPages;
     int category = Model.category;
-    var genre = Model.genre;
-    var sortBy = Model.sortBy;
-    var searchQuery = Model.searchQuery;
-    var priceRange = Model.priceRange;
+    int provider = Model.provider;
+    string q = Model.q;
+    int inStock = Model.inStock;
+    string sortBy = Model.sortBy;
+    string sortType = Model.sortType;
 
     if (currentPage > countPages)
         currentPage = countPages;
@@ -77,12 +78,12 @@
 
 @* PHÁT SINH HTML*@
 
-<ul class="col pagination justify-content-center">
+<ul class="pagination">
     <!-- Previous page link -->
     @if (preview != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@Url.Content("~/?category=" + category + "&q=" + searchQuery + "&Genre=" + genre + "&PriceRange=" + priceRange + "&SortBy=" + sortBy + "&pageNumber=" + preview)">
+            <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + preview)">
                 <i class="fas fa-chevron-left"></i>
             </a>
         </li>
@@ -102,7 +103,7 @@
         if (pageitem != currentPage)
         {
             <li class="page-item ">
-                <a class="page-link" href="@Url.Content("~/?category=" + category + "&q=" + searchQuery + "&Genre=" + genre + "&PriceRange=" + priceRange + "&SortBy=" + sortBy + "&pageNumber=" + pageitem)">
+                <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + pageitem)">
                     @pageitem
                 </a>
             </li>
@@ -120,7 +121,7 @@
     @if (next != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@Url.Content("~/?category=" + category + "&q=" + searchQuery + "&Genre=" + genre + "&PriceRange=" + priceRange + "&SortBy=" + sortBy + "&pageNumber=" + next)">
+            <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + next)">
                 <i class="fas fa-chevron-right"></i>
             </a>
         </li>
