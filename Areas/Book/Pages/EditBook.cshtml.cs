@@ -77,7 +77,6 @@ public class EditBookModel : PageModel
                 }
             }
         }
-
         bookService.UpdateBook(Book);
         return RedirectToPage("./BookManagement");
     }

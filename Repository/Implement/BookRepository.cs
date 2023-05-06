@@ -1,7 +1,9 @@
+﻿using System.Data.Entity;
 ﻿using Microsoft.CodeAnalysis.Operations;
 using System.Linq;
 using TADA.Dto;
 using TADA.Dto.Book;
+using TADA.Dto.Order;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -10,9 +12,11 @@ namespace TADA.Repository.Implement;
 public class BookRepository : IBookRepository
 {
     private readonly TadaContext context;
-    public BookRepository(TadaContext context)
+    private readonly IOrderRepository orderRepository;
+    public BookRepository(TadaContext context, IOrderRepository orderRepository)
     {
         this.context = context;
+        this.orderRepository = orderRepository;
     }
     public List<BookDto> GetAllBooks()
     {
@@ -235,6 +239,54 @@ public class BookRepository : IBookRepository
         }
         return bookDtos;
     }
+    public List<SoldBookDto> GetSoldBooks()
+    {
+        var orderGroups = orderRepository.GetOrderGroupByBookId();
+        return context.Books.ToList().Join(orderGroups, book => book.Id, orderGroup => orderGroup.BookId, (book, orderGroup) => new SoldBookDto
+        {
+            BookId = book.Id,
+            Name = book.Name,
+            Image = book.Image,
+            SoldQuantity = orderGroup.Quantity
+        }).OrderByDescending(soldBook => soldBook.SoldQuantity).ToList();
+    }
+    public void UpdateQuantity(int bookId, int quantity)
+    {
+        var book=context.Books.Find(bookId);
+        if(book!=null && book.Quantity != quantity)
+        {
+            book.Quantity = quantity;
+            context.SaveChanges();
+        }
+    }
+    public int AddBook(BookDto book)
+    {
+        context.Books.Add(new Book
+        {
+            Name = book.Name,
+            Author = book.Author,
+            Publisher = book.Publisher,
+            Weight = book.Weight,
+            PublicationYear = book.PublicationYear,
+            Genre = book.Genre,
+            Pages = book.Pages,
+            Length = book.Length,
+            Width = book.Width,
+            Price = book.Price,
+            Cover = book.Cover,
+            Quantity = book.Quantity,
+            Promotion = book.Promotion,
+            CategoryId = book.CategoryId,
+            ProviderId = book.ProviderId,
+        });
+        context.SaveChanges();
+        int bookId= context.Books.Max(book => book.Id);
+        var bookNew= context.Books.Find(bookId);
+        bookNew.Description= "wwwroot/img/books/book" + bookId + "/description.txt";
+        bookNew.Image= "~/img/books/book" + bookId + "/cover-img";
+        context.SaveChanges();
+        return bookId;
+    }
     public void UpdateBook(BookDto book)
     {
         var updateBook = context.Books.FirstOrDefault(p => p.Id == book.Id);
@@ -261,6 +313,4 @@ public class BookRepository : IBookRepository
             context.SaveChanges();
         }
     }
-
-
 }

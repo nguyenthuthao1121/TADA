@@ -1,5 +1,8 @@
-﻿using TADA.Dto.Book;
+﻿using Microsoft.Identity.Client;
+using System.Net;
+using TADA.Dto.Book;
 using TADA.Dto.Cart;
+using TADA.Dto.Order;
 using TADA.Model;
 using TADA.Model.Entity;
 using TADA.Repository;
@@ -10,9 +13,11 @@ namespace TADA.Service.Implement
     public class CartService : ICartService
     {
         private readonly ICartRepository cartRepository;
-        public CartService(ICartRepository cartRepository)
+        private readonly IOrderRepository orderRepository;
+        public CartService(ICartRepository cartRepository, IOrderRepository orderRepository)
         {
             this.cartRepository = cartRepository;
+            this.orderRepository = orderRepository;
         }
 
         public CartDto GetCartByCustomerId(int customerId)
@@ -56,6 +61,14 @@ namespace TADA.Service.Implement
         {
             cartRepository.DeleteBookOfCart(bookId,accountId);
         }
+        public void DeleteBookOfOrder(int orderId, int accountId)
+        {
+            var orderDetails= orderRepository.GetOrderDetailsByOrderId(orderId);
+            foreach(var item in orderDetails)
+            {
+                cartRepository.DeleteBookOfCart(item.BookId, accountId);
+            }
+        }
         public void IncreaseQuantityOfCartDetail(int accountId, int bookId, int delta)
         {
             var cartDetail=cartRepository.GetCartDetail(accountId, bookId);
@@ -65,6 +78,10 @@ namespace TADA.Service.Implement
         {
             var cartDetail = cartRepository.GetCartDetail(accountId, bookId);
             cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity - delta);
+        }
+        public void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity)
+        {
+            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, quantity);
         }
     }
 }

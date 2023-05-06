@@ -25,6 +25,11 @@ namespace TADA.Service.Implement
             this.customerRepository = customerRepository;
         }
 
+        public List<OrderDto> GetAllOrders()
+        {
+            return orderRepository.GetAllOrders();
+        }
+
         public List<OrderDto> GetAllOrdersByAccountId(int accountId)
         {
             return orderRepository.GetAllOrdersByAccountId(accountId);
@@ -186,17 +191,67 @@ namespace TADA.Service.Implement
             
             return list;
         }
+        public List<RecentlyOrderDto> GetRecentlyOrders(int count)
+        {
+            List<OrderDto> orderDtos = orderRepository.GetAllOrders().TakeLast(count).ToList();
+            orderDtos.Reverse();
+            List<RecentlyOrderDto> orders = new List<RecentlyOrderDto>();
+            foreach(var order in orderDtos)
+            {
+                var address = addressRepository.GetOrderAddressDto(order.Id);
+                orders.Add(new RecentlyOrderDto()
+                {
+                    OrderId = order.Id,
+                    CustomerName = customerRepository.GetCustomerById(order.CustomerId).Name,
+                    Province = $"{address.Street}, {address.WardName}, {address.DistrictName}, {address.ProvinceName}",
+                    Status = orderRepository.GetStatusByStatusId(order.StatusId)
+                });
+            }
+            return orders;
+        }
 
+        public int RevueneOfMonth(int month, int year) 
+        {
+            var deliveredOrders = orderRepository.GetDeliveredOrderInMonth(month, year);
+            int revuene = 0;
+            foreach (var order in deliveredOrders)
+            {
+                revuene += orderRepository.GetPriceOfOrder(order.OrderId);
+            }
+            return revuene;
+        }
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
+            if (statusId == 5)
+            {
+                var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+                foreach (var orderDetail in orderDetails)
+                {
+                    var book = bookRepository.GetBookById(orderDetail.BookId);
+                    if (book != null)
+                    {
+                        bookRepository.UpdateQuantity(book.Id, book.Quantity + orderDetail.Quantity);
+                    }
+                }
+            }
         }
         public void UpdateOrder(int orderId, OrderDto orderDto)
         {
             orderRepository.UpdateOrder(orderId, orderDto);
+            orderRepository.UpdateOrderShipfee(orderId, CalculateShipping(orderId));
         }
         public void DeleteOrder(int orderId)
         {
+            var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+            foreach (var orderDetail in orderDetails)
+            {
+                var book = bookRepository.GetBookById(orderDetail.BookId);
+                if (book != null)
+                {
+                    bookRepository.UpdateQuantity(book.Id, book.Quantity + orderDetail.Quantity);
+                }
+            }
             orderRepository.DeleteOrder(orderId);
         }
 
@@ -205,12 +260,20 @@ namespace TADA.Service.Implement
             orderRepository.AddOrder(accountId);
             var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
             foreach(var orderDetail in orderDetails)
+            {
                 orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
+                var book=bookRepository.GetBookById(orderDetail.BookId);
+                if(book!= null)
+                {
+                    bookRepository.UpdateQuantity(book.Id, book.Quantity - orderDetail.Quantity);
+                }
+            }
             orderRepository.UpdateOrderShipfee(order.Id, CalculateShipping(order.Id));
         }
 
         public void DeleteOrderDetail(int bookId, int orderId)
         {
+            
             orderRepository.DeleteOrderDetail(bookId, orderId);
         }
 
@@ -262,17 +325,17 @@ namespace TADA.Service.Implement
                         //note = "Tintest 123",
                         from_name = "TADA",
                         from_phone = "0909999999",
-                        from_address = "123 Đường 3/2",
-                        from_ward_name = "Phường 5",
-                        from_district_name = "Quận 11",
-                        from_province_name = "TP Hồ Chí Minh",
+                        from_address = "54 Nguyễn Lương Bằng",
+                        from_ward_name = "Phường Hòa Khánh Bắc",
+                        from_district_name = "Quận Liên Chiểu",
+                        from_province_name = "TP Đà Nẵng",
                         required_note = "KHONGCHOXEMHANG",
                         return_name = "TADA",
                         return_phone = "0909999999",
-                        return_address = "123 Đường 3/2",
-                        return_ward_name = "Phường 5",
-                        return_district_name = "Quận 11",
-                        return_province_name = "TP Hồ Chí Minh",
+                        return_address = "54 Nguyễn Lương Bằng",
+                        return_ward_name = "Phường Hòa Khánh Bắc",
+                        return_district_name = "Quận Liên Chiểu",
+                        return_province_name = "TP Đà Nẵng",
                         client_order_code = "11",
                         to_name = customer.Name,
                         to_phone = order.TelephoneNumber,

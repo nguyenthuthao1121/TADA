@@ -2,6 +2,7 @@
 @model BookDetailAdminModel
 @{
     ViewData["Title"] = "Chi tiết sách";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
 }
 @{

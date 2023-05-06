@@ -13,7 +13,6 @@ namespace TADA.Middleware;
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 {
     private readonly string[] roles;
-
     public AuthorizeAttribute(params string[] roles)
     {
         this.roles = roles ?? new string[] { };

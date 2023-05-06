@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TADA.Migrations
 {
     /// <inheritdoc />
-    public partial class dbVer1 : Migration
+    public partial class initdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -149,7 +149,7 @@ namespace TADA.Migrations
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Birthday = table.Column<DateTime>(type: "DateTime", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
-                    TelephoneNumber = table.Column<string>(type: "char(10)", maxLength: 10, nullable: true),
+                    TelephoneNumber = table.Column<string>(type: "varchar", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -1,4 +1,5 @@
 ﻿using TADA.Dto.Category;
+using TADA.Model.Entity;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;
@@ -16,6 +17,21 @@ public class CategoryService : ICategoryService
     public List<CategoryDto> GetAllCategories()
     {
         var categories = categoryRepository.GetAllCategories();
+        var listCategories = new List<CategoryDto>();
+        foreach (var category in categories)
+        {
+            listCategories.Add(new CategoryDto()
+            {
+                Id = category.Id,
+                Name = category.Name,
+                NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
+            });
+        }
+        return listCategories;
+    }
+    public List<CategoryDto> GetAllCategoriesOrderByName()
+    {
+        var categories = categoryRepository.GetAllCategoriesOrderByName();
         var listCategories = new List<CategoryDto>();
         foreach (var category in categories)
         {

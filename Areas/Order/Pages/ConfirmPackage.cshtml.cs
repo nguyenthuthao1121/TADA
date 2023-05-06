@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.JSInterop;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,7 @@ public class ConfirmPackageModel : PageModel
     private readonly IBookService bookService;
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
+    private readonly ICartService cartService;
 
     [BindProperty]
     public OrderDto Order { get; set; } = null;
@@ -44,14 +46,16 @@ public class ConfirmPackageModel : PageModel
     [BindProperty]
     public string Street { get; set; }  
     public int StatusId = 6;
+    public bool IsFromCart { get; set; }
 
-    public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService)
+    public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService, ICartService cartService)
     {
         this.orderService = orderService;
         this.accountService = accountService;
         this.bookService = bookService;
         this.addressService = addressService;
         this.customerService = customerService;
+        this.cartService = cartService;
     }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
@@ -104,9 +108,16 @@ public class ConfirmPackageModel : PageModel
         Districts = addressService.GetAllDistrictsByProvinceId(Address.ProvinceId);
         Wards = addressService.GetAllWardsByDistrictId(Address.DistrictId);
         Street= Address.Street;
+        if (!string.IsNullOrEmpty(Request.Query["message"])) IsFromCart = true;
+        else IsFromCart = false;
     }
-    public IActionResult OnPostUpdateStatusOrder()
+
+    public IActionResult OnPostUpdateStatusOrder(int? orderId, bool? isFromCart)
     {
+        if (isFromCart==true)
+        {
+            cartService.DeleteBookOfOrder((int)orderId, (int)HttpContext.Session.GetInt32("Id"));
+        }
         orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
         return RedirectToPage("/OrderListFillAll");
     }

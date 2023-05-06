@@ -14,6 +14,10 @@ public class CategoryRepository : ICategoryRepository
     {
         return context.Categories.ToList();
     }
+    public List<Category> GetAllCategoriesOrderByName()
+    {
+        return context.Categories.OrderBy(category=>category.Name).ToList();
+    }
     public string GetCategoryNameById(int id)
     {
         return context.Categories.Where(category => category.Id == id).Select(category => category.Name).FirstOrDefault();

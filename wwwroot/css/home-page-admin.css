@@ -2,6 +2,7 @@
     position: absolute;
     top: var(--navbar-height);
     right: 0;
+    height: calc(100% - var(--navbar-height));
 }
 
 .revenue {
@@ -47,8 +48,14 @@
     height: calc(85% - 60px - var(--navbar-height));
 }
 
+.dashboard-container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0 16px;
+    height: calc(85% - 60px);
+}
+
 .revenue-account__item {
-    
 }
 
 
@@ -65,14 +72,14 @@
     padding: 8px;
 }
 
-.revenue-heading h1 {
-    padding: 4px;
-}
+    .revenue-heading h1 {
+        padding: 4px;
+    }
 
-.revenue-heading .years {
-    font-size: 1.5rem;
-    font-weight: 400;
-}
+    .revenue-heading .years {
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
 
 .select-years {
     color: var(--primary-color);
@@ -99,9 +106,9 @@
     border-bottom: 2px solid var(--text-color);
 }
 
-.table-row.revenue-row {
-    height: 30px;
-}
+    .table-row.revenue-row {
+        height: 30px;
+    }
 
 .table-col {
     min-width: 150px;
@@ -121,13 +128,41 @@
     display: inline-block;
 }
 
+.dashboard-item {
+    height: 100%;
+    margin-bottom: 8px;
+}
+
+.dashboard-new-users,
+.dashboard-book,
+.dashboard-order {
+    width: 33.33%;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    display: inline-block;
+}
+
 .new-accounts-heading {
+    text-align: center;
+    padding: 8px;
+}
+
+.dashboard-new-users-heading,
+.dashboard-book-heading,
+.dashboard-order-heading {
     text-align: center;
     padding: 8px;
 }
 
 .new-accounts-heading h1 {
     padding: 4px;
+}
+
+.dashboard-new-users-heading h1,
+.dashboard-book-heading h1,
+.dashboard-order-heading h1 {
+    padding: 4px;
+    color: var(--primary-color);
 }
 
 .new-accounts-body {
@@ -137,12 +172,103 @@
     padding: 4px 32px;
 }
 
+.dashboard-new-users-body,
+.dashboard-book-body,
+.dashboard-order-body {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    padding: 4px 32px;
+}
+
 .user {
     margin: 0 0 16px;
+    color: var(--text-color);
 }
 
 .user-icon {
     font-size: 3rem;
     position: relative;
     margin-right: 16px;
+}
+
+.dashboard-book__item {
+    margin-bottom: 8px;
+}
+
+
+.dashboard-book__container {
+    text-decoration: none;
+    display: flex;
+    justify-content: left;
+    padding: 4px;
+}
+
+.dashboard-book__container:hover {
+    background-color: #f8f1f1;
+    border-radius: 4px;
+}
+
+.dashboard-book__img {
+    display: inline-block;
+    min-width: 60px;
+    max-width: 60px;
+    min-height: 75px;
+    max-height: 75px;
+    object-fit: contain;
+    border: 1px solid #ccc;
+}
+
+
+.dashboard-book__info {
+    display: inline-block;
+    color: var(--text-color);
+    padding: 0 4px 0 12px;
+}
+
+.dashboard-book__name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 2rem;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.dashboard-book__quantity {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.dashboard-order__item {
+    border: 1px solid var(--text-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.dashboard-order__container {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.dashboard-order__info {
+    line-height: 2.1rem;
+}
+
+.dashboard-order__customer {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.dashboard-order__address {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.dashboard-order__status {
+    font-size: 1.4rem;
+    font-weight: 500;
 }

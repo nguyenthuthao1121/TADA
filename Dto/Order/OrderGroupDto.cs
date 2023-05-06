@@ -2,13 +2,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TADA.Model.Entity;
 
-namespace TADA.Dto.Cart;
+namespace TADA.Dto.Order;
 
-public class CartDetailDto
+public class OrderGroupDto
 {
-    public int CartId { get; set; }
     public int BookId { get; set; }
     public int Quantity { get; set; }
-    public bool Selected { get; set; }
-
 }

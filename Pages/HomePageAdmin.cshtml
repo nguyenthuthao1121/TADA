@@ -1,4 +1,5 @@
 ﻿@page
+@using TADA.Utilities;
 @model HomePageAdminModel
 @{
     ViewData["Title"] = "Home page ADMIN";
@@ -14,11 +15,11 @@
                     <span class="revenue-container__item-heading">Doanh thu tháng này</span>
                 </li>
                 <li class="revenue-container__item">
-                    <span class="revenue-container__item-number">30.000.000 VND</span>
+                    <span class="revenue-container__item-number"> @UIHelper.GetPriceString(Model.Revuene) VND</span>
                 </li>
             </ul>
         </div>
-        <div class="revenue-account">
+ @*       <div class="revenue-account">
             <div class="revenue-account__item revenue-in-year">
                 <div class="revenue-heading">
                     <h1>Thống kê doanh thu</h1>
@@ -62,8 +63,78 @@
                     }
                 </div>
             </div>
+        </div>*@
+        <div class="dashboard-container">
+            <div class="dashboard-item dashboard-new-users" style="margin-right: 8px">
+                <div class="dashboard-new-users-heading">
+                    <h1>Khách hàng mới</h1>
+                </div>                
+                <div class="dashboard-new-users-body">
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <div class="user">
+                            <i class="fa-solid fa-user-large user-icon"></i>
+                            @customer.Name
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="dashboard-item dashboard-book" style="margin: 0 8px">
+                <div class="dashboard-book-heading">
+                    <h1>Sách bán chạy</h1>
+                </div>                
+                <div class="dashboard-book-body">
+                    @foreach (var book in Model.Books)
+                    {
+                        var imgPath = book.Image + "/cover.jpg";
+                        <div class="dashboard-book__item">
+                            <a href="@Url.Content("~/Book/BookDetailAdmin?id=" + book.BookId)" class="dashboard-book__container">
+                                @*<div class="dashboard-book__img" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:center">
+                                    <img src="@Url.Content(imgPath)" alt="Book image" >
+                                </div>*@
+                                    <img src="@Url.Content(imgPath)" alt="Book image" class="dashboard-book__img">
+                               <div class="dashboard-book__info">
+                                   <div class="dashboard-book__name">
+                                       @book.Name
+                                   </div>
+                                   <div class="dashboard-book__quantity">
+                                       Số lượng đã bán: @book.SoldQuantity
+                                   </div>
+                               </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="dashboard-item dashboard-order" style="margin-left: 8px">
+                <div class="dashboard-order-heading">
+                    <h1>Đơn hàng mới</h1>
+                </div>
+                <div class="dashboard-order-body">
+                    @foreach (var order in Model.Orders)
+                    {
+                        <div class="dashboard-order__item">
+                            <a href="@Url.Content("~/Order/OrderDetailAdmin/?handler=AllOrder&orderId=" + order.OrderId)" class="dashboard-order__container">
+                                <div class="dashboard-order__info">
+                                    <div class="dashboard-order__customer">
+                                        @order.CustomerName
+                                    </div>
+                                    <div class="dashboard-order__address">
+                                        Địa chỉ: <span>@order.Province</span>
+                                    </div>
+                                    <div class="dashboard-order__status">
+                                        Trạng thái:
+                                        <span style="color: var(--primary-color); font-weight: 600">
+                                            @order.Status
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
 
     </div>
-    
 </div>

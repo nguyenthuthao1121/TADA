@@ -28,12 +28,12 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">
-            <div class="row bg-white px-3 py-4 mt-3 rounded">
+            <form method="post" class="row bg-white px-3 py-4 mt-3 rounded">
                 <div class="col-5">
                     <div class="book-image" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:center">
                         <img src="@Url.Content(imgPath)" alt="Book image">
                     </div>
-                    <form method="post" class="row mt-3">
+                    <div class="row mt-3">
                         <div class="col">
                             <button type="submit" class="shopping-cart" asp-route-id="@Model.Book.Id" asp-page-handler="AddToCart">
                                 <i class="fas fa-shopping-cart" style="font-size: 1rem; margin-right: 4px; font-weight: 700; color: var(--primary-color)"></i>
@@ -45,7 +45,7 @@
                                 Mua ngay
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="book-essential-detail col-7 px-5">
                     <h4 class="fw-bold" style="line-height: 2rem">@Model.Book.Name</h4>
@@ -117,15 +117,22 @@
 
                     </div>
                     <div class="quantity mt-3 d-flex" style="align-items: baseline">
-                        <lable for="quantity" style="font-weight: bold; margin-right: 2rem">Số lượng:</lable>
+                        <lable asp-for="@Model.Quantity" style="font-weight: bold; margin-right: 2rem">Số lượng:</lable>
                         <span class="form-group d-flex">
                             <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
                             <input class="form-control quantity-input" type="text" asp-for="@Model.Quantity" value="01" id="quantity">
                             <button class="input-group-text plus-btn" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button"><i class="fas fa-plus"></i></button>
                         </span>
                     </div>
+
+                    <div class="quantity mt-3 d-flex" style="align-items: baseline">
+                        @if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <div class="row" style="color: red; font-size: 14px; font-weight: 600; margin: 0 50px">@Model.Message</div>
+                        }
+                    </div>
                 </div>
-            </div>
+            </form>
             <div class="row bg-white mt-3 rounded px-3 py-4">
                 <div class="col-12">
                     <h5 style="font-weight: bold">Thông tin sách</h5>
