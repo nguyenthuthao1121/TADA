@@ -24,6 +24,7 @@ public class BookDetailUserModel : PageModel
     public double ThreeStar;
     public double FourStar;
     public double FiveStar;
+    public double AverageStar;
     [BindProperty]
     public string Quantity { get; set; }
     [BindProperty]
@@ -51,6 +52,7 @@ public class BookDetailUserModel : PageModel
             ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
             FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
+            AverageStar = Math.Round(Book.AverageRating,1);
             if (!string.IsNullOrEmpty(Request.Query["message"])) Message = Request.Query["message"].ToString();
         }
         

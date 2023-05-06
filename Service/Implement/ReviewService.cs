@@ -20,5 +20,9 @@ namespace TADA.Service.Implement
         {
             return reviewRepository.GetReviewsByBookId(bookId);
         }
+        public int AddReview(ReviewDto reviewDto)
+        {
+            return reviewRepository.AddReview(reviewDto);
+        }
     }
 }

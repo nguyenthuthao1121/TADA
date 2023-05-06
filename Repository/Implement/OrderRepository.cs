@@ -32,7 +32,7 @@ public class OrderRepository : IOrderRepository
             CustomerId = order.CustomerId,
             StatusId = (int)order.StatusId,
             ShipFee=order.ShipFee,
-        }).OrderByDescending(order => order.Id).ToList();
+        }).OrderByDescending(order=>order.Id).ToList();
     }
     public List<OrderDto> GetAllOrders(string? search, int statusId, string sortBy)
     {

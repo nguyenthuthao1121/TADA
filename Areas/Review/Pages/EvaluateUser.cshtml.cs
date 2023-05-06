@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.NetworkInformation;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
+using TADA.Dto.Review;
 using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Service.Implement;
@@ -26,6 +27,10 @@ public class EvaluateUserModel : PageModel
 
     public OrderDto Order { get; set; }
     public List<OrderDetailDto> OrderDetails { get; set; }
+    [BindProperty]
+    public int Rating { get; set; } = 5;
+    [BindProperty]
+    public string Comment { get; set; }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return orderService.GetBookByOrderDetail(orderDetail);
@@ -51,5 +56,30 @@ public class EvaluateUserModel : PageModel
             OrderDetails=orderService.GetOrderDetailsByOrderId(orderId);
             
         }
+    }
+    public IActionResult OnPostAddReview(IFormFile imageFile, int? bookId, int? orderId)
+    {
+        Directory.CreateDirectory("wwwroot/img/books/book" + (int)bookId + "/reviews");
+        string imagePath = "wwwroot/img/books/book" + (int)bookId + "/reviews/review.jpg";
+        if (imageFile != null)
+        {
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                imageFile.CopyTo(fileStream);
+            }
+            imagePath = "~/img/books/book" + (int)bookId + "/reviews";
+        }
+        else imagePath = "";
+        reviewService.AddReview(new ReviewDto
+        {
+            Comment = Comment,
+            Rating = Rating,
+            DateReview = DateTime.Now,
+            Image = imagePath,
+            CustomerId = 1,
+            BookId = (int)bookId,
+        });
+        orderService.UpdateStatusOrder((int)orderId, 4);
+        return RedirectToPage("OrderListFillReview", new {area="Order"});
     }
 }

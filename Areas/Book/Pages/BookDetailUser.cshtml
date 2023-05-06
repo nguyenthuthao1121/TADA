@@ -72,29 +72,29 @@
                     <div class="row" style="margin-top: 4rem">
                         <div class="rating-star">
                             @{
-                                for (int i = 1; i <= (int)Model.Book.AverageRating; i++)
+                                for (int i = 1; i <= (int)Model.AverageStar; i++)
                                 {
                                     <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
                                 }
-                                if (Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.2)
+                                if ((Model.AverageStar - (int)Model.AverageStar) < 0.3)
                                 {
-                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.AverageStar; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
-                                else if (Model.Book.AverageRating - (int)Model.Book.AverageRating >= 0.3 && Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.7)
+                                else if ((Model.AverageStar - (int)Model.AverageStar) >= 0.3 && (Model.AverageStar - (int)Model.AverageStar) <= 0.7)
                                 {
                                     <span class="fa fa-star-half" style="color: #F6A500;"></span>
-                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.AverageStar - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
                                 else
                                 {
-                                    <span class="fas fa-star" style="color: #F6A500;"></span>
-                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
+                                    <span class="fas fa-star" style="color: #F6A500;font-weight: bold;"></span>
+                                    for (int i = 1; i <= 5 - (int)Model.AverageStar - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
@@ -193,33 +193,33 @@
                 <div class="col-12 px-3 d-flex">
                     <div class="rating-detail">
                         <div class="rating-number" style="text-align: center;">
-                            <span style="font-weight: bold; font-size: 4rem">@Model.Book.AverageRating</span>
+                            <span style="font-weight: bold; font-size: 4rem">@Model.AverageStar</span>
                             <span style="font-weight: bold; font-size: 3rem">/5</span>
                         </div>
                         <div class="rating-star" style="margin-top: -0.8rem; text-align: center;">
                             @{
-                                for(int i = 1; i <= (int)Model.Book.AverageRating; i++)
+                                for (int i = 1; i <= (int)Model.AverageStar; i++)
                                 {
                                     <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
                                 }
-                                if (Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.2)
+                                if (Model.AverageStar - (int)Model.AverageStar < 0.3)
                                 {
-                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.AverageStar; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
-                                else if (Model.Book.AverageRating - (int)Model.Book.AverageRating >= 0.3 && Model.Book.AverageRating - (int)Model.Book.AverageRating <= 0.7)
+                                else if (Model.AverageStar - (int)Model.AverageStar >= 0.3 && Model.AverageStar - (int)Model.AverageStar <= 0.7)
                                 {
                                     <span class="fa fa-star-half" style="color: #F6A500;"></span>
-                                    for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
+                                    for (int i = 1; i <= 5 - (int)Model.AverageStar - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
                                     }
                                 }
                                 else
                                 {
-                                    <span class="fas fa-star" style="color: #F6A500;"></span>
+                                    <span class="fas fa-star" style="color: #F6A500;font-weight: bold;"></span>
                                     for (int i = 1; i <= 5 - (int)Model.Book.AverageRating - 1; i++)
                                     {
                                         <span class="fas fa-star"></span>
