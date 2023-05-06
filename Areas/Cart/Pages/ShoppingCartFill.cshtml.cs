@@ -26,6 +26,10 @@ public class ShoppingCartFillModel : PageModel
     public List<bool> IsSelected { get; set; }
     [BindProperty(SupportsGet = true)]
     public int CountBookOfCart { get; set; }
+    [BindProperty]
+    public int NumOfOrder { get; set; } = 0;
+    [BindProperty]
+    public int SumOfOrder { get; set; } = 0;
 
     public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService, IOrderService orderService)
     {
@@ -38,6 +42,18 @@ public class ShoppingCartFillModel : PageModel
     {
         return cartService.GetBookByCartDetail(cartDetail);
     }
+    public string GetPriceString(int price)
+    {
+        string str = price.ToString();
+        string tmp = "";
+        while (str.Length > 3)
+        {
+            tmp = "." + str.Substring(str.Length - 3) + tmp;
+            str = str.Substring(0, str.Length - 3);
+        }
+        tmp = str + tmp;
+        return tmp;
+    }
 
     public void OnGet()
     {
@@ -47,6 +63,15 @@ public class ShoppingCartFillModel : PageModel
         for (int i=0;i<30;i++)
         {
             IsSelected.Add(false);
+        }
+        for(int i=0;i<CountBookOfCart;i++)
+        {
+            if (IsSelected[i])
+            {
+                var Book= bookService.GetBookById(CartDetails[i].BookId);
+                NumOfOrder += CartDetails[i].Quantity;
+                SumOfOrder += CartDetails[i].Quantity * Book.GetCurrentPrice();
+            }
         }
     }
 
