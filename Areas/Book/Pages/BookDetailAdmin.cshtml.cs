@@ -12,6 +12,9 @@ public class BookDetailAdminModel : PageModel
     private readonly IReviewService reviewService;
 
     public BookDto Book { get; set; }
+    [TempData]
+    public int BookId { get; set; }
+
     public List<ReviewDto> Reviews { get; set; }
 
     public double OneStar;
@@ -31,6 +34,7 @@ public class BookDetailAdminModel : PageModel
         if (int.TryParse(Request.Query["id"], out int bookId))
         {
             Book = bookService.GetBookById(bookId);
+            BookId = bookId;
             Reviews = reviewService.GetReviewsByBookId(bookId);
             int numberOfOneStar = reviewService.GetNumberOfStar(bookId, 1);
             int numberOfTwoStar = reviewService.GetNumberOfStar(bookId, 2);

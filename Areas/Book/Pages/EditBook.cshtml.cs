@@ -24,6 +24,8 @@ public class EditBookModel : PageModel
     public string DescriptionText { get; set; }
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
+    [TempData]
+    public string SuccessMsg { get; set; }
 
 
     public EditBookModel(IBookService bookService, IProviderService providerService, ICategoryService categoryService)
@@ -76,6 +78,11 @@ public class EditBookModel : PageModel
             }
         }
         bookService.UpdateBook(Book);
+        return RedirectToPage("./BookManagement");
+    }
+    public IActionResult OnPostCancelUpdate()
+    {
+        SuccessMsg = "Cập nhật thành công";
         return RedirectToPage("./BookManagement");
     }
 }

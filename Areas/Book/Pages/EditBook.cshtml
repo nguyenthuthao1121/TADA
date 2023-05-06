@@ -126,7 +126,7 @@
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label name="imageFile" class="form__label">Hình ảnh</label>
-                            <input class="form-control form__input" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
+                            <input class="form-control form__input" name="imageFile" id="imageFile" type="file" accept=".jpg">
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -143,7 +143,7 @@
                             <button type="submit" class="form-group form__btn" style="margin-right: 4px">
                                 CHỈNH SỬA
                             </button>
-                            <button class="form-group form__btn form__btn--cancel" style="margin-left: 4px">
+                            <button type="submit" asp-page-handler="CancelUpdate" class="form-group form__btn form__btn--cancel" style="margin-left: 4px">
                                 HỦY
                             </button>
                         </div>
@@ -154,5 +154,11 @@
     </div> 
 </div>
 @section scripts {
-        <partial name="_ValidationScriptsPartial" />        
+        <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        var message = '@Model.SuccessMsg';
+        if(message){
+            alert(message);
+        }
+    </script>
 }

@@ -22,10 +22,14 @@ public class StaffModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string Gender { get; set; }
     [BindProperty(SupportsGet = true)]
-    public string Status { get; set; }
+    public string SortBy { get; set; }
     [BindProperty(SupportsGet = true)]
-    public string SortBy { get; set; } = "New";
-    public string SortType { get; set; } = "Acs";
+
+    public string SortType { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string SearchQuery { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string Filter { get; set; }
 
     public StaffModel(IAccountService accountService, IStaffService staffService, IAddressService addressService, IRoleService roleService)
     {
@@ -44,7 +48,7 @@ public class StaffModel : PageModel
         {
             accountService.ChangeStatusOfAccount(AccountId);
         }
-        Staffs = staffService.GetAllStaffs();
+        Staffs = staffService.GetStaff(SearchQuery, Filter, SortBy, SortType);
         foreach (var staff in Staffs)
         {
             staff.Address = addressService.GetAddressById(staff.AddressId);

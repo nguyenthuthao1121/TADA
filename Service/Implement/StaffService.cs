@@ -36,4 +36,9 @@ public class StaffService : IStaffService
             RoleId = staff.RoleId
         });
     }
+
+    public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
+    {
+        return staffRepository.GetStaff(search, status, sortBy, sortType);
+    }
 }

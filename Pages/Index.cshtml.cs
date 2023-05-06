@@ -20,7 +20,7 @@ public class IndexModel : PageModel
 
     public const int ITEMS_PER_PAGE = 12;
     public int countPages { get; set; }
-    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    [BindProperty(SupportsGet = true, Name = "pageNumber")]
     public int currentPage { get; set; }
     public List<BookDto> Books { get; set; }
     public List<CategoryDto> Categories { get; set; }
@@ -32,11 +32,9 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string SortBy { get; set; } = "New";
     [BindProperty(SupportsGet = true)]
-    public string PriceRange { get; set; } = string.Empty;
+    public string PriceRange { get; set; } = "minint-maxint";
     [BindProperty(SupportsGet = true)]
-    public string Provider { get; set; } = string.Empty;
-    [BindProperty(SupportsGet = true)]
-    public string Genre { get; set; } = string.Empty;
+    public string Genre { get; set; } = "All";
 
     public IndexModel(IBookService bookService, ICategoryService categoryService, IAccountService accountService)
     {
