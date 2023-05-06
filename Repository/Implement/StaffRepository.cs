@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using TADA.Dto.Staff;
 using TADA.Model;
 using TADA.Model.Entity;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TADA.Repository.Implement;
 
@@ -60,5 +61,95 @@ public class StaffRepository : IStaffRepository
             RoleId = staff.RoleId
         });
         context.SaveChanges();
+    }
+
+    public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
+    {
+        var staff = GetAllStaffs();
+        if (string.IsNullOrEmpty(search))
+        {
+            switch (status)
+            {
+                case "true":
+                    staff = staff.Where(p => p.Status == true).ToList(); break;
+                case "false":
+                    staff = staff.Where(p => p.Status == false).ToList(); break;
+                default:
+                    break;
+            }
+            switch (sortType)
+            {
+                case "desc":
+                    switch (sortBy)
+                    {
+                        case "name":
+                            staff = staff.OrderByDescending(p => p.Name).ToList();
+                            break;
+                        case "status":
+                            staff = staff.OrderByDescending(p => p.Status).ToList();
+                            break;
+                        default:
+                            staff = staff.OrderByDescending(p => p.StaffId).ToList();
+                            break;
+                    }
+                    break;
+                default:
+                    switch (sortBy)
+                    {
+                        case "name":
+                            staff = staff.OrderBy(p => p.Name).ToList();
+                            break;
+                        case "status":
+                            staff = staff.OrderBy(p => p.Status).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            switch (status)
+            {
+                case "true":
+                    staff = staff.Where(p => p.Status == true && p.Name.Contains(search)).ToList(); break;
+                case "false":
+                    staff = staff.Where(p => p.Status == false && p.Name.Contains(search)).ToList(); break;
+                default:
+                    staff = staff.Where(p => p.Name.Contains(search)).ToList(); break;
+            }
+            switch (sortType)
+            {
+                case "desc":
+                    switch (sortBy)
+                    {
+                        case "name":
+                            staff = staff.OrderByDescending(p => p.Name).ToList();
+                            break;
+                        case "status":
+                            staff = staff.OrderByDescending(p => p.Status).ToList();
+                            break;
+                        default:
+                            staff = staff.OrderByDescending(p => p.StaffId).ToList();
+                            break;
+                    }
+                    break;
+                default:
+                    switch (sortBy)
+                    {
+                        case "name":
+                            staff = staff.OrderBy(p => p.Name).ToList();
+                            break;
+                        case "status":
+                            staff = staff.OrderBy(p => p.Status).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+            }
+        }
+        return staff;
     }
 }

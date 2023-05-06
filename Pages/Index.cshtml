@@ -7,21 +7,15 @@
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 @{
-    // xây dựng Func phát sinh Url từ page ./Index
-    Func<int?, int?, string> generateUrl = (int? _category, int? _pagenumber) =>
-                    {
-                        if (Model.Category == 0)
-                        {
-                            return Url.Page("./Index", new {pageNumber = _pagenumber});
-                        }
-                        return Url.Page("./Index", new { category = _category, pageNumber = _pagenumber });
-                    };
     var datapaging = new
     {
         currentPage = Model.currentPage,
         countPages = Model.countPages,
-        generateUrl = generateUrl,
-        category = Model.Category
+        category = Model.Category,
+        sortBy = Model.SortBy,
+        genre = Model.Genre,
+        searchQuery = Model.SearchQuery,
+        priceRange = Model.PriceRange
     };
 }
 <div class="container-fluid">
@@ -37,7 +31,7 @@
                         {
                             @if (category.Id == Model.Category)
                             {
-                                <a href="@Url.Content("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
+                                <a href="@Url.Page("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
 
                             }
                             else
@@ -82,6 +76,7 @@
                             <option value="Asc">Giá tăng dần</option>
                             <option value="Desc">Giá giảm dần</option>
                         </select>
+                        <input type="hidden" name="pageNumber" value="@Model.currentPage"/>
                     </form>
                     <form method="get" class ="form-group d-flex justify-content-end">
                             <label for="filter" class="form-label" style="width: 64px">
@@ -102,6 +97,7 @@
                             <option value="50000,100000">50000 - 100000</option>
                             <option value="100000,1000000">Trên 100000</option>
                         </select>
+                            <input type="hidden" name="pageNumber" value="@Model.currentPage">
                             <button type="submit" class="btn" style="width: 80px">Lọc</button>
                             <button type="button" class="btn btn-delete-filter">Xoá bộ lọc</button>
                     </form>

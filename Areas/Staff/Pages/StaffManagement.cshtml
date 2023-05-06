@@ -14,20 +14,30 @@
                 <span class="filter-search-heading">Lọc theo :</span>
                 <div class="filter-search-feature">
                     <div class="filter-feature">
-                        <select class="select-filter filter-feature-item" name="filter-by-status" id="filter-by-status">
-                            <option value="Trạng thái: Tất cả">Trạng thái: Tất cả</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                        <form method="get">
+                            <input type="hidden" name="q" value="@Model.SearchQuery" />
+                            <select class="select-filter filter-feature-item" asp-for="Filter">
+                            <option value="all">Trạng thái: Tất cả</option>
+                            <option value="true">Active</option>
+                            <option value="false">Blocked</option>
                         </select>
-                        <button class="feature-btn filter-feature-item">
+                            <input type="hidden" name="SortBy" value="@Model.SortBy" />
+                            <input type="hidden" name="SortType" value="@Model.SortType" />
+                        <button class="feature-btn filter-feature-item" type="submit">
                             Lọc
                         </button>
+                        </form>
                     </div>
                     <div class="search-feature">
-                        <input type="text" class="search-feature-input" placeholder="Tìm kiếm admin">
-                        <button class="feature-btn">
-                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
-                        </button>
+                        <form method="get">
+                            <input class="search-feature-input" placeholder="Tìm kiếm admin" asp-for="SearchQuery">
+                            <input type="hidden" name="Filter" value="@Model.Filter" />
+                            <input type="hidden" name="SortBy" value="@Model.SortBy" />
+                            <input type="hidden" name="SortType" value="@Model.SortType" />
+                            <button class="feature-btn" type="submit">
+                                <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -35,18 +45,22 @@
                 <span class="sort-heading">Sắp xếp theo :</span>
                 <div class="sort-feature">
                     <div class="sort-feature-item">
-                        <select class="sort-by" name="sort-by" id="sort-by">
-                            <option value="Tên">Tên</option>
-                            <option value="Email">Email</option>
-                            <option value="Trạng thái">Trạng thái</option>
-                        </select>
-                        <select class="sort-type" name="sort-type" id="sort-type">
-                            <option value="Tăng dần">Tăng dần</option>
-                            <option value="Giảm dần">Giảm dần</option>
-                        </select>
-                        <button class="feature-btn">
-                            Sắp xếp
-                        </button>
+                        <form method="get">
+                            <input type="hidden" name="SearchQuery" value="@Model.SearchQuery" />
+                            <input type="hidden" name="Filter" value="@Model.Filter" />
+                            <select class="sort-by" asp-for="SortBy">
+                                <option value="">Thuộc tính:</option>
+                                <option value="name">Tên</option>
+                                <option value="status">Trạng thái</option>
+                            </select>
+                            <select class="sort-type" asp-for="SortType">
+                                <option value="asc">Tăng dần</option>
+                                <option value="desc">Giảm dần</option>
+                            </select>
+                            <button class="feature-btn" type="submit">
+                                Sắp xếp
+                            </button>
+                        </form>
                     </div>
                 </div>
 
