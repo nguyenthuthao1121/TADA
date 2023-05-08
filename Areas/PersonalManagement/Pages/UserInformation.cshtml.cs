@@ -88,10 +88,6 @@ public class UserInformationModel : PageModel
     }
     public IActionResult OnPostChangePassword()
     {
-        if (NewPassword == null)
-        {
-            return RedirectToPage("Index");
-        }
         accountService.ChangePassword(Convert.ToInt32(HttpContext.Session.GetInt32("Id")), NewPassword);
         return RedirectToPage("./UserInformation");
     }

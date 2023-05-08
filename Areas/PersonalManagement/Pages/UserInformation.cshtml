@@ -180,13 +180,13 @@
                             <select asp-for="Customer.Gender" class="form-select custom-select">
                                 @if (Model.Gender == "Nam")
                                 {
-                                    <option value="1" selected>Nam</option>
-                                    <option value="0">Nữ</option>
+                                    <option value="true" selected>Nam</option>
+                                    <option value="false">Nữ</option>
                                 }
                                 else
                                 {
-                                    <option value="1">Nam</option>
-                                    <option value="0" selected>Nữ</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false" selected>Nữ</option>
                                 }
                             </select>
                         </div>

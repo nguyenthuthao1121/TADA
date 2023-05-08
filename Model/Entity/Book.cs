@@ -49,6 +49,8 @@ namespace TADA.Model.Entity
         [Column(TypeName = "varchar")]
         public string Image { get; set; }
         public int Promotion { get; set; }
+        public bool Hidden { get; set; }
+
 
         public int CategoryId { get; set; }
 
@@ -61,6 +63,5 @@ namespace TADA.Model.Entity
         public List<OrderDetail> OrderDetails { get; } = new();
         public List<CartDetail> CartDetails { get; } = new();
         public List<Review> Reviews { get; set; }
-
     }
 }
