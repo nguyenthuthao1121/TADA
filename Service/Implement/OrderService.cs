@@ -193,8 +193,8 @@ namespace TADA.Service.Implement
         }
         public List<RecentlyOrderDto> GetRecentlyOrders(int count)
         {
-            List<OrderDto> orderDtos = orderRepository.GetAllOrders().TakeLast(count).ToList();
-            orderDtos.Reverse();
+            List<OrderDto> orderDtos = orderRepository.GetAllOrders().Take(count).ToList();
+            //orderDtos.Reverse();
             List<RecentlyOrderDto> orders = new List<RecentlyOrderDto>();
             foreach(var order in orderDtos)
             {

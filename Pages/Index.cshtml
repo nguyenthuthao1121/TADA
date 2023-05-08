@@ -123,31 +123,32 @@
                                         <div style="height: 24px"></div>
                                     }
                                 }
-                               <div class="card-rating mt-1">
+                                <div class="card-rating mt-1">
                                     @{
-                                        for (int i = 1; i <= (int)book.AverageRating; i++)
+                                        var average = Math.Round(book.AverageRating,1);
+                                        for (int i = 1; i <= (int)average; i++)
                                         {
                                             <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
                                         }
-                                        if (book.AverageRating - (int)book.AverageRating <= 0.2)
+                                        if (average - (int)average < 0.3)
                                         {
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating; i++)
+                                            for (int i = 1; i <= 5 - (int)average; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }
                                         }
-                                        else if (book.AverageRating - (int)book.AverageRating >= 0.3 && book.AverageRating - (int)book.AverageRating <= 0.7)
+                                        else if (average - (int)average >= 0.3 && average - (int)average <= 0.7)
                                         {
                                             <span class="fa fa-star-half" style="color: #F6A500;"></span>
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            for (int i = 1; i <= 5 - (int)average - 1; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }
                                         }
                                         else
                                         {
-                                            <span class="fas fa-star" style="color: #F6A500;"></span>
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            <span class="fas fa-star" style="color: #F6A500;font-weight: bold;"></span>
+                                            for (int i = 1; i <= 5 - (int)average - 1; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }
