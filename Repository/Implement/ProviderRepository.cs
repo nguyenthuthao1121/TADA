@@ -24,6 +24,19 @@ public class ProviderRepository : IProviderRepository
             AddressId = provider.AddressId
         }).ToList();
     }
+    public List<ProviderDto> GetProviders(string search)
+    {
+        if (string.IsNullOrEmpty(search))
+        {
+            return GetAllProviders();
+        }
+        return context.Providers.Where(p => p.Name.Contains(search)).Select(provider => new ProviderDto
+        {
+            Id = provider.Id,
+            Name = provider.Name,
+            AddressId = provider.AddressId
+        }).ToList();
+    }
     public Provider GetProviderByName(string providerName)
     {
         return context.Providers.Where(provider => provider.Name == providerName).FirstOrDefault();

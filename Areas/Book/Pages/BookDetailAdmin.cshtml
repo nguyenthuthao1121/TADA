@@ -19,13 +19,14 @@
         }
     }
     var imgPath = Model.Book.Image + "/cover.jpg";
+    var reviewImg = "/img/books/book" + Model.Book.Id + "/reviews/review.jpg";
 }
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="row bg-white px-3 py-4 mt-3" style="margin: 10px; border-radius: 8px">
             <div class="col-5">
                     <div class="book-image" style="border: 0.5px solid #CCCCCC; display: flex; justify-content:center">
-                        <img src="@Url.Content(imgPath)" alt="Book image" style="width: 100%; border: 0.5px">
+                        <img src="@Url.Content(imgPath)" alt="Book image"  class="book-img" style="width: 100%; border: 0.5px; cursor: pointer">
                     </div>
                 <div class="row mt-3">
                     <div class="col">
@@ -233,7 +234,7 @@
             @{
                 foreach (var review in Model.Reviews)
                 {
-                    <div class="col-12 d-flex rounded px-3 py-3 align-items-center mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
+                    <div class="col-12 d-flex rounded px-3 py-3 mt-4" style="background-color: rgba(30, 144, 255, 0.1)">
                         @{
                             string[] customerName = review.CustomerName.Split(" ");
                             if (customerName.Count() >= 2)
@@ -275,6 +276,7 @@
                             <div class="user-comment">
                                 @review.Comment
                             </div>
+                            <img class="comment-img mt-2" src="@reviewImg">
                         </div>
                     </div>
                 }
@@ -282,3 +284,29 @@
         </div>
     </div> 
 </div>
+<div id="my-modal" class="modal">
+    <span class="close">&times</span>
+    <img class="modal-content" />
+</div>
+@section scripts{
+    <script>
+        var modal = document.getElementById("my-modal");
+        const img = document.querySelectorAll(".comment-img");
+        const modalImg = document.querySelector(".modal-content");
+        for (let i = 0; i < img.length; i++) {
+            img[i].addEventListener("click", () => {
+                modal.style.display = "block";
+                modalImg.src = img[i].src;
+            });
+        }
+        var closeBtn = document.querySelector(".close");
+        closeBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+        var bookImg = document.querySelector(".book-img");
+        bookImg.addEventListener("click", () => {
+            modal.style.display = "block";
+            modalImg.src = bookImg.src;
+        });
+    </script>
+}

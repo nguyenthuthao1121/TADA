@@ -6,13 +6,20 @@
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml"; 
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Order/OrderManagement/?Province=" + Model.Province + "&PriceRange=" + Model.PriceRange + "&StatusId=" + Model.StatusId + "&SortBy=" + Model.SortBy
+    };
+}
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <form method="get" class="feature">
             <div class="feature-item filter-search">
                 <div class="filter-search-feature filter-search-container">
-                    <divclass="filter">
+                    <div class="filter">
                         <span class="filter-search-heading" style="margin-right: 8px">Lọc theo :</span>
                         <div class="filter-feature">
                             <select class="select-filter filter-feature-item" name="Province" id="filter-by-province" asp-for="Province">
@@ -43,13 +50,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="search-feature" style="margin-left: 0; margin-bottom: 4px">
-                        <input type="text" class="search-feature-input" name="q" placeholder="Tìm kiếm đơn hàng theo mã">
-                        <button class="feature-btn">
-                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
                 </div>
+            </div>
             <div class="feature-item sort">
                 <span class="sort-heading">Sắp xếp theo :</span>
                 <div class="sort-feature">
@@ -133,31 +135,7 @@
                 </table>
             </div>
             <div class="pagination-container">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Trang trước</a> 
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <partial name="_PagingAdmin" model="datapaging" />
             </div>
         </div>
 

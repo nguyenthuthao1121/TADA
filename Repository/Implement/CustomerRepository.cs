@@ -68,111 +68,13 @@ namespace TADA.Repository.Implement
                 AddressId = customer.AddressId,
             };
         }
-        public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
+        public List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType)
         {
-/*            switch (gender)
-            {
-                case "Male":
-                    {
-                        switch (status)
-                        {
-                            case "Active":
-                                return context.Customers.Where(customer => customer.Gender == true)
-                                        .Join(context.Accounts.Where(account => account.Status == true),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            case "Blocked":
-                                return context.Customers.Where(customer => customer.Gender == true)
-                                        .Join(context.Accounts.Where(account => account.Status == false),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            default:
-                                return context.Customers.Where(customer => customer.Gender == true)
-                                        .Join(context.Accounts,
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                        }
-                    }
-                case "Female":
-                    {
-                        switch (status)
-                        {
-                            case "Active":
-                                return context.Customers.Where(customer => customer.Gender == false)
-                                        .Join(context.Accounts.Where(account => account.Status == true),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            case "Blocked":
-                                return context.Customers.Where(customer => customer.Gender == false)
-                                        .Join(context.Accounts.Where(account => account.Status == false),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            default:
-                                return context.Customers.Where(customer => customer.Gender == false)
-                                        .Join(context.Accounts,
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                        }
-                    }
-                default:
-                    {
-                        switch (status)
-                        {
-                            case "Active":
-                                return context.Customers
-                                        .Join(context.Accounts.Where(account => account.Status == true),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            case "Blocked":
-                                return context.Customers
-                                        .Join(context.Accounts.Where(account => account.Status == false),
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                            default:
-                                return context.Customers
-                                        .Join(context.Accounts,
-                                        customer => customer.AccountId,
-                                        account => account.Id,
-                                        (customer, account) => new CustomerDto(
-                                            account.Id, account.Email, account.Password, account.CreateDate, account.Status,
-                                            customer.Id, customer.Name, customer.Birthday, customer.Gender, customer.TelephoneNumber, addressRepository.GetAddressById(customer.AddressId)
-                                            )).ToList();
-                        }
-                    }
-            }*/
             var customers = GetAllCustomers();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                customers = customers.Where(p => p.Name.Contains(search)).ToList();
+            }
             switch (gender)
             {
                 case "Male": customers = customers.Where(customer => customer.Gender == true).ToList(); break;
@@ -189,7 +91,6 @@ namespace TADA.Repository.Implement
             {
                 case "Name": customers = customers.OrderBy(customer => customer.Name).ToList(); break;
                 case "Email": customers = customers.OrderBy(customer => customer.Email).ToList(); break;
-                case "Address": customers = customers.OrderBy(customer => customer.Address).ToList(); break;
                 default: break;
             }
             if (sortType == "Desc")

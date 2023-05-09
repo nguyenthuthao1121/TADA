@@ -56,4 +56,20 @@ public class CategoryService : ICategoryService
             return false;
         }
     }
+
+    public List<CategoryDto> GetCategories(string search, string sortBy, string sortType)
+    {
+        var categories = categoryRepository.GetCategories(search, sortBy, sortType);
+        var listCategories = new List<CategoryDto>();
+        foreach (var category in categories)
+        {
+            listCategories.Add(new CategoryDto()
+            {
+                Id = category.Id,
+                Name = category.Name,
+                NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
+            });
+        }
+        return listCategories;
+    }
 }
