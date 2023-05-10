@@ -12,8 +12,8 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230508103601_init db")]
-    partial class initdb
+    [Migration("20230510144641_final")]
+    partial class final
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,53 @@ namespace TADA.Migrations
                     b.HasIndex("WardId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.Bill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTrade")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<int?>("ProviderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Bills");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.BillDetail", b =>
+                {
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CostPrice")
+                        .HasColumnType("money");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BillId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BillDetail");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
@@ -303,6 +350,9 @@ namespace TADA.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("char");
 
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
@@ -394,7 +444,7 @@ namespace TADA.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateReview")
@@ -404,6 +454,9 @@ namespace TADA.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -412,6 +465,8 @@ namespace TADA.Migrations
                     b.HasIndex("BookId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Reviews");
                 });
@@ -525,6 +580,35 @@ namespace TADA.Migrations
                         .IsRequired();
 
                     b.Navigation("Ward");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.Bill", b =>
+                {
+                    b.HasOne("TADA.Model.Entity.Provider", "Provider")
+                        .WithMany("Bills")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("TADA.Model.Entity.BillDetail", b =>
+                {
+                    b.HasOne("TADA.Model.Entity.Bill", "Bill")
+                        .WithMany("BillDetails")
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TADA.Model.Entity.Book", "Book")
+                        .WithMany("BillDetails")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Bill");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
@@ -668,15 +752,20 @@ namespace TADA.Migrations
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TADA.Model.Entity.Customer", "Customer")
+                    b.HasOne("TADA.Model.Entity.Customer", null)
                         .WithMany("Reviews")
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TADA.Model.Entity.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Book");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Staff", b =>
@@ -715,8 +804,15 @@ namespace TADA.Migrations
                     b.Navigation("District");
                 });
 
+            modelBuilder.Entity("TADA.Model.Entity.Bill", b =>
+                {
+                    b.Navigation("BillDetails");
+                });
+
             modelBuilder.Entity("TADA.Model.Entity.Book", b =>
                 {
+                    b.Navigation("BillDetails");
+
                     b.Navigation("CartDetails");
 
                     b.Navigation("OrderDetails");
@@ -753,6 +849,8 @@ namespace TADA.Migrations
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>
                 {
+                    b.Navigation("Bills");
+
                     b.Navigation("Books");
                 });
 
