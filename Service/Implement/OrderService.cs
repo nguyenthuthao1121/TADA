@@ -17,12 +17,14 @@ namespace TADA.Service.Implement
         private readonly IAddressRepository addressRepository;
         private readonly IBookRepository bookRepository;
         private readonly ICustomerRepository customerRepository;
-        public OrderService(IOrderRepository orderRepository, IAddressRepository addressRepository, IBookRepository bookRepository, ICustomerRepository customerRepository)
+        private readonly IStatusRepository statusRepository; 
+        public OrderService(IOrderRepository orderRepository, IAddressRepository addressRepository, IBookRepository bookRepository, ICustomerRepository customerRepository, IStatusRepository statusRepository)
         {
             this.orderRepository = orderRepository;
             this.addressRepository = addressRepository;
             this.bookRepository = bookRepository;
             this.customerRepository = customerRepository;
+            this.statusRepository = statusRepository;
         }
 
         public List<OrderDto> GetAllOrders()
@@ -71,7 +73,7 @@ namespace TADA.Service.Implement
         {
             return orderRepository.GetOrderDetail(orderId, bookId);
         }
-        public List<OrderManagementDto> GetAllOrdersForManagement(string? search,string province, string priceRange, int statusId, string sortBy)
+        public List<OrderManagementDto> GetAllOrdersForManagement(string province, string priceRange, int statusId, string sortBy)
         {
             int min = 0;
             int max = int.MaxValue;
@@ -180,6 +182,7 @@ namespace TADA.Service.Implement
                     {
                         Id = order.Id,
                         DateOrder = order.DateOrder,
+                        UpdateDate = order.UpdateDate,
                         Address = addressRepository.GetAddressById((int)order.AddressId),
                         TelephoneNumber = order.TelephoneNumber,
                         Price = sum + order.ShipFee,
@@ -220,6 +223,7 @@ namespace TADA.Service.Implement
             }
             return revuene;
         }
+
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
@@ -258,7 +262,7 @@ namespace TADA.Service.Implement
         public void AddOrder(int accountId, List<OrderDetailDto> orderDetails)
         {
             orderRepository.AddOrder(accountId);
-            var order = orderRepository.GetOrdersByAccountId(accountId, 6).FirstOrDefault();
+            var order = orderRepository.GetOrdersByAccountId(accountId, statusRepository.IdForUserConfirm()).FirstOrDefault();
             foreach(var orderDetail in orderDetails)
             {
                 orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
@@ -277,6 +281,24 @@ namespace TADA.Service.Implement
             orderRepository.DeleteOrderDetail(bookId, orderId);
         }
 
+        public int GetNumOfSoldBooks()
+        {
+            int numOfSoldBooks = 0;
+            var orders = orderRepository.GetOrderGroupByBookId();
+            foreach (var order in orders)
+            {
+                numOfSoldBooks += order.Quantity;
+            }
+            return numOfSoldBooks;
+        }
+        public int GetNumOfOrders()
+        {
+            return orderRepository.GetConfirmedOrderIds().Count;
+        }
+        public int GetNumOfOrdersByYear(int year)
+        {
+            return orderRepository.GetConfirmedOrderIdsByYear(year).Count;
+        }
         private int CalculateShipping(int orderId)
         {
             var order=orderRepository.GetOrderById(orderId);

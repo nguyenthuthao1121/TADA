@@ -19,7 +19,7 @@ public class OrderListFillCancelModel : PageModel
     public string Username;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
-    public int statusId = 5;
+    public int statusId = 6;
 
     public OrderListFillCancelModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
@@ -39,7 +39,7 @@ public class OrderListFillCancelModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus(int statusId)
+    public int GetOrderCountByStatus()
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }

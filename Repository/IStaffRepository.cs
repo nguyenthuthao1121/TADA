@@ -10,6 +10,7 @@ namespace TADA.Repository
         List<StaffDto> GetStaff(string status, string sortBy, string sortType);
         StaffDto GetStaffDtoByAccountId(int accountId);
         void AddStaff(AddStaffDto staff);
+        List<int> GetStaffsByYear(int year);
         void UpdateStaff(StaffDto staff);
     }
 }

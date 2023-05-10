@@ -21,6 +21,7 @@ public class OrderListFillAllModel : PageModel
     public int currentPage { get; set; }
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
+    public int statusId = 0;
 
     public OrderListFillAllModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
@@ -40,7 +41,7 @@ public class OrderListFillAllModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus(int statusId)
+    public int GetOrderCountByStatus()
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }

@@ -23,6 +23,6 @@ namespace TADA.Model.Entity
         [ForeignKey("AddressId")]
         public Address Address { get; set; }
         public List<Book> Books { get; set; }
-
+        public List<Bill> Bills { get; set; }
     }
 }

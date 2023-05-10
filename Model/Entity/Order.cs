@@ -15,6 +15,8 @@ namespace TADA.Model.Entity
 
         [Column(TypeName = "datetime")]
         public DateTime DateOrder { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime UpdateDate { get; set; }
         [Column(TypeName = "money")]
         public int ShipFee { get; set; }
 

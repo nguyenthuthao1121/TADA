@@ -5,6 +5,7 @@ using System;
 using System.Web;
 using TADA.Dto.Address;
 using TADA.Dto.Order;
+using TADA.Dto.Status;
 using TADA.Middleware;
 using TADA.Model.Entity;
 using TADA.Service;
@@ -16,13 +17,15 @@ public class OrderManagementModel : PageModel
 {
     private readonly IOrderService orderService;
     private readonly IAddressService addressService;
-    public const int ITEMS_PER_PAGE = 2;
+    private readonly IStatusService statusService;
+    public const int ITEMS_PER_PAGE = 10;
     public int countPages { get; set; }
     [BindProperty(SupportsGet = true, Name = "pagenumber")]
     public int currentPage { get; set; }
     public List<OrderManagementDto> Orders { get; set; }
     public int UserId { get; set; }
     public List<ProvinceDto> Provinces { get; set; }
+    public List<StatusDto> Statuses { get; set; }
 
     [BindProperty(SupportsGet = true)]
     public string SortBy { get; set; } = "Desc";
@@ -33,10 +36,11 @@ public class OrderManagementModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string StatusId { get; set; } = "0";
 
-    public OrderManagementModel(IOrderService orderService, IAddressService addressService)
+    public OrderManagementModel(IOrderService orderService, IAddressService addressService, IStatusService statusService)
     {
         this.orderService = orderService;
         this.addressService = addressService;
+        this.statusService = statusService;
     }
 
     public void OnGet()
@@ -57,6 +61,7 @@ public class OrderManagementModel : PageModel
             currentPage = countPages;
         }
         Orders = orders.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
+        Statuses = statusService.GetStatuses();
     }
     public IActionResult OnPostViewOrderByUser(int? id)
     {

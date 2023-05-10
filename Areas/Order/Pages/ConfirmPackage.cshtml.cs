@@ -45,7 +45,7 @@ public class ConfirmPackageModel : PageModel
 
     [BindProperty]
     public string Street { get; set; }  
-    public int StatusId = 6;
+    public int StatusId = 7;
     public bool IsFromCart { get; set; }
 
     public ConfirmPackageModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService,ICustomerService customerService, ICartService cartService)

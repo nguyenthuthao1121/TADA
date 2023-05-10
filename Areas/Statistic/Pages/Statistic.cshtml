@@ -1,0 +1,152 @@
+﻿@page
+@model StatisticModel
+@using TADA.Model.Entity
+@{
+    ViewData["Title"] = "Thống kê";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Name = HttpContext.Session.GetString("Name");
+}
+<div class="row">
+    <div class="col-10 m-0 p-0 content">
+        <div class="statistic__item-list">
+            <div class="statistic__item">
+                <i class="fa-solid fa-users"></i>
+                <div class="statistic__info">
+                    <p>Số khách hàng</p>
+                    <p>@Model.NumOfCustomers</p>
+                </div>
+            </div>
+            <div class="statistic__item">
+                <i class="fa-solid fa-user-group"></i>
+                <div class="statistic__info">
+                    <p>Số nhân viên</p>
+                    <p>@Model.NumOfStaffs</p>
+                </div>
+            </div>
+            <div class="statistic__item">
+                <i class="fa-solid fa-book"></i>
+                <div class="statistic__info">
+                    <p>Số sách đã bán</p>
+                    <p>@Model.NumOfBooks</p>
+                </div>
+            </div>
+            <div class="statistic__item">
+                <i class="fa-sharp fa-solid fa-clipboard-list"></i>
+                <div class="statistic__info">
+                    <p>Số đơn hàng</p>
+                    <p>@Model.NumOfOrders</p>
+                </div>
+            </div>
+        </div>
+        <div class="statistic__chart">
+            <div class="row p-0 m-0" style="height: 100%">
+                <div class="col-9" style="background-color: white; border-radius: 8px">
+                    <div class="statistic__chart-heading">
+                        <h1>Thống kê doanh thu</h1>
+                        <div class="years">
+                            <span>Năm</span>
+                            <select class="select-years" name="years" id="years" style="width: 120px; text-align: center">
+                                <option value="0">Select Year</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div  id="chartDiv" class="statistic__chart-content">
+                        <canvas id="chartRevuene"></canvas>
+                    </div>
+                </div>
+                <div class="col-3" style="height: 100%">
+                    <div class="statistic__chart-item">
+                        <div class="statistic__info">
+                            <p>Doanh thu năm hiện tại</p>
+                            <p class="statistic__info-data">0</p>
+                        </div>
+                    </div>
+                    <div class="statistic__chart-item">
+                        <div class="statistic__info">
+                            <p>Doanh thu năm trước</p>
+                            <p class="statistic__info-data">0</p>
+                        </div>
+                    </div>
+                    <div class="statistic__chart-item">
+                        <div class="statistic__info">
+                            <p>Số đơn hàng trong năm</p>
+                            <p class="statistic__info-data">0</p>
+                        </div>
+                    </div>
+                    <div class="statistic__chart-item">
+                        <div class="statistic__info">
+                            <p>Số khách hàng mới trong năm</p>
+                            <p class="statistic__info-data">0</p>
+                        </div>
+                    </div>
+                    <div class="statistic__chart-item">
+                        <div class="statistic__info">
+                            <p>Số nhân viên mới trong năm</p>
+                            <p class="statistic__info-data">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script>
+        $('#years').on('change', function() {
+            var year = $(this).val();
+            $.get('/Statistic/Statistic?handler=ReportByYear&year=' + year, function (resp) {
+                RegisterChartRevuene(resp);
+            })
+        });
+
+        function RegisterChartRevuene(lsData) {
+            document.getElementById('chartRevuene').remove();
+            const chartDiv = document.getElementById('chartDiv');
+            const canvas = document.createElement('canvas');
+            canvas.id = 'chartRevuene';
+            chartDiv.appendChild(canvas);
+
+            var lsRevueneInMonths = lsData.slice(0, 12);
+            var ctx = document.getElementById('chartRevuene');
+
+            var barChartData = {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    borderWidth: 1,
+                    data: lsRevueneInMonths
+                }]
+            };
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData
+            });
+
+            function GetPriceString(price)
+            {
+                var str = price.toString();
+                var tmp = "";
+                while (str.length > 3) {
+                    tmp = "." + str.substring(str.length - 3) + tmp;
+                    str = str.substring(0, str.length - 3);
+                }
+                tmp = str + tmp;
+                console.log(tmp);
+                return tmp;
+            }
+
+            const listRevuene = document.getElementsByClassName('statistic__info-data');
+            listRevuene[0].innerHTML = GetPriceString(parseInt(lsData[12]));
+            listRevuene[1].innerHTML = GetPriceString(parseInt(lsData[13]));
+            listRevuene[2].innerHTML = GetPriceString(parseInt(lsData[14]));
+            listRevuene[3].innerHTML = GetPriceString(parseInt(lsData[15]));
+            listRevuene[4].innerHTML = GetPriceString(parseInt(lsData[16]));
+        }
+    </script>
+}

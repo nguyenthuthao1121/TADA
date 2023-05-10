@@ -64,6 +64,10 @@ public class StaffRepository : IStaffRepository
         });
         context.SaveChanges();
     }
+    public List<int> GetStaffsByYear(int year)
+    {
+        return context.Accounts.Where(account => account.CreateDate.Year == year).Join(context.Staff, account => account.Id, staff => staff.AccountId, (account, staff) => staff.Id).ToList();
+    }
 
     public List<StaffDto> GetStaff(string status, string sortBy, string sortType)
     {

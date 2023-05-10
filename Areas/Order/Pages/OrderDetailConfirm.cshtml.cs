@@ -16,6 +16,7 @@ public class OrderDetailConfirmModel : PageModel
     private readonly IBookService bookService;
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
+    private readonly IReviewService reviewService;
 
     public string Username;
     public OrderDto Order { get; set; } = null;
@@ -29,13 +30,14 @@ public class OrderDetailConfirmModel : PageModel
         while (status[status.Length-1]==' ') status=status.Substring(0,status.Length-1);
         return status;
     }
-    public OrderDetailConfirmModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService, ICustomerService customerService)
+    public OrderDetailConfirmModel(IOrderService orderService, IAccountService accountService, IBookService bookService, IAddressService addressService, ICustomerService customerService, IReviewService reviewService)
     {
         this.orderService = orderService;
         this.accountService = accountService;
         this.bookService = bookService;
         this.addressService = addressService;
         this.customerService = customerService;
+        this.reviewService = reviewService;
     }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
@@ -74,7 +76,11 @@ public class OrderDetailConfirmModel : PageModel
     {
         return addressService.GetAddressByIdAndPart(Customer.AddressId, part);
     }
-
+    public bool BookIsReviewed(int orderId, int bookId)
+    {
+        if(reviewService.GetReview(orderId, bookId)!=null) return true;
+        return false;
+    }
     public void OnGet()
     {
         if (int.TryParse(Request.Query["id"], out int orderId))
@@ -91,7 +97,7 @@ public class OrderDetailConfirmModel : PageModel
     }
     public IActionResult OnPostCancleOrder(int? id)
     {
-        orderService.UpdateStatusOrder((int)id, 5);
-        return RedirectToPage("OrderListFillAll", new {area="Order"});
+        orderService.UpdateStatusOrder((int)id, 6);
+        return RedirectToPage("OrderListFillCancel", new {area="Order"});
     }
 }

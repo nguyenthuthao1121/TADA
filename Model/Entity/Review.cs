@@ -20,10 +20,10 @@ namespace TADA.Model.Entity
         [StringLength(255)]
         [Column(TypeName = "varchar")]
         public string Image { get; set; }
-        public int CustomerId { get; set; }
+        public int OrderId { get; set; }
 
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
         public int? BookId { get; set; }
 
         [ForeignKey("BookId")]

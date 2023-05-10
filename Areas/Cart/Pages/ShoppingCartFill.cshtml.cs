@@ -19,6 +19,7 @@ public class ShoppingCartFillModel : PageModel
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
     private readonly IOrderService orderService;
+    private readonly IStatusService statusService;
 
     [BindProperty(SupportsGet = true)]
     public List<CartDetailDto> CartDetails { get; set; }
@@ -31,12 +32,13 @@ public class ShoppingCartFillModel : PageModel
     [BindProperty]
     public int SumOfOrder { get; set; } = 0;
 
-    public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService, IOrderService orderService)
+    public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService, IOrderService orderService, IStatusService statusService)
     {
         this.cartService = cartService;
         this.accountService = accountService;
         this.bookService = bookService;
         this.orderService = orderService;
+        this.statusService = statusService;
     }
     public BookDto GetBookByCartDetail(CartDetailDto cartDetail)
     {
@@ -79,7 +81,7 @@ public class ShoppingCartFillModel : PageModel
     public IActionResult OnPostOrderNow()
     {
         var details= cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id"));
-        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), 6);
+        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusService.IdForUserConfirm());
         if (orders != null)
         {
             foreach (var order in orders)

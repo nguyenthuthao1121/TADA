@@ -94,4 +94,8 @@
     <UpToDateCheckInput Remove="Areas\Privacy.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\cdnjs\chart.min.js" />
+  </ItemGroup>
+
 </Project>

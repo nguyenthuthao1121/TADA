@@ -31,6 +31,7 @@ public class EvaluateUserModel : PageModel
     public int Rating { get; set; } = 5;
     [BindProperty]
     public string Comment { get; set; }
+    public bool IsReviewing { get; set; }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return orderService.GetBookByOrderDetail(orderDetail);
@@ -48,13 +49,18 @@ public class EvaluateUserModel : PageModel
     {
         return SumPriceOfBooks() + Order.ShipFee;
     }
+    public ReviewDto GetBookReviewed(int orderId, int bookId)
+    {
+        return reviewService.GetReview(orderId, bookId);
+    }
     public void OnGet()
     {
         if (int.TryParse(Request.Query["id"], out int orderId))
         {
             Order=orderService.GetOrderById(orderId);
             OrderDetails=orderService.GetOrderDetailsByOrderId(orderId);
-            
+            if (!string.IsNullOrEmpty(Request.Query["message"])) IsReviewing = true;
+            else IsReviewing = false;
         }
     }
     public IActionResult OnPostAddReview(IFormFile imageFile, int? bookId, int? orderId)
@@ -76,10 +82,15 @@ public class EvaluateUserModel : PageModel
             Rating = Rating,
             DateReview = DateTime.Now,
             Image = imagePath,
-            CustomerId = 1,
+            OrderId = (int)orderId,
             BookId = (int)bookId,
         });
-        orderService.UpdateStatusOrder((int)orderId, 4);
-        return RedirectToPage("OrderListFillReview", new {area="Order"});
+        if (reviewService.OrderIsReviewed((int)orderId))
+        {
+            orderService.UpdateStatusOrder((int)orderId, 5);
+            return RedirectToPage("OrderListFillDone", new { area = "Order" });
+
+        }
+        else return RedirectToPage("/EvaluateUser", new {id= (int)orderId, message = "IsReviewing" });
     }
 }

@@ -38,7 +38,14 @@ public class StaffService : IStaffService
             RoleId = staff.RoleId
         });
     }
-
+    public int GetNumOfStaffs()
+    {
+        return staffRepository.GetAllStaffs().Count;
+    }
+    public int GetNumOfStaffsByYear(int year)
+    {
+        return staffRepository.GetStaffsByYear((int)year).Count;
+    }
     public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
     {
         List<StaffDto> list = new List<StaffDto>();

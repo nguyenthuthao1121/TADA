@@ -19,36 +19,37 @@
         <form method="get" class="feature">
             <div class="feature-item filter-search">
                 <div class="filter-search-feature filter-search-container">
-                    <div class="filter">
+                    <div class="filter" style="justify-content: flex-start;">
                         <span class="filter-search-heading" style="margin-right: 8px">Lọc theo :</span>
                         <div class="filter-feature">
                             <select class="select-filter filter-feature-item" name="Province" id="filter-by-province" asp-for="Province">
                                 <option value="All">Tỉnh/thành: Tất cả</option>
-                                @foreach(var province in Model.Provinces)
+                                @foreach (var province in Model.Provinces)
                                 {
                                     <option value="@province.ProvinceName">@province.ProvinceName</option>
                                 }
-                            </select>                            
-                            <select class="select-filter filter-feature-item" name="PriceRange" id="filter-by-price" asp-for="PriceRange">
-                                <option value="All">Giá tiền: Tất cả</option>
-                                <option value="0,50000">Dưới 50.000 đồng</option>
-                                <option value="50000,100000">50.000 - 100.000 đồng</option>
-                                <option value="100000,200000">100.000 - 200.000 đồng</option>
-                                <option value="200000,500000">200.000 - 500.000 đồng</option>
-                                <option value="500000,10000000">Trên 500.000 đồng</option>
                             </select>
-                            <select class="select-filter filter-feature-item" name="StatusId" id="filter-by-status" asp-for="StatusId">
-                                <option value="0">Trạng thái: Tất cả</option>
-                                <option value="1">Chờ xác nhận</option>
-                                <option value="2">Chờ giao hàng</option>
-                                <option value="3">Chờ đánh giá</option>
-                                <option value="4">Đã đánh giá</option>
-                                <option value="5">Hủy đơn hàng</option>
-                            </select>
-                            <button class="feature-btn filter-feature-item">
-                                Lọc
-                            </button>
                         </div>
+                    </div>
+                    <div class="filter-feature" style="margin-left: 0; margin-bottom: 4px">
+                        <select class="select-filter filter-feature-item" name="PriceRange" id="filter-by-price" asp-for="PriceRange">
+                            <option value="All">Giá tiền: Tất cả</option>
+                            <option value="0,50000">Dưới 50.000 đồng</option>
+                            <option value="50000,100000">50.000 - 100.000 đồng</option>
+                            <option value="100000,200000">100.000 - 200.000 đồng</option>
+                            <option value="200000,500000">200.000 - 500.000 đồng</option>
+                            <option value="500000,10000000">Trên 500.000 đồng</option>
+                        </select>
+                        <select class="select-filter filter-feature-item" name="StatusId" id="filter-by-status" asp-for="StatusId">
+                            <option value="0">Trạng thái: Tất cả</option>
+                            @foreach (var status in Model.Statuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                        <button class="feature-btn filter-feature-item">
+                            Lọc
+                        </button>
                     </div>
                 </div>
             </div>

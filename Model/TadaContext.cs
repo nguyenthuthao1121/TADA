@@ -35,6 +35,20 @@ namespace TADA.Model
                 .WithMany(c => c.CartDetails)
                 .HasForeignKey(bc => bc.CartId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BillDetail>()
+            .HasKey(bc => new { bc.BillId, bc.BookId });
+            modelBuilder.Entity<BillDetail>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.BillDetails)
+                .HasForeignKey(bc => bc.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<BillDetail>()
+                .HasOne(bc => bc.Bill)
+                .WithMany(c => c.BillDetails)
+                .HasForeignKey(bc => bc.BillId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
@@ -58,6 +72,7 @@ namespace TADA.Model
         public DbSet<Address> Addresses { get; set; }
         public DbSet<CartDetail> CartDetail { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
-
+        public DbSet<Bill> Bills { get; set; }
+        public DbSet<BillDetail> BillDetail { get; set; }
     }
 }

@@ -38,7 +38,7 @@ public class OrderListFillConfirmModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus(int statusId)
+    public int GetOrderCountByStatus()
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }
