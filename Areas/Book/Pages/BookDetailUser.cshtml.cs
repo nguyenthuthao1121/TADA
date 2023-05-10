@@ -15,6 +15,8 @@ public class BookDetailUserModel : PageModel
     private readonly IReviewService reviewService;
     private readonly ICartService cartService;
     private readonly IOrderService orderService;
+    private readonly IStatusService statusService;
+
 
     public BookDto Book { get; set; }
     public List<ReviewDto> Reviews { get; set; }
@@ -29,12 +31,13 @@ public class BookDetailUserModel : PageModel
     public string Quantity { get; set; }
     [BindProperty]
     public string Message { get; set; } = string.Empty;
-    public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService)
+    public BookDetailUserModel(IBookService bookService, IReviewService reviewService, ICartService cartService, IOrderService orderService, IStatusService statusService)
     {
         this.bookService = bookService;
         this.reviewService = reviewService;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.statusService = statusService;
     }
     public void OnGet()
     {
@@ -83,7 +86,7 @@ public class BookDetailUserModel : PageModel
     {
         if (id != null && HttpContext.Session.GetInt32("Id") != null)
         {
-            var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), 6);
+            var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusService.IdForUserConfirm());
             if (orders != null)
             {
                 foreach (var order in orders)

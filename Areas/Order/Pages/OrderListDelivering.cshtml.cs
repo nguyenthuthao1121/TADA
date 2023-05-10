@@ -6,7 +6,7 @@ using TADA.Service;
 
 namespace TADA.Pages;
 
-public class OrderListFillDeliverModel : PageModel
+public class OrderListDeliveringModel : PageModel
 {
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
@@ -15,9 +15,9 @@ public class OrderListFillDeliverModel : PageModel
     public string Username;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
-    public int statusId = 2;
+    public int statusId = 3;
 
-    public OrderListFillDeliverModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
+    public OrderListDeliveringModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
         this.orderService = orderService;
         this.accountService = accountService;
@@ -35,7 +35,7 @@ public class OrderListFillDeliverModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus(int statusId)
+    public int GetOrderCountByStatus()
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }

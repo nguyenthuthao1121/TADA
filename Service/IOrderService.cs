@@ -16,8 +16,8 @@ public interface IOrderService
     string GetStatusByOrder(int orderId);
     List<RecentlyOrderDto> GetRecentlyOrders(int count);
     int RevueneOfMonth(int month, int year);
-    List<OrderManagementDto> GetAllOrdersForManagement(string? search, string province, string priceRange, int statusId, string sortBy);
-    List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string? search, string province, string priceRange, int statusId, string sortBy);
+    List<OrderManagementDto> GetAllOrdersForManagement(string province, string priceRange, int statusId, string sortBy);
+    List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string province, string priceRange, int statusId, string sortBy);
     void UpdateOrder(int orderId, OrderDto orderDto);
     void UpdateStatusOrder(int orderId, int statusId);
     void DeleteOrder(int orderId);

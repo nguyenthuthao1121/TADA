@@ -21,50 +21,90 @@
                 {
                     var Book = Model.GetBookByOrderDetail(orderDetail);
                     var imgPath = Book.Image + "/cover.jpg";
-                    <form method="post" enctype="multipart/form-data" >
-                        <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
-                            <div class="row cart__flex-item evaluate__book-name">
-                                <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
-                                <div class="cart__book-desc col c-9">
-                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
-                                        @Book.Name
-                                    </a>
-                                    <p class="cart__book-provider">
-                                        Nhà xuất bản:
-                                        <span>@Book.Publisher</span>
-                                    </p>
+                    if (Model.GetBookReviewed(Model.Order.Id, Book.Id) == null)
+                    {
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
+                                <div class="row cart__flex-item evaluate__book-name">
+                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
+                                    <div class="cart__book-desc col c-9">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
+                                            @Book.Name
+                                        </a>
+                                        <p class="cart__book-provider">
+                                            Nhà xuất bản:
+                                            <span>@Book.Publisher</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row evaluate-book__item">
+                                    <div class="col c-4">
+                                        Đánh giá tổng quát
+                                    </div>
+                                    <div class="star-rating col c-3">
+                                        <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="1"></label>
+                                        <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="2"></label>
+                                        <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="3"></label>
+                                        <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="4"></label>
+                                        <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="5"></label>
+                                        <input class="js-input-rating" type="number" value="5" asp-for="@Model.Rating" style="display:none;">
+                                    </div>
+                                </div>
+                                <div class="row evaluate-book__item">
+                                    <p class="book-comment">Nhận xét về sách</p>
+                                    <div class="book-comment__textarea">
+                                        <textarea asp-for="@Model.Comment" cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row evaluate-book__item evaluate-book__file" style="padding-bottom: 16px;">
+                                    <input class="form-control" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
+                                </div>
+
+                            </div>
+                            <div class="form-group mt-3 mb-4">
+                                <button type="submit" class="btn btn-primary btn-md" asp-page-handler="AddReview" asp-route-orderId="@Model.Order.Id" asp-route-bookId="@orderDetail.BookId" style="width: 20%">
+                                    GỬI
+                                </button>
+                            </div>
+                        </form>
+                    }
+                    else if(!Model.IsReviewing)
+                    {
+                        var Review = Model.GetBookReviewed(Model.Order.Id, Book.Id);
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="evaluate-book mb-4" style="width: 100%; height:auto; border-radius: 8px;">
+                                <div class="row cart__flex-item evaluate__book-name">
+                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
+                                    <div class="cart__book-desc col c-9">
+                                        <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
+                                            @Book.Name
+                                        </a>
+                                        <p class="cart__book-provider">
+                                            Nhà xuất bản:
+                                            <span>@Book.Publisher</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row evaluate-book__item">
+                                    <div class="col c-4">
+                                        Đánh giá tổng quát
+                                    </div>
+                                    <div class="star-rating col c-3">
+                                        @for(int i = 0; i < Review.Rating; i++)
+                                        {
+                                            <i class="fa-sharp fa-regular fa-star"></i>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row evaluate-book__item">
+                                    <p class="book-comment">Nhận xét về sách</p>
+                                    <div class="book-comment__textarea">
+                                        <textarea cols="30" readonly>@Review.Comment</textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row evaluate-book__item">
-                                <div class="col c-4">
-                                    Đánh giá tổng quát
-                                </div>
-                                <div class="star-rating col c-3">
-                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="1"></label>
-                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="2"></label>
-                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="3"></label>
-                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="4"></label>
-                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="5"></label>
-                                    <input class="js-input-rating" type="number" value="5" asp-for="@Model.Rating" style="display:none;">
-                                </div>
-                            </div>
-                            <div class="row evaluate-book__item">
-                                <p class="book-comment">Nhận xét về sách</p>
-                                <div class="book-comment__textarea">
-                                    <textarea asp-for="@Model.Comment" cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
-                                </div>
-                            </div>
-                            <div class="row evaluate-book__item evaluate-book__file" style="padding-bottom: 16px;">
-                                <input class="form-control" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
-                            </div>
-                            
-                        </div>
-                        <div class="form-group mt-3 mb-4">
-                            <button type="submit" class="btn btn-primary btn-md" asp-page-handler="AddReview" asp-route-orderId="@Model.Order.Id" asp-route-bookId="@orderDetail.BookId" style="width: 20%">
-                                GỬI
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    }
                     
                 }
             </div>

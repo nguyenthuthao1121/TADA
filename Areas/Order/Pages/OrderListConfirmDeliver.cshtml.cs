@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.Entity.Core.Metadata.Edm;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
 using TADA.Service;
 
 namespace TADA.Pages;
 
-public class OrderListFillCancelModel : PageModel
+public class OrderListConfirmDeliverModel : PageModel
 {
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
@@ -16,9 +15,9 @@ public class OrderListFillCancelModel : PageModel
     public string Username;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
-    public int statusId = 6;
+    public int statusId = 2;
 
-    public OrderListFillCancelModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
+    public OrderListConfirmDeliverModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
         this.orderService = orderService;
         this.accountService = accountService;
@@ -46,4 +45,5 @@ public class OrderListFillCancelModel : PageModel
         Orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
 
     }
+
 }

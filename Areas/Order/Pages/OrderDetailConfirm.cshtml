@@ -1,4 +1,5 @@
 ﻿@page
+@using TADA.Utilities;
 @model OrderDetailConfirmModel
 @{
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
@@ -38,12 +39,40 @@
                                             <span>@Book.Publisher</span>
                                         </p>
                                     </div>
-                                    <div class="cart__book-price col c-2">
-                                        @orderDetail.GetPriceString(orderDetail.Price) đ
-                                    </div>
-                                    <div class="cart__book-number col c-2">
-                                        Số lượng: @orderDetail.Quantity
-                                    </div>
+                                    @if (Model.Order.StatusId == 4 || Model.Order.StatusId == 5)
+                                    {
+                                        <div class="col c-2">
+                                            <div class="cart__book-price">
+                                                @orderDetail.GetPriceString(orderDetail.Price) đ
+                                            </div>
+                                            <div class="cart__book-number" style="text-align:center;">
+                                                Số lượng: @orderDetail.Quantity
+                                            </div>
+                                        </div>
+                                        @if (Model.BookIsReviewed(Model.Order.Id, Book.Id))
+                                        {
+                                            <div class="cart__book-number col c-2" style="align-self:center;">
+                                                Đã đánh giá
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="cart__book-number col c-2" style="align-self:center;">
+                                                Chưa đánh giá
+                                            </div>
+                                        }
+
+                                }
+                                    else
+                                    {
+                                        <div class="cart__book-price col c-2">
+                                            @orderDetail.GetPriceString(orderDetail.Price) đ
+                                        </div>
+                                        <div class="cart__book-number col c-2">
+                                            Số lượng: @orderDetail.Quantity
+                                        </div>
+                                    }
+                                    
                                 </div>
 
                             }
@@ -76,6 +105,10 @@
                             <div class="col c-7" style="padding: 0;">Trạng thái đơn hàng:</div>
                             <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetStatusOfOrder(Model.Order)</div>
                         </div>
+                        <div class="row">
+                            <div class="col c-7" style="padding: 0;font-size:14px;">Ngày cập nhật:</div>
+                            <div class="col c-5" style="padding: 0; text-align:right; font-size:14px;">@UIHelper.DisplayDateOrder(Model.Order.UpdateDate)</div>
+                        </div>
                     </div>
                     @if (Model.Order.StatusId == 1)
                     {
@@ -85,7 +118,7 @@
                             </button>
                         </div>
                     }
-                    else if (Model.Order.StatusId == 3)
+                    else if (Model.Order.StatusId == 4)
                     {
                         <div class="btn--confirm">
                             <button class="btn--blue" style="width:100%;">
@@ -95,7 +128,7 @@
                             </button>
                         </div>
                     }
-                    else if (Model.Order.StatusId == 4)
+                    else if (Model.Order.StatusId == 5)
                     {
                         <div class="btn--confirm">
                             <button class="btn--blue" style="width:100%;">

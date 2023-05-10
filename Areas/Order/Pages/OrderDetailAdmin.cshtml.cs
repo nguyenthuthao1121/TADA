@@ -78,7 +78,7 @@ public class OrderDetailAdminModel : PageModel
     }
     public IActionResult OnPostCancleOrder(int? orderId, int? userId)
     {
-        orderService.DeleteOrder((int)orderId);
+        orderService.UpdateStatusOrder((int)orderId, 6);
         return RedirectToPage("OrderManagement", new { userId = userId });
     }
     public IActionResult OnPostConfirmOrder(int? orderId)
@@ -86,9 +86,19 @@ public class OrderDetailAdminModel : PageModel
         orderService.UpdateStatusOrder((int)orderId, 2);
         return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
-    public IActionResult OnPostDeliverOrder(int? orderId)
+    public IActionResult OnPostDeliverNow(int? orderId)
     {
         orderService.UpdateStatusOrder((int)orderId, 3);
+        return RedirectToPage("OrderDetailAdmin", new { id = orderId });
+    }
+    public IActionResult OnPostConfirmDelivered(int? orderId)
+    {
+        orderService.UpdateStatusOrder((int)orderId, 4);
+        return RedirectToPage("OrderDetailAdmin", new { id = orderId });
+    }
+    public IActionResult OnPostDeliverydFail(int? orderId)
+    {
+        orderService.UpdateStatusOrder((int)orderId, 5);
         return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
 }

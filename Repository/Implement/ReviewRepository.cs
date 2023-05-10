@@ -1,6 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using System.Data.SqlClient;
 using System.Net;
+using TADA.Dto.Order;
 using TADA.Dto.Review;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -25,18 +26,21 @@ namespace TADA.Repository.Implement
         {
             var reviews = context.Reviews.Join(context.Books, review => review.BookId, book => book.Id,
                 (review, book) => new { reviews = review, books = book })
-                .Join(context.Customers, reviewBook => reviewBook.reviews.CustomerId, customer => customer.Id,
-                (reviewBook, customer) => new ReviewDto
+                .Join(context.Orders, reviewBook => reviewBook.reviews.OrderId, order => order.Id,
+                (reviewBook, order) => new {reviewBook=reviewBook, order=order})
+                .Join(context.Customers, reviewOrder=>reviewOrder.order.CustomerId, customer=>customer.Id,
+                (reviewOrder,customer)=> new ReviewDto
                 {
-                    Id = reviewBook.reviews.Id,
-                    Comment = reviewBook.reviews.Comment,
-                    Rating = reviewBook.reviews.Rating,
-                    DateReview = reviewBook.reviews.DateReview,
-                    Image = reviewBook.reviews.Image,
-                    CustomerId = reviewBook.reviews.CustomerId,
+                    Id = reviewOrder.reviewBook.reviews.Id,
+                    Comment = reviewOrder.reviewBook.reviews.Comment,
+                    Rating = reviewOrder.reviewBook.reviews.Rating,
+                    DateReview = reviewOrder.reviewBook.reviews.DateReview,
+                    Image = reviewOrder.reviewBook.reviews.Image,
+                    OrderId = reviewOrder.order.Id,
                     CustomerName = customer.Name,
-                    BookId = Convert.ToInt32(reviewBook.reviews.BookId)
-                }).ToList().Where(review => review.BookId == bookId).ToList();
+                    BookId = Convert.ToInt32(reviewOrder.reviewBook.reviews.BookId)
+                })
+                .ToList().Where(review => review.BookId == bookId).ToList();
             return reviews;
         }
         public int AddReview(ReviewDto reviewDto)
@@ -49,7 +53,7 @@ namespace TADA.Repository.Implement
                     Rating = reviewDto.Rating,
                     DateReview = reviewDto.DateReview,
                     Image = reviewDto.Image,
-                    CustomerId = reviewDto.CustomerId,
+                    OrderId = reviewDto.OrderId,
                     BookId = reviewDto.BookId,
                 });
                 context.SaveChanges();
@@ -59,6 +63,38 @@ namespace TADA.Repository.Implement
             {
                 return 0;
             }
+        }
+        public List<ReviewDto> GetReviewsByOrderId(int orderId)
+        {
+            var order=context.Orders.Find(orderId);
+            var customer=context.Customers.Find(order.CustomerId);
+            return context.Reviews.Where(review=>review .OrderId== orderId).Select(review=>new ReviewDto
+            {
+                Id = review.Id,
+                Comment = review.Comment,
+                Rating = review.Rating,
+                DateReview = review.DateReview,
+                Image = review.Image,
+                OrderId = orderId,
+                CustomerName = customer.Name,
+                BookId = Convert.ToInt32(review.BookId)
+            }).ToList();
+        }
+        public ReviewDto GetReview(int orderId, int bookId)
+        {
+            var order = context.Orders.Find(orderId);
+            var customer = context.Customers.Find(order.CustomerId);
+            return context.Reviews.Where(review => review.OrderId == orderId && review.BookId==bookId).Select(review => new ReviewDto
+            {
+                Id = review.Id,
+                Comment = review.Comment,
+                Rating = review.Rating,
+                DateReview = review.DateReview,
+                Image = review.Image,
+                OrderId = orderId,
+                CustomerName = customer.Name,
+                BookId = Convert.ToInt32(review.BookId)
+            }).FirstOrDefault();
         }
     }
 }

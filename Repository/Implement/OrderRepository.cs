@@ -16,11 +16,11 @@ namespace TADA.Repository.Implement;
 public class OrderRepository : IOrderRepository
 {
     private readonly TadaContext context;
-    public int LastId { get; set; }
     public OrderRepository(TadaContext context)
     {
         this.context = context;
     }
+    
     public List<OrderDto> GetAllOrders()
     {
         return context.Orders.Select(order => new OrderDto
@@ -28,84 +28,48 @@ public class OrderRepository : IOrderRepository
             Id = order.Id,
             TelephoneNumber = order.TelephoneNumber,
             DateOrder = order.DateOrder,
+            UpdateDate = order.UpdateDate,
             AddressId = order.AddressId,
             CustomerId = order.CustomerId,
             StatusId = (int)order.StatusId,
             ShipFee=order.ShipFee,
         }).OrderByDescending(order=>order.Id).ToList();
     }
-    public List<OrderDto> GetAllOrders(string? search, int statusId, string sortBy)
+    public List<OrderDto> GetAllOrders(int statusId, string sortBy)
     {
         
         List<int> orderIds = new List<int>();
         List<OrderDto> orders = new List<OrderDto>();
 
-        if (string.IsNullOrWhiteSpace(search))
+        if (statusId == 0)
         {
-            if (statusId == 0)
+            switch (sortBy)
             {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                orderIds = context.Orders.OrderBy(x => x.Id).Where(x=>x.StatusId==statusId).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x=>x.StatusId==statusId).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x=>x.StatusId==statusId).Select(p => p.Id).ToList();
-                        break;
-                }
+                case "Asc":
+                    orderIds = context.Orders.OrderBy(x => x.Id).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                    break;
             }
         }
         else
         {
-            if (statusId == 0)
+            switch (sortBy)
             {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                }
+                case "Asc":
+                    orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
+                    break;
             }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-            
         }
         foreach (int id in orderIds)
         {
@@ -114,78 +78,41 @@ public class OrderRepository : IOrderRepository
 
         return orders;
     }
-    public List<OrderDto> GetAllOrdersOfCustomer(int customerId, string? search, int statusId, string sortBy)
+    public List<OrderDto> GetAllOrdersOfCustomer(int customerId, int statusId, string sortBy)
     {
 
         List<int> orderIds = new List<int>();
         List<OrderDto> orders = new List<OrderDto>();
 
-        if (string.IsNullOrWhiteSpace(search))
+        if (statusId == 0)
         {
-            if (statusId == 0)
+            switch (sortBy)
             {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
-                        break;
-                }
+                case "Asc":
+                    orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
             }
         }
         else
         {
-            if (statusId == 0)
+            switch (sortBy)
             {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                }
+                case "Asc":
+                    orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
+                case "Desc":
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
+                default:
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    break;
             }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId && (x.Id.ToString()).Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-
         }
 
         foreach (int id in orderIds)
@@ -197,14 +124,15 @@ public class OrderRepository : IOrderRepository
     }
     public List<OrderDto> GetAllOrdersByCustomerId(int customerId)
     {
-        
+        int lastStatusId = context.Statuses.Max(status => status.Id);
         return context.Orders
-            .Where(order => order.CustomerId == customerId && order.StatusId < 6)
+            .Where(order => order.CustomerId == customerId && order.StatusId < lastStatusId)
             .Select(order => new OrderDto
             {
                 Id = order.Id,
                 TelephoneNumber = order.TelephoneNumber,
                 DateOrder = order.DateOrder,
+                UpdateDate = order.UpdateDate,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
                 ShipFee=order.ShipFee,
@@ -214,15 +142,17 @@ public class OrderRepository : IOrderRepository
 
     public List<OrderDto> GetAllOrdersByAccountId(int accountId)
     {
+        int lastStatusId = context.Statuses.Max(status => status.Id);
         var customerId= context.Customers.Where(customer => customer.AccountId == accountId)
             .Select(customer => customer.Id).FirstOrDefault();
         return context.Orders
-            .Where(order => order.CustomerId == customerId && order.StatusId<6)
+            .Where(order => order.CustomerId == customerId && order.StatusId< lastStatusId)
             .Select(order => new OrderDto
             {
                 Id = order.Id,
                 TelephoneNumber = order.TelephoneNumber,
                 DateOrder = order.DateOrder,
+                UpdateDate = order.UpdateDate,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
                 ShipFee=order.ShipFee,
@@ -240,6 +170,7 @@ public class OrderRepository : IOrderRepository
             Id = order.Id,
             TelephoneNumber = order.TelephoneNumber,
             DateOrder = order.DateOrder,
+            UpdateDate = order.UpdateDate,
             AddressId = (int)order.AddressId,
             CustomerId = order.CustomerId,
             ShipFee=order.ShipFee,
@@ -291,6 +222,7 @@ public class OrderRepository : IOrderRepository
             {
                 Id = order.Id,
                 TelephoneNumber = order.TelephoneNumber,
+                UpdateDate = order.UpdateDate,
                 DateOrder = order.DateOrder,
                 AddressId = (int)order.AddressId,
                 CustomerId = order.CustomerId,
@@ -392,22 +324,24 @@ public class OrderRepository : IOrderRepository
 
     public void AddOrder(int accountId)
     {
-        var customer=context.Customers.Where(customer=>customer.AccountId==accountId).FirstOrDefault();
-        var order=context.Orders.Where(order=>order.CustomerId==customer.Id && order.StatusId==6).FirstOrDefault();
+        int lastStatusId = context.Statuses.Max(status => status.Id);
+        var customer =context.Customers.Where(customer=>customer.AccountId==accountId).FirstOrDefault();
+        var order=context.Orders.Where(order=>order.CustomerId==customer.Id && order.StatusId== lastStatusId).FirstOrDefault();
         if (order == null)
         {
             Order newOrder = new Order
             {
                 TelephoneNumber = customer.TelephoneNumber,
                 DateOrder = DateTime.Now,
+                UpdateDate= DateTime.Now,
             };
             context.Orders.Add(newOrder);
             newOrder.AddressId = customer.AddressId;
             newOrder.Address=customer.Address;
             newOrder.CustomerId = customer.Id;
             newOrder.Customer=customer;
-            newOrder.StatusId=6;
-            newOrder.Status=context.Statuses.Find(6);
+            newOrder.StatusId= lastStatusId;
+            newOrder.Status=context.Statuses.Find(lastStatusId);
             context.SaveChanges();
         }
     }
@@ -418,6 +352,7 @@ public class OrderRepository : IOrderRepository
         if (orderUpdate != null)
         {
             orderUpdate.StatusId= statusId;
+            orderUpdate.UpdateDate=DateTime.Now;
             context.SaveChanges();
         }
     }

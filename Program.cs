@@ -62,6 +62,9 @@ service.AddScoped<IRoleService, RoleService>();
 service.AddScoped<IProviderRepository, ProviderRepository>();
 service.AddScoped<IProviderService, ProviderService>();
 
+service.AddScoped<IStatusRepository, StatusRepository>();
+service.AddScoped<IStatusService, StatusService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

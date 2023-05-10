@@ -110,6 +110,14 @@
                                 <span class="price__info price__value price__status">@Model.Status</span>                            
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price__info price__property" style="font-size:14px;">Ngày cập nhật</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="price__info price__value" style="font-size:14px;">@UIHelper.DisplayDateOrder(Model.Order.UpdateDate)</span>
+                            </div>
+                        </div>
                         <form method="post" class="order-button">
                             @if (Model.Order.StatusId == 1)
                             {
@@ -118,7 +126,12 @@
                             }
                             else if (Model.Order.StatusId == 2)
                             {
-                                <button class="order-btn order-btn--confirm" asp-page-handler="DeliverOrder" asp-route-orderId="@Model.Order.Id">XÁC NHẬN GIAO HÀNG</button>
+                                <button class="order-btn order-btn--confirm" asp-page-handler="DeliverNow" asp-route-orderId="@Model.Order.Id">XÁC NHẬN GIAO HÀNG</button>
+                            }
+                            else if (Model.Order.StatusId == 3)
+                            {
+                                <button class="order-btn order-btn--confirm" asp-page-handler="ConfirmDelivered" asp-route-orderId="@Model.Order.Id">GIAO HÀNG THÀNH CÔNG</button>
+                                <button class="order-btn order-btn--cancel" asp-page-handler="DeliverydFail" asp-route-orderId="@Model.Order.Id">GIAO HÀNG THẤT BẠI</button>
                             }
                         </form>
                     </div>

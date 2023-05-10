@@ -1,5 +1,5 @@
 ﻿@page
-@model OrderListFillDeliverModel
+@model OrderListConfirmDeliverModel
 @{
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
@@ -21,11 +21,14 @@
                         <a asp-area="Order" asp-page="OrderListFillConfirm" class="nav-order-list__link">
                             <p>Chờ xác nhận</p>
                         </a>
-                        <a asp-area="Order" asp-page="OrderListFillDeliver" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
+                        <a asp-area="Order" asp-page="OrderListConfirmDeliver" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
                             <p>Chờ giao hàng</p>
                         </a>
+                        <a asp-area="Order" asp-page="OrderListDelivering" class="nav-order-list__link">
+                            <p>Đang giao hàng</p>
+                        </a>
                         <a asp-area="Order" asp-page="OrderListFillReview" class="nav-order-list__link">
-                            <p>Chờ đánh giá</p>
+                            <p>Chưa đánh giá</p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListFillDone" class="nav-order-list__link">
                             <p>Đã đánh giá</p>
@@ -39,7 +42,7 @@
 
             <div class="col c-8">
                 <div class="order-list__title order__title row">Chờ giao hàng</div>
-                @if (Model.GetOrderCountByStatus(2) == 0)
+                @if (Model.GetOrderCountByStatus() == 0)
                 {
                     <div class="order-list__des--empty"  style="border-radius: 8px;">
                         <div class="shopping-cart__img--empty">
