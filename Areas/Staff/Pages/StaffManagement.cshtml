@@ -6,7 +6,14 @@
     ViewBag.Name = HttpContext.Session.GetString("Name");
     ViewBag.AccountId = HttpContext.Session.GetInt32("Id");
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Staff/StaffManagement/?SearchQuery=" + Model.SearchQuery + "&Filter=" + Model.Filter + "&SortBy=" + Model.SortBy + "&SortType=" + Model.SortType
+    };
+}
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="feature">
@@ -14,20 +21,27 @@
                 <span class="filter-search-heading">Lọc theo :</span>
                 <div class="filter-search-feature">
                     <div class="filter-feature">
-                        <select class="select-filter filter-feature-item" name="filter-by-status" id="filter-by-status">
-                            <option value="Trạng thái: Tất cả">Trạng thái: Tất cả</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                        <form method="get">
+                            <input type="hidden" name="q" value="@Model.SearchQuery" />
+                            <select class="select-filter filter-feature-item" asp-for="Filter">
+                            <option value="all">Trạng thái: Tất cả</option>
+                            <option value="true">Active</option>
+                            <option value="false">Blocked</option>
                         </select>
-                        <button class="feature-btn filter-feature-item">
+                            <input type="hidden" name="SortBy" value="@Model.SortBy" />
+                            <input type="hidden" name="SortType" value="@Model.SortType" />
+                        <button class="feature-btn filter-feature-item" type="submit">
                             Lọc
                         </button>
+                        </form>
                     </div>
                     <div class="search-feature">
-                        <input type="text" class="search-feature-input" placeholder="Tìm kiếm admin">
-                        <button class="feature-btn">
-                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
-                        </button>
+                        <form method="get">
+                            <input class="search-feature-input" placeholder="Tìm kiếm admin" asp-for="SearchQuery">
+                            <button class="feature-btn" type="submit">
+                                <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -35,18 +49,22 @@
                 <span class="sort-heading">Sắp xếp theo :</span>
                 <div class="sort-feature">
                     <div class="sort-feature-item">
-                        <select class="sort-by" name="sort-by" id="sort-by">
-                            <option value="Tên">Tên</option>
-                            <option value="Email">Email</option>
-                            <option value="Trạng thái">Trạng thái</option>
-                        </select>
-                        <select class="sort-type" name="sort-type" id="sort-type">
-                            <option value="Tăng dần">Tăng dần</option>
-                            <option value="Giảm dần">Giảm dần</option>
-                        </select>
-                        <button class="feature-btn">
-                            Sắp xếp
-                        </button>
+                        <form method="get">
+                            <input type="hidden" name="SearchQuery" value="@Model.SearchQuery" />
+                            <input type="hidden" name="Filter" value="@Model.Filter" />
+                            <select class="sort-by" asp-for="SortBy">
+                                <option value="">Thuộc tính:</option>
+                                <option value="name">Tên</option>
+                                <option value="status">Trạng thái</option>
+                            </select>
+                            <select class="sort-type" asp-for="SortType">
+                                <option value="asc">Tăng dần</option>
+                                <option value="desc">Giảm dần</option>
+                            </select>
+                            <button class="feature-btn" type="submit">
+                                Sắp xếp
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -158,31 +176,7 @@
                         THÊM NHÂN VIÊN
                     </a>
                 </div>
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Trang trước</a> 
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <partial name="_PagingAdmin" model="datapaging" />
             </div>
         </div>
 

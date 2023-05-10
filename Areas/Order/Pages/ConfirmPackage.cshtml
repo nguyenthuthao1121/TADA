@@ -75,8 +75,8 @@
                             <div class="col c-5" style="padding: 0; text-align:right; color:var(--primary-color);">@Model.GetPriceString(Model.SumPriceOfOrder()) đ</div>
                         </div>
                     </div>
-                    <form class="btn--confirm" method="post" asp-page-handler="UpdateStatusOrder">
-                        <button class="btn btn-primary" style="width:100%;" type="submit">
+                    <form class="btn--confirm" method="post" >
+                        <button class="btn btn-primary" style="width:100%;" type="submit"asp-page-handler="UpdateStatusOrder" asp-route-orderId="@Model.Order.Id" asp-route-isFromCart="@Model.IsFromCart">
                             XÁC NHẬN ĐẶT HÀNG
                         </button>
                     </form>

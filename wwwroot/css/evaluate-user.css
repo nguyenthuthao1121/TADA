@@ -1,7 +1,6 @@
 ﻿.evaluate-book{
     background-color: #fff;
     font-size: 1.2rem;
-    margin-bottom:24px;
 }
 
 #evaluate-user .evaluate__book-name {
@@ -17,17 +16,9 @@
     padding: 8px 30px;
 }
 
-.evaluate-book .star-rating input {
-    display: none;
-}
-
-
-
 .star-rating {
     display: flex;
     align-items: center;
-    flex-direction:row-reverse;
-    justify-content: flex-end;
 }
 
 .star-rating label {
@@ -39,20 +30,9 @@
     
 }
 
-input:not(:checked) ~ label:hover,
-input:not(:checked) ~ label:hover ~ label {
-    color: #F6A500;
-    font-weight: 600;
-}
-
-input:checked ~ label {
+.star-rating label.isChecked{
     font-weight: 600;
     color: #F6A500;
-}
-
-input#rate-5:checked ~ label {
-    color: #fe7;
-    font-weight: 600;
 }
 
 .book-comment__form {

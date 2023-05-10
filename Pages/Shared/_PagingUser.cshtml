@@ -2,8 +2,12 @@
 @{
     int currentPage = Model.currentPage;
     int countPages = Model.countPages;
-    var generateUrl = Model.generateUrl;
-    int category = Model.category;
+    string generateUrl = Model.generateUrl;
+    //int category = Model.category;
+    //var genre = Model.genre;
+    //var sortBy = Model.sortBy;
+    //var searchQuery = Model.searchQuery;
+    //var priceRange = Model.priceRange;
 
     if (currentPage > countPages)
         currentPage = countPages;
@@ -79,7 +83,7 @@
     @if (preview != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@generateUrl(category, preview)">
+            <a class="page-link" href="@Url.Content(generateUrl + "pageNumber=" + preview)">
                 <i class="fas fa-chevron-left"></i>
             </a>
         </li>
@@ -99,7 +103,7 @@
         if (pageitem != currentPage)
         {
             <li class="page-item ">
-                <a class="page-link" href="@generateUrl(category, pageitem)">
+                <a class="page-link" href="@Url.Content(generateUrl + "pageNumber=" + pageitem)">
                     @pageitem
                 </a>
             </li>
@@ -117,7 +121,7 @@
     @if (next != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@generateUrl(category, next)">
+            <a class="page-link" href="@Url.Content(generateUrl + "pageNumber=" + next)">
                 <i class="fas fa-chevron-right"></i>
             </a>
         </li>

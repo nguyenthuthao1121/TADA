@@ -25,9 +25,9 @@ namespace TADA.Service.Implement
             return customerRepository.GetCustomerByAccountId(accountId);
         }
 
-        public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
+        public List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType)
         {
-            return customerRepository.GetCustomers(gender, status, sortBy, sortType);
+            return customerRepository.GetCustomers(search, gender, status, sortBy, sortType);
         }
 
         public int GetIdByAccountId(int id)

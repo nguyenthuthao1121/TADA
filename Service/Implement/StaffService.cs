@@ -44,4 +44,18 @@ public class StaffService : IStaffService
     {
         return staffRepository.GetStaffsByYear((int)year).Count;
     }
+    public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
+    {
+        return staffRepository.GetStaff(search, status, sortBy, sortType);
+    }
+
+    public StaffDto GetStaffDtoByAccountId(int accountId)
+    {
+        return staffRepository.GetStaffDtoByAccountId((int)accountId);
+    }
+
+    public void UpdateStaff(StaffDto staff)
+    {
+        staffRepository.UpdateStaff(staff);
+    }
 }

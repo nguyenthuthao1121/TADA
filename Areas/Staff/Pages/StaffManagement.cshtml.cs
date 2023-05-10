@@ -16,16 +16,24 @@ public class StaffModel : PageModel
     private readonly IAccountService accountService;
     private readonly IStaffService staffService;
     private readonly IAddressService addressService;
-    private readonly IRoleService roleService; 
+    private readonly IRoleService roleService;
+    public const int ITEMS_PER_PAGE = 1;
+    public int countPages { get; set; }
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int currentPage { get; set; }
     public List<StaffDto> Staffs { get; set; }
     public List<AddressDto> Addressses { get; set; }
     [BindProperty(SupportsGet = true)]
     public string Gender { get; set; }
     [BindProperty(SupportsGet = true)]
-    public string Status { get; set; }
+    public string SortBy { get; set; }
     [BindProperty(SupportsGet = true)]
-    public string SortBy { get; set; } = "New";
-    public string SortType { get; set; } = "Acs";
+
+    public string SortType { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string SearchQuery { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string Filter { get; set; }
 
     public StaffModel(IAccountService accountService, IStaffService staffService, IAddressService addressService, IRoleService roleService)
     {
@@ -44,11 +52,22 @@ public class StaffModel : PageModel
         {
             accountService.ChangeStatusOfAccount(AccountId);
         }
-        Staffs = staffService.GetAllStaffs();
-        foreach (var staff in Staffs)
+        var staff = staffService.GetStaff(SearchQuery, Filter, SortBy, SortType);
+        int total = staff.Count();
+        countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
+        if (currentPage < 1)
         {
-            staff.Address = addressService.GetAddressById(staff.AddressId);
-            staff.RoleName = roleService.GetRoleNameById(staff.RoleId);
+            currentPage = 1;
+        }
+        if (currentPage > countPages)
+        {
+            currentPage = countPages;
+        }
+        Staffs = staff.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
+        foreach (var sff in Staffs)
+        {
+            sff.Address = addressService.GetAddressById(sff.AddressId);
+            sff.RoleName = roleService.GetRoleNameById(sff.RoleId);
         }
     }
 }

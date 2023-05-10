@@ -70,16 +70,16 @@
                                     <div class="cart__book-price col c-3">
                                         <p class="js-priceOfBook" data-bookId="@Book.Id" data-price="@Book.GetCurrentPrice()">@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
-                                        <button class="input-group-text js-decrease" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button" asp-route-id="@Model.CartDetails[i].BookId">
+                                        <button class="input-group-text js-decrease" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button" >
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                             <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity" data-item-id="@i">
-                                        <button class="input-group-text js-increase" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button" asp-page-handler="PlusQuantity" asp-route-id="@Model.CartDetails[i].BookId">
+                                        <button class="input-group-text js-increase" style="bordeyr-radius: 0 8px 8px 0; border-left-style: none;" type="button" >
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    <button class="col c-1 js-delete-item" style="border: none;background: none;" type="button" data-item-id="@i" asp-page-handler="DeleteBookOfCart" asp-route-id="@Model.CartDetails[i].BookId">
+                                    <button class="col c-1 js-delete-item" style="border: none;background: none;" type="button" data-item-id="@i" >
                                         <i class="fa-solid fa-trash-can icon-delete"></i>
                                     </button>
                                 </div>
@@ -97,13 +97,13 @@
                             <div class="row">
                                 <div class="col c-7" style="padding: 0;">Số lượng</div>
                                 <div class="col c-5" style="padding: 0; text-align:right;">
-                                    <span id="js-countBook">0</span> quyển
+                                    <span id="js-countBook">@Model.NumOfOrder</span> quyển
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col c-7" style="padding: 0;">Tổng giá</div>
                                 <div class="col c-5" style="padding: 0; text-align:right; color:#1E90FF">
-                                    <span id="js-sumOfPrice">0</span> đ
+                                    <span id="js-sumOfPrice">@Model.GetPriceString(Model.SumOfOrder)</span> đ
                                 </div>
                             </div>
                         </div>

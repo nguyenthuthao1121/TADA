@@ -21,54 +21,52 @@
                 {
                     var Book = Model.GetBookByOrderDetail(orderDetail);
                     var imgPath = Book.Image + "/cover.jpg";
-                    <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
-                        <div class="row cart__flex-item evaluate__book-name">
-                            <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
-                            <div class="cart__book-desc col c-9">
-                                <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
-                                    @Book.Name
-                                </a>
-                                <p class="cart__book-provider">
-                                    Nhà xuất bản:
-                                    <span>@Book.Publisher</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row evaluate-book__item">
-                            <div class="col c-4">
-                                Đánh giá tổng quát
-                            </div>
-                            <div class="star-rating col c-3">
-                                <input type="radio" name="rate" id="rate-5">
-                                <label for="rate-5" class="fa-sharp fa-regular fa-star"></label>
-                                <input type="radio" name="rate" id="rate-4">
-                                <label for="rate-4" class="fa-sharp fa-regular fa-star"></label>
-                                <input type="radio" name="rate" id="rate-3">
-                                <label for="rate-3" class="fa-sharp fa-regular fa-star"></label>
-                                <input type="radio" name="rate" id="rate-2">
-                                <label for="rate-2" class="fa-sharp fa-regular fa-star"></label>
-                                <input type="radio" name="rate" id="rate-1">
-                                <label for="rate-1" class="fa-sharp fa-regular fa-star"></label>
-                            </div>
-                        </div>
-                        <div class="row evaluate-book__item">
-                            <p class="book-comment">Nhận xét về sách</p>
-                            <form action="#" class="book-comment__form">
-                                <header></header>
-                                <div class="book-comment__textarea">
-                                    <textarea cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
+                    <form method="post" enctype="multipart/form-data" >
+                        <div class="evaluate-book" style="width: 100%; height:auto; border-radius: 8px;">
+                            <div class="row cart__flex-item evaluate__book-name">
+                                <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2" style=" text-align: center;"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style=" height: 150px;"></a>
+                                <div class="cart__book-desc col c-9">
+                                    <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="cart__book-name">
+                                        @Book.Name
+                                    </a>
+                                    <p class="cart__book-provider">
+                                        Nhà xuất bản:
+                                        <span>@Book.Publisher</span>
+                                    </p>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="row evaluate-book__item">
+                                <div class="col c-4">
+                                    Đánh giá tổng quát
+                                </div>
+                                <div class="star-rating col c-3">
+                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="1"></label>
+                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="2"></label>
+                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="3"></label>
+                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="4"></label>
+                                    <label class="fa-sharp fa-regular fa-star isChecked" data-star-value="5"></label>
+                                    <input class="js-input-rating" type="number" value="5" asp-for="@Model.Rating" style="display:none;">
+                                </div>
+                            </div>
+                            <div class="row evaluate-book__item">
+                                <p class="book-comment">Nhận xét về sách</p>
+                                <div class="book-comment__textarea">
+                                    <textarea asp-for="@Model.Comment" cols="30" placeholder="Bạn nghĩ gì về chất lượng và hình thức sách?"></textarea>
+                                </div>
+                            </div>
+                            <div class="row evaluate-book__item evaluate-book__file" style="padding-bottom: 16px;">
+                                <input class="form-control" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
+                            </div>
+                            
                         </div>
-                        <div class="row evaluate-book__item evaluate-book__file">
-                            <p>Tải hình ảnh</p>
-                            <input class="form-control" type="file" id="formFileMultiple" multiple />
+                        <div class="form-group mt-3 mb-4">
+                            <button type="submit" class="btn btn-primary btn-md" asp-page-handler="AddReview" asp-route-orderId="@Model.Order.Id" asp-route-bookId="@orderDetail.BookId" style="width: 20%">
+                                GỬI
+                            </button>
                         </div>
-                    </div>
+                    </form>
+                    
                 }
-                <div class="btn--confirm">
-                    <button class="btn--blue"><a href="#">GỬI</a></button>
-                </div>
             </div>
                 
             <div class="col c-3">
@@ -94,41 +92,30 @@
             </div>
         </div>
     </div>
-
-    <!-- JavaScript -->
-    <script>
-        var btnChecks=document.getElementsByClassName('cart__input');
-        var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
-
-        btnChecks[0].addEventListener('click',function(event){
-                if (this.checked){
-                    for(var item of shoppingcartItems){
-                        item.classList.add('cart__flex-item--checked');
-                    }
-                    for(var item of btnChecks){
-                        item.checked=true;
-                    }
-                }
-                else {
-                    for(var item of shoppingcartItems){
-                        item.classList.remove('cart__flex-item--checked');
-                    }
-                    for(var item of btnChecks){
-                        item.checked=false;
-                    }
-                }
-            })
-        for (var i=1;i<btnChecks.length;i++){
-            btnChecks[i].addEventListener('click',function(event){
-                if (this.checked)
-                    this.parentElement.classList.add('cart__flex-item--checked');
-                else{
-                    this.parentElement.classList.remove('cart__flex-item--checked');
-                    btnChecks[0].checked=false;
-                }
-            })
-        }
-    </script>
 </div>
+@section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $('.star-rating label').on('click', function () {
+            var rating =(this).closest('.star-rating');
+            var value = $(this).data("star-value");
+            for (var i = 1; i <= parseInt(value);i++){
+                if (!($(rating).find('label[data-star-value="' + i + '"]').hasClass('isChecked'))) {
+                    $(rating).find('label[data-star-value="' + i + '"]').addClass('isChecked');
+                }
+            }
+            
+            for (var i = parseInt(value)+1; i <= 5; i++) {
+                if ($(rating).find('label[data-star-value="' + i + '"]').hasClass('isChecked')){
+                    $(rating).find('label[data-star-value="' + i + '"]').removeClass('isChecked');
+                }
+            }
+            var input = $(rating).find('.js-input-rating');
+            input.val(parseInt(value));
+        });
 
+
+        
+    </script>
+}
 

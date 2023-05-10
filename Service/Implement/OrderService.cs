@@ -100,7 +100,7 @@ namespace TADA.Service.Implement
                 province = "";
             }
             var list = new List<OrderManagementDto>();
-            var orders = orderRepository.GetAllOrders(search, statusId, sortBy);
+            var orders = orderRepository.GetAllOrders(statusId, sortBy);
             foreach (var order in orders)
             {
                 var orderDetailList = orderRepository.GetOrderDetailsByOrderId(order.Id);
@@ -126,16 +126,16 @@ namespace TADA.Service.Implement
 
             return list;
         }
-        public List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string? search, string province, string priceRange, int statusId, string sortBy)
+        public List<OrderManagementDto> GetOrdersByCustomerId(int customerId, string province, string priceRange, int statusId, string sortBy)
         {
             List<OrderDto> orders;
             if (customerId > 0)
             {
-                orders = orderRepository.GetAllOrdersOfCustomer(customerId, search, statusId, sortBy);
+                orders = orderRepository.GetAllOrdersOfCustomer(customerId, statusId, sortBy);
             }
             else
             {
-                orders = orderRepository.GetAllOrders(search, statusId, sortBy);
+                orders = orderRepository.GetAllOrders(statusId, sortBy);
             }
             
             int min = 0;
@@ -193,8 +193,8 @@ namespace TADA.Service.Implement
         }
         public List<RecentlyOrderDto> GetRecentlyOrders(int count)
         {
-            List<OrderDto> orderDtos = orderRepository.GetAllOrders().TakeLast(count).ToList();
-            orderDtos.Reverse();
+            List<OrderDto> orderDtos = orderRepository.GetAllOrders().Take(count).ToList();
+            //orderDtos.Reverse();
             List<RecentlyOrderDto> orders = new List<RecentlyOrderDto>();
             foreach(var order in orderDtos)
             {

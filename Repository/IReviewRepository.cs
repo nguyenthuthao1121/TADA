@@ -6,5 +6,6 @@ namespace TADA.Repository
     {
         List<ReviewDto> GetReviewsByBookId(int bookId);
         int GetNumberOfStar(int bookId, int star);
+        int AddReview(ReviewDto reviewDto);
     }
 }

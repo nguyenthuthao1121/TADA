@@ -7,21 +7,11 @@
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
 @{
-    // xây dựng Func phát sinh Url từ page ./Index
-    Func<int?, int?, string> generateUrl = (int? _category, int? _pagenumber) =>
-                    {
-                        if (Model.Category == 0)
-                        {
-                            return Url.Page("./Index", new {pageNumber = _pagenumber});
-                        }
-                        return Url.Page("./Index", new { category = _category, pageNumber = _pagenumber });
-                    };
     var datapaging = new
     {
         currentPage = Model.currentPage,
         countPages = Model.countPages,
-        generateUrl = generateUrl,
-        category = Model.Category
+        generateUrl = "~/?category=" + Model.Category + "&q=" + Model.SearchQuery + "&Genre=" + Model.Genre + "&PriceRange=" + Model.PriceRange + "&SortBy=" + Model.SortBy + "&"
     };
 }
 <div class="container-fluid">
@@ -37,7 +27,7 @@
                         {
                             @if (category.Id == Model.Category)
                             {
-                                <a href="@Url.Content("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
+                                <a href="@Url.Page("~/?category=" + category.Id)" style="background-color:#1E90FF4D">@category.Name</a>
 
                             }
                             else
@@ -82,6 +72,7 @@
                             <option value="Asc">Giá tăng dần</option>
                             <option value="Desc">Giá giảm dần</option>
                         </select>
+                        <input type="hidden" name="pageNumber" value="@Model.currentPage"/>
                     </form>
                     <form method="get" class ="form-group d-flex justify-content-end">
                             <label for="filter" class="form-label" style="width: 64px">
@@ -102,6 +93,7 @@
                             <option value="50000,100000">50.000 - 100.000</option>
                             <option value="100000,1000000">Trên 100.000</option>
                         </select>
+                            <input type="hidden" name="pageNumber" value="@Model.currentPage">
                             <button type="submit" class="btn" style="width: 80px">Lọc</button>
                             <button type="button" class="btn btn-delete-filter">Xoá bộ lọc</button>
                     </form>
@@ -127,31 +119,32 @@
                                         <div style="height: 24px"></div>
                                     }
                                 }
-                               <div class="card-rating mt-1">
+                                <div class="card-rating mt-1">
                                     @{
-                                        for (int i = 1; i <= (int)book.AverageRating; i++)
+                                        var average = Math.Round(book.AverageRating,1);
+                                        for (int i = 1; i <= (int)average; i++)
                                         {
                                             <span class="fas fa-star" style="color: #F6A500; font-weight: bold;"></span>
                                         }
-                                        if (book.AverageRating - (int)book.AverageRating <= 0.2)
+                                        if (average - (int)average < 0.3)
                                         {
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating; i++)
+                                            for (int i = 1; i <= 5 - (int)average; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }
                                         }
-                                        else if (book.AverageRating - (int)book.AverageRating >= 0.3 && book.AverageRating - (int)book.AverageRating <= 0.7)
+                                        else if (average - (int)average >= 0.3 && average - (int)average <= 0.7)
                                         {
                                             <span class="fa fa-star-half" style="color: #F6A500;"></span>
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            for (int i = 1; i <= 5 - (int)average - 1; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }
                                         }
                                         else
                                         {
-                                            <span class="fas fa-star" style="color: #F6A500;"></span>
-                                            for (int i = 1; i <= 5 - (int)book.AverageRating - 1; i++)
+                                            <span class="fas fa-star" style="color: #F6A500;font-weight: bold;"></span>
+                                            for (int i = 1; i <= 5 - (int)average - 1; i++)
                                             {
                                                 <span class="fas fa-star"></span>
                                             }

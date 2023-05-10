@@ -68,6 +68,28 @@ public class AddressRepository : IAddressRepository
             ProvinceName = province.Name
         };
     }
+    public AddressDto GetStaffAddressDto(int accountId)
+    {
+        var addressId = context.Staff.Where(cus => cus.AccountId == accountId).Select(cus => cus.AddressId).FirstOrDefault();
+        var address = context.Addresses.Where(address => address.Id == addressId).FirstOrDefault();
+        if (address == null)
+        {
+            return null;
+        }
+        var ward = context.Wards.Where(ward => ward.Id == address.WardId).FirstOrDefault();
+        var district = context.Districts.Where(district => district.Id == ward.DistrictId).FirstOrDefault();
+        var province = context.Provinces.Where(province => province.Id == district.ProvinceId).FirstOrDefault();
+        return new AddressDto
+        {
+            Street = address.Street,
+            WardId = ward.Id,
+            WardName = ward.Name,
+            DistrictId = district.Id,
+            DistrictName = district.Name,
+            ProvinceId = province.Id,
+            ProvinceName = province.Name
+        };
+    }
     public List<WardDto> GetAllWardsByDistrictId(int districtId)
     {
         return context.Wards.OrderBy(p => p.Name).Where(p => p.DistrictId == districtId).Select(p => new WardDto

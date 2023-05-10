@@ -104,6 +104,9 @@ namespace TADA.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
 
+                    b.Property<bool>("Hidden")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Image")
                         .HasMaxLength(255)
                         .HasColumnType("varchar");

@@ -5,17 +5,26 @@
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Category/CategoryManagement/?SearchQuery=" + Model.SearchQuery + "&SortBy=" + Model.SortBy + "&SortType=" + Model.SortType 
+    };
+}
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="feature">
             <div class="feature-item filter-search">
                 <div class="filter-search-feature">
                     <div class="search-feature">
-                        <input type="text" class="search-feature-input" style="width: 300px" placeholder="Tìm kiếm danh mục">
-                        <button class="feature-btn">
-                            <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
-                        </button>
+                        <form method="get">
+                            <input asp-for="SearchQuery" class="search-feature-input" style="width: 300px" placeholder="Tìm kiếm danh mục">
+                            <button type="submit" class="feature-btn">
+                                <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -23,18 +32,21 @@
                 <span class="sort-heading">Sắp xếp theo :</span>
                 <div class="sort-feature">
                     <div class="sort-feature-item">
-                        <select class="sort-by" name="sort-by" id="sort-by">
-                            <option value="categoryID">Mã danh mục</option>
-                            <option value="categoryName">Tên danh mục</option>
-                            <option value="count">Số lượng sách</option>
-                        </select>
-                        <select class="sort-type" name="sort-type" id="sort-type">
-                            <option value="Tăng dần">Tăng dần</option>
-                            <option value="Giảm dần">Giảm dần</option>
-                        </select>
-                        <button class="feature-btn">
-                            Sắp xếp
-                        </button>
+                        <form method="get">
+                            <input type="hidden" name="SearchQuery" value="@Model.SearchQuery" readonly/>
+                            <select class="sort-by" asp-for="SortBy">
+                                <option value="categoryID">Mã danh mục</option>
+                                <option value="categoryName">Tên danh mục</option>
+                                <option value="count">Số lượng sách</option>
+                            </select>
+                            <select class="sort-type" asp-for="SortType">
+                                <option value="asc">Tăng dần</option>
+                                <option value="desc">Giảm dần</option>
+                            </select>
+                            <button type="submit" class="feature-btn">
+                                Sắp xếp
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -72,31 +84,7 @@
                         THÊM DANH MỤC
                     </a>
                 </div>
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Trang trước</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <partial name="_PagingAdmin" model="datapaging" />
             </div>
         </div>
 

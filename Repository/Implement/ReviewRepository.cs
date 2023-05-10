@@ -1,5 +1,9 @@
-﻿using TADA.Dto.Review;
+﻿using Microsoft.Identity.Client;
+using System.Data.SqlClient;
+using System.Net;
+using TADA.Dto.Review;
 using TADA.Model;
+using TADA.Model.Entity;
 
 namespace TADA.Repository.Implement
 {
@@ -34,6 +38,27 @@ namespace TADA.Repository.Implement
                     BookId = Convert.ToInt32(reviewBook.reviews.BookId)
                 }).ToList().Where(review => review.BookId == bookId).ToList();
             return reviews;
+        }
+        public int AddReview(ReviewDto reviewDto)
+        {
+            try
+            {
+                context.Reviews.Add(new Review
+                {
+                    Comment = reviewDto.Comment,
+                    Rating = reviewDto.Rating,
+                    DateReview = reviewDto.DateReview,
+                    Image = reviewDto.Image,
+                    CustomerId = reviewDto.CustomerId,
+                    BookId = reviewDto.BookId,
+                });
+                context.SaveChanges();
+                return context.Reviews.Max(review => review.Id);
+            }
+            catch(SqlException)
+            {
+                return 0;
+            }
         }
     }
 }

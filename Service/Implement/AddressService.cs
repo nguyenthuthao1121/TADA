@@ -75,4 +75,9 @@ public class AddressService : IAddressService
     {
         return addressRepository.AddNewAddress(street, wardId);
     }
+
+    public AddressDto GetStaffAddressDto(int accountId)
+    {
+        return addressRepository.GetStaffAddressDto(accountId);
+    }
 }
