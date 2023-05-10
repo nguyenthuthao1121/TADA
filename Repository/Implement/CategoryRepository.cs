@@ -33,7 +33,7 @@ public class CategoryRepository : ICategoryRepository
         context.SaveChanges();
     }
 
-    public List<Category> GetCategories(string search, string sortBy, string sortType)
+    public List<Category> GetCategories(string sortBy, string sortType)
     {
         var categories = context.Categories.ToList();
         foreach(var category in categories)
@@ -41,11 +41,6 @@ public class CategoryRepository : ICategoryRepository
             var entry = context.Entry(category);
             entry.Collection(p => p.Books).Load();
         }
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            categories = categories.Where(p => p.Name.Contains(search)).ToList();
-        }
-
         switch (sortType)
         {
             case "desc":

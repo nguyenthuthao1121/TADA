@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TADA.Dto.Book;
 using TADA.Dto.Review;
+using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Service.Implement;
 
 namespace TADA.Pages;
 
@@ -49,4 +51,24 @@ public class BookDetailAdminModel : PageModel
         }
 
     }
+    [HttpGet]
+    public IActionResult OnGetHideBook()
+    {
+        if (int.TryParse(Request.Query["itemId"], out int itemId))
+        {
+            bookService.HideBook(itemId);
+        }
+        return RedirectToPage("./BookManagement");
+    }
+    [HttpGet]
+    public IActionResult OnGetDisplayBook()
+    {
+        if (int.TryParse(Request.Query["itemId"], out int itemId))
+        {
+            bookService.DisplayBook(itemId);
+        }
+        return RedirectToPage("./BookManagement");
+    }
+
 }
+

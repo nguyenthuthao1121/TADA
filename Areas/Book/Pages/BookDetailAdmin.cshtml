@@ -30,9 +30,18 @@
                     </div>
                 <div class="row mt-3">
                     <div class="col">
-                        <button type="button" class="btn-book">
-                            Ẩn sách 
-                        </button>
+                        @if (Model.Book.Hidden)
+                        {
+                            <button type="button" class="btn-book display-btn">
+                                Hiện sách
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn-book hidden-btn">
+                                Ẩn sách
+                            </button>
+                        }
                     </div>
                     <div class="col">
                         <a asp-area="Book" asp-page="EditBook" asp-route-id="@Model.Book.Id" class="btn-book btn-book--primary" style="display: block; text-decoration:none; text-align: center">
@@ -289,6 +298,7 @@
     <img class="modal-content" />
 </div>
 @section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         var modal = document.getElementById("my-modal");
         const img = document.querySelectorAll(".comment-img");
@@ -308,5 +318,46 @@
             modal.style.display = "block";
             modalImg.src = bookImg.src;
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".hidden-btn").on("click", function (e) {
+                e.preventDefault();
+                hideBook();
+            });
+            $(".display-btn").on("click", function (e) {
+                e.preventDefault();
+                displayBook();
+            });
+        });
+
+        function hideBook() {
+            var itemId = @Model.BookId;
+            $.ajax({
+                type: "GET",
+                url: "/Book/BookDetailAdmin?handler=HideBook",
+                data: { itemId: itemId },
+                success: function (response) {
+                    window.location.href = "./BookManagement";
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+        function displayBook() {
+            var itemId = @Model.BookId;
+            $.ajax({
+                type: "GET",
+                url: "/Book/BookDetailAdmin?handler=DisplayBook",
+                data: { itemId: itemId },
+                success: function (response) {
+                    window.location.href = "./BookManagement";
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     </script>
 }

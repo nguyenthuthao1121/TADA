@@ -1,5 +1,7 @@
 ﻿using TADA.Dto.Staff;
 using TADA.Repository;
+using TADA.Repository.Implement;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement;
 public class StaffService : IStaffService
@@ -39,7 +41,22 @@ public class StaffService : IStaffService
 
     public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
     {
-        return staffRepository.GetStaff(search, status, sortBy, sortType);
+        List<StaffDto> list = new List<StaffDto>();
+        foreach (StaffDto staff in staffRepository.GetStaff(status, sortBy, sortType))
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                list.Add(staff);
+            }
+            else
+            {
+                if ((UIHelper.RemoveUnicodeSymbol(staff.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                {
+                    list.Add(staff);
+                }
+            }
+        }
+        return list;
     }
 
     public StaffDto GetStaffDtoByAccountId(int accountId)

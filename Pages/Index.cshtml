@@ -74,7 +74,7 @@
                         </select>
                         <input type="hidden" name="pageNumber" value="@Model.currentPage"/>
                     </form>
-                    <form method="get" class ="form-group d-flex justify-content-end">
+                    <form method="get" class ="form-group d-flex justify-content-end filter-form">
                             <label for="filter" class="form-label" style="width: 64px">
                             <i class="fas fa-filter me-1"></i>
                             Bộ lọc:
@@ -180,6 +180,18 @@
             $('#sort-select').on('change', function () {
                 $('#sort-form').submit();
             });
+        });
+    </script>
+    <script>
+        var resetFilter = document.querySelector('.btn-delete-filter');
+        var genre = document.querySelector('.genre');
+        var priceRange = document.querySelector('.price');
+        var form = document.querySelector('.filter-form');
+        resetFilter.addEventListener('click', function (event) {
+            event.preventDefault();
+            genre.value = "All";
+            priceRange.value = "minint-maxint";
+            form.submit();
         });
     </script>
 }

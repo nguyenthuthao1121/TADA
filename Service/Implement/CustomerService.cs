@@ -1,7 +1,10 @@
-﻿using TADA.Dto.Customer;
+﻿using System.Drawing.Printing;
+using TADA.Dto.Customer;
 using TADA.Model;
+using TADA.Model.Entity;
 using TADA.Repository;
 using TADA.Repository.Implement;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement
 {
@@ -27,7 +30,22 @@ namespace TADA.Service.Implement
 
         public List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType)
         {
-            return customerRepository.GetCustomers(search, gender, status, sortBy, sortType);
+            List<CustomerDto> list = new List<CustomerDto>();
+            foreach (CustomerDto customer in customerRepository.GetCustomers(gender, status, sortBy, sortType))
+            {
+                if (string.IsNullOrWhiteSpace(search))
+                {
+                    list.Add(customer);
+                }
+                else
+                {
+                    if ((UIHelper.RemoveUnicodeSymbol(customer.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    {
+                        list.Add(customer);
+                    }
+                }
+            }
+            return list;
         }
 
         public int GetIdByAccountId(int id)

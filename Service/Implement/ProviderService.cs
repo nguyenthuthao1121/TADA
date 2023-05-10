@@ -1,5 +1,8 @@
 ﻿using TADA.Dto.Provider;
+using TADA.Model.Entity;
 using TADA.Repository;
+using TADA.Repository.Implement;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement;
 
@@ -31,15 +34,33 @@ public class ProviderService : IProviderService
     public List<ProviderManagementDto> GetProviders(string search)
     {
         var list = new List<ProviderManagementDto>();
-        var providers = providerRepository.GetProviders(search);
-        foreach (var provider in providers)
+        var providers = providerRepository.GetProviders();
+        if (string.IsNullOrWhiteSpace(search))
         {
-            list.Add(new ProviderManagementDto
+            foreach (var provider in providers)
             {
-                Id = provider.Id,
-                Name = provider.Name,
-                Address = addressRepository.GetAddressById(provider.AddressId)
-            });
+                list.Add(new ProviderManagementDto
+                {
+                    Id = provider.Id,
+                    Name = provider.Name,
+                    Address = addressRepository.GetAddressById(provider.AddressId)
+                });
+            }
+        }
+        else
+        {
+            foreach (var provider in providers)
+            {
+                if ((UIHelper.RemoveUnicodeSymbol(provider.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                {
+                    list.Add(new ProviderManagementDto
+                    {
+                        Id = provider.Id,
+                        Name = provider.Name,
+                        Address = addressRepository.GetAddressById(provider.AddressId)
+                    });
+                }
+            }
         }
         return list;
     }
