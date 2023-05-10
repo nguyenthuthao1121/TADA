@@ -10,12 +10,7 @@
     {
         currentPage = Model.currentPage,
         countPages = Model.countPages,
-        category = Model.CategoryId,
-        provider = Model.ProviderId,
-        sortBy = Model.SortBy,
-        sortType = Model.SortType,
-        q = Model.q,
-        inStock = Model.InStock
+        generateUrl = "/Book/BookManagement/?CategoryId=" + Model.CategoryId + "&ProviderId=" + Model.ProviderId + "&q=" + Model.q + "&InStock=" + Model.InStock + "&SortBy=" + Model.SortBy + "&SortType=" + Model.SortType
     };
 }
 <div class="row">
@@ -68,9 +63,9 @@
                 <div class="sort-feature">
                     <div class="sort-feature-item">
                         <form method="get">
-                            <input type="hidden" name="q" value="@Model.q" />
                             <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
                             <input type="hidden" name="ProviderId" value="@Model.ProviderId" />
+                            <input type="hidden" name="q" value="@Model.q" />
                             <input type="hidden" name="InStock" value="@Model.InStock" />
 
                             <select class="sort-by" asp-for="SortBy">

@@ -223,6 +223,7 @@ namespace TADA.Service.Implement
             }
             return revuene;
         }
+
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
@@ -280,6 +281,24 @@ namespace TADA.Service.Implement
             orderRepository.DeleteOrderDetail(bookId, orderId);
         }
 
+        public int GetNumOfSoldBooks()
+        {
+            int numOfSoldBooks = 0;
+            var orders = orderRepository.GetOrderGroupByBookId();
+            foreach (var order in orders)
+            {
+                numOfSoldBooks += order.Quantity;
+            }
+            return numOfSoldBooks;
+        }
+        public int GetNumOfOrders()
+        {
+            return orderRepository.GetConfirmedOrderIds().Count;
+        }
+        public int GetNumOfOrdersByYear(int year)
+        {
+            return orderRepository.GetConfirmedOrderIdsByYear(year).Count;
+        }
         private int CalculateShipping(int orderId)
         {
             var order=orderRepository.GetOrderById(orderId);

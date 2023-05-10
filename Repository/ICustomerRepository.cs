@@ -6,7 +6,7 @@ namespace TADA.Repository;
 public interface ICustomerRepository
 {
     List<CustomerDto> GetAllCustomers();
-    List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType);
+    List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType);
 
     CustomerDto GetCustomerByAccountId(int accountId);
     CustomerDto GetCustomerById(int customerId);
@@ -14,4 +14,5 @@ public interface ICustomerRepository
     int GetIdByAccountId(int id);
     int GetLastId();
     void UpdateCustomer(CustomerDto customer);
+    List<int> GetCustomersByYear(int year);
 }

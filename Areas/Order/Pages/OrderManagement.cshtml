@@ -6,7 +6,14 @@
     Layout = "~/Pages/Shared/_LayoutAdmin.cshtml"; 
     ViewBag.Name = HttpContext.Session.GetString("Name");
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Order/OrderManagement/?Province=" + Model.Province + "&PriceRange=" + Model.PriceRange + "&StatusId=" + Model.StatusId + "&SortBy=" + Model.SortBy
+    };
+}
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <form method="get" class="feature">
@@ -129,31 +136,7 @@
                 </table>
             </div>
             <div class="pagination-container">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Trang trước</a> 
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <partial name="_PagingAdmin" model="datapaging" />
             </div>
         </div>
 

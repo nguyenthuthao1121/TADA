@@ -28,6 +28,21 @@ public class ProviderService : IProviderService
         }
         return list;
     }
+    public List<ProviderManagementDto> GetProviders(string search)
+    {
+        var list = new List<ProviderManagementDto>();
+        var providers = providerRepository.GetProviders(search);
+        foreach (var provider in providers)
+        {
+            list.Add(new ProviderManagementDto
+            {
+                Id = provider.Id,
+                Name = provider.Name,
+                Address = addressRepository.GetAddressById(provider.AddressId)
+            });
+        }
+        return list;
+    }
     public bool AddProvider(AddProviderDto provider)
     {
         if (providerRepository.GetProviderByName(provider.Name) == null)

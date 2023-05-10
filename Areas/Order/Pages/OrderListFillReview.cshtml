@@ -5,7 +5,14 @@
     ViewBag.Name = HttpContext.Session.GetString("Name");
     ViewData["Title"] = "Đơn hàng";
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Order/OrderListFillReview/?"
+    };
+}
 <div id="order-list__all--fill">
     <div class="grid">
         <div class="row">
@@ -102,6 +109,9 @@
                 }
                 
             </div>
+        </div>
+        <div class="row my-5">
+            <partial name="_PagingUser" model="@datapaging" />
         </div>
     </div>
 </div>

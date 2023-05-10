@@ -1,0 +1,105 @@
+﻿.statistic__item-list {
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.statistic__item {
+    width: 25%;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.statistic__item i {
+    font-size: 40px;
+    margin: auto 0 auto 20px;
+    display: inline-block;
+}
+
+.statistic__info {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.statistic__info p {
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.statistic__info p:last-of-type {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 28px;
+}
+
+
+.statistic__item:first-child {
+    margin-left: 0;
+}
+
+.statistic__item:last-child {
+    margin-right: 0;
+}
+
+.statistic__chart {
+    margin: 20px;
+    height: calc(85% - 60px);
+}
+
+.statistic__chart-heading {
+    padding: 8px 0;
+    display: block;
+    text-align: center;
+}
+
+    .statistic__chart-heading h1 {
+        padding: 4px 0;
+    }
+
+    .statistic__chart-heading .years {
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+.statistic__chart-content {
+    width: 90%;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+.statistic__chart-item {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    height: calc((100% - 40px)/5);
+    background-color: white;
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+.statistic__chart-item i {
+    font-size: 30px;
+    margin: auto 0 auto 20px;
+    display: inline-block;
+}
+
+.statistic__chart-info {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.statistic__chart-item:not(:first-of-type, :last-of-type) {
+    margin: 10px 0 10px 10px;
+}

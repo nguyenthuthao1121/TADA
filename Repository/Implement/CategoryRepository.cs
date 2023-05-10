@@ -1,5 +1,6 @@
 ﻿using TADA.Model.Entity;
 using TADA.Model;
+using Microsoft.DotNet.Scaffolding.Shared;
 
 namespace TADA.Repository.Implement;
 
@@ -30,5 +31,52 @@ public class CategoryRepository : ICategoryRepository
     {
         context.Categories.Add(new Category { Name = categoryName });
         context.SaveChanges();
+    }
+
+    public List<Category> GetCategories(string search, string sortBy, string sortType)
+    {
+        var categories = context.Categories.ToList();
+        foreach(var category in categories)
+        {
+            var entry = context.Entry(category);
+            entry.Collection(p => p.Books).Load();
+        }
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            categories = categories.Where(p => p.Name.Contains(search)).ToList();
+        }
+
+        switch (sortType)
+        {
+            case "desc":
+                switch (sortBy)
+                {
+                    case "categoryName":
+                        categories = categories.OrderByDescending(p => p.Name).ToList();
+                        break;
+                    case "count":
+                        categories = categories.OrderByDescending(p => p.Books.Count).ToList();
+                        break;
+                    default:
+                        categories = categories.OrderByDescending(p => p.Id).ToList();
+                        break;
+                }
+                break;
+            default:
+                switch (sortBy)
+                {
+                    case "categoryName":
+                        categories = categories.OrderBy(p => p.Name).ToList();
+                        break;
+                    case "count":
+                        categories = categories.OrderBy(p => p.Books.Count).ToList();
+                        break;
+                    default:
+                        categories = categories.OrderBy(p => p.Id).ToList();
+                        break;
+                }
+                break;
+        }
+        return categories;
     }
 }

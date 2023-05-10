@@ -2,12 +2,7 @@
 @{
     int currentPage = Model.currentPage;
     int countPages = Model.countPages;
-    int category = Model.category;
-    int provider = Model.provider;
-    string q = Model.q;
-    int inStock = Model.inStock;
-    string sortBy = Model.sortBy;
-    string sortType = Model.sortType;
+    string generateUrl = Model.generateUrl;
 
     if (currentPage > countPages)
         currentPage = countPages;
@@ -83,7 +78,7 @@
     @if (preview != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + preview)">
+            <a class="page-link" href="@Url.Content(generateUrl + "&pageNumber=" + preview)">
                 <i class="fas fa-chevron-left"></i>
             </a>
         </li>
@@ -103,7 +98,7 @@
         if (pageitem != currentPage)
         {
             <li class="page-item ">
-                <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + pageitem)">
+                <a class="page-link" href="@Url.Content(generateUrl + "&pageNumber=" + pageitem)">
                     @pageitem
                 </a>
             </li>
@@ -121,7 +116,7 @@
     @if (next != null)
     {
         <li class="page-item">
-            <a class="page-link" href="@Url.Content("/Book/BookManagement/?CategoryId=" + category + "&ProviderId=" + provider + "&q=" + q + "&InStock=" + inStock + "&SortBy=" + sortBy + "&SortType=" + sortType + "&pageNumber=" + next)">
+            <a class="page-link" href="@Url.Content(generateUrl + "&pageNumber=" + next)">
                 <i class="fas fa-chevron-right"></i>
             </a>
         </li>

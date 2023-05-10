@@ -5,6 +5,8 @@ using TADA.Dto.Staff;
 using TADA.Model;
 using TADA.Model.Entity;
 using static System.Reflection.Metadata.BlobBuilder;
+using TADA.Dto.Address;
+using TADA.Dto.Customer;
 
 namespace TADA.Repository.Implement;
 
@@ -61,6 +63,10 @@ public class StaffRepository : IStaffRepository
             RoleId = staff.RoleId
         });
         context.SaveChanges();
+    }
+    public List<int> GetStaffsByYear(int year)
+    {
+        return context.Accounts.Where(account => account.CreateDate.Year == year).Join(context.Staff, account => account.Id, staff => staff.AccountId, (account, staff) => staff.Id).ToList();
     }
 
     public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
@@ -151,5 +157,49 @@ public class StaffRepository : IStaffRepository
             }
         }
         return staff;
+    }
+    public StaffDto GetStaffDtoByAccountId(int accountId)
+    {
+        var account = context.Accounts.Find(accountId);
+        if (account == null) return null;
+        var staff = context.Staff.Where(staff => staff.AccountId == accountId)
+            .Select(s => s).FirstOrDefault();
+        AddressRepository addressRepository = new AddressRepository(context);
+        AddressDto address = addressRepository.GetStaffAddressDto(accountId);
+        return new StaffDto
+        {
+            AccountId = accountId,
+            Email = account.Email,
+            Password = account.Password,
+            CreateDate = account.CreateDate,
+            Status = account.Status,
+            StaffId = staff.Id,
+            Name = staff.Name,
+            Birthday = staff.Birthday,
+            Gender = staff.Gender,
+            TelephoneNumber = staff.TelephoneNumber,
+            AddressId = (int)staff.AddressId,
+            Street = address.Street,
+            Ward = address.WardName,
+            District = address.DistrictName,
+            Province = address.ProvinceName
+        };
+    }
+
+    public void UpdateStaff(StaffDto staff)
+    {
+        var updateStaff = context.Staff.FirstOrDefault(p => p.AccountId == staff.AccountId);
+        if (updateStaff != null)
+        {
+            updateStaff.Name = staff.Name;
+            updateStaff.TelephoneNumber = staff.TelephoneNumber;
+            updateStaff.Birthday = staff.Birthday;
+            updateStaff.Gender = staff.Gender;
+            var entry = context.Entry(updateStaff);
+            entry.Reference(p => p.Address).Load();
+            updateStaff.Address.WardId = staff.WardId;
+            updateStaff.Address.Street = staff.Street;
+            context.SaveChanges();
+        }
     }
 }

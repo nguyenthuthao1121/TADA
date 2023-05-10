@@ -18,6 +18,10 @@ public class OrderManagementModel : PageModel
     private readonly IOrderService orderService;
     private readonly IAddressService addressService;
     private readonly IStatusService statusService;
+    public const int ITEMS_PER_PAGE = 10;
+    public int countPages { get; set; }
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int currentPage { get; set; }
     public List<OrderManagementDto> Orders { get; set; }
     public int UserId { get; set; }
     public List<ProvinceDto> Provinces { get; set; }
@@ -26,9 +30,9 @@ public class OrderManagementModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string SortBy { get; set; } = "Desc";
     [BindProperty(SupportsGet = true)]
-    public string PriceRange { get; set; } = string.Empty;
+    public string PriceRange { get; set; } = "All";
     [BindProperty(SupportsGet = true)]
-    public string Province { get; set; } = string.Empty;
+    public string Province { get; set; } = "All";
     [BindProperty(SupportsGet = true)]
     public string StatusId { get; set; } = "0";
 
@@ -44,8 +48,19 @@ public class OrderManagementModel : PageModel
         var url = HttpContext.Request.GetDisplayUrl();
         var uri = new Uri(url);
         UserId = Convert.ToInt32(HttpUtility.ParseQueryString(uri.Query).Get("userId"));
-        Orders = orderService.GetOrdersByCustomerId(UserId, Province, PriceRange, Convert.ToInt32(StatusId), SortBy);
+        var orders = orderService.GetOrdersByCustomerId(UserId, Province, PriceRange, Convert.ToInt32(StatusId), SortBy);
         Provinces = addressService.GetAllProvinces();
+        int total = orders.Count();
+        countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
+        if (currentPage < 1)
+        {
+            currentPage = 1;
+        }
+        if (currentPage > countPages)
+        {
+            currentPage = countPages;
+        }
+        Orders = orders.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
         Statuses = statusService.GetStatuses();
     }
     public IActionResult OnPostViewOrderByUser(int? id)

@@ -23,4 +23,7 @@ public interface IOrderService
     void DeleteOrder(int orderId);
     void AddOrder(int accountId, List<OrderDetailDto> orderDetail);
     void DeleteOrderDetail(int bookId, int orderId);
+    int GetNumOfSoldBooks();
+    int GetNumOfOrders();
+    int GetNumOfOrdersByYear(int year);
 }

@@ -40,7 +40,6 @@ public class OrderRepository : IOrderRepository
         
         List<int> orderIds = new List<int>();
         List<OrderDto> orders = new List<OrderDto>();
-
         if (statusId == 0)
         {
             switch (sortBy)
@@ -267,6 +266,11 @@ public class OrderRepository : IOrderRepository
     {
         var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
         return context.Orders.Where(order => statusIds.Contains((int)order.StatusId)).Select(order => order.Id).ToList();
+    }
+    public List<int> GetConfirmedOrderIdsByYear(int year)
+    {
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        return context.Orders.Where(order => statusIds.Contains((int)order.StatusId) && order.DateOrder.Year == year).Select(order => order.Id).ToList();
     }
     public List<OrderGroupDto> GetOrderGroupByBookId()
     {

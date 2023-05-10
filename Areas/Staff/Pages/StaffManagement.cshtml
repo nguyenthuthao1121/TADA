@@ -6,7 +6,14 @@
     ViewBag.Name = HttpContext.Session.GetString("Name");
     ViewBag.AccountId = HttpContext.Session.GetInt32("Id");
 }
-
+@{
+    var datapaging = new
+    {
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = "/Staff/StaffManagement/?SearchQuery=" + Model.SearchQuery + "&Filter=" + Model.Filter + "&SortBy=" + Model.SortBy + "&SortType=" + Model.SortType
+    };
+}
 <div class="row">
     <div class="col-10 m-0 p-0 content">
         <div class="feature">
@@ -31,9 +38,6 @@
                     <div class="search-feature">
                         <form method="get">
                             <input class="search-feature-input" placeholder="Tìm kiếm admin" asp-for="SearchQuery">
-                            <input type="hidden" name="Filter" value="@Model.Filter" />
-                            <input type="hidden" name="SortBy" value="@Model.SortBy" />
-                            <input type="hidden" name="SortType" value="@Model.SortType" />
                             <button class="feature-btn" type="submit">
                                 <i class="search-feature-btn-icon fa-solid fa-magnifying-glass"></i>
                             </button>
@@ -172,31 +176,7 @@
                         THÊM NHÂN VIÊN
                     </a>
                 </div>
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Trang trước</a> 
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <partial name="_PagingAdmin" model="datapaging" />
             </div>
         </div>
 

@@ -11,8 +11,10 @@ public class OrderListConfirmDeliverModel : PageModel
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
-
-    public string Username;
+    public const int ITEMS_PER_PAGE = 1;
+    public int countPages { get; set; }
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int currentPage { get; set; }
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
     public int statusId = 2;
@@ -41,9 +43,18 @@ public class OrderListConfirmDeliverModel : PageModel
     }
     public void OnGet()
     {
-        Username = HttpContext.Session.GetString("Name");
-        Orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
-
+        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
+        int total = orders.Count();
+        countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
+        if (currentPage < 1)
+        {
+            currentPage = 1;
+        }
+        if (currentPage > countPages)
+        {
+            currentPage = countPages;
+        }
+        Orders = orders.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
     }
 
 }

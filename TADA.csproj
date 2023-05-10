@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Revuene\Pages\" />
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\books\book21\cover-img\" />
   </ItemGroup>
 
@@ -93,6 +92,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\Privacy.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\cdnjs\chart.min.js" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,8 @@ public interface IAddressService
     void AddAddress(string street, int wardId);
     int GetLastId();
     AddressDto GetCustomerAddressDto(int accountId);
+    AddressDto GetStaffAddressDto(int accountId);
+
     AddressDto GetOrderAddressDto(int orderId);
 
     List<WardDto> GetAllWardsByDistrictId(int districtId);

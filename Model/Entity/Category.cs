@@ -12,6 +12,6 @@ namespace TADA.Model.Entity
         [StringLength(255)]
         [Column(TypeName = "nvarchar")]
         public string Name { get; set; }
-        public  List<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; }
     }
 }

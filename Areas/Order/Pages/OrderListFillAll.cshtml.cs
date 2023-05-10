@@ -6,6 +6,7 @@ using TADA.Dto.Order;
 using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Service.Implement;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TADA.Pages;
 
@@ -14,7 +15,10 @@ public class OrderListFillAllModel : PageModel
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
-
+    public const int ITEMS_PER_PAGE = 1;
+    public int countPages { get; set; }
+    [BindProperty(SupportsGet = true, Name = "pagenumber")]
+    public int currentPage { get; set; }
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
     public int statusId = 0;
@@ -43,7 +47,17 @@ public class OrderListFillAllModel : PageModel
     }
     public void OnGet()
     {
-        Orders = orderService.GetAllOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"));
-
+        var orders = orderService.GetAllOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"));
+        int total = orders.Count();
+        countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
+        if (currentPage < 1)
+        {
+            currentPage = 1;
+        }
+        if (currentPage > countPages)
+        {
+            currentPage = countPages;
+        }
+        Orders = orders.Skip((currentPage - 1) * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList();
     }
 }

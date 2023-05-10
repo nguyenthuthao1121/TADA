@@ -63,10 +63,10 @@ public class BookRepository : IBookRepository
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderBy(x => x.Price).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderBy(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Price).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     default:
                         bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
@@ -78,10 +78,10 @@ public class BookRepository : IBookRepository
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.OrderBy(x => x.Price).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderBy(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.OrderByDescending(x => x.Price).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
                         break;
                     default:
                         bookIds = context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
@@ -96,10 +96,10 @@ public class BookRepository : IBookRepository
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderBy(x => x.Price).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderBy(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderByDescending(x => x.Price).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     default:
                         bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
@@ -111,10 +111,10 @@ public class BookRepository : IBookRepository
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.OrderBy(x => x.Price).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderBy(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.OrderByDescending(x => x.Price).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
                         break;
                     default:
                         bookIds = context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
