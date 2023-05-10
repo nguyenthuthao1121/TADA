@@ -44,5 +44,14 @@ namespace TADA.Service.Implement
         {
             customerRepository.UpdateCustomer(customer);
         }
+
+        public int GetNumOfCustomers()
+        {
+            return customerRepository.GetAllCustomers().Count;
+        }
+        public int GetNumOfCustomersByYear(int year)
+        {
+            return customerRepository.GetCustomersByYear(year).Count;
+        }
     }
 }

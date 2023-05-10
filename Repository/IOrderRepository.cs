@@ -20,6 +20,7 @@ public interface IOrderRepository
     string GetStatusByStatusId(int statusId);
     List<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
     List<int> GetConfirmedOrderIds();
+    List<int> GetConfirmedOrderIdsByYear(int year);
     List<OrderGroupDto> GetOrderGroupByBookId();
     int GetPriceOfOrder(int orderId);
     List<OrderOfMonthDto> GetDeliveredOrderInMonth(int month, int year);

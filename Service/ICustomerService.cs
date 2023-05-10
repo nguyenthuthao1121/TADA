@@ -11,4 +11,6 @@ public interface ICustomerService
     string GetNameByAccountId(int id);
     int GetIdByAccountId(int id);
     void UpdateCustomer(CustomerDto customer);
+    int GetNumOfCustomers();
+    int GetNumOfCustomersByYear(int year);
 }

@@ -254,5 +254,9 @@ namespace TADA.Repository.Implement
                 context.SaveChanges();
             }
         }
+        public List<int> GetCustomersByYear(int year)
+        { 
+            return context.Accounts.Where(account => account.CreateDate.Year == year).Join(context.Customers, account => account.Id, customer => customer.AccountId, (account, customer) => customer.Id).ToList();
+        }
     }
 }

@@ -336,6 +336,11 @@ public class OrderRepository : IOrderRepository
         var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
         return context.Orders.Where(order => statusIds.Contains((int)order.StatusId)).Select(order => order.Id).ToList();
     }
+    public List<int> GetConfirmedOrderIdsByYear(int year)
+    {
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        return context.Orders.Where(order => statusIds.Contains((int)order.StatusId) && order.DateOrder.Year == year).Select(order => order.Id).ToList();
+    }
     public List<OrderGroupDto> GetOrderGroupByBookId()
     {
         var ids = GetConfirmedOrderIds();
