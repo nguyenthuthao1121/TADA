@@ -34,6 +34,6 @@ namespace TADA.Model.Entity
         [ForeignKey("StatusId")]
         public Status Status { get; set; }
         public List<OrderDetail> OrderDetails { get; } = new();
-
+        public List<Review> Reviews { get; set; }
     }
 }

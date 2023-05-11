@@ -15,7 +15,7 @@ public class OrderListFillAllModel : PageModel
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
-    public const int ITEMS_PER_PAGE = 1;
+    public const int ITEMS_PER_PAGE = 10;
     public int countPages { get; set; }
     [BindProperty(SupportsGet = true, Name = "pagenumber")]
     public int currentPage { get; set; }

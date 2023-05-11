@@ -122,7 +122,7 @@
                             @if (Model.Order.StatusId == 1)
                             {
                                 <button class="order-btn order-btn--confirm" type="submit" asp-page-handler="ConfirmOrder" asp-route-orderId="@Model.Order.Id">XÁC NHẬN ĐƠN HÀNG</button>
-                                <button class="order-btn order-btn--cancel" type="button" data-bs-toggle="modal" data-bs-target="#modalCancel">HỦY ĐƠN HÀNG</button>
+                                <button class="order-btn order-btn--cancel js-order-btn--cancel" type="button" data-bs-toggle="modal" data-bs-target="#modalCancel">HỦY ĐƠN HÀNG</button>
                             }
                             else if (Model.Order.StatusId == 2)
                             {
@@ -131,7 +131,7 @@
                             else if (Model.Order.StatusId == 3)
                             {
                                 <button class="order-btn order-btn--confirm" asp-page-handler="ConfirmDelivered" asp-route-orderId="@Model.Order.Id">GIAO HÀNG THÀNH CÔNG</button>
-                                <button class="order-btn order-btn--cancel" asp-page-handler="DeliverydFail" asp-route-orderId="@Model.Order.Id">GIAO HÀNG THẤT BẠI</button>
+                                <button class="order-btn order-btn--cancel" asp-page-handler="DeliveryFail" asp-route-orderId="@Model.Order.Id">GIAO HÀNG THẤT BẠI</button>
                             }
                         </form>
                     </div>
@@ -149,7 +149,7 @@
 
                 <div class="modal-footer border-0 p-0 d-flex mt-0">
                     <div class="button px-0 mt-0">
-                        <button type="submit" class="btn btn-secondary" asp-page-handler="CancleOrder" asp-route-orderId="@Model.Order.Id" asp-route-userId="@Model.CustomerId" data-bs-dismiss="modal">Huỷ</button>
+                        <button type="submit" class="btn btn-secondary" asp-page-handler="CancelOrder" asp-route-orderId="@Model.Order.Id" asp-route-userId="@Model.CustomerId" data-bs-dismiss="modal">Huỷ</button>
                     </div>
                     <div class="button px-0 mt-0">
                         <button type="button" class="btn btn-primary js-modal-close" id="submit-btn">Quay lại</button>
@@ -161,22 +161,22 @@
     </form>
     <!-- JavaScript -->
     <script>
-        const cancelOrderBtn = document.querySelector('.order-btn--cancel');
+        const cancelOrderBtn = document.querySelector('.js-order-btn--cancel');
         const modal = document.querySelector('.js-modal-cancel-order');
         const modalClose_list = document.querySelectorAll('.js-modal-close');
 
 
         function showModal() {
-            modal.classList.add('open')
+        modal.classList.add('open')
         }
         function hideModal() {
-            modal.classList.remove('open')
+        modal.classList.remove('open')
         }
 
         cancelOrderBtn.addEventListener('click', showModal)
 
         for (const modalClose of modalClose_list) {
-            modalClose.addEventListener('click', hideModal)
+        modalClose.addEventListener('click', hideModal)
         }
 
     </script>
