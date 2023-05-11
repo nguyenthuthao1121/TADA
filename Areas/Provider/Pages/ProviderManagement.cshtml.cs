@@ -7,7 +7,7 @@ using TADA.Service;
 
 namespace TADA.Pages;
 
-[Authorize("Quản trị viên", "Nhân viên kinh doanh")]
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class ProviderManagementModel : PageModel
 {
     private readonly IProviderService providerService;

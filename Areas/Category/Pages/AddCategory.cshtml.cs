@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using TADA.Service;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class AddCategoryModel : PageModel
 {
     private readonly ICategoryService categoryService;

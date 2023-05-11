@@ -1,0 +1,23 @@
+﻿.notification {
+    background-color: var(--white-color);
+    margin: 20px 16px;
+    padding: 10px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.notification-item {
+    display: block;
+}
+
+.notification i {
+    font-size: 60px;
+    line-height: 100px;
+    color: var(--primary-color);
+}
+
+.notification p {
+   font-size: 28px;
+   line-height: 30px;
+   font-weight: 500;
+}

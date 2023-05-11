@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Revuene\Pages\" />
     <Folder Include="wwwroot\img\books\book21\cover-img\" />
   </ItemGroup>
 

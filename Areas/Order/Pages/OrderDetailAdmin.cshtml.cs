@@ -8,9 +8,11 @@ using TADA.Dto.Customer;
 using TADA.Dto.Order;
 using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class OrderDetailAdminModel : PageModel
 {
     private readonly IOrderService orderService;

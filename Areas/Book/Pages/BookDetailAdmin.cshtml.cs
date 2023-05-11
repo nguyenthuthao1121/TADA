@@ -5,9 +5,11 @@ using TADA.Dto.Review;
 using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Service.Implement;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class BookDetailAdminModel : PageModel
 {
     private readonly IBookService bookService;

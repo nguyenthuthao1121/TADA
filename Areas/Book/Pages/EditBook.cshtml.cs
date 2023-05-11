@@ -8,9 +8,11 @@ using TADA.Model.Entity;
 using TADA.Service;
 using System.IO;
 using static System.Reflection.Metadata.BlobBuilder;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên bán hàng")]
 public class EditBookModel : PageModel
 {
     private readonly IBookService bookService;

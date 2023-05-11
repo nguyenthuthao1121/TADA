@@ -21,7 +21,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         if (!roles.Contains(context.HttpContext.Session.GetString("Role")))
         {
-            context.Result = new RedirectResult("~/Error");
+            context.Result = new RedirectResult("~/InaccessiblePage");
         }
     }
 }

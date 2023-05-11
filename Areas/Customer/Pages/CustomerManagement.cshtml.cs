@@ -13,7 +13,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TADA.Pages;
 
-[Authorize("Quản trị viên", "Nhân viên kinh doanh")]
+[Authorize("Quản trị viên")]
 public class CustomerModel : PageModel
 {
     public readonly IAccountService accountService;
