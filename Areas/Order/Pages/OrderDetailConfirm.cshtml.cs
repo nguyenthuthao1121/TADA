@@ -95,7 +95,7 @@ public class OrderDetailConfirmModel : PageModel
         }
             
     }
-    public IActionResult OnPostCancleOrder(int? id)
+    public IActionResult OnPostCancelOrder(int? id)
     {
         orderService.UpdateStatusOrder((int)id, 6);
         return RedirectToPage("OrderListFillCancel", new {area="Order"});

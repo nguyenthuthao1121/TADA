@@ -11,7 +11,7 @@ public class OrderListDeliveringModel : PageModel
     private readonly IOrderService orderService;
     private readonly IAccountService accountService;
     private readonly IBookService bookService;
-    public const int ITEMS_PER_PAGE = 1;
+    public const int ITEMS_PER_PAGE = 10;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
     public int statusId = 3;

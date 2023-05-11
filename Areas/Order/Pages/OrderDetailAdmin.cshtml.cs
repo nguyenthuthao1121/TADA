@@ -76,10 +76,10 @@ public class OrderDetailAdminModel : PageModel
         }
 
     }
-    public IActionResult OnPostCancleOrder(int? orderId, int? userId)
+    public IActionResult OnPostCancelOrder(int? orderId, int? userId)
     {
         orderService.UpdateStatusOrder((int)orderId, 6);
-        return RedirectToPage("OrderManagement", new { userId = userId });
+        return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
     public IActionResult OnPostConfirmOrder(int? orderId)
     {
@@ -96,9 +96,9 @@ public class OrderDetailAdminModel : PageModel
         orderService.UpdateStatusOrder((int)orderId, 4);
         return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
-    public IActionResult OnPostDeliverydFail(int? orderId)
+    public IActionResult OnPostDeliveryFail(int? orderId)
     {
-        orderService.UpdateStatusOrder((int)orderId, 5);
+        orderService.UpdateStatusOrder((int)orderId, 6);
         return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
 }
