@@ -7,7 +7,7 @@ namespace TADA.Repository
     {
         StaffRoleDto GetStaffByAccountId(int id);
         List<StaffDto> GetAllStaffs();
-        List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType);
+        List<StaffDto> GetStaff(string status, string sortBy, string sortType);
         StaffDto GetStaffDtoByAccountId(int accountId);
         void AddStaff(AddStaffDto staff);
         List<int> GetStaffsByYear(int year);

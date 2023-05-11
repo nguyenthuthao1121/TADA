@@ -12,6 +12,9 @@ public interface IBookService
     int AddBook(BookDto book);
     void UpdateQuantity(int bookId, int quantity);
     void UpdateBook(BookDto book);
+    void HideBook(int bookId);
+    void DisplayBook(int bookId);
+
     BookDto GetBookById(int id);
     List<SoldBookDto> GetSoldBooks();
 }

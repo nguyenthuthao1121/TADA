@@ -69,12 +69,10 @@ public class StaffRepository : IStaffRepository
         return context.Accounts.Where(account => account.CreateDate.Year == year).Join(context.Staff, account => account.Id, staff => staff.AccountId, (account, staff) => staff.Id).ToList();
     }
 
-    public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
+    public List<StaffDto> GetStaff(string status, string sortBy, string sortType)
     {
         var staff = GetAllStaffs();
-        if (string.IsNullOrEmpty(search))
-        {
-            switch (status)
+        switch (status)
             {
                 case "true":
                     staff = staff.Where(p => p.Status == true).ToList(); break;
@@ -83,7 +81,7 @@ public class StaffRepository : IStaffRepository
                 default:
                     break;
             }
-            switch (sortType)
+        switch (sortType)
             {
                 case "desc":
                     switch (sortBy)
@@ -113,49 +111,6 @@ public class StaffRepository : IStaffRepository
                     }
                     break;
             }
-        }
-        else
-        {
-            switch (status)
-            {
-                case "true":
-                    staff = staff.Where(p => p.Status == true && p.Name.Contains(search)).ToList(); break;
-                case "false":
-                    staff = staff.Where(p => p.Status == false && p.Name.Contains(search)).ToList(); break;
-                default:
-                    staff = staff.Where(p => p.Name.Contains(search)).ToList(); break;
-            }
-            switch (sortType)
-            {
-                case "desc":
-                    switch (sortBy)
-                    {
-                        case "name":
-                            staff = staff.OrderByDescending(p => p.Name).ToList();
-                            break;
-                        case "status":
-                            staff = staff.OrderByDescending(p => p.Status).ToList();
-                            break;
-                        default:
-                            staff = staff.OrderByDescending(p => p.StaffId).ToList();
-                            break;
-                    }
-                    break;
-                default:
-                    switch (sortBy)
-                    {
-                        case "name":
-                            staff = staff.OrderBy(p => p.Name).ToList();
-                            break;
-                        case "status":
-                            staff = staff.OrderBy(p => p.Status).ToList();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-            }
-        }
         return staff;
     }
     public StaffDto GetStaffDtoByAccountId(int accountId)

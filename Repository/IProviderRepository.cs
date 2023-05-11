@@ -7,7 +7,7 @@ public interface IProviderRepository
 {
     string GetProviderNameById(int id);
     List<ProviderDto> GetAllProviders();
-    List<ProviderDto> GetProviders(string search);
+    List<ProviderDto> GetProviders();
 
     Provider GetProviderByName(string providerName);
     void AddProvider(ProviderDto provider);

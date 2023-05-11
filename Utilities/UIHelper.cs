@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TADA.Utilities;
 
@@ -52,7 +53,12 @@ public class UIHelper
         tmp = str + tmp;
         return tmp;
     }
-    
+    public static string RemoveUnicodeSymbol(string word)
+    {
+        Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+        string temp = word.Normalize(NormalizationForm.FormD);
+        return regex.Replace(temp, String.Empty).Replace('đ', 'd').Replace('Đ', 'D').ToLower();
+    }
     
 }
 

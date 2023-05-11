@@ -1,6 +1,7 @@
 ﻿using TADA.Dto.Category;
 using TADA.Model.Entity;
 using TADA.Repository;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement;
 
@@ -59,17 +60,36 @@ public class CategoryService : ICategoryService
 
     public List<CategoryDto> GetCategories(string search, string sortBy, string sortType)
     {
-        var categories = categoryRepository.GetCategories(search, sortBy, sortType);
+        var categories = categoryRepository.GetCategories(sortBy, sortType);
         var listCategories = new List<CategoryDto>();
-        foreach (var category in categories)
+        if (string.IsNullOrWhiteSpace(search))
         {
-            listCategories.Add(new CategoryDto()
+            foreach (var category in categories)
             {
-                Id = category.Id,
-                Name = category.Name,
-                NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
-            });
+                listCategories.Add(new CategoryDto()
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
+                });
+            }
         }
+        else
+        {
+            foreach (var category in categories)
+            {
+                if ((UIHelper.RemoveUnicodeSymbol(category.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                {
+                    listCategories.Add(new CategoryDto()
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        NumOfBooks = bookRepository.GetNumOfBooksByCategoryId(category.Id)
+                    });
+                } 
+            }
+        }
+        
         return listCategories;
     }
 }

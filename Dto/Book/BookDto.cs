@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using TADA.Model.Entity;
+using Microsoft.Identity.Client;
 
 namespace TADA.Dto.Book;
 
@@ -48,6 +49,7 @@ public class BookDto
     [Required(ErrorMessage = "Vui lòng nhập giảm giá!")]
     [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập số phần trăm giảm giá hợp lệ!")]
     public int Promotion { get; set; }
+    public bool Hidden { get; set; }
     public string CategoryName { get; set; }
     public string ProviderName { get; set; }
     public int CategoryId { get; set; }

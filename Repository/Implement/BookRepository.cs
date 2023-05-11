@@ -20,7 +20,7 @@ public class BookRepository : IBookRepository
     }
     public List<BookDto> GetAllBooks()
     {
-        var bookIds = context.Books.Select(p => p.Id).ToList();
+        var bookIds = context.Books.OrderBy(p => p.Id).Select(p => p.Id).ToList();
         List<BookDto> books = new List<BookDto>();
         foreach(var book in bookIds)
         {
@@ -29,7 +29,7 @@ public class BookRepository : IBookRepository
         return books;
     }
 
-    public List<BookDto> GetBooks(int category, string search, string priceRange, string genre, string sortBy)
+    public List<BookDto> GetBooks(int category, string priceRange, string genre, string sortBy)
     {
         if(genre.Equals("All"))
         {
@@ -56,79 +56,43 @@ public class BookRepository : IBookRepository
         }
         List<int> bookIds = new List<int>();
         List<BookDto> books = new List<BookDto>();
-        if (string.IsNullOrWhiteSpace(search))
-        {
-            if (category != 0)
+        if (category != 0)
             {
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderBy(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(p => p.Hidden == false).Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderBy(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(p => p.Hidden == false).Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
                         break;
                     default:
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                        bookIds = context.Books.Where(p => p.Hidden == false).Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
                         break;
                 }
             }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        bookIds = context.Books.OrderBy(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        bookIds = context.Books.OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        bookIds = context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-        }
         else
-        {
-            if (category != 0)
             {
                 switch (sortBy)
                 {
                     case "Asc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderBy(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderBy(x => x.Price * (100 - x.Promotion) / 100).Where(p => p.Hidden == false).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
                         break;
                     case "Desc":
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Where(p => p.Hidden == false).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
                         break;
                     default:
-                        bookIds = context.Books.Where(x => x.CategoryId == category).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                        bookIds = context.Books.OrderByDescending(x => x.Id).Where(p => p.Hidden == false).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre)).Select(p => p.Id).ToList();
                         break;
                 }
             }
-            else
-            {
-                switch (sortBy)
-                {
-                    case "Asc":
-                        bookIds = context.Books.OrderBy(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    case "Desc":
-                        bookIds = context.Books.OrderByDescending(x => x.Price * (100 - x.Promotion) / 100).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                    default:
-                        bookIds = context.Books.OrderByDescending(x => x.Id).Where(x => x.Price <= max && x.Price >= min && x.Genre.Contains(genre) && x.Name.Contains(search)).Select(p => p.Id).ToList();
-                        break;
-                }
-            }
-        }
         foreach(int id in bookIds)
         {
             books.Add(GetBookById(id));
         }
         return books;
     }
-    public List<BookDto> GetBooksForManagement(int category, int provider, string search, int inStock, string sortBy, string sortType)
+    public List<BookDto> GetBooksForManagement(int category, int provider, int inStock, string sortBy, string sortType)
     {
         var books = GetAllBooks();
         if (category != 0)
@@ -138,10 +102,6 @@ public class BookRepository : IBookRepository
         if (provider != 0)
         {
             books = books.Where(p => p.ProviderId == provider).ToList();
-        }
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            books = books.Where(p => p.Name.Contains(search)).ToList();
         }
         switch (inStock)
         {
@@ -218,6 +178,7 @@ public class BookRepository : IBookRepository
             Promotion = book.Promotion,
             AverageRating = rating,
             NumberOfReview = book.Reviews.Count(),
+            Hidden = book.Hidden,
             CategoryId = book.CategoryId,
             CategoryName = book.Category.Name,
             ProviderId = book.ProviderId,
@@ -310,6 +271,24 @@ public class BookRepository : IBookRepository
             entry.Reference(p => p.Category).Load();
             updateBook.ProviderId = book.ProviderId;
             updateBook.CategoryId = book.CategoryId;
+            context.SaveChanges();
+        }
+    }
+    public void HideBook(int bookId)
+    {
+        var updateBook = context.Books.FirstOrDefault(p => p.Id == bookId);
+        if (updateBook != null)
+        {
+            updateBook.Hidden = true;
+            context.SaveChanges();
+        }
+    }
+    public void DisplayBook(int bookId)
+    {
+        var updateBook = context.Books.FirstOrDefault(p => p.Id == bookId);
+        if (updateBook != null)
+        {
+            updateBook.Hidden = false;
             context.SaveChanges();
         }
     }

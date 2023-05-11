@@ -68,13 +68,9 @@ namespace TADA.Repository.Implement
                 AddressId = customer.AddressId,
             };
         }
-        public List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType)
+        public List<CustomerDto> GetCustomers(string gender, string status, string sortBy, string sortType)
         {
             var customers = GetAllCustomers();
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                customers = customers.Where(p => p.Name.Contains(search)).ToList();
-            }
             switch (gender)
             {
                 case "Male": customers = customers.Where(customer => customer.Gender == true).ToList(); break;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TADA.Migrations
 {
     /// <inheritdoc />
-    public partial class initdb : Migration
+    public partial class final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -255,6 +255,7 @@ namespace TADA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TelephoneNumber = table.Column<string>(type: "char(10)", maxLength: 10, nullable: false),
                     DateOrder = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     ShipFee = table.Column<decimal>(type: "money", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
@@ -279,6 +280,27 @@ namespace TADA.Migrations
                         name: "FK_Orders_Statuses_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    DateTrade = table.Column<DateTime>(type: "datetime", nullable: false),
+                    ProviderId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bills_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -321,6 +343,32 @@ namespace TADA.Migrations
                         name: "FK_Books_Providers_ProviderId",
                         column: x => x.ProviderId,
                         principalTable: "Providers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BillDetail",
+                columns: table => new
+                {
+                    BillId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CostPrice = table.Column<decimal>(type: "money", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillDetail", x => new { x.BillId, x.BookId });
+                    table.ForeignKey(
+                        name: "FK_BillDetail_Bills_BillId",
+                        column: x => x.BillId,
+                        principalTable: "Bills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BillDetail_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -386,8 +434,9 @@ namespace TADA.Migrations
                     Rating = table.Column<int>(type: "int", nullable: false),
                     DateReview = table.Column<DateTime>(type: "datetime", nullable: false),
                     Image = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -404,12 +453,28 @@ namespace TADA.Migrations
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_WardId",
                 table: "Addresses",
                 column: "WardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BillDetail_BookId",
+                table: "BillDetail",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bills_ProviderId",
+                table: "Bills",
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryId",
@@ -482,6 +547,11 @@ namespace TADA.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_OrderId",
+                table: "Reviews",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Staff_AccountId",
                 table: "Staff",
                 column: "AccountId");
@@ -506,6 +576,9 @@ namespace TADA.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BillDetail");
+
+            migrationBuilder.DropTable(
                 name: "CartDetail");
 
             migrationBuilder.DropTable(
@@ -518,28 +591,31 @@ namespace TADA.Migrations
                 name: "Staff");
 
             migrationBuilder.DropTable(
-                name: "Carts");
+                name: "Bills");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Providers");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
