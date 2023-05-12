@@ -66,6 +66,8 @@ service.AddScoped<IStatusRepository, StatusRepository>();
 service.AddScoped<IStatusService, StatusService>();
 
 service.AddScoped<IStatisticService, StatisticService>();
+service.AddScoped<IEmailService, EmailService>();
+
 
 var app = builder.Build();
 

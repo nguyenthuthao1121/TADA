@@ -441,9 +441,6 @@ namespace TADA.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateReview")
                         .HasColumnType("datetime");
 
@@ -460,8 +457,6 @@ namespace TADA.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("OrderId");
 
@@ -749,13 +744,8 @@ namespace TADA.Migrations
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TADA.Model.Entity.Customer", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("TADA.Model.Entity.Order", "Order")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -830,8 +820,6 @@ namespace TADA.Migrations
             modelBuilder.Entity("TADA.Model.Entity.Customer", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.District", b =>
@@ -842,6 +830,8 @@ namespace TADA.Migrations
             modelBuilder.Entity("TADA.Model.Entity.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("TADA.Model.Entity.Provider", b =>
