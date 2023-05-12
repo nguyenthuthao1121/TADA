@@ -80,7 +80,7 @@ public class EditBookModel : PageModel
             }
         }
         bookService.UpdateBook(Book);
-        return RedirectToPage("./BookManagement");
+        return RedirectToPage("BookManagement", new { area = "Book" });
     }
     public IActionResult OnPostCancelUpdate()
     {

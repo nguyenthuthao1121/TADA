@@ -16,6 +16,11 @@ namespace TADA.Model.Entity
         [Column(TypeName = "nvarchar")]
         public string Name { get; set; }
 
+        [Required]
+        [StringLength(13)]
+        [Column(TypeName = "varchar")]
+        public string ISBN { get; set; }
+
         [StringLength(255)]
         [Column(TypeName = "nvarchar")]
         public string Author { get; set; }

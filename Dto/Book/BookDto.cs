@@ -13,6 +13,8 @@ public class BookDto
     public string Name { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập tên tác giả!")]
 
+    public string ISBN { get; set; }
+
     public string Author { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập tên nhà xuất bản!")]
 

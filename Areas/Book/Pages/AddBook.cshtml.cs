@@ -28,33 +28,42 @@ public class AddBookModel : PageModel
     public string DescriptionText { get; set; }
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
+    public string ISBN { get; set; } = null;
+    public string Message { get; set; } = null;
     public void OnGet()
     {
         Providers = providerService.GetAllProviders();
         Categories= categoryService.GetAllCategories();
+        if (!string.IsNullOrEmpty(Request.Query["isbn"])) ISBN = Request.Query["isbn"];
+        if (!string.IsNullOrEmpty(Request.Query["message"])) Message = "Mã sách đã tồn tại";
     }
     
     public IActionResult OnPostAddNewBook(IFormFile imageFile)
     {
         int bookId = bookService.AddBook(Book);
-        Directory.CreateDirectory("wwwroot/img/books/book" + bookId + "/cover-img");
-        string descriptionPath = "wwwroot/img/books/book" + bookId + "/description.txt";
-        using (StreamWriter sw = new StreamWriter(descriptionPath))
+        if(bookId == 0)
         {
-            DescriptionText = DescriptionText.Replace("<br>", "\n");
-            sw.Write(DescriptionText);
-            sw.Close();
+            return RedirectToPage("/AddBook", new { isbn = Book.ISBN, message="BookExist" });
         }
-        string imagePath = "wwwroot/img/books/book" + bookId + "/cover-img/cover.jpg";
-        if (imageFile != null)
+        else
         {
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            Directory.CreateDirectory("wwwroot/img/books/book" + bookId + "/cover-img");
+            string descriptionPath = "wwwroot/img/books/book" + bookId + "/description.txt";
+            using (StreamWriter sw = new StreamWriter(descriptionPath))
             {
-                imageFile.CopyTo(fileStream);
+                DescriptionText = DescriptionText.Replace("<br>", "\n");
+                sw.Write(DescriptionText);
+                sw.Close();
             }
+            string imagePath = "wwwroot/img/books/book" + bookId + "/cover-img/cover.jpg";
+            if (imageFile != null)
+            {
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(fileStream);
+                }
+            }
+            return RedirectToPage("BookManagement", new { area = "Book" });
         }
-        
-
-        return RedirectToPage("BookManagement");
     }
 }
