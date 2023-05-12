@@ -4,9 +4,11 @@ using Microsoft.Build.Framework;
 using TADA.Dto.Role;
 using TADA.Dto.Staff;
 using TADA.Service;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên")]
 public class AddStaffModel : PageModel
 {
     private readonly IAccountService accountService;

@@ -9,9 +9,11 @@ using TADA.Dto.Customer;
 using TADA.Dto.Validation;
 using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Middleware;
 
 namespace TADA.Pages;
 
+[Authorize("Quản trị viên", "Nhân viên kinh doanh")]
 public class StatisticModel : PageModel
 {
     private readonly ICustomerService customerService;
