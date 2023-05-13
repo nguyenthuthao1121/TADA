@@ -36,4 +36,8 @@ public class StatusRepository : IStatusRepository
                 Name= status.Name,
             }).ToList();
     }
+    public string GetStatusById(int statusId)
+    {
+        return context.Statuses.Find(statusId).Name;
+    }
 }

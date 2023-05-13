@@ -10,4 +10,5 @@ public interface IStatusRepository
 {
     int IdForUserConfirm();
     List<StatusDto> GetStatuses();
+    string GetStatusById(int statusId);
 }
