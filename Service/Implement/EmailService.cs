@@ -8,8 +8,8 @@ namespace TADA.Service.Implement
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var mail = "thoaivytruong3102003@gmail.com";
-            var pwd = "chljossidjrfpzmu";
+            var mail = "shopTADA21@gmail.com";
+            var pwd = "drmudtifljijdeke";
             SmtpClient client = new SmtpClient()
             {
                 Host = "smtp.gmail.com",
@@ -23,7 +23,16 @@ namespace TADA.Service.Implement
                     Password = pwd
                 }
             };
-            return client.SendMailAsync(new MailMessage(from: mail, to: email, subject, message));
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.From = new MailAddress(mail);
+            mailMsg.To.Add(email);
+            mailMsg.Subject = subject;
+            mailMsg.IsBodyHtml = true;
+            mailMsg.Body = message;
+
+            return client.SendMailAsync(mailMsg);
+
+            //return client.SendMailAsync(new MailMessage(from: mail, to: email, subject, message));
         }
     }
 }
