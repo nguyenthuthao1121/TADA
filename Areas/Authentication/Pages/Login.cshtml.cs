@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using TADA.Dto;
 using TADA.Model;
 using TADA.Service;
+using TADA.Utilities;
 
 namespace TADA.Pages;
 
@@ -38,7 +39,7 @@ public class LoginModel : PageModel
     }
     public IActionResult OnPost()
     {
-        var account = authenticationService.GetAccount(Email, Password);
+        var account = authenticationService.GetAccount(Email, HashPassword.Hash(Password));
         if (account != null)
         {
             if (account.Status == true)

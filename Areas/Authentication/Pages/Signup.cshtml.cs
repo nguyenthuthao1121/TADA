@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.WebSockets;
 using TADA.Service;
+using TADA.Utilities;
 
 namespace TADA.Pages;
 
@@ -38,7 +40,8 @@ public class SignupModel : PageModel
     {
         if (Password.Equals(ConfirmPassword))
         {
-            var account = authenticationService.GetAccount(Email, Password);
+            var hashPassword = HashPassword.Hash(Password);
+            var account = authenticationService.GetAccount(Email, hashPassword);
             if (account != null)
             {
                 Message = "Email đã được sử dụng để đăng ký tài khoản. Vui lòng sử dụng email khác để đăng ký";
@@ -46,10 +49,10 @@ public class SignupModel : PageModel
             }
             else
             {
-                accountService.AddNewAccount(Email, Password, true);
+                accountService.AddNewAccount(Email, hashPassword, true);
                 customerService.AddDefaultCustomer(Email);
                 addressService.AddDefaultAddress();
-                var customer = authenticationService.GetAccount(Email, Password);
+                var customer = authenticationService.GetAccount(Email, hashPassword);
                 var customerInformation = customerService.GetCustomerByAccountId(customer.Id);
                 cartService.AddCart(customerInformation.CustomerId);
                 HttpContext.Session.SetInt32("Id", customer.Id);
