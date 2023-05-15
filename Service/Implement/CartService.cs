@@ -83,5 +83,9 @@ namespace TADA.Service.Implement
         {
             cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, quantity);
         }
+        public void AddCart(int customerId)
+        {
+            cartRepository.AddCart(customerId);
+        }
     }
 }
