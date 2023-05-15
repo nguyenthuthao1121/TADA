@@ -57,4 +57,8 @@ public class AccountService : IAccountService
     {
         accountRepository.ChangePassword(accountId, newPassword);
     }
+    public int GetAccountIdByEmail(string email)
+    {
+        return accountRepository.GetAccountIdByEmail(email);
+    }
 }

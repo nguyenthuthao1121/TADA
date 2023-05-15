@@ -10,5 +10,6 @@ public interface IAccountService
     bool CheckExistEmail(string email);
     int GetLastId();
     void ChangePassword(int accountId, string newPassword);
+    int GetAccountIdByEmail(string email);
 
 }

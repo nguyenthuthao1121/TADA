@@ -53,6 +53,7 @@ public class BookService : IBookService
             list.Add(new BookManagementDto
             {
                 Id = book.Id,
+                ISBN= book.ISBN,
                 Name = book.Name,
                 Author = book.Author,
                 Publisher = book.Publisher,
@@ -77,6 +78,7 @@ public class BookService : IBookService
                 list.Add(new BookManagementDto
                 {
                     Id = book.Id,
+                    ISBN = book.ISBN,
                     Name = book.Name,
                     Author = book.Author,
                     Publisher = book.Publisher,
@@ -98,6 +100,7 @@ public class BookService : IBookService
                     list.Add(new BookManagementDto
                     {
                         Id = book.Id,
+                        ISBN= book.ISBN,
                         Name = book.Name,
                         Author = book.Author,
                         Publisher = book.Publisher,

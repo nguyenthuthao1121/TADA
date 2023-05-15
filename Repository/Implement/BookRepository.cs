@@ -161,6 +161,7 @@ public class BookRepository : IBookRepository
         return new BookDto
         {
             Id = book.Id,
+            ISBN= book.ISBN,
             Name = book.Name,
             Author = book.Author,
             Publisher = book.Publisher,
@@ -222,9 +223,12 @@ public class BookRepository : IBookRepository
     }
     public int AddBook(BookDto book)
     {
+        var existBook=context.Books.Where(book=>book.ISBN == book.ISBN).FirstOrDefault();
+        if (existBook != null) return 0;
         context.Books.Add(new Book
         {
             Name = book.Name,
+            ISBN = book.ISBN,
             Author = book.Author,
             Publisher = book.Publisher,
             Weight = book.Weight,

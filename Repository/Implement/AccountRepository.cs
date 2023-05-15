@@ -68,6 +68,11 @@ public class AccountRepository : IAccountRepository
     }
     public int GetAccountIdByEmail(string email)
     {
-        return context.Accounts.Where(account => account.Email == email).Select(account => account.Id).FirstOrDefault();
+        var account = context.Accounts.Where(p => p.Email == email).FirstOrDefault();
+        if (account == null)
+        {
+            return -1;
+        }
+        return account.Id;
     }
 }

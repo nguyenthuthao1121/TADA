@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Printing;
 using System.Globalization;
 using System.Net.Http.Headers;
+using System.Net.Mail;
+using System.Text;
 using System.Text.Json;
 using TADA.Dto.Book;
 using TADA.Dto.Order;
@@ -8,6 +10,7 @@ using TADA.Model;
 using TADA.Model.Entity;
 using TADA.Repository;
 using TADA.Repository.Implement;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement
 {
@@ -227,7 +230,7 @@ namespace TADA.Service.Implement
         public void UpdateStatusOrder(int orderId, int statusId)
         {
             orderRepository.UpdateStatusOrder(orderId, statusId);
-            if (statusId == 5)
+            if (statusId == 6)
             {
                 var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
                 foreach (var orderDetail in orderDetails)
@@ -239,7 +242,92 @@ namespace TADA.Service.Implement
                     }
                 }
             }
+            switch (statusId)
+            {
+                case 2:
+                    SendEmail("TADA: Đơn hàng của bạn đã được xác nhận", orderId); break;
+                case 3:
+                    SendEmail("TADA: Đơn hàng của bạn đã được giao cho đơn vị vận chuyển", orderId); break;
+                case 4:
+                    SendEmail("TADA: Đơn hàng của bạn đã được giao hàng thành công", orderId); break;
+                case 6:
+                    SendEmail("TADA: Đơn hàng của bạn đã bị hủy", orderId); break;
+            }
         }
+
+        private void SendEmail(string subject, int orderId)
+        {
+            var order=orderRepository.GetOrderById(orderId);
+            var customer=customerRepository.GetCustomerById(order.CustomerId);
+            var status = statusRepository.GetStatusById(order.StatusId);
+            var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+            string gender;
+            if (customer.Gender) gender = "anh ";
+            else gender = "chị ";
+            string to = customer.Email; //To address    
+            string from = "shopTADA21@gmail.com"; //From address    
+            MailMessage message = new MailMessage(from, to);
+
+            string mailbody = @"<html>" +
+                      "<body>" +
+                      "<p style=\"font-weight: 600; margin:0; padding:0;\">Chào " + gender + customer.Name + ",</p>" +
+                "<p style=\" margin:0; padding:0;\">TADA cảm ơn " + gender + " rất nhiều vì đã chọn mua hàng ở đây.</p>" +
+                "<p style=\" margin:0; padding:0;\">Đơn hàng của " + gender + " hiện đang chuyển sang trạng thái " +
+                "<span style=\"font-weight: 600; margin:0; padding:0;\">" + status + "</span>" + " vào lúc " + UIHelper.DisplayDateOrder(order.UpdateDate) + "</p>" +
+                "<br><p style=\"font-weight: 600; margin:0; padding:0;\">Chi tiết của đơn hàng bao gồm: </p>" +
+                "<table style=\"border-width:0;\" >" +
+                    "<tr>" +
+                    "<th style=\"width: 10%\">STT</th>" +
+                    "<th style=\"width: 50%\">Tên sách</th>" +
+                    "<th style=\"width: 15%\">Đơn giá (VND)</th>" +
+                    "<th style=\"width: 10%\">Số lượng</th>" +
+                    "<th style=\"width: 15%\">Thành tiền (VND)</th>" +
+                    "</tr>";
+            for (int i=0;i<orderDetails.Count;i++)
+            {
+                var book = bookRepository.GetBookById(orderDetails[i].BookId);
+                mailbody += "<tr style=\"color: #000\">" +
+                    "<th>"+(i+1)+"</th>" +
+                    "<td style=\"text-align:left;\">" + book.Name + "</td>" +
+                    "<td style=\"text-align:right;\">" + UIHelper.GetPriceString(orderDetails[i].Price / orderDetails[i].Quantity) + "</td>" +
+                    "<td style=\"text-align:center;\">" + orderDetails[i].Quantity+"</td>" +
+                    "<td style=\"text-align:right;\">" + UIHelper.GetPriceString(orderDetails[i].Price)+"</td>" +
+                    "</tr>";
+            }
+            mailbody += "</table><div style=\" margin: 16px 0 0; padding:0; width:100%;\"><div style=\" margin:0; padding:0; display:flex; width:100%;\">" +
+                "<div style=\" margin:0; padding:0; width:100px;\">Tổng giá</div>" +
+                "<div style=\" margin:0; padding:0; width:300px;\">" + UIHelper.GetPriceString(orderRepository.GetPriceOfOrder(orderId)) + " VND</div></div>" +
+                "<div style =\" margin:0; padding:0; display:flex; width:100%;\">" +
+                "<div style=\" margin:0; padding:0; width:100px;\">Phí giao hàng</div>" +
+                "<div style=\" margin:0; padding:0; width:300px;\">" + UIHelper.GetPriceString(order.ShipFee) + " VND</div></div>" +
+                "<div style =\" margin:0; padding:0; display:flex; width:100%;\">" +
+                "<div style=\" font-weight: 600; margin:0; padding:0; width:100px;\">Tổng tiền</div>" +
+                "<div style=\" margin:0; padding:0; width:300px;\">" + UIHelper.GetPriceString(orderRepository.GetPriceOfOrder(orderId)+ order.ShipFee) + " VND</div></div>" +
+                "</div><br><p style=\" margin:0; padding:0;\">TADA xin chân thành cảm ơn " + gender + " " + customer.Name + " đã mua hàng tại cửa hàng. Nếu có bất cứ vấn đề nào cần giải quyết, " + gender + "hãy liên hệ ngay với chúng tôi để xử lý nhé.</p>" +
+                "<br><p style=\"font-weight: 600;margin:0; padding:0;\"> Thông tin liên hệ:</p>" +
+                "<ul style=\" margin:0; padding:0;\"><li>Website: TADA.vn</li><li>Hotline: 0909999999</li></ul></body></html>";
+
+            message.Subject = subject;
+            message.Body = mailbody;
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp    
+            System.Net.NetworkCredential basicCredential1 = new
+            System.Net.NetworkCredential("shopTADA21@gmail.com", "drmudtifljijdeke");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential1;
+            try
+            {
+                client.Send(message);
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void UpdateOrder(int orderId, OrderDto orderDto)
         {
             orderRepository.UpdateOrder(orderId, orderDto);

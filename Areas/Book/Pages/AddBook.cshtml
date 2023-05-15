@@ -20,7 +20,28 @@
                             <input asp-for="@Model.Book.Name" class="form-control form__input" placeholder="Nhập tên sách">
                             <span class="text-danger" asp-validation-for="@Model.Book.Name"></span>
                         </div>
-                        <div class="form-group col-md-6 form-group__right">
+                        @if(Model.ISBN==null){
+                            <div class="form-group col-md-6 form-group__right">
+                                <label asp-for="Book.ISBN" class="form__label" >Mã sách</label>
+                                <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
+                            </div>
+                        }
+                        else if(Model.Message!=null){
+                            <div class="form-group col-md-6 form-group__right">
+                                <label asp-for="Book.ISBN" class="form__label">Mã sách</label>
+                                <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
+                                <span class="text-danger">@Model.Message</span>
+                            </div>
+                        }
+                        else{
+                            <div class="form-group col-md-6 form-group__right">
+                                <label asp-for="Book.ISBN" class="form__label">Mã sách</label>
+                                <input value="@Model.ISBN" asp-for="@Model.Book.ISBN" class="form-control form__input" readonly>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
                             <label asp-for="@Model.Book.CategoryId" class="form__label">Danh mục</label>
                             <select asp-for="@Model.Book.CategoryId" class="form-control form__input">
                                 @foreach (var category in Model.Categories)
@@ -28,6 +49,11 @@
                                     <option value="@category.Id">@category.Name</option>
                                 }
                             </select>
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label asp-for="Book.Genre" class="form__label">Thể loại</label>
+                            <input asp-for="@Model.Book.Genre" class="form-control form__input" placeholder="Nhập thể loại">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Genre"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">

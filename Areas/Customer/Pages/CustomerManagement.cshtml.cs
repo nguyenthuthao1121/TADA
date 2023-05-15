@@ -21,7 +21,7 @@ public class CustomerModel : PageModel
     public readonly IAddressService addressService;
     public List<CustomerDto> Customers { get; set; }
     public List<AddressDto> Addressses { get; set; }
-    public const int ITEMS_PER_PAGE = 1;
+    public const int ITEMS_PER_PAGE = 20;
     public int countPages { get; set; }
     [BindProperty(SupportsGet = true, Name = "pagenumber")]
     public int currentPage { get; set; }
