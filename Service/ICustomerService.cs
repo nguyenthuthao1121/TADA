@@ -13,4 +13,5 @@ public interface ICustomerService
     void UpdateCustomer(CustomerDto customer);
     int GetNumOfCustomers();
     int GetNumOfCustomersByYear(int year);
+    void AddDefaultCustomer(string email);
 }

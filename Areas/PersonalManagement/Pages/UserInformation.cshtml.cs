@@ -17,6 +17,8 @@ public class UserInformationModel : PageModel
     private readonly ICustomerService customerService;
     private readonly IAddressService addressService;
     private readonly IAccountService accountService;
+
+    public string Message { get; set; }
     [BindProperty]
     public CustomerDto Customer { get; set; }
     [BindProperty]
@@ -77,6 +79,10 @@ public class UserInformationModel : PageModel
         Wards = addressService.GetAllWardsByDistrictId(Address.DistrictId);
         Gender = Customer.Gender ? "Nam" : "Nữ";
         Password = Customer.Password;
+        if (Customer.Name == "Khách hàng")
+        {
+            Message = "Vui lòng cập nhật thông tin cá nhân của bạn !";
+        }
     }
     public IActionResult OnPostChangeInformation()
     {

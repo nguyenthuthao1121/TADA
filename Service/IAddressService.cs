@@ -22,4 +22,5 @@ public interface IAddressService
     List<WardDto> GetAllWardsByDistrictId(int districtId);
     List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId);
     List<ProvinceDto> GetAllProvinces();
+    void AddDefaultAddress();
 }

@@ -9,6 +9,7 @@ public class SignupModel : PageModel
     private readonly IAuthenticationService authenticationService;
     private readonly ICustomerService customerService;
     private readonly IAccountService accountService;
+    private readonly IAddressService addressService;
 
     [BindProperty]
     public string Email { get; set; }
@@ -18,11 +19,12 @@ public class SignupModel : PageModel
     public string ConfirmPassword { get; set; }
 
     public string Message;
-    public SignupModel(IAuthenticationService authenticationService, ICustomerService customerService, IAccountService accountService)
+    public SignupModel(IAuthenticationService authenticationService, ICustomerService customerService, IAccountService accountService, IAddressService addressService)
     {
         this.authenticationService = authenticationService;
         this.customerService = customerService;
         this.accountService = accountService;
+        this.addressService = addressService;
     }
 
     public void OnGet()
@@ -43,9 +45,15 @@ public class SignupModel : PageModel
             else
             {
                 accountService.AddNewAccount(Email, Password, true);
+                customerService.AddDefaultCustomer(Email);
+                addressService.AddDefaultAddress();
+                var customer = authenticationService.GetAccount(Email, Password);
+                HttpContext.Session.SetInt32("Id", customer.Id);
+                HttpContext.Session.SetString("Type", "Customer");
+                HttpContext.Session.SetString("Name", customerService.GetNameByAccountId(customer.Id));
                 //return RedirectToPage("/Authentication/UserInformation");
-                //return RedirectToPage("UserInformation", new { area = "PersonalManagement"});
-                return Page();
+                return RedirectToPage("UserInformation", new { area = "PersonalManagement"});
+                //return Page();
             }
         }
         else

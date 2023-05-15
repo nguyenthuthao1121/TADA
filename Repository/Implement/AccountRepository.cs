@@ -31,7 +31,6 @@ public class AccountRepository : IAccountRepository
         };
         context.Accounts.Add(newAccount);
         context.SaveChanges();
-
     }
     public int GetLastId() 
     { 
@@ -66,5 +65,9 @@ public class AccountRepository : IAccountRepository
         }
         account.Password = newPassword;
         context.SaveChanges();
+    }
+    public int GetAccountIdByEmail(string email)
+    {
+        return context.Accounts.Where(account => account.Email == email).Select(account => account.Id).FirstOrDefault();
     }
 }

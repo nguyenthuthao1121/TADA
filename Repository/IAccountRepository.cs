@@ -12,4 +12,5 @@ public interface IAccountRepository
     void ChangeStatusOfAccount(int accountId);
     bool CheckExistEmail(string email);
     void ChangePassword(int accountId, string newPassword);
+    int GetAccountIdByEmail(string email);
 }

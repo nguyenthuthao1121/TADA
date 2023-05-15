@@ -1,4 +1,5 @@
-﻿using System.Drawing.Printing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing.Printing;
 using TADA.Dto.Customer;
 using TADA.Model;
 using TADA.Model.Entity;
@@ -11,9 +12,13 @@ namespace TADA.Service.Implement
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository customerRepository;
-        public CustomerService(ICustomerRepository customerRepository)
+        private readonly IAccountRepository accountRepository;
+        private readonly IAddressRepository addressRepository;
+        public CustomerService(ICustomerRepository customerRepository, IAccountRepository accountRepository, IAddressRepository addressRepository)
         {
             this.customerRepository = customerRepository;
+            this.accountRepository = accountRepository;
+            this.addressRepository = addressRepository;
         }
         public CustomerDto GetCustomerById(int customerId)
         {
@@ -70,6 +75,21 @@ namespace TADA.Service.Implement
         public int GetNumOfCustomersByYear(int year)
         {
             return customerRepository.GetCustomersByYear(year).Count;
+        }
+        public void AddDefaultCustomer(string email)
+        {
+            var accountId = accountRepository.GetAccountIdByEmail(email);
+            var addressId = addressRepository.GetLastId();
+            AddCustomerDto customer = new AddCustomerDto()
+            {
+                Name = "Khách hàng",
+                Birthday = DateTime.Now,
+                Gender = true,
+                TelephoneNumber = "0123456789",
+                AddressId = addressId,
+                AccountId = accountId
+            };
+            customerRepository.AddCustomer(customer);
         }
     }
 }
