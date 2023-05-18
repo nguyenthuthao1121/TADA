@@ -18,6 +18,7 @@
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputName" class="form__label">Tên nhân viên</label>
                             <input type="text" class="form-control form__input" id="inputName" placeholder="Nhập tên nhân viên" asp-for="@Model.Staff.Name"> 
+                            <span class="text-danger" asp-validation-for="@Model.Staff.Name"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputGender" class="form__label">Giới tính</label>
@@ -35,6 +36,7 @@
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputTel" class="form__label">Số điện thoại</label>
                             <input type="text" class="form-control form__input" id="inputTel" placeholder="Nhập số điện thoại" asp-for="@Model.Staff.TelephoneNumber">
+                            <span class="text-danger" asp-validation-for="@Model.Staff.TelephoneNumber"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -59,28 +61,33 @@
                         <div class="form-group col-md-6 form-group__right">
                             <label for="ward" class="form__label">Xã/ Phường</label>
                             <select id="ward" class="form-select form__input" asp-for="@Model.Staff.WardId">
-                                <option value="0">-- Chọn xã/phường --</option>
+                                <option value="">-- Chọn xã/phường --</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="@Model.Staff.WardId"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputAddress" class="form__label">Địa chỉ</label>
                             <input type="text" class="form-control form__input" id="inputAddress" placeholder="Nhập địa chỉ" asp-for="@Model.Staff.Street">
+                            <span class="text-danger" asp-validation-for="@Model.Staff.Street"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputEmail" class="form__label">Email</label>
                             <input type="email" class="form-control form__input" id="inputEmail" placeholder="Nhập email" asp-for="@Model.Staff.Email">
+                            <span class="text-danger" asp-validation-for="@Model.Staff.Email"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputPassword" class="form__label">Mật khẩu</label>
                             <input type="password" class="form-control form__input" id="inputPassword" placeholder="Nhập mật khẩu" asp-for="@Model.Staff.Password">
+                            <span class="text-danger" asp-validation-for="@Model.Staff.Password"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputConfirmPassword" class="form__label">Nhập lại mật khẩu</label>
                             <input type="password" class="form-control form__input" id="inputConfirmPassword" placeholder="Nhập lại mật khẩu" asp-for="@Model.Staff.ConfirmPassword">
+                            <span class="text-danger" asp-validation-for="@Model.Staff.ConfirmPassword"></span>
                         </div>
                     </div>
                     @if (Model.Message != null)
@@ -104,3 +111,7 @@
         </div>
     </div> 
 </div>
+ 
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
