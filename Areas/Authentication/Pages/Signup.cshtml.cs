@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Net.WebSockets;
 using TADA.Service;
 using TADA.Utilities;
@@ -15,10 +16,19 @@ public class SignupModel : PageModel
     private readonly ICartService cartService;
 
     [BindProperty]
+    [Required]
+    [DataType(DataType.EmailAddress)]
+    [EmailAddress(ErrorMessage = "Email này không phải là email hợp lệ!")]
     public string Email { get; set; }
     [BindProperty]
+    [DataType(DataType.Password)]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
+    [StringLength(int.MaxValue, MinimumLength = 6, ErrorMessage = "Mật khẩu phải có độ dài tối thiểu là 6 ký tự!")]
     public string Password { get; set; }
     [BindProperty]
+    [DataType(DataType.Password)]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
+    [Compare("Password", ErrorMessage = "Xác nhận mật khẩu không đúng!")]
     public string ConfirmPassword { get; set; }
 
     public string Message;
