@@ -137,7 +137,6 @@
                 str = str.substring(0, str.length - 3);
             }
             tmp = str + tmp;
-            console.log(tmp);
             return tmp;
         }
 
@@ -170,6 +169,8 @@
         for (var i=1;i<btnChecks.length;i++){
             btnChecks[i].addEventListener('click',function(event){
                 var id = parseInt(this.dataset.id);
+                btnChecks[0].checked = false;
+                btnChecks[0].checked = document.getElementsByClassName('cart__input').length === (document.querySelectorAll('.cart__input:checked').length + 1);
                 if (this.checked){
                     (this.parentElement).parentElement.classList.add('cart__flex-item--checked');
                     CountBook.innerHTML = parseInt(CountBook.innerHTML) + parseInt(numOfBooks[id].value);
@@ -181,7 +182,6 @@
                     CountBook.innerHTML = parseInt(CountBook.innerHTML) - parseInt(numOfBooks[id].value);
                     SumPrice.innerHTML = SumPrice.innerHTML.replace(/\./g, '');
                     SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML) - parseInt(priceOfBooks[id].dataset.price) * parseInt(numOfBooks[id].value));
-                    btnChecks[0].checked = false;
                 }
             })
         }
