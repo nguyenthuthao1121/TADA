@@ -18,4 +18,5 @@ public interface ICartService
     void IncreaseQuantityOfCartDetail(int accountId, int bookId, int delta);
     void DecreaseQuantityOfCartDetail(int accountId, int bookId, int delta);
     void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity);
+    void AddCart(int customerId);
 }

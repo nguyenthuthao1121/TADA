@@ -80,4 +80,9 @@ public class AddressService : IAddressService
     {
         return addressRepository.GetStaffAddressDto(accountId);
     }
+    
+    public void AddDefaultAddress()
+    {
+        addressRepository.AddAddress("Không xác định", 1);
+    }
 }

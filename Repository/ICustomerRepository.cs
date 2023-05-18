@@ -15,4 +15,5 @@ public interface ICustomerRepository
     int GetLastId();
     void UpdateCustomer(CustomerDto customer);
     List<int> GetCustomersByYear(int year);
+    void AddCustomer(AddCustomerDto customer);
 }

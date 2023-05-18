@@ -17,4 +17,5 @@ public interface ICartRepository
     void AddBookToCart(int bookId, int cartId, int quantity);
     void DeleteBookOfCart(int bookId, int accountId);
     void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity);
+    void AddCart(int customerId);
 }

@@ -155,5 +155,19 @@ namespace TADA.Repository.Implement
         { 
             return context.Accounts.Where(account => account.CreateDate.Year == year).Join(context.Customers, account => account.Id, customer => customer.AccountId, (account, customer) => customer.Id).ToList();
         }
+        public void AddCustomer(AddCustomerDto customer)
+        {
+            Customer addCustomer = new Customer()
+            {
+                Name = customer.Name,
+                Birthday = customer.Birthday,
+                Gender = customer.Gender,
+                TelephoneNumber = customer.TelephoneNumber,
+                AddressId = customer.AddressId,
+                AccountId = customer.AccountId
+            };
+            context.Customers.Add(addCustomer);
+            context.SaveChanges();
+        }
     }
 }

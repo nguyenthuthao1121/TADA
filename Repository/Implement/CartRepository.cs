@@ -205,4 +205,12 @@ public class CartRepository : ICartRepository
             context.SaveChanges();
         }
     }
+    public void AddCart(int customerId)
+    {
+        context.Carts.Add(new Cart()
+        {
+            CustomerId = customerId
+        });
+        context.SaveChanges();
+    }
 }
