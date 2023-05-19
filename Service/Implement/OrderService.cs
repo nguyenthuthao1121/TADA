@@ -423,10 +423,10 @@ namespace TADA.Service.Implement
                     orderLength = orderWidth = orderHeight = orderWeight = orderPrice = 0;
                     foreach (var item in items)
                     {
-                        if (item.length>orderLength) orderLength = item.length;
-                        if (item.width> orderWidth) orderWidth = item.width;
-                        orderHeight += item.height;
-                        orderWeight += item.weight;
+                        if (item.length > orderLength) orderLength = item.length;
+                        if (item.width > orderWidth) orderWidth = item.width;
+                        orderHeight += item.height * item.quantity;
+                        orderWeight += item.weight * item.quantity;
                         orderPrice += item.price;
                     }
                     var orderShipping = new OrderShipping()
