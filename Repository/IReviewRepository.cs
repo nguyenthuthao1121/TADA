@@ -9,5 +9,6 @@ namespace TADA.Repository
         int AddReview(ReviewDto reviewDto);
         List<ReviewDto> GetReviewsByOrderId(int orderId);
         ReviewDto GetReview(int orderId, int bookId);
+        void UpdateReviewImg(int reviewId, string img);
     }
 }

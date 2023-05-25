@@ -4,6 +4,8 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TADA.Service;
+using TADA.Utilities;
+
 
 namespace TADA.Pages;
 
@@ -57,7 +59,7 @@ public class ForgotPwd2Model : PageModel
         if (DateTime.Now < otpExpiry)
         {
             int accountId = accountService.GetAccountIdByEmail(TempData["Email"].ToString());
-            accountService.ChangePassword(accountId, NewPassword);
+            accountService.ChangePassword(accountId, HashPassword.Hash(NewPassword));
             TempData["ResetSuccessMessage"] = "Đổi mật khẩu thành công. Vui lòng đăng nhập để tiếp tục!";
             return Page();
         }

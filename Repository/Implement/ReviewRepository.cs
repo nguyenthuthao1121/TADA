@@ -64,6 +64,17 @@ namespace TADA.Repository.Implement
                 return 0;
             }
         }
+        public void UpdateReviewImg(int reviewId, string img)
+        {
+            try
+            {
+                var review = context.Reviews.Find(reviewId);
+                review.Image= img;
+            }
+            catch (SqlException)
+            {
+            }
+        }
         public List<ReviewDto> GetReviewsByOrderId(int orderId)
         {
             var order=context.Orders.Find(orderId);

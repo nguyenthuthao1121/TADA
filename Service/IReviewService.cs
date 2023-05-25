@@ -7,6 +7,7 @@ namespace TADA.Service
         List<ReviewDto> GetReviewsByBookId(int bookId);
         int GetNumberOfStar(int bookId, int star);
         int AddReview(ReviewDto reviewDto);
+        void UpdateReviewImg(int reviewId, string img);
         List<ReviewDto> GetReviewsByOrderId(int orderId);
         List<int> GetBookReviewInOrder(int orderId);
         bool OrderIsReviewed(int orderId);

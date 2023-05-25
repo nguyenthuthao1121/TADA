@@ -27,6 +27,10 @@ namespace TADA.Service.Implement
         {
             return reviewRepository.AddReview(reviewDto);
         }
+        public void UpdateReviewImg(int reviewId, string img)
+        {
+            reviewRepository.UpdateReviewImg(reviewId, img);
+        }
         public List<ReviewDto> GetReviewsByOrderId(int orderId)
         {
             return reviewRepository.GetReviewsByBookId(orderId);
