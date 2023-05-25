@@ -423,10 +423,10 @@ namespace TADA.Service.Implement
                     orderLength = orderWidth = orderHeight = orderWeight = orderPrice = 0;
                     foreach (var item in items)
                     {
-                        if (item.length>orderLength) orderLength = item.length;
-                        if (item.width> orderWidth) orderWidth = item.width;
-                        orderHeight += item.height;
-                        orderWeight += item.weight;
+                        if (item.length > orderLength) orderLength = item.length;
+                        if (item.width > orderWidth) orderWidth = item.width;
+                        orderHeight += item.height * item.quantity;
+                        orderWeight += item.weight * item.quantity;
                         orderPrice += item.price;
                     }
                     var orderShipping = new OrderShipping()
@@ -446,10 +446,10 @@ namespace TADA.Service.Implement
                         return_ward_name = "Phường Hòa Khánh Bắc",
                         return_district_name = "Quận Liên Chiểu",
                         return_province_name = "TP Đà Nẵng",
-                        client_order_code = "11",
+                        client_order_code = "",
                         to_name = customer.Name,
                         to_phone = order.TelephoneNumber,
-                        to_address = addressRepository.GetAddressByIdAndPart((int)order.AddressId,1),
+                        to_address = addressRepository.GetAddressByIdAndPart((int)order.AddressId, 1),
                         to_ward_name = addressRepository.GetAddressByIdAndPart((int)order.AddressId, 2),
                         to_district_name = addressRepository.GetAddressByIdAndPart((int)order.AddressId, 3),
                         to_province_name = addressRepository.GetAddressByIdAndPart((int)order.AddressId, 4),
@@ -459,7 +459,7 @@ namespace TADA.Service.Implement
                         length = orderLength,
                         width = orderWidth,
                         height = orderHeight,
-                        cod_failed_amount =(int)(orderPrice * 0.05),
+                        cod_failed_amount = (int)(orderPrice * 0.05),
                         pick_station_id = 1058,
                         deliver_station_id = null,
                         insurance_value = orderPrice,
