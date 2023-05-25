@@ -11,6 +11,7 @@ public class AddCategoryModel : PageModel
 {
     private readonly ICategoryService categoryService;
     [BindProperty]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     public string CategoryName { get; set; }
     public string Message { get; set; }
     public AddCategoryModel(ICategoryService categoryService)
@@ -20,20 +21,19 @@ public class AddCategoryModel : PageModel
 
     public IActionResult OnPost()
     {
-        if (CategoryName == null)
+        if (CategoryName != null)
         {
-            Message = "Danh mục đang để trống";
-            return Page();
-        }
-        else if (categoryService.AddCategory(CategoryName))
-        {
+            if (categoryService.AddCategory(CategoryName))
+            {
 
-            return RedirectToPage("/CategoryManagement", new { area = "Category" });
+                return RedirectToPage("/CategoryManagement", new { area = "Category" });
+            }
+            else
+            {
+                Message = "Danh mục đã tồn tại";
+                return Page();
+            }
         }
-        else
-        {
-            Message = "Danh mục đã tồn tại";
-            return Page();
-        }
+        else return Page();
     }
 }

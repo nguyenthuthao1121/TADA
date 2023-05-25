@@ -26,10 +26,10 @@ public class ForgotPwdModel : PageModel
         {
             Random rnd = new Random();
             string Otp = rnd.Next(100000, 999999).ToString();
-            DateTime OtpExpiry = DateTime.Now.AddSeconds(30);
+            DateTime OtpExpiry = DateTime.Now.AddMinutes(1);
             var receiver = Email;
             var subject = "Mã xác minh mật khẩu";
-            var message = "<h3>Đây là mã dùng một lần. Mã có hiệu lực trong 30 giây. Vui lòng không chia sẻ với bất kỳ ai." +
+            var message = "<h3>Đây là mã dùng một lần. Mã có hiệu lực trong 1 phút. Vui lòng không chia sẻ với bất kỳ ai." +
                 "<br><h3>Mã xác minh của bạn là:<br>" + "<h1>" + Otp;
             await emailService.SendEmailAsync(receiver, subject, message);
             string encryptedEmail = EncryptEmail(Email);

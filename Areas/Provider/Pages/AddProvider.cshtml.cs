@@ -12,10 +12,13 @@ public class AddProviderModel : PageModel
 {
     private readonly IProviderService providerService;
     [BindProperty]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     public string ProviderName { get; set; }
-    [BindProperty] 
+    [BindProperty]
+    [Required(ErrorMessage = "Vui lòng chọn xã/ phường !")]
     public int WardId { get; set; }
     [BindProperty]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     public string Street { get; set; }
     public string Message { get; set; }
     public AddProviderModel(IProviderService providerService)

@@ -66,7 +66,16 @@ public class EvaluateUserModel : PageModel
     public IActionResult OnPostAddReview(IFormFile imageFile, int? bookId, int? orderId)
     {
         Directory.CreateDirectory("wwwroot/img/books/book" + (int)bookId + "/reviews");
-        string imagePath = "wwwroot/img/books/book" + (int)bookId + "/reviews/review.jpg";
+        int reviewId= reviewService.AddReview(new ReviewDto
+        {
+            Comment = Comment,
+            Rating = Rating,
+            DateReview = DateTime.Now,
+            Image = "",
+            OrderId = (int)orderId,
+            BookId = (int)bookId,
+        });
+        string imagePath = "wwwroot/img/books/book" + (int)bookId + "/reviews/review"+ reviewId + ".jpg";
         if (imageFile != null)
         {
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
@@ -74,17 +83,9 @@ public class EvaluateUserModel : PageModel
                 imageFile.CopyTo(fileStream);
             }
             imagePath = "~/img/books/book" + (int)bookId + "/reviews";
+            reviewService.UpdateReviewImg(reviewId, imagePath);
         }
-        else imagePath = "";
-        reviewService.AddReview(new ReviewDto
-        {
-            Comment = Comment,
-            Rating = Rating,
-            DateReview = DateTime.Now,
-            Image = imagePath,
-            OrderId = (int)orderId,
-            BookId = (int)bookId,
-        });
+        
         if (reviewService.OrderIsReviewed((int)orderId))
         {
             orderService.UpdateStatusOrder((int)orderId, 5);
