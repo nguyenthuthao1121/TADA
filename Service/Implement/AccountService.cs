@@ -1,5 +1,6 @@
 ﻿using TADA.Dto.Account;
 using TADA.Repository;
+using TADA.Utilities;
 
 namespace TADA.Service.Implement;
 
@@ -24,7 +25,11 @@ public class AccountService : IAccountService
             Status = account.Status
         };
     }
-
+    public string GetPasswordByAccountId(int accountId)
+    {
+        var account = accountRepository.GetAccountById(accountId);
+        return account.Password;
+    }
     public void AddNewAccount(string email, string password, bool type)
     {
         //AccountDto account = new AccountDto(accountRepository.GetLastId() + 1, true, email, password, DateTime.Now, true);
@@ -55,7 +60,8 @@ public class AccountService : IAccountService
 
     public void ChangePassword(int accountId, string newPassword)
     {
-        accountRepository.ChangePassword(accountId, newPassword);
+        string newPwd = HashPassword.Hash(newPassword);
+        accountRepository.ChangePassword(accountId, newPwd);
     }
     public int GetAccountIdByEmail(string email)
     {

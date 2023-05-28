@@ -12,7 +12,7 @@ using TADA.Model;
 namespace TADA.Migrations
 {
     [DbContext(typeof(TadaContext))]
-    [Migration("20230511083957_init db")]
+    [Migration("20230518150905_init db")]
     partial class initdb
     {
         /// <inheritdoc />
@@ -156,6 +156,11 @@ namespace TADA.Migrations
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Image")
                         .HasMaxLength(255)
