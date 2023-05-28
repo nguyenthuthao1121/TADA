@@ -68,7 +68,7 @@
                             </div>
                         </form>
                     }
-                    else if(!Model.IsReviewing)
+                    else
                     {
                         var Review = Model.GetBookReviewed(Model.Order.Id, Book.Id);
                         <form method="post" enctype="multipart/form-data">

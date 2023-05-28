@@ -17,7 +17,7 @@ public class OrderListConfirmDeliverModel : PageModel
     public int currentPage { get; set; }
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
-    public int statusId = 2;
+    public int StatusId = 2;
 
     public OrderListConfirmDeliverModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
@@ -37,13 +37,13 @@ public class OrderListConfirmDeliverModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus()
+    public int GetOrderCountByStatus(int statusId)
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }
     public void OnGet()
     {
-        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
+        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId);
         int total = orders.Count();
         countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
         if (currentPage < 1)

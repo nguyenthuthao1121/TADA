@@ -18,7 +18,7 @@ public class OrderListFillReviewModel : PageModel
     public string Username;
     public List<OrderDto> Orders { get; set; }
     public BookDto Book { get; set; }
-    public int statusId = 4;
+    public int StatusId = 4;
 
     public OrderListFillReviewModel(IOrderService orderService, IAccountService accountService, IBookService bookService)
     {
@@ -38,14 +38,14 @@ public class OrderListFillReviewModel : PageModel
     {
         return orderService.GetStatusByOrder(orderId);
     }
-    public int GetOrderCountByStatus()
+    public int GetOrderCountByStatus(int statusId)
     {
         return orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId).Count;
     }
     public void OnGet()
     {
         Username = HttpContext.Session.GetString("Name");
-        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), statusId);
+        var orders = orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId);
         int total = orders.Count();
         countPages = (int)Math.Ceiling((double)total / ITEMS_PER_PAGE);
         if (currentPage < 1)

@@ -23,25 +23,25 @@
                     </div>
                     <div class="nav-order-list__title--detail grid">
                         <a asp-area="Order" asp-page="OrderListFillAll" class="nav-order-list__link">
-                            <p>Tất cả</p>
+                            <p style="display: flex; justify-content: space-between;">Tất cả<span style="text-align: right;">(@Model.GetOrderCountByStatus(0))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListFillConfirm" class="nav-order-list__link">
-                            <p>Chờ xác nhận</p>
+                            <p style="display: flex; justify-content: space-between;">Chờ xác nhận<span style="text-align: right;">(@Model.GetOrderCountByStatus(1))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListConfirmDeliver" class="nav-order-list__link">
-                            <p>Chờ giao hàng</p>
+                            <p style="display: flex; justify-content: space-between;">Chờ giao hàng<span style="text-align: right;">(@Model.GetOrderCountByStatus(2))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListDelivering" class="nav-order-list__link">
-                            <p>Đang giao hàng</p>
+                            <p style="display: flex; justify-content: space-between;">Đang giao hàng<span style="text-align: right;">(@Model.GetOrderCountByStatus(3))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListFillReview" class="nav-order-list__link">
-                            <p>Chưa đánh giá</p>
+                            <p style="display: flex; justify-content: space-between;">Chưa đánh giá<span style="text-align: right;">(@Model.GetOrderCountByStatus(4))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListFillDone" class="nav-order-list__link">
-                            <p>Đã đánh giá</p>
+                            <p style="display: flex; justify-content: space-between;">Đã đánh giá <span style="text-align: right;">(@Model.GetOrderCountByStatus(5))</span></p>
                         </a>
                         <a asp-area="Order" asp-page="OrderListFillCancel" class="nav-order-list__link" style="background-color:rgba(30, 144, 255, 0.1);">
-                            <p>Đã hủy</p>
+                            <p style="display: flex; justify-content: space-between;">Đã hủy<span style="text-align: right;">(@Model.GetOrderCountByStatus(6))</span></p>
                         </a>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
 
             <div class="col c-8">
                 <div class="order-list__title order__title row">Đã hủy</div>
-                @if (Model.GetOrderCountByStatus() == 0)
+                @if (Model.GetOrderCountByStatus(Model.StatusId) == 0)
                 {
                     <div class="order-list__des--empty"  style="border-radius: 8px;">
                         <div class="shopping-cart__img--empty">

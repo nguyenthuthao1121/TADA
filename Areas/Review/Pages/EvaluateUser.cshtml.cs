@@ -31,7 +31,6 @@ public class EvaluateUserModel : PageModel
     public int Rating { get; set; } = 5;
     [BindProperty]
     public string Comment { get; set; }
-    public bool IsReviewing { get; set; }
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
         return orderService.GetBookByOrderDetail(orderDetail);
@@ -59,8 +58,6 @@ public class EvaluateUserModel : PageModel
         {
             Order=orderService.GetOrderById(orderId);
             OrderDetails=orderService.GetOrderDetailsByOrderId(orderId);
-            if (!string.IsNullOrEmpty(Request.Query["message"])) IsReviewing = true;
-            else IsReviewing = false;
         }
     }
     public IActionResult OnPostAddReview(IFormFile imageFile, int? bookId, int? orderId)
@@ -82,7 +79,7 @@ public class EvaluateUserModel : PageModel
             {
                 imageFile.CopyTo(fileStream);
             }
-            imagePath = "~/img/books/book" + (int)bookId + "/reviews";
+            imagePath = "/img/books/book" + (int)bookId + "/reviews";
             reviewService.UpdateReviewImg(reviewId, imagePath);
         }
         
@@ -92,6 +89,6 @@ public class EvaluateUserModel : PageModel
             return RedirectToPage("OrderListFillDone", new { area = "Order" });
 
         }
-        else return RedirectToPage("/EvaluateUser", new {id= (int)orderId, message = "IsReviewing" });
+        else return RedirectToPage("/EvaluateUser", new {id= (int)orderId});
     }
 }

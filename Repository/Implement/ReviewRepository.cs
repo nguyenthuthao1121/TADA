@@ -70,6 +70,7 @@ namespace TADA.Repository.Implement
             {
                 var review = context.Reviews.Find(reviewId);
                 review.Image= img;
+                context.SaveChanges();
             }
             catch (SqlException)
             {

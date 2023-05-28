@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Web;
+using System;
 using TADA.Dto.Book;
 using TADA.Dto.Category;
 using TADA.Dto.Provider;
@@ -7,6 +9,7 @@ using TADA.Middleware;
 using TADA.Model.Entity;
 using TADA.Service;
 using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace TADA.Pages;
 
@@ -54,6 +57,9 @@ public class BookManagementModel : PageModel
 
     public void OnGet()
     {
+        var url = HttpContext.Request.GetDisplayUrl();
+        var uri = new Uri(url);
+        CategoryId = Convert.ToInt32(HttpUtility.ParseQueryString(uri.Query).Get("categoryId"));
         var books = bookService.GetBooksForManagement(CategoryId, ProviderId, q, InStock, SortBy, SortType);
         Categories = categoryService.GetAllCategories();
         Providers = providerService.GetAllProviders();
