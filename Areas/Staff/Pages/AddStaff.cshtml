@@ -31,7 +31,7 @@
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputBirthday" class="form__label">Ngày sinh</label>
-                            <input type="date" class="form-control form__input" id="inputBirthday" asp-for="@Model.Staff.Birthday">
+                            <input type="date" min="1900-01-01" value="1900-01-01" class="form-control form__input" id="inputBirthday" asp-for="@Model.Staff.Birthday">
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputTel" class="form__label">Số điện thoại</label>
@@ -47,7 +47,7 @@
                         <div class="form-group col-md-6 form-group__right">
                             <label for="province" class="form__label">Tỉnh/ Thành</label>
                             <select id="province" class="form-select form__input">
-                                <option value="">-- Chọn tỉnh/thành --</option>
+                                @*<option value="0">-- Chọn tỉnh/thành --</option>*@
                             </select>
                         </div>
                     </div>
@@ -55,13 +55,13 @@
                         <div class="form-group col-md-6 form-group__left">
                             <label for="district" class="form__label">Quận/ Huyện</label>
                             <select id="district" class="form-select form__input">
-                                <option value="">-- Chọn quận/huyện --</option>
-                            </select>
+@*                                <option value="0">-- Chọn quận/huyện --</option>
+*@                            </select>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="ward" class="form__label">Xã/ Phường</label>
                             <select id="ward" class="form-select form__input" asp-for="@Model.Staff.WardId">
-                                <option value="">-- Chọn xã/phường --</option>
+                                @*<option value="0">-- Chọn xã/phường --</option>*@
                             </select>
                             <span class="text-danger" asp-validation-for="@Model.Staff.WardId"></span>
                         </div>

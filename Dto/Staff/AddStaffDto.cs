@@ -15,7 +15,7 @@ public class AddStaffDto
                    ErrorMessage = "Số điện thoại không hợp lệ")]
     public string TelephoneNumber { get; set; }
     public int RoleId { get; set; }
-    [Required(ErrorMessage = "Vui lòng chọn xã/ phường !")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng chọn xã/ phường !")]
     public int WardId { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập địa chỉ!")]
     public string Street { get; set; }
