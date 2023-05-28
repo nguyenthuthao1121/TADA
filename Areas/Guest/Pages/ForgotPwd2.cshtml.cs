@@ -6,7 +6,6 @@ using System.Text;
 using TADA.Service;
 using TADA.Utilities;
 
-
 namespace TADA.Pages;
 
 public class ForgotPwd2Model : PageModel

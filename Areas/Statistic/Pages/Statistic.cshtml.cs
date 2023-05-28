@@ -6,7 +6,6 @@ using System.Security.Claims;
 using TADA.Dto;
 using TADA.Dto.Address;
 using TADA.Dto.Customer;
-using TADA.Dto.Validation;
 using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Middleware;

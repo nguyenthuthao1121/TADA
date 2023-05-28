@@ -312,6 +312,7 @@ namespace TADA.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ISBN = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: false),
                     Author = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Publisher = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     PublicationYear = table.Column<int>(type: "int", nullable: false),

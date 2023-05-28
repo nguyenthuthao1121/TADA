@@ -47,3 +47,8 @@
             .modal-footer .button:first-child .btn:active {
                 background-color: #ced4da;
             }
+.toast {
+    position: fixed;
+    top: 58px;
+    right: 0;
+}

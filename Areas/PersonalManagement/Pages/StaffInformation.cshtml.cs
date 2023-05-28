@@ -4,12 +4,13 @@ using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using TADA.Dto;
+using TADA.Dto.Account;
 using TADA.Dto.Address;
 using TADA.Dto.Customer;
 using TADA.Dto.Staff;
-using TADA.Dto.Validation;
 using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Utilities;
 
 namespace TADA.Pages;
 
@@ -38,29 +39,8 @@ public class StaffInformationModel : PageModel
     [BindProperty]
     [Required]
     public int SelectedWard { get; set; }
-
-    public string Password { get; set; }
-
     [BindProperty]
-    [DataType(DataType.Password)]
-    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
-    [Compare(nameof(Password), ErrorMessage = "Nhập mật khẩu hiện tại không chính xác!")]
-    public string OldPassword { get; set; }
-
-    [BindProperty]
-    [DataType(DataType.Password)]
-    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
-    [StringLength(int.MaxValue, MinimumLength = 6, ErrorMessage = "Mật khẩu phải có độ dài ít nhất là 6 ký tự!")]
-    [NotEqual(ErrorMessage = "Mật khẩu mới không được trùng với mật khẩu cũ!")]
-
-    public string NewPassword { get; set; }
-
-    [BindProperty]
-    [DataType(DataType.Password)]
-    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
-    [Compare("NewPassword", ErrorMessage = "Xác nhận mật khẩu không đúng!")]
-    public string ConfirmPassword { get; set; }
-
+    public PasswordDto ChangedPwd { get; set; }
 
     public StaffInformationModel(IStaffService staffService, IAddressService addressService, IAccountService accountService)
     {
@@ -77,7 +57,6 @@ public class StaffInformationModel : PageModel
         Districts = addressService.GetAllDistrictsByProvinceId(Address.ProvinceId);
         Wards = addressService.GetAllWardsByDistrictId(Address.DistrictId);
         Gender = Staff.Gender ? "Nam" : "Nữ";
-        Password = Staff.Password;
     }
     public IActionResult OnPostChangeInformation()
     {
@@ -89,7 +68,26 @@ public class StaffInformationModel : PageModel
     }
     public IActionResult OnPostChangePassword()
     {
-        accountService.ChangePassword(Convert.ToInt32(HttpContext.Session.GetInt32("Id")), NewPassword);
+        string oldPassword = accountService.GetPasswordByAccountId(Convert.ToInt32(HttpContext.Session.GetInt32("Id")));
+        string inputPassword = HashPassword.Hash(ChangedPwd.OldPassword);
+        string newPassword = HashPassword.Hash(ChangedPwd.NewPassword);
+        if (inputPassword != oldPassword || newPassword == oldPassword)
+        {
+            TempData["Display"] = true;
+            if (inputPassword != oldPassword)
+            {
+                TempData["ErrorMsg"] = "Mật khẩu hiện tại không chính xác";
+
+            }
+            if (newPassword == oldPassword)
+            {
+                TempData["ErrorMsg2"] = "Mật khẩu mới không được trùng với mật khẩu cũ";
+            }
+            OnGet();
+            return Page();
+        }
+        accountService.ChangePassword(Convert.ToInt32(HttpContext.Session.GetInt32("Id")), ChangedPwd.NewPassword);
+        TempData["Toast"] = true;
         return RedirectToPage("./StaffInformation");
     }
     public JsonResult OnGetDistricts(int SelectedProvince)
