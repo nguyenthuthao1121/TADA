@@ -31,4 +31,8 @@ public class AuthenticationService : IAuthenticationService
             Status = account.Status,
         };
     }
+    public AccountDto GetAccountByEmail(string email)
+    {
+        return authenticationRepository.GetAccountByEmail(email);
+    }
 }

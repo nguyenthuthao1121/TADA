@@ -50,15 +50,15 @@ public class SignupModel : PageModel
     {
         if (Password.Equals(ConfirmPassword))
         {
-            var hashPassword = HashPassword.Hash(Password);
-            var account = authenticationService.GetAccount(Email, hashPassword);
+            var account = authenticationService.GetAccountByEmail(Email);
             if (account != null)
             {
-                Message = "Email đã được sử dụng để đăng ký tài khoản. Vui lòng sử dụng email khác để đăng ký";
+                Message = "Email đã được sử dụng để đăng ký tài khoản. Vui lòng sử dụng email khác để đăng ký!";
                 return Page();
             }
             else
             {
+                var hashPassword = HashPassword.Hash(Password);
                 accountService.AddNewAccount(Email, hashPassword, true);
                 customerService.AddDefaultCustomer(Email);
                 addressService.AddDefaultAddress();
