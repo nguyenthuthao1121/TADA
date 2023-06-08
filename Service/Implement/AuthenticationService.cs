@@ -38,4 +38,8 @@ public class AuthenticationService : IAuthenticationService
             return null;
         }
     }
+    public AccountDto GetAccountByEmail(string email)
+    {
+        return authenticationRepository.GetAccountByEmail(email);
+    }
 }

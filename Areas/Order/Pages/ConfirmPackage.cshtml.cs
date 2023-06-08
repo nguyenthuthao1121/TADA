@@ -114,14 +114,17 @@ public class ConfirmPackageModel : PageModel
 
     public IActionResult OnPostUpdateStatusOrder(int? orderId, bool? isFromCart)
     {
-        if(Order.ShipFee> 0)
+        if(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault()!=null)
         {
-            if (isFromCart == true)
+            if (orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().ShipFee > 0)
             {
-                cartService.DeleteBookOfOrder((int)orderId, (int)HttpContext.Session.GetInt32("Id"));
+                if (isFromCart == true)
+                {
+                    cartService.DeleteBookOfOrder((int)orderId, (int)HttpContext.Session.GetInt32("Id"));
+                }
+                orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
+                return RedirectToPage("/OrderListFillAll");
             }
-            orderService.UpdateStatusOrder(orderService.GetOrdersByAccountId((int)HttpContext.Session.GetInt32("Id"), StatusId).FirstOrDefault().Id, 1);
-            return RedirectToPage("/OrderListFillAll");
         }
         return RedirectToPage("./ConfirmPackage");
     }

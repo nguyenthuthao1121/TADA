@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TADA.Dto.Account;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -15,5 +16,16 @@ public class AuthenticationRepository : IAuthenticationRepository
     {
         return context.Accounts.Where(account => account.Email.Equals(email)).Where(account => account.Password.Equals(password)).FirstOrDefault();
     }
-
+    public AccountDto GetAccountByEmail(string email)
+    {
+        return context.Accounts.Where(account => account.Email.Equals(email)).Select(account => new AccountDto
+        {
+            Id = account.Id,
+            Type = account.Type,
+            Email = account.Email,
+            Password = account.Password,
+            CreateDate = account.CreateDate,
+            Status = account.Status
+        }).FirstOrDefault();
+    }
 }

@@ -142,7 +142,7 @@ namespace TADA.Service.Implement
                     Name = "Khách hàng",
                     Birthday = DateTime.Now,
                     Gender = true,
-                    TelephoneNumber = "0123456789",
+                    TelephoneNumber = "0222222222",
                     AddressId = addressId,
                     AccountId = accountId
                 };

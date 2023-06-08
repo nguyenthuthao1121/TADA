@@ -53,18 +53,17 @@ public class SignupModel : PageModel
     {
         if (Password.Equals(ConfirmPassword))
         {
-            var hashPassword = HashPassword.Hash(Password);
-            var account = authenticationService.GetAccount(Email, hashPassword);
+            var account = authenticationService.GetAccountByEmail(Email);
             if (account != null)
             {
-                Message = "Email đã được sử dụng để đăng ký tài khoản. Vui lòng sử dụng email khác để đăng ký";
+                Message = "Email đã được sử dụng để đăng ký tài khoản. Vui lòng sử dụng email khác để đăng ký!";
                 return Page();
             }
             else
             {
                 try
                 {
-                    var address = new MailAddress(Email).Address;
+                    var hashPassword = HashPassword.Hash(Password);
                     accountService.AddNewAccount(Email, hashPassword, true);
                     customerService.AddDefaultCustomer(Email);
                     addressService.AddDefaultAddress();
@@ -75,7 +74,7 @@ public class SignupModel : PageModel
                     HttpContext.Session.SetString("Type", "Customer");
                     HttpContext.Session.SetString("Name", customerInformation.Name);
                     //return RedirectToPage("/Authentication/UserInformation");
-                    return RedirectToPage("UserInformation", new { area = "PersonalManagement", message = address });
+                    return RedirectToPage("UserInformation", new { area = "PersonalManagement" });
                     //return Page();
                 }
                 catch (FormatException)
@@ -83,7 +82,6 @@ public class SignupModel : PageModel
                     Message = "Email này không phải là email hợp lệ!";
                     return Page();
                 }
-                
             }
         }
         else
