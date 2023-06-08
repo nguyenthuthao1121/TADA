@@ -17,62 +17,123 @@ public class StaffService : IStaffService
     }
     public StaffRoleDto GetStaffByAccountId(int id)
     {
-        return staffRepository.GetStaffByAccountId(id);
+        try
+        {
+            return staffRepository.GetStaffByAccountId(id);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
     public List<StaffDto> GetAllStaffs()
     {
-        return staffRepository.GetAllStaffs();
+        try
+        {
+            return staffRepository.GetAllStaffs();
+        }
+        catch (Exception)
+        {
+            return new List<StaffDto>();
+        }
+        
     }
     public void AddStaff(AddStaffDto staff)
     {
-        accountService.AddNewAccount(staff.Email, staff.Password, false);
-        addressService.AddAddress(staff.Street, staff.WardId);
-        staffRepository.AddStaff(new AddStaffDto
+        try
         {
-            Name = staff.Name,
-            Gender = staff.Gender,
-            Birthday = staff.Birthday,
-            TelephoneNumber = staff.TelephoneNumber,
-            AccountId = accountService.GetLastId(),
-            AddressId = addressService.GetLastId(),
-            RoleId = staff.RoleId
-        });
+            accountService.AddNewAccount(staff.Email, staff.Password, false);
+            addressService.AddAddress(staff.Street, staff.WardId);
+            staffRepository.AddStaff(new AddStaffDto
+            {
+                Name = staff.Name,
+                Gender = staff.Gender,
+                Birthday = staff.Birthday,
+                TelephoneNumber = staff.TelephoneNumber,
+                AccountId = accountService.GetLastId(),
+                AddressId = addressService.GetLastId(),
+                RoleId = staff.RoleId
+            });
+        }
+        catch (Exception)
+        {
+        }
+        
     }
     public int GetNumOfStaffs()
     {
-        return staffRepository.GetAllStaffs().Count;
+        try
+        {
+            return staffRepository.GetAllStaffs().Count;
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+        
     }
     public int GetNumOfStaffsByYear(int year)
     {
-        return staffRepository.GetStaffsByYear((int)year).Count;
+        try
+        {
+            return staffRepository.GetStaffsByYear((int)year).Count;
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+        
     }
     public List<StaffDto> GetStaff(string search, string status, string sortBy, string sortType)
     {
-        List<StaffDto> list = new List<StaffDto>();
-        foreach (StaffDto staff in staffRepository.GetStaff(status, sortBy, sortType))
+        try
         {
-            if (string.IsNullOrWhiteSpace(search))
+            List<StaffDto> list = new List<StaffDto>();
+            foreach (StaffDto staff in staffRepository.GetStaff(status, sortBy, sortType))
             {
-                list.Add(staff);
-            }
-            else
-            {
-                if ((UIHelper.RemoveUnicodeSymbol(staff.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                if (string.IsNullOrWhiteSpace(search))
                 {
                     list.Add(staff);
                 }
+                else
+                {
+                    if ((UIHelper.RemoveUnicodeSymbol(staff.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    {
+                        list.Add(staff);
+                    }
+                }
             }
+            return list;
         }
-        return list;
+        catch (Exception)
+        {
+            return new List<StaffDto>();
+        }
+        
     }
 
     public StaffDto GetStaffDtoByAccountId(int accountId)
     {
-        return staffRepository.GetStaffDtoByAccountId((int)accountId);
+        try
+        {
+            return staffRepository.GetStaffDtoByAccountId((int)accountId);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
 
     public void UpdateStaff(StaffDto staff)
     {
-        staffRepository.UpdateStaff(staff);
+        try
+        {
+            staffRepository.UpdateStaff(staff);
+        }
+        catch (Exception)
+        {
+        }
+        
     }
 }

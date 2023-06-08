@@ -16,19 +16,26 @@ public class AuthenticationService : IAuthenticationService
 
     public AccountDto GetAccount(string email, string password)
     {
-        var account = authenticationRepository.GetAccount(email, password);
-        if (account == null) 
+        try
+        {
+            var account = authenticationRepository.GetAccount(email, password);
+            if (account == null)
+            {
+                return null;
+            }
+            return new AccountDto()
+            {
+                Id = account.Id,
+                Type = account.Type,
+                Email = account.Email,
+                Password = account.Password,
+                CreateDate = account.CreateDate,
+                Status = account.Status,
+            };
+        }
+        catch (Exception)
         {
             return null;
         }
-        return new AccountDto()
-        {
-            Id = account.Id,
-            Type = account.Type,
-            Email = account.Email,
-            Password = account.Password,
-            CreateDate = account.CreateDate,
-            Status = account.Status,
-        };
     }
 }

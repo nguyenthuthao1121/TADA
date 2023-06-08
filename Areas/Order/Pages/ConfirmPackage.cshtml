@@ -68,7 +68,13 @@
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Phí giao hàng</div>
-                            <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.Order.ShipFee) đ</div>
+                            @if (Model.Order.ShipFee == 0)
+                            {
+                                <div class="col c-5 text-danger" style="padding: 0; text-align:right;">Không xác định</div>
+                            }
+                            else{
+                                <div class="col c-5" style="padding: 0; text-align:right;">@Model.GetPriceString(Model.Order.ShipFee) đ</div>
+                            }
                         </div>
                         <div class="row">
                             <div class="col c-7" style="padding: 0;">Tổng tiền</div>

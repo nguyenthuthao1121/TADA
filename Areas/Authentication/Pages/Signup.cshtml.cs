@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using System.Net.WebSockets;
+using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Utilities;
 
@@ -19,6 +21,7 @@ public class SignupModel : PageModel
     [Required]
     [DataType(DataType.EmailAddress)]
     [EmailAddress(ErrorMessage = "Email này không phải là email hợp lệ!")]
+    [RegularExpression(@"^[a-zA-Z][-_.a-zA-Z0-9]{5,29}@g(oogle)?mail\.com$", ErrorMessage = "Email này không phải là email hợp lệ!")]
     public string Email { get; set; }
     [BindProperty]
     [DataType(DataType.Password)]
@@ -59,18 +62,28 @@ public class SignupModel : PageModel
             }
             else
             {
-                accountService.AddNewAccount(Email, hashPassword, true);
-                customerService.AddDefaultCustomer(Email);
-                addressService.AddDefaultAddress();
-                var customer = authenticationService.GetAccount(Email, hashPassword);
-                var customerInformation = customerService.GetCustomerByAccountId(customer.Id);
-                cartService.AddCart(customerInformation.CustomerId);
-                HttpContext.Session.SetInt32("Id", customer.Id);
-                HttpContext.Session.SetString("Type", "Customer");
-                HttpContext.Session.SetString("Name", customerInformation.Name);
-                //return RedirectToPage("/Authentication/UserInformation");
-                return RedirectToPage("UserInformation", new { area = "PersonalManagement"});
-                //return Page();
+                try
+                {
+                    var address = new MailAddress(Email).Address;
+                    accountService.AddNewAccount(Email, hashPassword, true);
+                    customerService.AddDefaultCustomer(Email);
+                    addressService.AddDefaultAddress();
+                    var customer = authenticationService.GetAccount(Email, hashPassword);
+                    var customerInformation = customerService.GetCustomerByAccountId(customer.Id);
+                    cartService.AddCart(customerInformation.CustomerId);
+                    HttpContext.Session.SetInt32("Id", customer.Id);
+                    HttpContext.Session.SetString("Type", "Customer");
+                    HttpContext.Session.SetString("Name", customerInformation.Name);
+                    //return RedirectToPage("/Authentication/UserInformation");
+                    return RedirectToPage("UserInformation", new { area = "PersonalManagement", message = address });
+                    //return Page();
+                }
+                catch (FormatException)
+                {
+                    Message = "Email này không phải là email hợp lệ!";
+                    return Page();
+                }
+                
             }
         }
         else

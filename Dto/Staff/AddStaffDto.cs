@@ -11,8 +11,7 @@ public class AddStaffDto
     public DateTime Birthday { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập số điện thoại!")]
     [DataType(DataType.PhoneNumber)]
-    [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
-                   ErrorMessage = "Số điện thoại không hợp lệ")]
+    [RegularExpression(@"^0(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$", ErrorMessage = "Vui lòng nhập số điện thoại hợp lệ!")]
     public string TelephoneNumber { get; set; }
     public int RoleId { get; set; }
     [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng chọn xã/ phường !")]
@@ -23,6 +22,7 @@ public class AddStaffDto
     [Required(ErrorMessage = "Vui lòng nhập email!")]
     [DataType(DataType.EmailAddress)]
     [EmailAddress(ErrorMessage = "Email này không phải là email hợp lệ!")]
+    [RegularExpression(@"^[a-zA-Z][-_.a-zA-Z0-9]{5,29}@g(oogle)?mail\.com$", ErrorMessage = "Vui lòng nhập email hợp lệ!")]
     public string Email { get; set; }
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]

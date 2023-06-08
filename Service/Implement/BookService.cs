@@ -1,7 +1,11 @@
-﻿using TADA.Dto.Book;
+﻿using System.Drawing.Printing;
+using System.Globalization;
+using System.Net;
+using TADA.Dto.Book;
 using TADA.Model.Entity;
 using TADA.Repository;
 using TADA.Utilities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TADA.Service.Implement;
 
@@ -18,61 +22,59 @@ public class BookService : IBookService
     }
     public List<BookDto> GetAllBooks()
     {
-        return bookRepository.GetAllBooks();
+        try
+        {
+            return bookRepository.GetAllBooks();
+        }
+        catch (Exception)
+        {
+            return new List<BookDto>();
+        }
     }
     public List<BookDto> GetBooks(int category, string search, string priceRange, string genre, string sortBy)
     {
-        List<BookDto> list = new List<BookDto>();
-        foreach(BookDto book in bookRepository.GetBooks(category, priceRange, genre, sortBy))
+        try
         {
-            if (string.IsNullOrWhiteSpace(search))
+            List<BookDto> list = new List<BookDto>();
+            foreach (BookDto book in bookRepository.GetBooks(category, priceRange, genre, sortBy))
             {
-                list.Add(book);
-            }
-            else
-            {
-                if ((UIHelper.RemoveUnicodeSymbol(book.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                if (string.IsNullOrWhiteSpace(search))
                 {
                     list.Add(book);
                 }
+                else
+                {
+                    if ((UIHelper.RemoveUnicodeSymbol(book.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    {
+                        list.Add(book);
+                    }
+                }
             }
+            return list;
         }
-        return list;
+        catch(Exception)
+        {
+            return new List<BookDto>();
+        }
     }
 
     public BookDto GetBookById(int id)
     {
-        return bookRepository.GetBookById(id);
+        try
+        {
+            return bookRepository.GetBookById(id);
+        }
+        catch(Exception)
+        {
+            return null;
+        }
     }
     public List<BookManagementDto> GetAllBooksForManagement()
     {
-        List<BookManagementDto> list = new List<BookManagementDto>();
-        var books = bookRepository.GetAllBooks();
-        foreach(var book in books)
+        try
         {
-            list.Add(new BookManagementDto
-            {
-                Id = book.Id,
-                ISBN= book.ISBN,
-                Name = book.Name,
-                Author = book.Author,
-                Publisher = book.Publisher,
-                Price = book.Price,
-                Promotion = book.Promotion,
-                Quantity = book.Quantity,
-                Image = book.Image,
-                Category = categoryRepository.GetCategoryNameById(book.CategoryId),
-                Provider = book.ProviderName
-            });
-        }
-        return list;
-    }
-    public List<BookManagementDto> GetBooksForManagement(int category, int provider, string search, int inStock, string sortBy, string sortType)
-    {
-        List<BookManagementDto> list = new List<BookManagementDto>();
-        var books = bookRepository.GetBooksForManagement(category, provider, inStock, sortBy, sortType);
-        if (string.IsNullOrWhiteSpace(search))
-        {
+            List<BookManagementDto> list = new List<BookManagementDto>();
+            var books = bookRepository.GetAllBooks();
             foreach (var book in books)
             {
                 list.Add(new BookManagementDto
@@ -90,17 +92,28 @@ public class BookService : IBookService
                     Provider = book.ProviderName
                 });
             }
+            return list;
         }
-        else
+        catch (Exception)
         {
-            foreach (var book in books)
+            return new List<BookManagementDto>();
+        }
+        
+    }
+    public List<BookManagementDto> GetBooksForManagement(int category, int provider, string search, int inStock, string sortBy, string sortType)
+    {
+        try
+        {
+            List<BookManagementDto> list = new List<BookManagementDto>();
+            var books = bookRepository.GetBooksForManagement(category, provider, inStock, sortBy, sortType);
+            if (string.IsNullOrWhiteSpace(search))
             {
-                if ((UIHelper.RemoveUnicodeSymbol(book.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                foreach (var book in books)
                 {
                     list.Add(new BookManagementDto
                     {
                         Id = book.Id,
-                        ISBN= book.ISBN,
+                        ISBN = book.ISBN,
                         Name = book.Name,
                         Author = book.Author,
                         Publisher = book.Publisher,
@@ -113,36 +126,106 @@ public class BookService : IBookService
                     });
                 }
             }
+            else
+            {
+                foreach (var book in books)
+                {
+                    if ((UIHelper.RemoveUnicodeSymbol(book.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    {
+                        list.Add(new BookManagementDto
+                        {
+                            Id = book.Id,
+                            ISBN = book.ISBN,
+                            Name = book.Name,
+                            Author = book.Author,
+                            Publisher = book.Publisher,
+                            Price = book.Price,
+                            Promotion = book.Promotion,
+                            Quantity = book.Quantity,
+                            Image = book.Image,
+                            Category = categoryRepository.GetCategoryNameById(book.CategoryId),
+                            Provider = book.ProviderName
+                        });
+                    }
+                }
+            }
+            return list;
         }
-        return list;
+        catch (Exception)
+        {
+            return new List<BookManagementDto>();
+        }
+        
     }
     public void UpdateQuantity(int bookId, int quantity)
     {
-        bookRepository.UpdateQuantity(bookId, quantity);
+        try
+        {
+            bookRepository.UpdateQuantity(bookId, quantity);
+        }
+        catch(Exception) { }
     }
     public int AddBook(BookDto book)
     {
-        return bookRepository.AddBook(book);
+        try
+        {
+            return bookRepository.AddBook(book);
+        }
+        catch(Exception) 
+        {
+            return 0;
+        }
     }
     public List<BookDto> SearchBooks(string query)
     {
-        return bookRepository.SearchBooks(query);
+        try
+        {
+            return bookRepository.SearchBooks(query);
+        }
+        catch (Exception)
+        {
+            return new List<BookDto>();
+        }
+        
     }
     public List<SoldBookDto> GetSoldBooks()
     {
-        return bookRepository.GetSoldBooks();
+        try
+        {
+            return bookRepository.GetSoldBooks();
+        }
+        catch (Exception)
+        {
+            return new List<SoldBookDto>();
+        }
+        
     }
 
     public void UpdateBook(BookDto book)
     {
-        bookRepository.UpdateBook(book);
+        try
+        {
+            bookRepository.UpdateBook(book);
+        }
+        catch (Exception) { }
+        
     }
     public void HideBook(int bookId)
     {
-        bookRepository.HideBook(bookId);
+        try
+        {
+            bookRepository.HideBook(bookId);
+        }
+        catch (Exception) { }
+       
     }
     public void DisplayBook(int bookId)
     {
-        bookRepository.DisplayBook(bookId);
+        try
+        {
+            bookRepository.DisplayBook(bookId);
+        }
+        catch (Exception) { }
+        
     }
 }
