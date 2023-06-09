@@ -16,73 +16,180 @@ public class AddressService : IAddressService
 
     public string GetAddressByIdAndType(int id, bool type)
     {
-        if (type)
+        try
         {
-            return addressRepository.GetCustomerAddressByAccountId(id);
+            if (type)
+            {
+                return addressRepository.GetCustomerAddressByAccountId(id);
+            }
+            else
+            {
+                return addressRepository.GetStaffAddressByAccountId(id);
+            }
         }
-        else
+        catch (Exception)
         {
-            return addressRepository.GetStaffAddressByAccountId(id);
+            return null;
         }
     }
 
     public string GetAddressById(int id)
     {
-        return addressRepository.GetAddressById(id);
+        try
+        {
+            return addressRepository.GetAddressById(id);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public string GetCustomerAddressByAccountId(int id)
     {
-        return addressRepository.GetCustomerAddressByAccountId(id);
+        try
+        {
+            return addressRepository.GetCustomerAddressByAccountId(id);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
     public string GetAddressByIdAndPart(int id, int part)
     {
-        return addressRepository.GetAddressByIdAndPart(id, part);
+        try
+        {
+            return addressRepository.GetAddressByIdAndPart(id, part);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
     public List<WardDto> GetAllWardsByDistrictId(int districtId)
     {
-        return addressRepository.GetAllWardsByDistrictId(districtId);
+        try
+        {
+            return addressRepository.GetAllWardsByDistrictId(districtId);
+        }
+        catch (Exception)
+        {
+            return new List<WardDto>();
+        }
+        
     }
 
     public void AddAddress(string street, int wardId)
     {
-        addressRepository.AddAddress(street, wardId);
+        try
+        {
+            addressRepository.AddAddress(street, wardId);
+        }
+        catch (Exception)
+        {
+        }
+        
     }
     public int GetLastId()
     {
-        return addressRepository.GetLastId();
+        try
+        {
+            return addressRepository.GetLastId();
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+        
     }
 
     public List<DistrictDto> GetAllDistrictsByProvinceId(int provinceId)
     {
-        return addressRepository.GetAllDistrictsByProvinceId(provinceId);
+        try
+        {
+            return addressRepository.GetAllDistrictsByProvinceId(provinceId);
+        }
+        catch (Exception)
+        {
+            return new List<DistrictDto>();
+        }
+        
     }
 
     public List<ProvinceDto> GetAllProvinces()
     {
-        return addressRepository.GetAllProvinces();
+        try
+        {
+            return addressRepository.GetAllProvinces();
+        }
+        catch (Exception)
+        {
+            return new List<ProvinceDto>();
+        }
+        
     }
     public AddressDto GetCustomerAddressDto(int accountId)
     {
-        return addressRepository.GetCustomerAddressDto(accountId);
+        try
+        {
+            return addressRepository.GetCustomerAddressDto(accountId);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
 
     public AddressDto GetOrderAddressDto(int orderId)
     {
-        return addressRepository.GetOrderAddressDto(orderId);
+        try
+        {
+            return addressRepository.GetOrderAddressDto(orderId);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
     public int AddNewAddress(string street, int wardId)
     {
-        return addressRepository.AddNewAddress(street, wardId);
+        try
+        {
+            return addressRepository.AddNewAddress(street, wardId);
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+        
     }
 
     public AddressDto GetStaffAddressDto(int accountId)
     {
-        return addressRepository.GetStaffAddressDto(accountId);
+        try
+        {
+            return addressRepository.GetStaffAddressDto(accountId);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
     
     public void AddDefaultAddress()
     {
-        addressRepository.AddAddress("Không xác định", 1);
+        try
+        {
+            addressRepository.AddAddress("Không xác định", 1);
+        }
+        catch (Exception)
+        {
+        }
+        
     }
 }

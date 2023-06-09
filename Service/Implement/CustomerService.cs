@@ -22,74 +22,133 @@ namespace TADA.Service.Implement
         }
         public CustomerDto GetCustomerById(int customerId)
         {
-            return customerRepository.GetCustomerById(customerId);
+            try
+            {
+                return customerRepository.GetCustomerById(customerId);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         public List<CustomerDto> GetAllCustomers()
         {
-            return customerRepository.GetAllCustomers();
+            try
+            {
+                return customerRepository.GetAllCustomers();
+            }
+            catch (Exception)
+            {
+                return new List<CustomerDto>();
+            }
+           
         }
         public CustomerDto GetCustomerByAccountId(int accountId)
         {
-            return customerRepository.GetCustomerByAccountId(accountId);
+            try
+            {
+                return customerRepository.GetCustomerByAccountId(accountId);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public List<CustomerDto> GetCustomers(string search, string gender, string status, string sortBy, string sortType)
         {
-            List<CustomerDto> list = new List<CustomerDto>();
-            foreach (CustomerDto customer in customerRepository.GetCustomers(gender, status, sortBy, sortType))
+            try
             {
-                if (string.IsNullOrWhiteSpace(search))
+                List<CustomerDto> list = new List<CustomerDto>();
+                foreach (CustomerDto customer in customerRepository.GetCustomers(gender, status, sortBy, sortType))
                 {
-                    list.Add(customer);
-                }
-                else
-                {
-                    if ((UIHelper.RemoveUnicodeSymbol(customer.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    if (string.IsNullOrWhiteSpace(search))
                     {
                         list.Add(customer);
                     }
+                    else
+                    {
+                        if ((UIHelper.RemoveUnicodeSymbol(customer.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                        {
+                            list.Add(customer);
+                        }
+                    }
                 }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+                return new List<CustomerDto>();
+            }
+            
         }
 
         public int GetIdByAccountId(int id)
         {
-            return customerRepository.GetIdByAccountId(id);
+            try
+            {
+                return customerRepository.GetIdByAccountId(id);
+            }
+            catch (Exception) { return 0; }
         }
 
         public string GetNameByAccountId(int id)
         {
-            return customerRepository.GetNameByAccountId(id);
+            try
+            {
+                return customerRepository.GetNameByAccountId(id);
+            }
+            catch (Exception) { return null; }
+            
         }
 
         public void UpdateCustomer(CustomerDto customer)
         {
-            customerRepository.UpdateCustomer(customer);
+            try
+            {
+                customerRepository.UpdateCustomer(customer);
+            }
+            catch (Exception) { }
+            
         }
 
         public int GetNumOfCustomers()
         {
-            return customerRepository.GetAllCustomers().Count;
+            try
+            {
+                return customerRepository.GetAllCustomers().Count;
+            }
+            catch (Exception) { return 0; }
+            
         }
         public int GetNumOfCustomersByYear(int year)
         {
-            return customerRepository.GetCustomersByYear(year).Count;
+            try
+            {
+                return customerRepository.GetCustomersByYear(year).Count;
+            }
+            catch (Exception) { return 0; }
+            
         }
         public void AddDefaultCustomer(string email)
         {
-            var accountId = accountRepository.GetAccountIdByEmail(email);
-            var addressId = addressRepository.GetLastId();
-            AddCustomerDto customer = new AddCustomerDto()
+            try
             {
-                Name = "Khách hàng",
-                Birthday = DateTime.Now,
-                Gender = true,
-                TelephoneNumber = "0222222222",
-                AddressId = addressId,
-                AccountId = accountId
-            };
-            customerRepository.AddCustomer(customer);
+                var accountId = accountRepository.GetAccountIdByEmail(email);
+                var addressId = addressRepository.GetLastId();
+                AddCustomerDto customer = new AddCustomerDto()
+                {
+                    Name = "Khách hàng",
+                    Birthday = DateTime.Now,
+                    Gender = true,
+                    TelephoneNumber = "0222222222",
+                    AddressId = addressId,
+                    AccountId = accountId
+                };
+                customerRepository.AddCustomer(customer);
+            }
+            catch(Exception) { }
         }
     }
 }

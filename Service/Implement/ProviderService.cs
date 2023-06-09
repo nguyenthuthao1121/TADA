@@ -18,25 +18,10 @@ public class ProviderService : IProviderService
 
     public List<ProviderManagementDto> GetAllProviders()
     {
-        var list = new List<ProviderManagementDto>();
-        var providers = providerRepository.GetAllProviders();
-        foreach ( var provider in providers )
+        try
         {
-            list.Add(new ProviderManagementDto
-            {
-                Id = provider.Id,
-                Name = provider.Name,
-                Address = addressRepository.GetAddressById(provider.AddressId)
-            });
-        }
-        return list;
-    }
-    public List<ProviderManagementDto> GetProviders(string search)
-    {
-        var list = new List<ProviderManagementDto>();
-        var providers = providerRepository.GetProviders();
-        if (string.IsNullOrWhiteSpace(search))
-        {
+            var list = new List<ProviderManagementDto>();
+            var providers = providerRepository.GetAllProviders();
             foreach (var provider in providers)
             {
                 list.Add(new ProviderManagementDto
@@ -46,12 +31,22 @@ public class ProviderService : IProviderService
                     Address = addressRepository.GetAddressById(provider.AddressId)
                 });
             }
+            return list;
         }
-        else
+        catch (Exception)
         {
-            foreach (var provider in providers)
+            return new List<ProviderManagementDto>();
+        }
+    }
+    public List<ProviderManagementDto> GetProviders(string search)
+    {
+        try
+        {
+            var list = new List<ProviderManagementDto>();
+            var providers = providerRepository.GetProviders();
+            if (string.IsNullOrWhiteSpace(search))
             {
-                if ((UIHelper.RemoveUnicodeSymbol(provider.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                foreach (var provider in providers)
                 {
                     list.Add(new ProviderManagementDto
                     {
@@ -61,22 +56,49 @@ public class ProviderService : IProviderService
                     });
                 }
             }
+            else
+            {
+                foreach (var provider in providers)
+                {
+                    if ((UIHelper.RemoveUnicodeSymbol(provider.Name)).Contains(UIHelper.RemoveUnicodeSymbol(search)))
+                    {
+                        list.Add(new ProviderManagementDto
+                        {
+                            Id = provider.Id,
+                            Name = provider.Name,
+                            Address = addressRepository.GetAddressById(provider.AddressId)
+                        });
+                    }
+                }
+            }
+            return list;
         }
-        return list;
+        catch (Exception)
+        {
+            return new List<ProviderManagementDto>();
+        }
+        
     }
     public bool AddProvider(AddProviderDto provider)
     {
-        if (providerRepository.GetProviderByName(provider.Name) == null)
+        try
         {
-            addressRepository.AddAddress(provider.Street, provider.WardId);
-            providerRepository.AddProvider(new ProviderDto
+            if (providerRepository.GetProviderByName(provider.Name) == null)
             {
-                Name = provider.Name,
-                AddressId = addressRepository.GetLastId()
-            });
-            return true;
+                addressRepository.AddAddress(provider.Street, provider.WardId);
+                providerRepository.AddProvider(new ProviderDto
+                {
+                    Name = provider.Name,
+                    AddressId = addressRepository.GetLastId()
+                });
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch(Exception)
         {
             return false;
         }

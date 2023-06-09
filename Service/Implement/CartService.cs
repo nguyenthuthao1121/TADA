@@ -22,70 +22,172 @@ namespace TADA.Service.Implement
 
         public CartDto GetCartByCustomerId(int customerId)
         {
-            return cartRepository.GetCartByCustomerId(customerId);
+            try
+            {
+                return cartRepository.GetCartByCustomerId(customerId);
+            }
+            catch (Exception)
+            {
+                return new CartDto();
+            }
         }
 
         public CartDto GetCartByAccountId(int accountId)
         {
-            return cartRepository.GetCartByAccountId(accountId);
+            try
+            {
+                return cartRepository.GetCartByAccountId(accountId);
+            }
+            catch (Exception)
+            {
+                return new CartDto();
+            }
+            
         }
 
         public List<CartDetailDto> GetCartDetailsByCustomerId(int customerId)
         {
-            return cartRepository.GetCartDetailsByCustomerId(customerId);
+            try
+            {
+                return cartRepository.GetCartDetailsByCustomerId(customerId);
+            }
+            catch (Exception)
+            {
+                return new List<CartDetailDto>();
+            }
+            
         }
 
         public List<CartDetailDto> GetCartDetailsByAccountId(int accountId)
         {
-            return cartRepository.GetCartDetailsByAccountId(accountId);
+            try
+            {
+                return cartRepository.GetCartDetailsByAccountId(accountId);
+            }
+            catch (Exception)
+            {
+                return new List<CartDetailDto>();
+            }
+            
         }
         public CartDetailDto GetCartDetail(int accountId, int bookId)
         {
-            return cartRepository.GetCartDetail(accountId, bookId);
+            try
+            {
+                return cartRepository.GetCartDetail(accountId, bookId);
+            }
+            catch (Exception)
+            {
+                return new CartDetailDto();
+            }
+            
         }
         public BookDto GetBookByCartDetail(CartDetailDto cartDetail)
         {
-            return cartRepository.GetBookByCartDetail(cartDetail);
+            try
+            {
+                return cartRepository.GetBookByCartDetail(cartDetail);
+            }
+            catch (Exception)
+            {
+                return new BookDto();
+            }
         }
         public List<BookDto> GetBooksOfCart(int accountId)
         {
-            return cartRepository.GetBooksOfCart(accountId);
+            try
+            {
+                return cartRepository.GetBooksOfCart(accountId);
+            }
+            catch (Exception)
+            {
+                return new List<BookDto>();
+            }
         }
 
         public void AddBookToCart(int bookId, int accountId, int quantity)
         {
-            var cart=GetCartByAccountId(accountId);
-            cartRepository.AddBookToCart(bookId,cart.Id, quantity);
+            try
+            {
+                var cart = GetCartByAccountId(accountId);
+                cartRepository.AddBookToCart(bookId, cart.Id, quantity);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
         public void DeleteBookOfCart(int bookId, int accountId)
         {
-            cartRepository.DeleteBookOfCart(bookId,accountId);
+            try
+            {
+                cartRepository.DeleteBookOfCart(bookId, accountId);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
         public void DeleteBookOfOrder(int orderId, int accountId)
         {
-            var orderDetails= orderRepository.GetOrderDetailsByOrderId(orderId);
-            foreach(var item in orderDetails)
+            try
             {
-                cartRepository.DeleteBookOfCart(item.BookId, accountId);
+                var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+                foreach (var item in orderDetails)
+                {
+                    cartRepository.DeleteBookOfCart(item.BookId, accountId);
+                }
             }
+            catch (Exception)
+            {
+            }
+            
         }
         public void IncreaseQuantityOfCartDetail(int accountId, int bookId, int delta)
         {
-            var cartDetail=cartRepository.GetCartDetail(accountId, bookId);
-            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity + delta);
+            try
+            {
+                var cartDetail = cartRepository.GetCartDetail(accountId, bookId);
+                cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity + delta);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
         public void DecreaseQuantityOfCartDetail(int accountId, int bookId, int delta)
         {
-            var cartDetail = cartRepository.GetCartDetail(accountId, bookId);
-            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity - delta);
+            try
+            {
+                var cartDetail = cartRepository.GetCartDetail(accountId, bookId);
+                cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, cartDetail.Quantity - delta);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
         public void UpdateQuantityOfCartDetail(int accountId, int bookId, int quantity)
         {
-            cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, quantity);
+            try
+            {
+                cartRepository.UpdateQuantityOfCartDetail(accountId, bookId, quantity);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
         public void AddCart(int customerId)
         {
-            cartRepository.AddCart(customerId);
+            try
+            {
+                cartRepository.AddCart(customerId);
+            }
+            catch (Exception)
+            {
+            }
+            
         }
     }
 }

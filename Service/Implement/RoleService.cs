@@ -1,4 +1,5 @@
 ﻿using TADA.Dto.Role;
+using TADA.Model.Entity;
 using TADA.Repository;
 
 namespace TADA.Service.Implement;
@@ -13,11 +14,26 @@ public class RoleService : IRoleService
 
     public string GetRoleNameById(int roleId)
     {
-        return roleRepository.GetRoleNameById(roleId);    
+        try
+        {
+            return roleRepository.GetRoleNameById(roleId);
+        }    
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public List<RoleDto> GetAllRoles()
     {
-        return roleRepository.GetAllRoles();
+        try
+        {
+            return roleRepository.GetAllRoles();
+        }
+        catch (Exception)
+        {
+            return new List<RoleDto>();
+        }
+        
     }
 }

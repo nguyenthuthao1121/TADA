@@ -14,10 +14,25 @@ public class StatusService : IStatusService
 
     public int IdForUserConfirm()
     {
-        return statusRepository.IdForUserConfirm();
+        try
+        {
+            return statusRepository.IdForUserConfirm();
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
     }
     public List<StatusDto> GetStatuses()
     {
-        return statusRepository.GetStatuses();
+        try
+        {
+            return statusRepository.GetStatuses();
+        }
+        catch (Exception)
+        {
+            return new List<StatusDto>();
+        }
+        
     }
 }

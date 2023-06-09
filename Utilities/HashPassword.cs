@@ -8,14 +8,21 @@ namespace TADA.Utilities
     {
         public static string Hash(string text)
         {
-            MD5 md5 = MD5.Create();
-            byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
-            StringBuilder hashSb = new StringBuilder();
-            foreach (byte b in hash)
+            try
             {
-                hashSb.Append(b.ToString("X2"));
+                MD5 md5 = MD5.Create();
+                byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
+                StringBuilder hashSb = new StringBuilder();
+                foreach (byte b in hash)
+                {
+                    hashSb.Append(b.ToString("X2"));
+                }
+                return hashSb.ToString();
             }
-            return hashSb.ToString();
+            catch (Exception)
+            {
+                return "";
+            }
         }
     }
 }

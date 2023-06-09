@@ -1,4 +1,5 @@
-﻿using TADA.Dto.Account;
+﻿using Microsoft.Identity.Client;
+using TADA.Dto.Account;
 using TADA.Repository;
 using TADA.Utilities;
 
@@ -14,57 +15,100 @@ public class AccountService : IAccountService
 
     public AccountDto GetAccountById(int id)
     {
-        var account = accountRepository.GetAccountById(id);
-        return new AccountDto()
+        try
         {
-            Id = account.Id,
-            Type = account.Type,
-            Email = account.Email,
-            Password = account.Password,
-            CreateDate = account.CreateDate,
-            Status = account.Status
-        };
+            var account = accountRepository.GetAccountById(id);
+            return new AccountDto()
+            {
+                Id = account.Id,
+                Type = account.Type,
+                Email = account.Email,
+                Password = account.Password,
+                CreateDate = account.CreateDate,
+                Status = account.Status
+            };
+        }
+        catch(Exception)
+        {
+            return null;
+        }
     }
     public string GetPasswordByAccountId(int accountId)
     {
-        var account = accountRepository.GetAccountById(accountId);
-        return account.Password;
+        try
+        {
+            var account = accountRepository.GetAccountById(accountId);
+            return account.Password;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        
     }
     public void AddNewAccount(string email, string password, bool type)
     {
-        //AccountDto account = new AccountDto(accountRepository.GetLastId() + 1, true, email, password, DateTime.Now, true);
-        AccountDto account = new AccountDto()
+        try
         {
-            Email = email,
-            Password = password,
-            Type = type,
-            CreateDate = DateTime.Now,
-            Status = true
-        };
-        accountRepository.AddNewAccount(account);
+            //AccountDto account = new AccountDto(accountRepository.GetLastId() + 1, true, email, password, DateTime.Now, true);
+            AccountDto account = new AccountDto()
+            {
+                Email = email,
+                Password = password,
+                Type = type,
+                CreateDate = DateTime.Now,
+                Status = true
+            };
+            accountRepository.AddNewAccount(account);
+        }
+        catch(Exception)
+        {
+
+        }
     }
 
     public void ChangeStatusOfAccount(int accountId)
     {
-        accountRepository.ChangeStatusOfAccount(accountId);
+        try
+        {
+            accountRepository.ChangeStatusOfAccount(accountId);
+        }
+        catch (Exception) { }
     }
 
     public bool CheckExistEmail(string email)
     {
-        return accountRepository.CheckExistEmail(email);
+        try
+        {
+            return accountRepository.CheckExistEmail(email);
+        }
+        catch (Exception) { return false; }
     }
     public int GetLastId()
     {
-        return accountRepository.GetLastId();
+        try
+        {
+            return accountRepository.GetLastId();
+
+        }
+        catch (Exception) { return 0; }
     }
 
     public void ChangePassword(int accountId, string newPassword)
     {
-        string newPwd = HashPassword.Hash(newPassword);
-        accountRepository.ChangePassword(accountId, newPwd);
+        try
+        {
+            string newPwd = HashPassword.Hash(newPassword);
+            accountRepository.ChangePassword(accountId, newPwd);
+        }
+        catch (Exception) { }
     }
     public int GetAccountIdByEmail(string email)
     {
-        return accountRepository.GetAccountIdByEmail(email);
+        try
+        {
+            return accountRepository.GetAccountIdByEmail(email);
+        }
+        catch (Exception) { return 0; }
     }
 }
