@@ -1,0 +1,44 @@
+﻿@page
+@using TADA.Utilities;
+@model ActiveAccountModel
+@{
+    ViewData["Title"] = "Kích hoạt tài khoản";
+    Layout = "~/Pages/Shared/_LayoutUser.cshtml";
+}
+@if (TempData.ContainsKey("FailedMessage"))
+{
+    <div class="alert alert-danger">
+        @TempData["FailedMessage"]
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.href = "../Authentication/Signup";
+        }, 2000);
+    </script>
+}
+<div class="container ps-5">
+    <h4 class="mt-3 text-uppercase" style="font-weight:700; color: var(--primary-color)">Quên mật khẩu</h4>
+    <div class="row bg-white py-4 mt-3 px-4 rounded">
+        <div class="col-sm-10 col-md-12">
+            <p>Vui lòng nhập mã xác minh mà đã được chúng tôi gửi qua email <a style="color: var(--primary-color)">@UIHelper.HiddenEmail(TempData["Email"].ToString())</a> để kích hoạt tài khoản</p>
+            <form method="post">
+                <div class="form-group row mt-3">
+                    <div class="col-sm-10 col-md-5 col-lg-4">
+                        <label asp-for="Otp" class="form-label">Mã xác minh</label>
+                        <input class="form-control rounded-0" asp-for="Otp" placeholder="Nhập mã xác minh">
+                        <span class="text-danger" asp-validation-for="Otp"></span>
+                        <span class="text-danger">@TempData["WrongOtp"]</span>
+                    </div>
+                </div>
+                <div class="row form-group mt-4">
+                    <div class="col-sm-5 col-md-3 col-lg-2">
+                        <button type="submit" class="btn btn-primary btn-md" style="width: 100%">Xác nhận</button>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group mt-3" style="width: fit-content">
+                <a asp-page="/Authentication/Signup" style="color: var(--primary-color)">Quay trở lại</a>
+            </div>
+        </div>
+    </div>
+</div>

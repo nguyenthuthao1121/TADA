@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -93,4 +93,13 @@
     <None Include="wwwroot\lib\cdnjs\chart.min.js" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Mail\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Mail\ForgetPassword.html" />
+	</ItemGroup>       
 </Project>
