@@ -80,13 +80,13 @@
                 <p class="modal-info-title" style="color: var(--primary-color)">Đổi mật khẩu</p>
             </div>
             <div class="modal-info-body containter-fluid py-0">
-                <form method="post" asp-page-handler="ChangePassword">
+                <form method="post" asp-page-handler="ChangePassword" id="changePwd">
                     <div class="row">
                         <div class="col-6 form-group">
                             <label asp-for="ChangedPwd.OldPassword" class="form-label">Mật khẩu hiện tại</label>
                             <input asp-for="ChangedPwd.OldPassword" class="form-control " placeholder="Nhập mật khẩu hiện tại">
                             <span class="text-danger" asp-validation-for="ChangedPwd.OldPassword"></span>
-                            <span class="text-danger">@TempData["ErrorMsg"]</span>
+                            <span class="text-danger old-password-msg">@TempData["ErrorMsg"]</span>
                         </div>
                     </div>
                     <div class="row">
@@ -94,7 +94,7 @@
                             <label asp-for="ChangedPwd.NewPassword" class="form-label">Mật khẩu mới</label>
                             <input asp-for="ChangedPwd.NewPassword" class="form-control " placeholder="Nhập mật khẩu mới">
                             <span class="text-danger" asp-validation-for="ChangedPwd.NewPassword"></span>
-                            <span class="text-danger">@TempData["ErrorMsg2"]</span>
+                            <span class="text-danger new-password-msg">@TempData["ErrorMsg2"]</span>
                         </div>
                     </div>
                     <div class="row">
@@ -106,10 +106,10 @@
                     </div>
                     <div class="modal-footer border-0 px-0 mt-3 d-flex">
                         <div class="button px-0">
-                            <button type="button" class="info-btn btn-secondary" data-bs-dismiss="modal">HỦY</button>
+                            <button type="button" class="info-btn btn-secondary cancel-btn" data-bs-dismiss="modal">HỦY</button>
                         </div>
                         <div class="button px-0">
-                            <button type="submit" class="info-btn btn-primary">ĐỔI MẬT KHẨU</button>
+                            <button type="submit" class="info-btn btn-primary changePwd-btn">ĐỔI MẬT KHẨU</button>
                         </div>
                     </div>
                 </form>
@@ -296,6 +296,21 @@
                 $('.toast').fadeOut(300);
             }, 3000);
         }
+    </script>
+    <script>
+        $('.old-password').on('input', function () {
+            $('.old-password-msg').empty();
+        });
+        $('.new-password').on('input', function () {
+            $('.new-password-msg').empty();
+        });
+        $('.changePwd-btn').on('click', function () {
+            $('.old-password-msg').empty();
+            $('.new-password-msg').empty();
+        });
+        $('.cancel-btn').on('click', function () {
+            $('#changePwd').find(':input').val('');
+        });
     </script>
     <partial name="_ValidationScriptsPartial" />        
 }
