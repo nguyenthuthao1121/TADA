@@ -23,17 +23,18 @@ public class OrderRepository : IOrderRepository
     
     public List<OrderDto> GetAllOrders()
     {
-        return context.Orders.Select(order => new OrderDto
-        {
-            Id = order.Id,
-            TelephoneNumber = order.TelephoneNumber,
-            DateOrder = order.DateOrder,
-            UpdateDate = order.UpdateDate,
-            AddressId = order.AddressId,
-            CustomerId = order.CustomerId,
-            StatusId = (int)order.StatusId,
-            ShipFee=order.ShipFee,
-        }).OrderByDescending(order=>order.Id).ToList();
+        return context.Orders.Where(order=>order.StatusId<7)
+            .Select(order => new OrderDto
+            {
+                Id = order.Id,
+                TelephoneNumber = order.TelephoneNumber,
+                DateOrder = order.DateOrder,
+                UpdateDate = order.UpdateDate,
+                AddressId = order.AddressId,
+                CustomerId = order.CustomerId,
+                StatusId = (int)order.StatusId,
+                ShipFee=order.ShipFee,
+            }).OrderByDescending(order=>order.Id).ToList();
     }
     public List<OrderDto> GetAllOrders(int statusId, string sortBy)
     {

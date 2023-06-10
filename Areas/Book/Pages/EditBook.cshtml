@@ -20,11 +20,19 @@
                             <span class="text-danger" asp-validation-for="@Model.Book.Name"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
+                            <label asp-for="@Model.Book.ISBN" class="form__label">Mã sách</label>
+                            <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
+                            <span class="text-danger" asp-validation-for="@Model.Book.ISBN"></span>
+                            <span class="text-danger">@Model.ISBNMessage</span>
+                        </div>
+                    </div>
+                    <div class="form-row form__row">
+                        <div class="form-group col-md-6 form-group__left">
                             <label asp-for="@Model.Book.CategoryId" class="form__label">Danh mục</label>
                             <select asp-for="@Model.Book.CategoryId" class="form-control form__input">
-                                @foreach(var category in Model.Categories)
+                                @foreach (var category in Model.Categories)
                                 {
-                                    if(category.Id == Model.Book.CategoryId)
+                                    if (category.Id == Model.Book.CategoryId)
                                     {
                                         <option value="@category.Id" selected>@category.Name</option>
                                     }
@@ -34,6 +42,11 @@
                                     }
                                 }
                             </select>
+                        </div>
+                        <div class="form-group col-md-6 form-group__right">
+                            <label asp-for="@Model.Book.Genre" class="form__label">Thể loại</label>
+                            <input class="form-control form__input" asp-for="@Model.Book.Genre" placeholder="Nhập thể loại">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Genre"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -118,13 +131,6 @@
                             <span class="text-danger" asp-validation-for="@Model.Book.Quantity"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
-                            <label asp-for="@Model.Book.Genre" class="form__label">Thể loại</label>
-                            <input class="form-control form__input" asp-for="@Model.Book.Genre" placeholder="Nhập thể loại">
-                            <span class="text-danger" asp-validation-for="@Model.Book.Genre"></span>
-                        </div>
-                    </div>
-                    <div class="form-row form__row">
-                        <div class="form-group col-md-6 form-group__left">
                             <label name="imageFile" class="form__label">Hình ảnh</label>
                             <input class="form-control form__input" name="imageFile" id="imageFile" type="file" accept=".jpg">
                         </div>
@@ -140,7 +146,7 @@
 
                         </div>
                         <div class="form-group form-row form__row col-md-6 form__btn-margin">
-                            <button type="submit" class="form-group form__btn" style="margin-right: 4px">
+                            <button type="submit" class="form-group form__btn js-edit-book-btn" style="margin-right: 4px">
                                 CHỈNH SỬA
                             </button>
                             <button type="submit" asp-page-handler="CancelUpdate" class="form-group form__btn form__btn--cancel" style="margin-left: 4px">
@@ -161,4 +167,5 @@
             alert(message);
         }
     </script>
+    
 }

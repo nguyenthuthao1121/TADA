@@ -417,7 +417,7 @@ namespace TADA.Service.Implement
                     "<div style=\" margin:0; padding:0; width:300px;\">" + UIHelper.GetPriceString(orderRepository.GetPriceOfOrder(orderId) + order.ShipFee) + " VND</div></div>" +
                     "</div><br><p style=\" margin:0; padding:0;\">TADA xin chân thành cảm ơn " + gender + " " + customer.Name + " đã mua hàng tại cửa hàng. Nếu có bất cứ vấn đề nào cần giải quyết, " + gender + "hãy liên hệ ngay với chúng tôi để xử lý nhé.</p>" +
                     "<br><p style=\"font-weight: 600;margin:0; padding:0;\"> Thông tin liên hệ:</p>" +
-                    "<ul style=\" margin:0; padding:0;\"><li>Website: TADA.vn</li><li>Hotline: 0909999999</li></ul></body></html>";
+                    "<ul style=\" margin:0; padding:0;\"><li>Website: <a href='35.209.32.94'>TADA Shop</a></li><li>Hotline: 0909999999</li></ul></body></html>";
 
                 message.Subject = subject;
                 message.Body = mailbody;

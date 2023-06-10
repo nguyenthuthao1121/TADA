@@ -212,6 +212,21 @@ public class BookRepository : IBookRepository
             SoldQuantity = orderGroup.Quantity
         }).OrderByDescending(soldBook => soldBook.SoldQuantity).ToList();
     }
+
+    public BookDto GetBookByISBN(string isbn)
+    {
+        var book = context.Books.Where(book => book.ISBN==isbn).FirstOrDefault();
+        if (book != null)
+        {
+            return new BookDto
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+            };
+        }
+        return null;
+    }
+
     public void UpdateQuantity(int bookId, int quantity)
     {
         var book=context.Books.Find(bookId);
@@ -223,7 +238,7 @@ public class BookRepository : IBookRepository
     }
     public int AddBook(BookDto book)
     {
-        var existBook=context.Books.Where(book=>book.ISBN == book.ISBN).FirstOrDefault();
+        var existBook=context.Books.Where(b=>b.ISBN == book.ISBN).FirstOrDefault();
         if (existBook != null) return 0;
         context.Books.Add(new Book
         {
@@ -258,6 +273,7 @@ public class BookRepository : IBookRepository
         if (updateBook != null)
         {
             updateBook.Name = book.Name;
+            updateBook.ISBN = book.ISBN;
             updateBook.Author = book.Author;
             updateBook.Publisher = book.Publisher;
             updateBook.PublicationYear = book.PublicationYear;

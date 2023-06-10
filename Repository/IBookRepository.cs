@@ -14,6 +14,7 @@ public interface IBookRepository
     BookDto GetBookById(int id);
     int GetNumOfBooksByCategoryId(int categoryId);
     List<SoldBookDto> GetSoldBooks();
+    BookDto GetBookByISBN(string isbn);
     int AddBook(BookDto book);
     void UpdateQuantity(int bookId, int quantity);
     void UpdateBook(BookDto book);

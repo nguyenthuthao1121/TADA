@@ -9,6 +9,8 @@ using TADA.Service;
 using System.IO;
 using static System.Reflection.Metadata.BlobBuilder;
 using TADA.Middleware;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace TADA.Pages;
 
@@ -28,7 +30,7 @@ public class EditBookModel : PageModel
     public List<CategoryDto> Categories { get; set; }
     [TempData]
     public string SuccessMsg { get; set; }
-
+    public string ISBNMessage { get; set; } = null;
 
     public EditBookModel(IBookService bookService, IProviderService providerService, ICategoryService categoryService)
     {
@@ -40,7 +42,15 @@ public class EditBookModel : PageModel
     {
         Providers = providerService.GetAllProviders();
         Categories= categoryService.GetAllCategories();
-        if (int.TryParse(Request.Query["id"], out int bookId))
+        
+        if (TempData["Book"] != null)
+        {
+            Book = JsonConvert.DeserializeObject<BookDto>(TempData["Book"] as string);
+            DescriptionText = TempData["DescriptionText"] as string;
+            DescriptionText = DescriptionText.Substring(1, DescriptionText.Length - 2);
+            ISBNMessage = "Mã sách đã tồn tại";
+        }
+        else if (int.TryParse(Request.Query["id"], out int bookId))
         {
             Book = bookService.GetBookById(bookId);
             DescriptionText = "";
@@ -53,38 +63,48 @@ public class EditBookModel : PageModel
                     sr.Close();
                 }
             }
-        }
 
+        }
     }
     public IActionResult OnPostChangeBookInformation(IFormFile imageFile)
     {
-        string descriptionPath = "wwwroot/img/books/book" + Book.Id + "/description.txt";
-        if (System.IO.File.Exists(descriptionPath))
+        if (bookService.GetBookByISBN(Book.ISBN) == null || bookService.GetBookById(Book.Id).ISBN == Book.ISBN)
         {
-            using (StreamWriter sw = new StreamWriter(descriptionPath))
+            string descriptionPath = "wwwroot/img/books/book" + Book.Id + "/description.txt";
+            if (System.IO.File.Exists(descriptionPath))
             {
-                DescriptionText = DescriptionText.Replace("<br>", "\n");
-                sw.Write(DescriptionText);
-                sw.Close();
-            }
-        }
-        string imagePath = "wwwroot/img/books/book" + Book.Id + "/cover-img/cover.jpg";
-        if (System.IO.File.Exists(imagePath))
-        {
-            if (imageFile != null)
-            {
-                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                using (StreamWriter sw = new StreamWriter(descriptionPath))
                 {
-                    imageFile.CopyTo(fileStream);
+                    DescriptionText = DescriptionText.Replace("<br>", "\n");
+                    sw.Write(DescriptionText);
+                    sw.Close();
                 }
             }
+            string imagePath = "wwwroot/img/books/book" + Book.Id + "/cover-img/cover.jpg";
+            if (System.IO.File.Exists(imagePath))
+            {
+                if (imageFile != null)
+                {
+                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(fileStream);
+                    }
+                }
+            }
+            bookService.UpdateBook(Book);
+            SuccessMsg = "Cập nhật thông tin sách thành công";
+            return RedirectToPage("BookManagement", new { area = "Book" });
         }
-        bookService.UpdateBook(Book);
-        return RedirectToPage("BookManagement", new { area = "Book" });
+        else
+        {
+            TempData["Book"] = JsonConvert.SerializeObject(Book);
+            TempData["DescriptionText"] = JsonConvert.SerializeObject(DescriptionText);
+            return RedirectToPage("EditBook", new {id=Book.Id});
+        }
     }
+
     public IActionResult OnPostCancelUpdate()
     {
-        SuccessMsg = "Cập nhật thành công";
         return RedirectToPage("./BookManagement");
     }
 }

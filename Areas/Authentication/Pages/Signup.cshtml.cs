@@ -18,7 +18,7 @@ public class SignupModel : PageModel
     private readonly ICartService cartService;
 
     [BindProperty]
-    [Required]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     [DataType(DataType.EmailAddress)]
     [EmailAddress(ErrorMessage = "Email này không phải là email hợp lệ!")]
     [RegularExpression(@"^[a-zA-Z][-_.a-zA-Z0-9]{5,29}@g(oogle)?mail\.com$", ErrorMessage = "Email này không phải là email hợp lệ!")]

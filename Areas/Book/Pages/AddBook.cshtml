@@ -1,4 +1,5 @@
 ﻿@page
+@using TADA.Dto.Book;
 @model AddBookModel
 @{
     ViewData["Title"] = "Thêm mới sách";
@@ -16,29 +17,17 @@
                 <form method="post" asp-page-handler="AddNewBook" enctype="multipart/form-data">
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
-                            <label asp-for="Book.Name" class="form__label">Tên sách</label>
+                            <label asp-for="@Model.Book.Name" class="form__label">Tên sách</label>
                             <input asp-for="@Model.Book.Name" class="form-control form__input" placeholder="Nhập tên sách">
                             <span class="text-danger" asp-validation-for="@Model.Book.Name"></span>
                         </div>
-                        @if(Model.ISBN==null){
-                            <div class="form-group col-md-6 form-group__right">
-                                <label asp-for="Book.ISBN" class="form__label" >Mã sách</label>
-                                <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
-                            </div>
-                        }
-                        else if(Model.Message!=null){
-                            <div class="form-group col-md-6 form-group__right">
-                                <label asp-for="Book.ISBN" class="form__label">Mã sách</label>
-                                <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
-                                <span class="text-danger">@Model.Message</span>
-                            </div>
-                        }
-                        else{
-                            <div class="form-group col-md-6 form-group__right">
-                                <label asp-for="Book.ISBN" class="form__label">Mã sách</label>
-                                <input value="@Model.ISBN" asp-for="@Model.Book.ISBN" class="form-control form__input" readonly>
-                            </div>
-                        }
+                        <div class="form-group col-md-6 form-group__right">
+                            <label asp-for="@Model.Book.ISBN" class="form__label">Mã sách</label>
+                            <input asp-for="@Model.Book.ISBN" class="form-control form__input" placeholder="Nhập mã sách">
+                            <span class="text-danger" asp-validation-for="@Model.Book.ISBN"></span>
+                            <span class="text-danger">@Model.ISBNMessage</span>
+                        </div>
+                        
                     </div>
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
@@ -133,6 +122,7 @@
                         <div class="form-group col-md-6 form-group__left">
                             <label name="imageFile" class="form__label">Hình ảnh</label>
                             <input class="form-control form__input" name="imageFile" id="imageFile" type="file" accept=".jpg, .jpeg, .png">
+                            <span class="text-danger" asp-validation-for="@Model.Book.Image"></span>
                         </div>
                     </div>
                     <div class="form-row form__row">
@@ -146,10 +136,10 @@
 
                         </div>
                         <div class="form-group form-row form__row col-md-6 form__btn-margin">
-                            <button class="form-group form__btn" style="margin-right: 4px" type="submit">
+                            <button class="form-group form__btn js-add-book-btn" style="margin-right: 4px" type="submit">
                                 THÊM MỚI SÁCH
                             </button>
-                            <a class="form-group form__btn form__btn--cancel" style="margin-left: 4px" asp-area="Admin" asp-page="BookManagement">
+                            <a class="form-group form__btn form__btn--cancel" style="margin-left: 4px" asp-area="Book" asp-page="BookManagement">
                                 HỦY
                             </a>
                         </div>
@@ -161,4 +151,9 @@
 </div>
 @section scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $('.js-add-book-btn').on('click', function(){
+            $('span').empty();
+        });
+    </script>
 }

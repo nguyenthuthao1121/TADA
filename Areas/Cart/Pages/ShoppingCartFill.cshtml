@@ -74,7 +74,7 @@
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                             <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity" data-item-id="@i">
-                                        <button class="input-group-text js-increase" style="bordeyr-radius: 0 8px 8px 0; border-left-style: none;" type="button" >
+                                        <button class="input-group-text js-increase" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button" >
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </span>
@@ -223,6 +223,7 @@
                     url: "/Cart/ShoppingCartFill?handler=DeleteCartDetail",
                     data: { itemId: itemId},
                     success: function (response) {
+                        location.reload();
                         // Cập nhật số lượng sản phẩm trong giỏ hàng
                     },
                     error: function (xhr, textStatus, errorThrown) {

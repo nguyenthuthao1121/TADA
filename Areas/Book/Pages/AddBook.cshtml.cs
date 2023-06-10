@@ -6,6 +6,7 @@ using TADA.Dto.Category;
 using TADA.Dto.Provider;
 using TADA.Service;
 using TADA.Middleware;
+using Newtonsoft.Json;
 
 namespace TADA.Pages;
 
@@ -28,14 +29,18 @@ public class AddBookModel : PageModel
     public string DescriptionText { get; set; }
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
-    public string ISBN { get; set; } = null;
-    public string Message { get; set; } = null;
+    public string ISBNMessage { get; set; } = null;
     public void OnGet()
     {
         Providers = providerService.GetAllProviders();
         Categories= categoryService.GetAllCategories();
-        if (!string.IsNullOrEmpty(Request.Query["isbn"])) ISBN = Request.Query["isbn"];
-        if (!string.IsNullOrEmpty(Request.Query["message"])) Message = "Mã sách đã tồn tại";
+        if (TempData["Book"]!=null)
+        {
+            Book = JsonConvert.DeserializeObject<BookDto>(TempData["Book"] as string);
+            DescriptionText = TempData["DescriptionText"] as string;
+            DescriptionText = DescriptionText.Substring(1, DescriptionText.Length - 2);
+            ISBNMessage = "Mã sách đã tồn tại";
+        }
     }
     
     public IActionResult OnPostAddNewBook(IFormFile imageFile)
@@ -43,7 +48,9 @@ public class AddBookModel : PageModel
         int bookId = bookService.AddBook(Book);
         if(bookId == 0)
         {
-            return RedirectToPage("/AddBook", new { isbn = Book.ISBN, message="BookExist" });
+            TempData["Book"] = JsonConvert.SerializeObject(Book);
+            TempData["DescriptionText"] = JsonConvert.SerializeObject(DescriptionText);
+            return RedirectToPage("AddBook");
         }
         else
         {

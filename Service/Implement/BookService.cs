@@ -201,6 +201,18 @@ public class BookService : IBookService
         
     }
 
+    public BookDto GetBookByISBN(string isbn)
+    {
+        try
+        {
+            return bookRepository.GetBookByISBN(isbn);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
     public void UpdateBook(BookDto book)
     {
         try

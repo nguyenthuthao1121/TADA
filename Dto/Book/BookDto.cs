@@ -11,10 +11,11 @@ public class BookDto
     public int Id { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập tên sách!")]
     public string Name { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập tên tác giả!")]
+    [Required(ErrorMessage = "Vui lòng nhập mã sách!")]
 
     public string ISBN { get; set; }
 
+    [Required(ErrorMessage = "Vui lòng nhập tên tác giả!")]
     public string Author { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập tên nhà xuất bản!")]
 
@@ -42,6 +43,7 @@ public class BookDto
     [Required(ErrorMessage = "Vui lòng nhập giá tiền!")]
     [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập giá tiền hợp lệ!")]
     public int Price { get; set; }
+    [Required(ErrorMessage = "Vui lòng nhập hình thức bìa!")]
     public string Cover { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập số lượng!")]
     [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập số lượng hợp lệ!")]
