@@ -31,7 +31,8 @@
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputBirthday" class="form__label">Ngày sinh</label>
-                            <input type="date" min="1900-01-01" value="1900-01-01" class="form-control form__input" id="inputBirthday" asp-for="@Model.Staff.Birthday">
+                            <input type="date" min="1900-01-01" max=@DateTime.Now.ToString("yyyy-MM-dd") value="1900-01-01" class="form-control form__input" id="inputBirthday" asp-for="@Model.Staff.Birthday">
+                            <span class="text-danger" asp-validation-for="Staff.Birthday"></span>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="inputTel" class="form__label">Số điện thoại</label>

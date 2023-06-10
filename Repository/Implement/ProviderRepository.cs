@@ -1,4 +1,5 @@
-﻿using TADA.Dto.Provider;
+﻿using Microsoft.DotNet.Scaffolding.Shared;
+using TADA.Dto.Provider;
 using TADA.Model;
 using TADA.Model.Entity;
 
@@ -22,7 +23,7 @@ public class ProviderRepository : IProviderRepository
             Id = provider.Id,
             Name = provider.Name,
             AddressId = provider.AddressId
-        }).ToList();
+        }).OrderByDescending(provider => provider.Id).ToList();
     }
     public List<ProviderDto> GetProviders()
     {
@@ -31,7 +32,7 @@ public class ProviderRepository : IProviderRepository
             Id = provider.Id,
             Name = provider.Name,
             AddressId = provider.AddressId
-        }).ToList();
+        }).OrderByDescending(provider => provider.Id).ToList();
     }
     public Provider GetProviderByName(string providerName)
     {

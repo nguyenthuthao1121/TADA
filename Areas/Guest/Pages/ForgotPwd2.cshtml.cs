@@ -55,7 +55,7 @@ public class ForgotPwd2Model : PageModel
         if (DateTime.Now < otpExpiry)
         {
             int accountId = accountService.GetAccountIdByEmail(TempData["Email"].ToString());
-            accountService.ChangePassword(accountId, HashPassword.Hash(NewPassword));
+            accountService.ChangePassword(accountId, NewPassword);
             TempData["ResetSuccessMessage"] = "Đổi mật khẩu thành công. Vui lòng đăng nhập để tiếp tục!";
             return Page();
         }

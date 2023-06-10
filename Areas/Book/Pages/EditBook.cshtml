@@ -150,9 +150,9 @@
                             <button type="submit" class="form-group form__btn js-edit-book-btn" style="margin-right: 4px">
                                 CHỈNH SỬA
                             </button>
-                            <button type="submit" asp-page-handler="CancelUpdate" class="form-group form__btn form__btn--cancel" style="margin-left: 4px">
+                            <a class="form-group form__btn form__btn--cancel" style="margin-left: 4px" asp-area="Book" asp-page="BookDetailAdmin" asp-route-id="@Model.Book.Id">
                                 HỦY
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -161,12 +161,12 @@
     </div> 
 </div>
 @section scripts {
-        <partial name="_ValidationScriptsPartial" />
-    <script type="text/javascript">
+    <partial name="_ValidationScriptsPartial" />
+    @*<script type="text/javascript">
         var message = '@Model.SuccessMsg';
         if(message){
             alert(message);
         }
-    </script>
+    </script>*@
     
 }

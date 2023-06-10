@@ -20,7 +20,7 @@ public class BookRepository : IBookRepository
     }
     public List<BookDto> GetAllBooks()
     {
-        var bookIds = context.Books.OrderBy(p => p.Id).Select(p => p.Id).ToList();
+        var bookIds = context.Books.OrderByDescending(p => p.Id).Select(p => p.Id).ToList();
         List<BookDto> books = new List<BookDto>();
         foreach(var book in bookIds)
         {

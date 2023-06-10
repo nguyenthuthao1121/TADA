@@ -39,6 +39,8 @@ public class AddBookModel : PageModel
             Book = JsonConvert.DeserializeObject<BookDto>(TempData["Book"] as string);
             DescriptionText = TempData["DescriptionText"] as string;
             DescriptionText = DescriptionText.Substring(1, DescriptionText.Length - 2);
+            DescriptionText = DescriptionText.Replace("\\n", "\n");
+            DescriptionText = DescriptionText.Replace("\\r", "\r");
             ISBNMessage = "Mã sách đã tồn tại";
         }
     }
@@ -49,6 +51,7 @@ public class AddBookModel : PageModel
         if(bookId == 0)
         {
             TempData["Book"] = JsonConvert.SerializeObject(Book);
+            if (string.IsNullOrEmpty(DescriptionText)) DescriptionText = "";
             TempData["DescriptionText"] = JsonConvert.SerializeObject(DescriptionText);
             return RedirectToPage("AddBook");
         }

@@ -16,7 +16,7 @@ public class LoginModel : PageModel
     private readonly IStaffService staffService;
 
     [BindProperty]
-    [Required]
+    [Required(ErrorMessage = "Vui lòng nhập vào trường này!")]
     [DataType(DataType.EmailAddress)]
     [EmailAddress(ErrorMessage = "Email này không phải là email hợp lệ!")]
     public string Email { get; set; }

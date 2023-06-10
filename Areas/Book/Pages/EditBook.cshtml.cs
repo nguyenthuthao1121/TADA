@@ -11,6 +11,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 using TADA.Middleware;
 using Newtonsoft.Json;
 using System.Net;
+using Microsoft.AspNetCore.Html;
 
 namespace TADA.Pages;
 
@@ -29,7 +30,7 @@ public class EditBookModel : PageModel
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
     [TempData]
-    public string SuccessMsg { get; set; }
+    public string SuccessMsg { get; set; } = null;
     public string ISBNMessage { get; set; } = null;
 
     public EditBookModel(IBookService bookService, IProviderService providerService, ICategoryService categoryService)
@@ -48,6 +49,8 @@ public class EditBookModel : PageModel
             Book = JsonConvert.DeserializeObject<BookDto>(TempData["Book"] as string);
             DescriptionText = TempData["DescriptionText"] as string;
             DescriptionText = DescriptionText.Substring(1, DescriptionText.Length - 2);
+            DescriptionText = DescriptionText.Replace("\\n", "\n");
+            DescriptionText = DescriptionText.Replace("\\r", "\r");
             ISBNMessage = "Mã sách đã tồn tại";
         }
         else if (int.TryParse(Request.Query["id"], out int bookId))
@@ -92,19 +95,18 @@ public class EditBookModel : PageModel
                 }
             }
             bookService.UpdateBook(Book);
-            SuccessMsg = "Cập nhật thông tin sách thành công";
-            return RedirectToPage("BookManagement", new { area = "Book" });
+            //SuccessMsg = "The information was successfully updated.";
+            return RedirectToPage("BookDetailAdmin", new { area = "Book", id=Book.Id, message = "IsUpdated" });
         }
         else
         {
             TempData["Book"] = JsonConvert.SerializeObject(Book);
+            //if (!string.IsNullOrEmpty(DescriptionText)) DescriptionText = DescriptionText.Replace("<br>", "\n");
+            //else DescriptionText = "";
+            if (string.IsNullOrEmpty(DescriptionText)) DescriptionText = "";
             TempData["DescriptionText"] = JsonConvert.SerializeObject(DescriptionText);
             return RedirectToPage("EditBook", new {id=Book.Id});
         }
     }
 
-    public IActionResult OnPostCancelUpdate()
-    {
-        return RedirectToPage("./BookManagement");
-    }
 }

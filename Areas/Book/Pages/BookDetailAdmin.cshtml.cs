@@ -18,7 +18,8 @@ public class BookDetailAdminModel : PageModel
     public BookDto Book { get; set; }
     [TempData]
     public int BookId { get; set; }
-
+    [TempData]
+    public string SuccessMsg { get; set; }
     public List<ReviewDto> Reviews { get; set; }
 
     public double OneStar;
@@ -50,6 +51,7 @@ public class BookDetailAdminModel : PageModel
             ThreeStar = numberOfThreeStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfThreeStar / Book.NumberOfReview * 100), 1);
             FourStar = numberOfFourStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFourStar / Book.NumberOfReview * 100), 1);
             FiveStar = numberOfFiveStar == 0 ? 0 : Math.Round(Convert.ToDouble((double)numberOfFiveStar / Book.NumberOfReview * 100), 1);
+            SuccessMsg = Request.Query["message"];
         }
 
     }

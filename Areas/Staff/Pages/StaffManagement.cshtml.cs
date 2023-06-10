@@ -17,7 +17,7 @@ public class StaffModel : PageModel
     private readonly IStaffService staffService;
     private readonly IAddressService addressService;
     private readonly IRoleService roleService;
-    public const int ITEMS_PER_PAGE = 20;
+    public const int ITEMS_PER_PAGE = 10;
     public int countPages { get; set; }
     [BindProperty(SupportsGet = true, Name = "pagenumber")]
     public int currentPage { get; set; }
