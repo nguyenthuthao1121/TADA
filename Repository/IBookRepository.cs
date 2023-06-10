@@ -12,6 +12,7 @@ public interface IBookRepository
     List<BookDto> GetBooksForManagement(int category, int provider, int inStock, string sortBy, string sortType);
     List<BookDto> SearchBooks(string query);
     BookDto GetBookById(int id);
+    List<string> GetAllBookGenre();
     int GetNumOfBooksByCategoryId(int categoryId);
     List<SoldBookDto> GetSoldBooks();
     int AddBook(BookDto book);
