@@ -163,10 +163,19 @@
 @section scripts {
     <partial name="_ValidationScriptsPartial" />
     @*<script type="text/javascript">
-        var message = '@Model.SuccessMsg';
-        if(message){
-            alert(message);
-        }
+        <partial name="_ValidationScriptsPartial" />
+
+        <script>
+            function decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            }
+            var message = '@Model.SuccessMsg';
+            if(message){
+                alert(decodeHtml(message));
+            }
+        </script>
     </script>*@
     
 }
