@@ -42,7 +42,29 @@
                     <div class="form-row form__row">
                         <div class="form-group col-md-6 form-group__left">
                             <label for="inputName" class="form__label">Vai trò</label>
-                            <select class="form-select form__input" asp-items="@(new SelectList(Model.Roles, "RoleId", "RoleName"))" asp-for="@Model.Staff.RoleId"></select>
+@*                            <select class="form-select form__input" asp-items="@(new SelectList(Model.Roles, "RoleId", "RoleName"))" asp-for="@Model.Staff.RoleId"></select>
+                            *@                            
+                            <select class="form-select form__input" asp-for="@Model.Staff.RoleId" data-val="true" required >
+                                @{
+                                    bool isFirst = true;
+                                    foreach (var role in Model.Roles)
+                                    {
+                                        if (role.RoleId == Model.Staff.RoleId)
+                                        {
+                                            <option value="@role.RoleId" selected>@role.RoleName</option>
+                                        }
+                                        else if (isFirst)
+                                        {
+                                            isFirst = false;
+                                            <option value="@role.RoleId" selected>@role.RoleName</option>
+                                        }
+                                        else 
+                                        {
+                                            <option value="@role.RoleId">@role.RoleName</option>
+                                        }
+                                    }
+                                }
+                            </select>
                         </div>
                         <div class="form-group col-md-6 form-group__right">
                             <label for="province" class="form__label">Tỉnh/ Thành</label>

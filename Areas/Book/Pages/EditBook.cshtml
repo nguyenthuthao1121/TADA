@@ -162,10 +162,16 @@
 </div>
 @section scripts {
         <partial name="_ValidationScriptsPartial" />
-    <script type="text/javascript">
+
+    <script>
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
         var message = '@Model.SuccessMsg';
         if(message){
-            alert(message);
+            alert(decodeHtml(message));
         }
     </script>
     
