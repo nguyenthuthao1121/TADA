@@ -9,6 +9,7 @@ public interface IBookService
     List<BookDto> SearchBooks(string query);
     List<BookManagementDto> GetAllBooksForManagement();
     List<BookManagementDto> GetBooksForManagement(int category, int provider, string search, int inStock, string sortBy, string sortType);
+    List<string> GetAllBookGenre();
     int AddBook(BookDto book);
     void UpdateQuantity(int bookId, int quantity);
     void UpdateBook(BookDto book);

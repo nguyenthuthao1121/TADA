@@ -82,11 +82,12 @@
                             <input type="hidden" name="category" value="@Model.Category">
                             <input type="hidden" name="q" value="@Model.SearchQuery">
                             <select class="form-select custom-select rounded-0 genre" asp-for="Genre">
-                            <option value="All">Thể loại</option>
-                            <option value="Tiểu thuyết">Tiểu thuyết</option>
-                            <option value="Đời thường">Đời thường</option>
-                            <option value="Học đường">Học đường</option>
-                        </select>
+                                <option value="All">Tất cả</option>
+                                @foreach (var item in Model.Genres)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
                             <select class="form-select custom-select rounded-0 price" asp-for="PriceRange">
                             <option value="minint-maxint">Giá</option>
                             <option value="0,50000">0 - 50.000</option>
@@ -165,16 +166,6 @@
     </div>
 </div>
 @section Scripts {
-     <script>
-        var form = document.getElementById('search-form');
-        var input = document.getElementById('search-input');
-        input.addEventListener('keyup', function(event) {
-            event.preventDefault();
-            if (event.keyCode === 13) {
-                form.submit();
-            }
-        });
-    </script>
     <script>
         $(function () {
             $('#sort-select').on('change', function () {

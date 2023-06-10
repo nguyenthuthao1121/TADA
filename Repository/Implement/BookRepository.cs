@@ -296,4 +296,27 @@ public class BookRepository : IBookRepository
             context.SaveChanges();
         }
     }
+
+    public List<string> GetAllBookGenre()
+    {
+        var bookTypes = context.Books.Select(p => p.Genre).Distinct();
+        var bookGenre = new List<string>();
+        foreach (var bookType in bookTypes)
+        {
+            try
+            {
+                string[] genre = bookType.Split(',');
+                foreach (string genreItem in genre)
+                {
+                    string item = genreItem.Trim();
+                    bookGenre.Add(item.Substring(0, 1).ToUpper() + item.Substring(1));
+                }
+            }
+            catch(Exception)
+            {
+                continue;
+            }
+        }
+        return bookGenre.Distinct().ToList();
+    }
 }

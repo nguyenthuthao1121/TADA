@@ -21,14 +21,10 @@
     }
 
         .subhead .form-group select {
-            width: 120px;
             font-size: 0.8rem;
             line-height: 1.1rem;
             padding: 6px 8px;
-        }
-
-        .subhead .form-group select {
-            width: 120px;
+            width: 160px;
             margin-right: 4px;
         }
 
