@@ -11,6 +11,7 @@ namespace TADA.Pages;
 public class ForgotPwd2Model : PageModel
 {
     private readonly IAccountService accountService;
+    private readonly IEmailService emailService;
 
     [BindProperty]
     [DataType(DataType.Password)]
@@ -30,24 +31,20 @@ public class ForgotPwd2Model : PageModel
     [BindProperty(SupportsGet = true, Name = "email")]
     public string EncryptedEmail { get; set; }
 
-    public ForgotPwd2Model(IAccountService accountService)
+    public ForgotPwd2Model(IAccountService accountService, IEmailService emailService)
     {
         this.accountService = accountService;
+        this.emailService = emailService;
     }
 
     public void OnGet()
     {
-        TempData["Email"] = DecryptEmail(EncryptedEmail);
+        TempData["Email"] = emailService.DecryptEmail(EncryptedEmail);
     }
-    private string DecryptEmail(string encryptedEmail)
-    {
-        byte[] data = Convert.FromBase64String(encryptedEmail);
-        string decryptedEmail = Encoding.UTF8.GetString(data);
-        return decryptedEmail;
-    }
+
     public IActionResult OnPost()
     {
-        TempData["Email"] = DecryptEmail(EncryptedEmail);
+        TempData["Email"] = emailService.DecryptEmail(EncryptedEmail);
         string rightOtp = HttpContext.Session.GetString("ResetPasswordOtp");
         DateTime otpExpiry = DateTime.Parse(HttpContext.Session.GetString("OtpExpiry"));
         if (!Otp.Equals(rightOtp))
@@ -66,8 +63,6 @@ public class ForgotPwd2Model : PageModel
         {
             TempData["ResetFailedMessage"] = "Mã xác minh đã hết hiệu lực. Vui lòng thử lại sau!";
             return Page();
-            //return RedirectToPage("/Login", new { area = "Authentication" });
         }
-
     }
 }

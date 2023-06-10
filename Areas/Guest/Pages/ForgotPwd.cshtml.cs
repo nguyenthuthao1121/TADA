@@ -31,11 +31,9 @@ public class ForgotPwdModel : PageModel
             string Otp = rnd.Next(100000, 999999).ToString();
             DateTime OtpExpiry = DateTime.Now.AddMinutes(1);
             var receiver = Email;
-            var subject = "Mã xác minh mật khẩu";
-            var message = "<h3>Đây là mã dùng một lần. Mã có hiệu lực trong 1 phút. Vui lòng không chia sẻ với bất kỳ ai." +
-                "<br><h3>Mã xác minh của bạn là:<br>" + "<h1>" + Otp;
-            await emailService.SendEmailAsync(receiver, subject, message);
-            string encryptedEmail = EncryptEmail(Email);
+            var subject = "Mã xác minh quên mật khẩu";
+            await emailService.SendEmailAsync(receiver, subject, emailService.MessageEmailForActiveAccount(emailService.ConvertHtmlToString("Mail/ForgetPassword.html"), Email, Otp));
+            string encryptedEmail = emailService.EncryptEmail(Email);
             HttpContext.Session.SetString("ResetPasswordEmail", encryptedEmail);
             HttpContext.Session.SetString("ResetPasswordOtp", Otp);
             HttpContext.Session.SetString("OtpExpiry", OtpExpiry.ToString());
@@ -47,10 +45,5 @@ public class ForgotPwdModel : PageModel
             return Page();
         }
     }
-    private string EncryptEmail(string emailAddress)
-    {
-        byte[] data = Encoding.UTF8.GetBytes(emailAddress);
-        string encryptedEmail = Convert.ToBase64String(data);
-        return encryptedEmail;
-    }
+
 }

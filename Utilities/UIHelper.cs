@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -87,8 +88,18 @@ public class UIHelper
         catch (Exception)
         {
             return "";
+        }  
+    }
+    public static string HiddenEmail(string email)
+    {
+        string[] splits = email.Split('@');
+        string showEmail = splits[0].Substring(0, 4);
+        for (int i = 0; i < splits[0].Length - 4; i++)
+        {
+            showEmail += '*';
         }
-        
+        showEmail += splits[1];
+        return showEmail;
     }
     
 }

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Net.WebSockets;
+using System.Text;
 using TADA.Model.Entity;
 using TADA.Service;
+using TADA.Service.Implement;
 using TADA.Utilities;
 
 namespace TADA.Pages;
@@ -12,10 +14,7 @@ namespace TADA.Pages;
 public class SignupModel : PageModel
 {
     private readonly IAuthenticationService authenticationService;
-    private readonly ICustomerService customerService;
-    private readonly IAccountService accountService;
-    private readonly IAddressService addressService;
-    private readonly ICartService cartService;
+    private readonly IEmailService emailService;
 
     [BindProperty]
     [Required]
@@ -35,13 +34,10 @@ public class SignupModel : PageModel
     public string ConfirmPassword { get; set; }
 
     public string Message;
-    public SignupModel(IAuthenticationService authenticationService, ICustomerService customerService, IAccountService accountService, IAddressService addressService, ICartService cartService)
+    public SignupModel(IAuthenticationService authenticationService, IEmailService emailService)
     {
         this.authenticationService = authenticationService;
-        this.customerService = customerService;
-        this.accountService = accountService;
-        this.addressService = addressService;
-        this.cartService = cartService;
+        this.emailService = emailService;
     }
 
     public void OnGet()
@@ -49,7 +45,7 @@ public class SignupModel : PageModel
 
     }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         if (Password.Equals(ConfirmPassword))
         {
@@ -64,18 +60,17 @@ public class SignupModel : PageModel
                 try
                 {
                     var hashPassword = HashPassword.Hash(Password);
-                    accountService.AddNewAccount(Email, hashPassword, true);
-                    customerService.AddDefaultCustomer(Email);
-                    addressService.AddDefaultAddress();
-                    var customer = authenticationService.GetAccount(Email, hashPassword);
-                    var customerInformation = customerService.GetCustomerByAccountId(customer.Id);
-                    cartService.AddCart(customerInformation.CustomerId);
-                    HttpContext.Session.SetInt32("Id", customer.Id);
-                    HttpContext.Session.SetString("Type", "Customer");
-                    HttpContext.Session.SetString("Name", customerInformation.Name);
-                    //return RedirectToPage("/Authentication/UserInformation");
-                    return RedirectToPage("UserInformation", new { area = "PersonalManagement" });
-                    //return Page();
+                    Random rnd = new Random();
+                    string Otp = rnd.Next(100000, 999999).ToString();
+                    DateTime OtpExpiry = DateTime.Now.AddMinutes(1);
+                    var receiver = Email;
+                    var subject = "Mã kích hoạt tài khoản";
+                    await emailService.SendEmailAsync(receiver, subject, emailService.MessageEmailForActiveAccount(emailService.ConvertHtmlToString("Mail/ActiveAccount.html"), Email, Otp));
+                    string encryptedEmail = emailService.EncryptEmail(Email);
+                    HttpContext.Session.SetString("Password", hashPassword);
+                    HttpContext.Session.SetString("Otp", Otp);
+                    HttpContext.Session.SetString("OtpExpiry", OtpExpiry.ToString());
+                    return RedirectToPage("ActiveAccount", new { area = "Authentication", email = encryptedEmail });
                 }
                 catch (FormatException)
                 {

@@ -69,7 +69,7 @@
                             <span style="font-weight: bold;">@Model.Book.Cover</span>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 4rem">
+                    <div class="row" style="margin-top: 3rem">
                         <div class="rating-star">
                             @{
                                 for (int i = 1; i <= (int)Model.AverageStar; i++)
@@ -117,7 +117,11 @@
 
                     </div>
                     <div class="quantity mt-3 d-flex" style="align-items: baseline">
-                        <lable asp-for="@Model.Quantity" style="font-weight: bold; margin-right: 2rem">Số lượng:</lable>
+                        <lable asp-for="@Model.Quantity" style="font-weight: 600; margin-right: 2rem">Số lượng còn lại:</lable>
+                        <input class="form-control" id="remaining-book" type="text" value="@Model.Book.Quantity" style="margin-left: 1.5rem; border: none; background-color: white" disabled>
+                    </div>
+                    <div class="quantity mt-3 d-flex" style="align-items: baseline">
+                        <lable asp-for="@Model.Quantity" style="font-weight: bold; margin-right: 2rem">Số lượng mua:</lable>
                         <span class="form-group d-flex">
                             <button class="input-group-text minus-btn" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button"><i class="fas fa-minus"></i></button>
                             <input class="form-control quantity-input" type="text" asp-for="@Model.Quantity" value="01" id="quantity">
@@ -360,5 +364,15 @@
             modal.style.display = "block";
             modalImg.src = bookImg.src;
         });
+    </script>
+    <script>
+        const remainingBook = document.getElementById("remaining-book").value;
+        const btnAddToCart = document.querySelector(".shopping-cart");
+        btnAddToCart.addEventListener("click", () => {
+            var quantityInput = document.querySelector(".quantity-input");
+            if (quantityInput.value <= remainingBook) {
+                alert("Thêm sách vào giỏ hàng thành công!")
+            }
+        })
     </script>
 }

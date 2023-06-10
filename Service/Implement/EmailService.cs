@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography.Pkcs;
+using System.Text;
 
 namespace TADA.Service.Implement
 {
@@ -39,6 +40,32 @@ namespace TADA.Service.Implement
             {
                 return Task.CompletedTask;
             }
+        }
+        public string EncryptEmail(string emailAddress)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(emailAddress);
+            string encryptedEmail = Convert.ToBase64String(data);
+            return encryptedEmail;
+        }
+        public string DecryptEmail(string encryptedEmail)
+        {
+            byte[] data = Convert.FromBase64String(encryptedEmail);
+            string decryptedEmail = Encoding.UTF8.GetString(data);
+            return decryptedEmail;
+        }
+        public string ConvertHtmlToString(string html)
+        {
+            StreamReader sr = new(html); 
+            string s = sr.ReadToEnd();
+            s = s.Replace("\r\n", "\n");
+            return s;
+        }
+        public string MessageEmailForActiveAccount(string convertedHtml, string email, string otp)
+        {
+            var s = convertedHtml;
+            s = s.Replace("{email}", email);
+            s = s.Replace("{otp}", otp);
+            return s;
         }
     }
 }

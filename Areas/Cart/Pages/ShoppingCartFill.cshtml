@@ -224,12 +224,13 @@
                     data: { itemId: itemId},
                     success: function (response) {
                         // Cập nhật số lượng sản phẩm trong giỏ hàng
+                        location.reload();
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         console.log(xhr.responseText);
                     }
                 });
-                location.reload();
+                
 
             });
         });
