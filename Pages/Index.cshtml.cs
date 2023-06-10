@@ -24,6 +24,7 @@ public class IndexModel : PageModel
     public int currentPage { get; set; }
     public List<BookDto> Books { get; set; }
     public List<CategoryDto> Categories { get; set; }
+    public List<string> Genres { get; set; }
     public AccountDto Account { get; set; }
     public string SearchUrl { get; set; }
     public string SearchQuery { get; set; }
@@ -48,6 +49,7 @@ public class IndexModel : PageModel
         Category = Convert.ToInt32(Request.Query["category"]);
         SearchQuery = Request.Query["q"];
         var books = bookService.GetBooks(Category, SearchQuery, PriceRange, Genre, SortBy);
+        Genres = bookService.GetAllBookGenre();
         Categories = categoryService.GetAllCategories();
         int totalBook = books.Count();
         countPages = (int)Math.Ceiling((double)totalBook / ITEMS_PER_PAGE);

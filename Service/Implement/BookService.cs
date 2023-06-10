@@ -240,4 +240,9 @@ public class BookService : IBookService
         catch (Exception) { }
         
     }
+
+    public List<string> GetAllBookGenre()
+    {
+        return bookRepository.GetAllBookGenre();
+    }
 }

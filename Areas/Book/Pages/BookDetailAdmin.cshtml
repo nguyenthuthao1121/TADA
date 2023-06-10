@@ -341,6 +341,7 @@
                 url: "/Book/BookDetailAdmin?handler=HideBook",
                 data: { itemId: itemId },
                 success: function (response) {
+                    alert('Ẩn sách thành công');
                     window.location.href = "./BookManagement";
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -355,6 +356,7 @@
                 url: "/Book/BookDetailAdmin?handler=DisplayBook",
                 data: { itemId: itemId },
                 success: function (response) {
+                    alert('Hiện sách thành công');
                     window.location.href = "./BookManagement";
                 },
                 error: function (xhr, textStatus, errorThrown) {
