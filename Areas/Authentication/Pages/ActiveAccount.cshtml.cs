@@ -54,8 +54,8 @@ public class ActiveAccountModel : PageModel
             var hashPassword = HttpContext.Session.GetString("Password");
             HttpContext.Session.Remove("Password");
             accountService.AddNewAccount(Email, hashPassword, true);
-            customerService.AddDefaultCustomer(Email);
             addressService.AddDefaultAddress();
+            customerService.AddDefaultCustomer(Email);
             var customer = authenticationService.GetAccount(Email, hashPassword);
             var customerInformation = customerService.GetCustomerByAccountId(customer.Id);
             cartService.AddCart(customerInformation.CustomerId);
