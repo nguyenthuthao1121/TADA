@@ -23,7 +23,8 @@ public class OrderRepository : IOrderRepository
     
     public List<OrderDto> GetAllOrders()
     {
-        return context.Orders.Where(order=>order.StatusId<7)
+        int lastStatusId = context.Statuses.Max(status => status.Id);
+        return context.Orders.Where(order => order.StatusId < lastStatusId)
             .Select(order => new OrderDto
             {
                 Id = order.Id,
@@ -33,8 +34,8 @@ public class OrderRepository : IOrderRepository
                 AddressId = order.AddressId,
                 CustomerId = order.CustomerId,
                 StatusId = (int)order.StatusId,
-                ShipFee=order.ShipFee,
-            }).OrderByDescending(order=>order.Id).ToList();
+                ShipFee = order.ShipFee,
+            }).OrderByDescending(order => order.Id).ToList();
     }
     public List<OrderDto> GetAllOrders(int statusId, string sortBy)
     {
@@ -43,16 +44,14 @@ public class OrderRepository : IOrderRepository
         List<OrderDto> orders = new List<OrderDto>();
         if (statusId == 0)
         {
+            int lastStatusId = context.Statuses.Max(status => status.Id);
             switch (sortBy)
             {
                 case "Asc":
-                    orderIds = context.Orders.OrderBy(x => x.Id).Select(p => p.Id).ToList();
-                    break;
-                case "Desc":
-                    orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                    orderIds = context.Orders.Where(order => order.StatusId < lastStatusId).OrderBy(x => x.Id).Select(p => p.Id).ToList();
                     break;
                 default:
-                    orderIds = context.Orders.OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
+                    orderIds = context.Orders.Where(order => order.StatusId < lastStatusId).OrderByDescending(x => x.Id).Select(p => p.Id).ToList();
                     break;
             }
         }
@@ -62,9 +61,6 @@ public class OrderRepository : IOrderRepository
             {
                 case "Asc":
                     orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
-                    break;
-                case "Desc":
-                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
                     break;
                 default:
                     orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.StatusId == statusId).Select(p => p.Id).ToList();
@@ -86,16 +82,17 @@ public class OrderRepository : IOrderRepository
 
         if (statusId == 0)
         {
+            int lastStatusId = context.Statuses.Max(status => status.Id);
             switch (sortBy)
             {
                 case "Asc":
-                    orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    orderIds = context.Orders.OrderBy(x => x.Id).Where(x => x.CustomerId == customerId && x.StatusId < lastStatusId).Select(p => p.Id).ToList();
                     break;
                 case "Desc":
-                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId && x.StatusId < lastStatusId).Select(p => p.Id).ToList();
                     break;
                 default:
-                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId).Select(p => p.Id).ToList();
+                    orderIds = context.Orders.OrderByDescending(x => x.Id).Where(x => x.CustomerId == customerId && x.StatusId < lastStatusId).Select(p => p.Id).ToList();
                     break;
             }
         }
@@ -157,7 +154,7 @@ public class OrderRepository : IOrderRepository
                 CustomerId = order.CustomerId,
                 ShipFee=order.ShipFee,
                 StatusId = (int)order.StatusId,
-            }).OrderByDescending(order => order.Id).ToList();
+            }).OrderByDescending(order => order.UpdateDate).ToList();
     }
     public OrderDto GetOrderById(int orderId)
     {
@@ -214,7 +211,7 @@ public class OrderRepository : IOrderRepository
             .Select(customer => customer.Id).FirstOrDefault();
         var orders = context.Orders
             .Where(order => order.CustomerId == customerId && order.StatusId==statusId)
-            .Select(order => order).OrderByDescending(order => order.Id).ToList();
+            .Select(order => order).OrderByDescending(order => order.UpdateDate).ToList();
         List<OrderDto> orderDtos= new List<OrderDto>();
         foreach(var order in orders)
         {
