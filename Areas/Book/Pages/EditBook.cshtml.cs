@@ -26,7 +26,7 @@ public class EditBookModel : PageModel
     public BookDto Book { get; set; }
 
     [BindProperty]
-    public string DescriptionText { get; set; }
+    public string DescriptionText { get; set; } = "";
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
     [TempData]

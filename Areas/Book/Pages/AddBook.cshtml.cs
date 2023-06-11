@@ -26,7 +26,7 @@ public class AddBookModel : PageModel
     [BindProperty]
     public BookDto Book { get; set; }
     [BindProperty]
-    public string DescriptionText { get; set; }
+    public string DescriptionText { get; set; } = "";
     public List<ProviderManagementDto> Providers { get; set; }
     public List<CategoryDto> Categories { get; set; }
     public string ISBNMessage { get; set; } = null;
@@ -61,6 +61,7 @@ public class AddBookModel : PageModel
             string descriptionPath = "wwwroot/img/books/book" + bookId + "/description.txt";
             using (StreamWriter sw = new StreamWriter(descriptionPath))
             {
+                if(string.IsNullOrEmpty(DescriptionText)) DescriptionText = "";
                 DescriptionText = DescriptionText.Replace("<br>", "\n");
                 sw.Write(DescriptionText);
                 sw.Close();

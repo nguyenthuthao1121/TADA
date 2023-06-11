@@ -341,7 +341,7 @@
                 data: { itemId: itemId },
                 success: function (response) {
                     alert('Ẩn sách thành công');
-                    window.location.href = "./BookManagement";
+                    location.reload();
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.log(xhr.responseText);
@@ -356,7 +356,7 @@
                 data: { itemId: itemId },
                 success: function (response) {
                     alert('Hiện sách thành công');
-                    window.location.href = "./BookManagement";
+                    location.reload();
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.log(xhr.responseText);

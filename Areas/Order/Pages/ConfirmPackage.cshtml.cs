@@ -126,9 +126,10 @@ public class ConfirmPackageModel : PageModel
                 return RedirectToPage("/OrderListFillAll");
             }
         }
-        return RedirectToPage("./ConfirmPackage");
+        if (isFromCart == true) return RedirectToPage("ConfirmPackage", new {message="FromCart"});
+        return RedirectToPage("ConfirmPackage");
     }
-    public IActionResult OnPostChangeInformation()
+    public IActionResult OnPostChangeInformation(bool? isFromCart)
     {
         int addressId = 0;
         if (SelectedWard != 0)
@@ -139,7 +140,8 @@ public class ConfirmPackageModel : PageModel
             TelephoneNumber = Order.TelephoneNumber,
             AddressId = addressId,
         });
-        return RedirectToPage("./ConfirmPackage");
+        if (isFromCart == true) return RedirectToPage("ConfirmPackage", new {message="FromCart"});
+        return RedirectToPage("ConfirmPackage");
     }
     //public IActionResult OnPostUpdateOrder(string username, string userTel, )
     //{
