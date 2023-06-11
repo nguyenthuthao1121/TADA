@@ -98,13 +98,13 @@
                             <div class="row">
                                 <div class="col c-7" style="padding: 0;">Số lượng</div>
                                 <div class="col c-5" style="padding: 0; text-align:right;">
-                                    <span id="js-countBook">@Model.NumOfOrder</span> quyển
+                                    <span id="js-countBook">0</span> quyển
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col c-7" style="padding: 0;">Tổng giá</div>
                                 <div class="col c-5" style="padding: 0; text-align:right; color:#1E90FF">
-                                    <span id="js-sumOfPrice">@Model.GetPriceString(Model.SumOfOrder)</span> đ
+                                    <span id="js-sumOfPrice">0</span> đ
                                 </div>
                             </div>
                         </div>
@@ -119,6 +119,10 @@
         </form>
     </div>
 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02e180bcadb2658c37f3aa912dff65600b6de259
     <!-- JavaScript -->
     <!-- Select Book -->
 
@@ -212,6 +216,7 @@
             return tmp;
         }
         const getOrder = function (){
+            selected();
             let countBook = 0;
             let priceOfBooks = 0;
             $('.check-box-item:checked').each(function(){
@@ -222,7 +227,6 @@
             })
             $('#js-countBook').text(countBook);
             $('#js-sumOfPrice').text(getPriceString(priceOfBooks));
-            selected();
         }
         const selected = function(){
             $('.check-box-item').each(function () {
@@ -234,5 +238,6 @@
         }
     </script>
 }
+
 
 
