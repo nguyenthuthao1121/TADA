@@ -29,21 +29,21 @@ public class BookDto
     [Required(ErrorMessage = "Vui lòng nhập thể loại!")]
     public string Genre { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập số trang!")]
-    [Range(0, 9999, ErrorMessage = "Vui lòng nhập nhỏ hơn 10000")]
+    [Range(1, 9999, ErrorMessage = "Vui lòng nhập nhỏ hơn 10000")]
     [RegularExpression(@"^(?=.*[1-9])\d+$", ErrorMessage = "Vui lòng nhập số trang hợp lệ!")]
 
     public int Pages { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập chiều dài!")]
-    [Range(0, 99, ErrorMessage = "Vui lòng nhập nhỏ hơn 100")]
+    [Range(1, 99, ErrorMessage = "Vui lòng nhập nhỏ hơn 100")]
     [RegularExpression(@"^(?=.*[1-9])\d*(\.\d+)?$", ErrorMessage = "Vui lòng nhập chiều dài hợp lệ!")]
     public double Length { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập chiều rộng!")]
-    [Range(0, 99, ErrorMessage = "Vui lòng nhập nhỏ hơn 100")]
+    [Range(1, 99, ErrorMessage = "Vui lòng nhập nhỏ hơn 100")]
     [RegularExpression(@"^(?=.*[1-9])\d*(\.\d+)?$", ErrorMessage = "Vui lòng nhập chiều rộng hợp lệ!")]
 
     public double Width { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập trọng lượng!")]
-    [Range(0, 999, ErrorMessage = "Vui lòng nhập nhỏ hơn 1000")]
+    [Range(10, 999, ErrorMessage = "Vui lòng nhập nhỏ hơn 1000")]
     [RegularExpression(@"^(?=.*[1-9])\d*(\.\d+)?$", ErrorMessage = "Vui lòng nhập trọng lượng hợp lệ!")]
     public double Weight { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập giá tiền!")]
@@ -53,7 +53,7 @@ public class BookDto
     public string Cover { get; set; }
     [Required(ErrorMessage = "Vui lòng nhập số lượng!")]
     [RegularExpression(@"^(?=.*[0-9])\d+$", ErrorMessage = "Vui lòng nhập số lượng hợp lệ!")]
-    [Range(0, 9999, ErrorMessage = "Vui lòng nhập nhỏ hơn 10000")]
+    [Range(1, 9999, ErrorMessage = "Vui lòng nhập nhỏ hơn 10000")]
     public int Quantity { get; set; }
     public string Description { get; set; }
     public string Image { get; set; }

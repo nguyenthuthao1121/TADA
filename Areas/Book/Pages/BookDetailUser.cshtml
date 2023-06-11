@@ -326,12 +326,41 @@
     <span class="close">&times</span>
     <img class="modal-content" />
 </div>
+
 @section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
+        $(document).ready(function () {
+            // Thêm sự kiện click cho nút "Chọn tất cả"
+
+            // Thêm sự kiện click cho nút "Tăng"
+            $(".plus-btn").on("click", function (e) {
+                e.preventDefault();
+                var input = $(this).siblings('.quantity-input');
+                var quantityOfBook = parseInt($('#remaining-book').val());
+                var quantity = parseInt(input.val());
+                if (quantity < quantityOfBook) {
+                    input.val(quantity + 1);
+                }
+            });
+
+            // Thêm sự kiện click cho nút "Giảm"
+            $(".minus-btn").on("click", function (e) {
+                e.preventDefault();
+                var input = $(this).siblings(".quantity-input");
+                var quantity = parseInt(input.val());
+                if (quantity > 1) {
+                    input.val(quantity - 1);
+                }
+            });
+
+        });
+    </script>
+    @*<script>
         var plusBtn = document.querySelector(".plus-btn");
         var minusBtn = document.querySelector(".minus-btn");
         var quantityInput = document.querySelector(".quantity-input");
-        let a = 1;
+        let a = quantityInput.value;
 
         plusBtn.addEventListener("click", () => {
             a++;
@@ -345,7 +374,7 @@
             a = (a < 10) ? "0" + a : a;
             quantityInput.value = a;
         });
-    </script>
+    </script>*@
     <script>
         var modal = document.getElementById("my-modal");
         const img = document.querySelectorAll(".comment-img");
@@ -376,7 +405,7 @@
         btnAddToCart.addEventListener("click", () => {
             var quantityInput = parseInt(document.getElementById("quantity").value);
             var id = @ViewBag.Id;
-            if (id != null && quantityInput <= remainingBook) {
+            if (id != null && quantityInput <= remainingBook && quantityInput>0) {
                 alert("Thêm sách vào giỏ hàng thành công!")
             }
         })

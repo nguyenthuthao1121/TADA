@@ -27,10 +27,6 @@ public class ShoppingCartFillModel : PageModel
     public List<bool> IsSelected { get; set; }
     [BindProperty(SupportsGet = true)]
     public int CountBookOfCart { get; set; }
-    [BindProperty]
-    public int NumOfOrder { get; set; } = 0;
-    [BindProperty]
-    public int SumOfOrder { get; set; } = 0;
 
     public ShoppingCartFillModel(ICartService cartService, IAccountService accountService, IBookService bookService, IOrderService orderService, IStatusService statusService)
     {
@@ -60,20 +56,11 @@ public class ShoppingCartFillModel : PageModel
     public void OnGet()
     {
         CartDetails = cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id"));
-        CountBookOfCart = CartDetails.Count();
+        CountBookOfCart = cartService.GetCartDetailsByAccountId((int)HttpContext.Session.GetInt32("Id")).Count();
         IsSelected = new List<bool>();
         for (int i=0;i<30;i++)
         {
             IsSelected.Add(false);
-        }
-        for(int i=0;i<CountBookOfCart;i++)
-        {
-            if (IsSelected[i])
-            {
-                var Book= bookService.GetBookById(CartDetails[i].BookId);
-                NumOfOrder += CartDetails[i].Quantity;
-                SumOfOrder += CartDetails[i].Quantity * Book.GetCurrentPrice();
-            }
         }
     }
 
