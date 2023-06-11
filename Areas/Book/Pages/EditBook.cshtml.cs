@@ -73,6 +73,7 @@ public class EditBookModel : PageModel
     {
         if (bookService.GetBookByISBN(Book.ISBN) == null || bookService.GetBookById(Book.Id).ISBN == Book.ISBN)
         {
+            Directory.CreateDirectory("wwwroot/img/books/book" + Book.Id + "/cover-img");
             string descriptionPath = "wwwroot/img/books/book" + Book.Id + "/description.txt";
             if (System.IO.File.Exists(descriptionPath))
             {
@@ -84,14 +85,11 @@ public class EditBookModel : PageModel
                 }
             }
             string imagePath = "wwwroot/img/books/book" + Book.Id + "/cover-img/cover.jpg";
-            if (System.IO.File.Exists(imagePath))
+            if (imageFile != null)
             {
-                if (imageFile != null)
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
-                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                    {
-                        imageFile.CopyTo(fileStream);
-                    }
+                    imageFile.CopyTo(fileStream);
                 }
             }
             bookService.UpdateBook(Book);

@@ -41,7 +41,7 @@
                 <div class="col c-7 c-o-1">
                     <div class="shopping-cart__cart--fill grid" style="width: 100%; height: auto; border-radius: 8px;">
                         <div class="shopping-cart__cart-title row">
-                            <input type="checkbox" class="cart__input col c-1" style="padding-right: 0;" asp-action="GetSum">
+                            <input type="checkbox" class="cart__input col c-1 check-box-all" style="padding-right: 0;" asp-action="GetSum">
                             <p class="col c-8">Chọn tất cả</p>
                             <button class="cart__list--delete col c-3" style="border: none;background: none;" type="submit" asp-page-handler="DeleteBookOfCart">
                                 <i class="fa-solid fa-trash-can icon-delete"></i>Xóa
@@ -55,7 +55,7 @@
                                 <div class="cart__flex-item row" method="post" data-bookId="@Book.Id">
                                     <input name="bookId" value="@Book.Id" type="number" style="display: none;">
                                     <label class="lable-checkbox col c-1">
-                                        <input type="checkbox" class="cart__input select-book" style=" padding-right: 0;" asp-for="@Model.IsSelected[i]" data-id="@i" />
+                                        <input type="checkbox" class="cart__input select-book check-box-item" style=" padding-right: 0;" asp-for="@Model.IsSelected[i]" data-id="@i" />
                                     </label>
                                     <a asp-area="Book" asp-page="BookDetailUser" asp-route-id="@Book.Id" class="order-book__img col c-2"><img src="@Url.Content(imgPath)" alt="Ảnh sách" style="height: 140px;"></a>
                                     <div class="cart__book-desc col c-5">
@@ -71,12 +71,13 @@
                                         <p class="js-priceOfBook" data-bookId="@Book.Id" data-price="@Book.GetCurrentPrice()">@Book.GetPriceString(Book.GetCurrentPrice()) đ</p>
                                         <span class="form-group d-flex">
                                         <button class="input-group-text js-decrease" style="border-radius: 8px 0 0 8px; border-right-style: none;" type="button" >
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity" data-item-id="@i">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                            <input class="form-control quantity-input js-numOfBook" type="text" asp-for="@Model.CartDetails[i].Quantity" value="@Model.CartDetails[i].Quantity" data-item-id="@i" readonly>
+                                            <input class="form-control quantity-input js-quantityOfBook" type="hidden" value="@Book.Quantity">
                                         <button class="input-group-text js-increase" style="border-radius: 0 8px 8px 0; border-left-style: none;" type="button" >
-                                                <i class="fas fa-plus"></i>
-                                            </button>
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                         </span>
                                     </div>
                                     <button class="col c-1 js-delete-item" style="border: none;background: none;" type="button" data-item-id="@i" >
@@ -120,76 +121,7 @@
 
     <!-- JavaScript -->
     <!-- Select Book -->
-    <script>
-        var btnChecks=document.getElementsByClassName('cart__input');
-        var shoppingcartItems=document.getElementsByClassName('cart__flex-item');
-        var CountBook = document.getElementById('js-countBook');
-        var SumPrice = document.getElementById('js-sumOfPrice');
-        var priceOfBooks = document.getElementsByClassName('js-priceOfBook');
-        var numOfBooks = document.getElementsByClassName('js-numOfBook');
 
-        function GetPriceString(price)
-        {
-                var str = price.toString();
-                var tmp = "";
-            while (str.length > 3) {
-                tmp = "." + str.substring(str.length - 3) + tmp;
-                str = str.substring(0, str.length - 3);
-            }
-            tmp = str + tmp;
-            return tmp;
-        }
-
-        btnChecks[0].addEventListener('click',function(event){
-                if (this.checked){
-                    for (var item of shoppingcartItems) {
-                        item.classList.add('cart__flex-item--checked');
-                    }
-                    for (var item of btnChecks) {
-                        item.checked = true;
-                    }
-                    CountBook.innerHTML = SumPrice.innerHTML=0;
-                    for (var j = 0; j < priceOfBooks.length; j++){
-                        CountBook.innerHTML = parseInt(CountBook.innerHTML) + parseInt(numOfBooks[j].value);
-                        SumPrice.innerHTML = parseInt(SumPrice.innerHTML) + parseInt(priceOfBooks[j].dataset.price) * parseInt(numOfBooks[j].value);
-                    }
-                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML));
-                }
-                else {
-                    for(var item of shoppingcartItems){
-                        item.classList.remove('cart__flex-item--checked');
-                    }
-                    for(var item of btnChecks){
-                        item.checked=false;
-                    }
-                    CountBook.innerHTML = 0;
-                    SumPrice.innerHTML = 0;
-                }
-            })
-        for (var i=1;i<btnChecks.length;i++){
-            btnChecks[i].addEventListener('click',function(event){
-                var id = parseInt(this.dataset.id);
-                btnChecks[0].checked = false;
-                btnChecks[0].checked = document.getElementsByClassName('cart__input').length === (document.querySelectorAll('.cart__input:checked').length + 1);
-                if (this.checked){
-                    (this.parentElement).parentElement.classList.add('cart__flex-item--checked');
-                    CountBook.innerHTML = parseInt(CountBook.innerHTML) + parseInt(numOfBooks[id].value);
-                    SumPrice.innerHTML = SumPrice.innerHTML.replace(/\./g, '');
-                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML) + parseInt(priceOfBooks[id].dataset.price) * parseInt(numOfBooks[id].value));
-                }
-                else{
-                    (this.parentElement).parentElement.classList.remove('cart__flex-item--checked');
-                    CountBook.innerHTML = parseInt(CountBook.innerHTML) - parseInt(numOfBooks[id].value);
-                    SumPrice.innerHTML = SumPrice.innerHTML.replace(/\./g, '');
-                    SumPrice.innerHTML = GetPriceString(parseInt(SumPrice.innerHTML) - parseInt(priceOfBooks[id].dataset.price) * parseInt(numOfBooks[id].value));
-                }
-            })
-        }
-    </script>
-
-    <!-- Order -->
-
-</div>
 @section scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
@@ -198,9 +130,12 @@
             $(".js-increase").on("click", function (e) {
                 e.preventDefault();
                 var input = $(this).siblings(".js-numOfBook");
+                var quantityOfBook = parseInt(($(this).siblings(".js-quantityOfBook")).val());
                 var quantity = parseInt(input.val());
-                input.val(quantity + 1);
-                updateCartQuantity(input);
+                if (quantity < quantityOfBook){
+                    input.val(quantity + 1);
+                    updateCartQuantity(input);
+                }
             });
 
             // Thêm sự kiện click cho nút "Giảm"
@@ -252,6 +187,56 @@
             });
         }
     </script>
+    <script>
+            $(document).ready(function () {
+                // Thêm sự kiện click cho nút "Chọn tất cả"
+                $('.check-box-all').on('change', function () {
+                    $('.check-box-item').prop('checked', $('.check-box-all').is(':checked'));
+                    getOrder();
+                });
+                // Thêm sự kiện click cho nút "Chọn"
+                $('.check-box-item').on('change', function () {
+                    $('.check-box-all').prop('checked', $('.check-box-item:checked').length === $('.check-box-item').length);
+                    getOrder();
+
+                });
+                getOrder();
+
+            });
+            const getPriceString = function (price) {
+                var str = price.toString();
+                var tmp = "";
+                while (str.length > 3) {
+                    tmp = "." + str.substring(str.length - 3) + tmp;
+                    str = str.substring(0, str.length - 3);
+                }
+                tmp = str + tmp;
+                return tmp;
+            }
+            const getOrder = function (){
+                let countBook = 0;
+                let priceOfBooks = 0;
+                $('.check-box-item:checked').each(function(){
+                    countBook = countBook + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val());
+                    let price = ($(this).parent().siblings('.cart__book-price').find('.js-priceOfBook').text()).replace(/\./g, '');
+                    priceOfBooks = priceOfBooks + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val()) * parseInt(price);
+                    console.log(priceOfBooks);
+                })
+                $('#js-countBook').text(countBook);
+                $('#js-sumOfPrice').text(getPriceString(priceOfBooks));
+                selected();
+            }
+            const selected = function(){
+                $('.check-box-item').each(function () {
+                    $(this).parents('.cart__flex-item').removeClass('cart__flex-item--checked');
+                });
+                $('.check-box-item:checked').each(function () {
+                    $(this).parents('.cart__flex-item').addClass('cart__flex-item--checked');
+                });
+            }
+    </script>
+
+</div>
 }
 
 
