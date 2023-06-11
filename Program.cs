@@ -18,7 +18,6 @@ service.AddDbContext<TadaContext>(option =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Default");
     option.UseSqlServer(connectionString);
-    //option.UseSqlServer(connectionString);
 });
 
 service.AddSession();
@@ -66,6 +65,7 @@ service.AddScoped<IStatusRepository, StatusRepository>();
 service.AddScoped<IStatusService, StatusService>();
 
 service.AddScoped<IStatisticService, StatisticService>();
+
 service.AddScoped<IEmailService, EmailService>();
 
 
