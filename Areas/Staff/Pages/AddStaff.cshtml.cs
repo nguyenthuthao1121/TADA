@@ -53,10 +53,8 @@ public class AddStaffModel : PageModel
                     RoleId = Staff.RoleId,
                     WardId = Staff.WardId,
                     Street = Staff.Street,
-                    AddressId = Staff.AddressId,
                     Email = Staff.Email,
-                    Password = HashPassword.Hash(Staff.Password),
-                    AccountId = Staff.AccountId
+                    Password = HashPassword.Hash(Staff.Password)
                 };
                 staffService.AddStaff(newStaff);
                 return RedirectToPage("/StaffManagement", new { area = "Staff" });

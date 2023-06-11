@@ -5,6 +5,7 @@
     ViewData["Title"] = "Chi tiết sách";
     Layout = "~/Pages/Shared/_LayoutUser.cshtml";
     ViewBag.Name = HttpContext.Session.GetString("Name");
+    ViewBag.Id = HttpContext.Session.GetInt32("Id");
 }
 
 @{
@@ -35,7 +36,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <button type="submit" class="shopping-cart" asp-route-id="@Model.Book.Id" asp-page-handler="AddToCart">
+                            <button type="submit" id="btnAddToCart" class="shopping-cart" asp-route-id="@Model.Book.Id" asp-page-handler="AddToCart">
                                 <i class="fas fa-shopping-cart" style="font-size: 1rem; margin-right: 4px; font-weight: 700; color: var(--primary-color)"></i>
                                 Thêm vào giỏ hàng
                             </button>
@@ -366,11 +367,16 @@
         });
     </script>
     <script>
-        const remainingBook = document.getElementById("remaining-book").value;
-        const btnAddToCart = document.querySelector(".shopping-cart");
+        //function CheckSession() {
+        //    var session = '<%=Session["Id"] != null%>';
+        //    return session;
+        //}
+        var remainingBook = parseInt(document.getElementById("remaining-book").value);
+        var btnAddToCart = document.getElementById("btnAddToCart");
         btnAddToCart.addEventListener("click", () => {
-            var quantityInput = document.querySelector(".quantity-input");
-            if (quantityInput.value <= remainingBook) {
+            var quantityInput = parseInt(document.getElementById("quantity").value);
+            var id = @ViewBag.Id;
+            if (id != null && quantityInput <= remainingBook) {
                 alert("Thêm sách vào giỏ hàng thành công!")
             }
         })

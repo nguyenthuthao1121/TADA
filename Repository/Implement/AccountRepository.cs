@@ -34,7 +34,7 @@ public class AccountRepository : IAccountRepository
     }
     public int GetLastId() 
     { 
-        return context.Accounts.Count();
+        return context.Accounts.ToList().Last().Id;
     }
 
     public void ChangeStatusOfAccount(int accountId)
