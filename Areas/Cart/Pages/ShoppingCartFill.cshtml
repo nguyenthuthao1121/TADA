@@ -118,7 +118,7 @@
             }
         </form>
     </div>
-
+</div>
     <!-- JavaScript -->
     <!-- Select Book -->
 
@@ -126,6 +126,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            getOrder();
             // Thêm sự kiện click cho nút "Chọn tất cả"
             $('.check-box-all').on('change', function () {
                 $('.check-box-item').prop('checked', $('.check-box-all').is(':checked'));
@@ -137,7 +138,6 @@
                 getOrder();
 
             });
-            getOrder();
 
             // Thêm sự kiện click cho nút "Tăng"
             $(".js-increase").on("click", function (e) {
@@ -174,7 +174,6 @@
                     url: "/Cart/ShoppingCartFill?handler=DeleteCartDetail",
                     data: { itemId: itemId},
                     success: function (response) {
-                        location.reload();
                         // Cập nhật số lượng sản phẩm trong giỏ hàng
                         location.reload();
                     },
@@ -234,7 +233,6 @@
             });
         }
     </script>
-</div>
 }
 
 
