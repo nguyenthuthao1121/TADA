@@ -126,6 +126,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Thêm sự kiện click cho nút "Chọn tất cả"
+            $('.check-box-all').on('change', function () {
+                $('.check-box-item').prop('checked', $('.check-box-all').is(':checked'));
+                getOrder();
+            });
+            // Thêm sự kiện click cho nút "Chọn"
+            $('.check-box-item').on('change', function () {
+                $('.check-box-all').prop('checked', $('.check-box-item:checked').length === $('.check-box-item').length);
+                getOrder();
+
+            });
+            getOrder();
+
             // Thêm sự kiện click cho nút "Tăng"
             $(".js-increase").on("click", function (e) {
                 e.preventDefault();
@@ -136,6 +149,8 @@
                     input.val(quantity + 1);
                     updateCartQuantity(input);
                 }
+                getOrder();
+
             });
 
             // Thêm sự kiện click cho nút "Giảm"
@@ -147,7 +162,8 @@
                     input.val(quantity - 1);
                     updateCartQuantity(input);
                 }
-            });
+                    getOrder();
+                });
 
             // Thêm sự kiện click cho nút "Xóa"
             $(".js-delete-item").on("click", function (e) {
@@ -186,56 +202,38 @@
                 }
             });
         }
-    </script>
-    <script>
-            $(document).ready(function () {
-                // Thêm sự kiện click cho nút "Chọn tất cả"
-                $('.check-box-all').on('change', function () {
-                    $('.check-box-item').prop('checked', $('.check-box-all').is(':checked'));
-                    getOrder();
-                });
-                // Thêm sự kiện click cho nút "Chọn"
-                $('.check-box-item').on('change', function () {
-                    $('.check-box-all').prop('checked', $('.check-box-item:checked').length === $('.check-box-item').length);
-                    getOrder();
-
-                });
-                getOrder();
-
+        const getPriceString = function (price) {
+            var str = price.toString();
+            var tmp = "";
+            while (str.length > 3) {
+                tmp = "." + str.substring(str.length - 3) + tmp;
+                str = str.substring(0, str.length - 3);
+            }
+            tmp = str + tmp;
+            return tmp;
+        }
+        const getOrder = function (){
+            let countBook = 0;
+            let priceOfBooks = 0;
+            $('.check-box-item:checked').each(function(){
+                countBook = countBook + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val());
+                let price = ($(this).parent().siblings('.cart__book-price').find('.js-priceOfBook').text()).replace(/\./g, '');
+                priceOfBooks = priceOfBooks + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val()) * parseInt(price);
+                console.log(priceOfBooks);
+            })
+            $('#js-countBook').text(countBook);
+            $('#js-sumOfPrice').text(getPriceString(priceOfBooks));
+            selected();
+        }
+        const selected = function(){
+            $('.check-box-item').each(function () {
+                $(this).parents('.cart__flex-item').removeClass('cart__flex-item--checked');
             });
-            const getPriceString = function (price) {
-                var str = price.toString();
-                var tmp = "";
-                while (str.length > 3) {
-                    tmp = "." + str.substring(str.length - 3) + tmp;
-                    str = str.substring(0, str.length - 3);
-                }
-                tmp = str + tmp;
-                return tmp;
-            }
-            const getOrder = function (){
-                let countBook = 0;
-                let priceOfBooks = 0;
-                $('.check-box-item:checked').each(function(){
-                    countBook = countBook + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val());
-                    let price = ($(this).parent().siblings('.cart__book-price').find('.js-priceOfBook').text()).replace(/\./g, '');
-                    priceOfBooks = priceOfBooks + parseInt($(this).parent().siblings('.cart__book-price').find('.js-numOfBook').val()) * parseInt(price);
-                    console.log(priceOfBooks);
-                })
-                $('#js-countBook').text(countBook);
-                $('#js-sumOfPrice').text(getPriceString(priceOfBooks));
-                selected();
-            }
-            const selected = function(){
-                $('.check-box-item').each(function () {
-                    $(this).parents('.cart__flex-item').removeClass('cart__flex-item--checked');
-                });
-                $('.check-box-item:checked').each(function () {
-                    $(this).parents('.cart__flex-item').addClass('cart__flex-item--checked');
-                });
-            }
+            $('.check-box-item:checked').each(function () {
+                $(this).parents('.cart__flex-item').addClass('cart__flex-item--checked');
+            });
+        }
     </script>
-
 </div>
 }
 
