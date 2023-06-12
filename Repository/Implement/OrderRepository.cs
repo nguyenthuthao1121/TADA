@@ -262,12 +262,12 @@ public class OrderRepository : IOrderRepository
 
     public List<int> GetConfirmedOrderIds()
     {
-        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy" && status.Name != "Chờ đặt hàng").Select(status => status.Id).ToList();
         return context.Orders.Where(order => statusIds.Contains((int)order.StatusId)).Select(order => order.Id).ToList();
     }
     public List<int> GetConfirmedOrderIdsByYear(int year)
     {
-        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Đã hủy" && status.Name != "Chờ đặt hàng").Select(status => status.Id).ToList();
         return context.Orders.Where(order => statusIds.Contains((int)order.StatusId) && order.DateOrder.Year == year).Select(order => order.Id).ToList();
     }
     public List<OrderGroupDto> GetOrderGroupByBookId()
@@ -286,7 +286,7 @@ public class OrderRepository : IOrderRepository
         {
             if (order.OrderId == orderId)
             {
-                price += order.Quantity * order.Price;
+                price += order.Price;
             }
         }
         return price;
@@ -294,7 +294,7 @@ public class OrderRepository : IOrderRepository
 
     public List<OrderOfMonthDto> GetDeliveredOrderInMonth(int month, int year)
     {
-        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Chờ giao hàng" && status.Name != "Đang giao hàng" && status.Name != "Đã hủy").Select(status => status.Id).ToList();
+        var statusIds = context.Statuses.Where(status => status.Name != "Chờ xác nhận" && status.Name != "Chờ giao hàng" && status.Name != "Đang giao hàng" && status.Name != "Đã hủy" && status.Name != "Chờ đặt hàng").Select(status => status.Id).ToList();
         return context.Orders.Where(order => statusIds.Contains((int)order.StatusId) && order.DateOrder.Month == month && order.DateOrder.Year == year).Select(order => new OrderOfMonthDto()
         {
             OrderId = order.Id,
