@@ -121,6 +121,7 @@
                         <form method="post" class="order-button">
                             @if (Model.Order.StatusId == 1)
                             {
+                                <p class="row justify-content-center" style="color: red; font-size: 14px; font-weight: 600; margin: 5px">@TempData["Err"]</p>
                                 <button class="order-btn order-btn--confirm" type="submit" asp-page-handler="ConfirmOrder" asp-route-orderId="@Model.Order.Id">XÁC NHẬN ĐƠN HÀNG</button>
                                 <button class="order-btn order-btn--cancel js-order-btn--cancel" type="button" data-bs-toggle="modal" data-bs-target="#modalCancel">HỦY ĐƠN HÀNG</button>
                             }

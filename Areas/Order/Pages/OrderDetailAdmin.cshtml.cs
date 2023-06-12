@@ -9,6 +9,7 @@ using TADA.Dto.Order;
 using TADA.Model.Entity;
 using TADA.Service;
 using TADA.Middleware;
+using TADA.Repository.Implement;
 
 namespace TADA.Pages;
 
@@ -30,6 +31,7 @@ public class OrderDetailAdminModel : PageModel
     public CustomerDto Customer { get; set; }
     public int CustomerId { get; set; }
     public string Status { get; set; }
+    public string Message { get; set; }
 
     public BookDto GetBookByOrderDetail(OrderDetailDto orderDetail)
     {
@@ -85,6 +87,16 @@ public class OrderDetailAdminModel : PageModel
     }
     public IActionResult OnPostConfirmOrder(int? orderId)
     {
+        var orderDetails = orderService.GetOrderDetailsByOrderId((int)orderId);
+        foreach (var orderDetail in orderDetails)
+        {
+            var book = orderService.GetBookByOrderDetail(orderDetail);
+            if (book != null && book.Quantity < orderDetail.Quantity)
+            {
+                TempData["Err"] = "Số lượng sách còn lại không đủ";
+                return RedirectToPage("OrderDetailAdmin", new { id = orderId });
+            }
+        }
         orderService.UpdateStatusOrder((int)orderId, 2);
         return RedirectToPage("OrderDetailAdmin", new { id = orderId });
     }
