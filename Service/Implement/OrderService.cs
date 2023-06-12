@@ -347,6 +347,18 @@ namespace TADA.Service.Implement
                         }
                     }
                 }
+                else if (statusId == 2)
+                {
+                    var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
+                    foreach (var orderDetail in orderDetails)
+                    {
+                        var book = bookRepository.GetBookById(orderDetail.BookId);
+                        if (book != null)
+                        {
+                            bookRepository.UpdateQuantity(book.Id, book.Quantity - orderDetail.Quantity);
+                        }
+                    }
+                }
                 switch (statusId)
                 {
                     case 2:
@@ -454,14 +466,6 @@ namespace TADA.Service.Implement
             try
             {
                 var orderDetails = orderRepository.GetOrderDetailsByOrderId(orderId);
-                foreach (var orderDetail in orderDetails)
-                {
-                    var book = bookRepository.GetBookById(orderDetail.BookId);
-                    if (book != null)
-                    {
-                        bookRepository.UpdateQuantity(book.Id, book.Quantity + orderDetail.Quantity);
-                    }
-                }
                 orderRepository.DeleteOrder(orderId);
             }
             catch (Exception)
@@ -479,11 +483,6 @@ namespace TADA.Service.Implement
                 foreach (var orderDetail in orderDetails)
                 {
                     orderRepository.UpdateOrderDetail(orderDetail.BookId, order.Id, orderDetail.Quantity, orderDetail.Price);
-                    var book = bookRepository.GetBookById(orderDetail.BookId);
-                    if (book != null)
-                    {
-                        bookRepository.UpdateQuantity(book.Id, book.Quantity - orderDetail.Quantity);
-                    }
                 }
                 orderRepository.UpdateOrderShipfee(order.Id, CalculateShipping(order.Id));
             }
